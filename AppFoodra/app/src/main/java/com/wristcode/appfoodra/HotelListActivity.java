@@ -49,7 +49,7 @@ public class HotelListActivity extends AppCompatActivity {
 
         a =   new Hotels("Hot n Spicy","Chineese, Italian, Arabian",covers[1],"4.1 km","10 AM - 12 AM");
         categoriesList.add(a);
-        a = new Hotels("Spice n Ice","Chineese, Italian, Arabian",covers[2],"4.1 km","10 AM - 12 AM");
+        a = new Hotels("Mexican Burrito","Chineese, Italian, Arabian",covers[2],"4.1 km","10 AM - 12 AM");
         categoriesList.add(a);
 
         a = new Hotels("Spice n Ice","Chineese, Italian, Arabian",covers[3],"4.1 km","10 AM - 12 AM");
