@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#fff"
+    android:id="@+id/relative"
+    android:padding="25dp"
+    android:layout_height="wrap_content">
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/image"
+
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        />
+
+    <TextView
+        android:id="@+id/txtname"
+        android:paddingLeft="10dp"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:textColor="#666"
+        android:textSize="18sp"
+        android:layout_marginLeft="22dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/image"
+        android:text="TextView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/txtdesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:layout_marginTop="5dp"
+        android:paddingLeft="10dp"
+        android:layout_below="@+id/txtname"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignLeft="@+id/txtname"
+        android:layout_alignStart="@+id/txtname" />
+
+    <TextView
+        android:id="@+id/txtprice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="4.5"
+        android:padding="5dp"
+        android:elevation="3dp"
+        android:textColor="#fff"
+        android:background="@drawable/rect"
+        app:layout_anchor="@id/app_bar"
+        app:layout_anchorGravity="bottom|end"
+        android:layout_marginRight="11dp"
+        android:layout_marginEnd="11dp"
+        android:layout_alignTop="@+id/txtdesc"
+        android:layout_toLeftOf="@+id/txtdesc"
+        android:layout_toStartOf="@+id/txtdesc" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/plus"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:visibility="gone"
+        android:elevation="3dp"
+        android:textColor="#fff"
+        android:layout_below="@+id/txtdesc"
+        android:layout_marginLeft="81dp"
+        android:layout_marginStart="81dp"
+        android:layout_toEndOf="@+id/txtprice"
+        android:layout_toRightOf="@+id/txtprice"
+        android:text="-" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtdesc"
+        android:layout_toEndOf="@+id/textView"
+        android:layout_toRightOf="@+id/textView"
+        android:text="+"
+        android:visibility="gone"
+        android:layout_marginLeft="1dp"
+        android:background="@drawable/minus"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:elevation="3dp"
+        android:textColor="#fff"/>
+</RelativeLayout>
