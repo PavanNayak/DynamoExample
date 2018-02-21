@@ -7,6 +7,9 @@
     android:layout_height="match_parent"
     tools:context="com.wristcode.appfoodra.HotelListActivity">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -48,10 +51,14 @@
             </LinearLayout>
 
         </android.support.v7.widget.Toolbar>
+
+
+        
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_marginTop="10dp"
         android:layout_height="match_parent"
         android:id="@+id/recyclerHotel"></android.support.v7.widget.RecyclerView>
     </LinearLayout>
+    </ScrollView>
 </RelativeLayout>
