@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.wristcode.appfoodra.Pojo.Hotels;
 import com.wristcode.appfoodra.Pojo.Items;
@@ -30,7 +32,16 @@ public class HotelListActivity extends AppCompatActivity {
         categoriesList = new ArrayList<>();
 
         prepareAlbums();
+        List<String> spinnerArray =  new ArrayList<String>();
+        spinnerArray.add("Manipal");
+        spinnerArray.add("Udupi");
 
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this, android.R.layout.simple_spinner_item, spinnerArray);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        Spinner sItems = (Spinner) findViewById(R.id.spinner1);
+        sItems.setAdapter(adapter);
     }
 
 
