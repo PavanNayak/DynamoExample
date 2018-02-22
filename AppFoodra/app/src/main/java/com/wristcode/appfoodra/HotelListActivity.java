@@ -83,7 +83,7 @@ public class HotelListActivity extends AppCompatActivity {
 
         adapter=new HotelAdapter(this,categoriesList);
 
-
+        recyclerView.setFocusable(false);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter.notifyDataSetChanged();

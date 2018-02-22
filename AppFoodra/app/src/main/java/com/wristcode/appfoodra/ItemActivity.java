@@ -32,7 +32,8 @@ public class ItemActivity extends AppCompatActivity {
 
     }
 
-    public void onClickCart(View v){
+    public void onClickCart(View v)
+    {
         Intent i =new Intent(ItemActivity.this,CartActivity.class);
         startActivity(i);
     }
