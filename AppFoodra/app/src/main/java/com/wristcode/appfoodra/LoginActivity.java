@@ -11,8 +11,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.wristcode.appfoodra.R;
-
 /**
  * Created by Ajay Jagadish on 20-Feb-18.
  */

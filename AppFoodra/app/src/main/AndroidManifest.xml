@@ -35,7 +35,8 @@
         <activity
             android:name=".TrackActivity"
             android:label="@string/title_activity_track" />
-        <activity android:name=".HotelActivity"></activity>
+        <activity
+            android:name=".HotelActivity"/>
     </application>
 
 </manifest>
