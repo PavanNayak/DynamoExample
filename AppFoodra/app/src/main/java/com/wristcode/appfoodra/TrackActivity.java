@@ -43,16 +43,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class TrackActivity extends FragmentActivity implements OnMapReadyCallback,
-        GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener,
-        LocationListener {
+public class TrackActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
     private GoogleMap mMap;
     ArrayList<LatLng> MarkerPoints;
     GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
     Marker mCurrLocationMarker;
     LocationRequest mLocationRequest;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,49 +62,33 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
         // Initializing
         MarkerPoints = new ArrayList<>();
 
-
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
 
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 buildGoogleApiClient();
                 mMap.setMyLocationEnabled(true);
             }
-        }
-        else {
+        } else {
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
         }
 
-
         View v = getSupportFragmentManager().findFragmentById(R.id.map).getView();
         v.setAlpha(0.5f); // Change this value to set the desired alpha
 
-        LatLng origin =new LatLng(13.3446518,74.7485195);
-        LatLng dest  =new LatLng(13.3433362,74.7672902);
+        LatLng origin = new LatLng(13.3446518, 74.7485195);
+        LatLng dest = new LatLng(13.3433362, 74.7672902);
 
         Marker marker = mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(13.3433362,74.7672902))
+                .position(new LatLng(13.3433362, 74.7672902))
                 .title("We are here")
                 .snippet("We are here"));
         // Getting URL to the Google Directions API
@@ -117,7 +99,7 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
         // Start downloading json data from Google Directions API
         FetchUrl.execute(url);
         //move map camera
-        LatLng zoom=new LatLng(13.3433362,74.7672902);
+        LatLng zoom = new LatLng(13.3433362, 74.7672902);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(zoom));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(17));
 //
@@ -295,17 +277,17 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
 
             try {
                 jObject = new JSONObject(jsonData[0]);
-                Log.d("ParserTask",jsonData[0].toString());
+                Log.d("ParserTask", jsonData[0].toString());
                 DataParser parser = new DataParser();
                 Log.d("ParserTask", parser.toString());
 
                 // Starts parsing data
                 routes = parser.parse(jObject);
-                Log.d("ParserTask","Executing routes");
-                Log.d("ParserTask",routes.toString());
+                Log.d("ParserTask", "Executing routes");
+                Log.d("ParserTask", routes.toString());
 
             } catch (Exception e) {
-                Log.d("ParserTask",e.toString());
+                Log.d("ParserTask", e.toString());
                 e.printStackTrace();
             }
             return routes;
@@ -341,16 +323,15 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
                 lineOptions.width(16);
                 lineOptions.color(Color.parseColor("#4db6ac"));
 
-                Log.d("onPostExecute","onPostExecute lineoptions decoded");
+                Log.d("onPostExecute", "onPostExecute lineoptions decoded");
 
             }
 
             // Drawing polyline in the Google Map for the i-th route
-            if(lineOptions != null) {
+            if (lineOptions != null) {
                 mMap.addPolyline(lineOptions);
-            }
-            else {
-                Log.d("onPostExecute","without Polylines drawn");
+            } else {
+                Log.d("onPostExecute", "without Polylines drawn");
             }
         }
     }
@@ -427,9 +408,9 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
     }
 
 
-
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
-    public boolean checkLocationPermission(){
+
+    public boolean checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {

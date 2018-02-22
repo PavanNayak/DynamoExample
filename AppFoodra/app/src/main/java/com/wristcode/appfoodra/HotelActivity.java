@@ -11,7 +11,8 @@ import android.view.MenuItem;
 import com.wristcode.appfoodra.fragments.MenuFragment;
 import com.wristcode.appfoodra.fragments.OverviewFragment;
 
-public class HotelActivity extends AppCompatActivity {
+public class HotelActivity extends AppCompatActivity
+{
     private static final String TAG = MainActivity.class.getSimpleName();
     private BottomNavigationView bottomNavigation;
     private MenuFragment fragment;
