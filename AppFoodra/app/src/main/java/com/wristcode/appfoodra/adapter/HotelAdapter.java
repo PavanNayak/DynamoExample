@@ -25,47 +25,30 @@ import java.util.List;
 
 public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.MyViewHolder> {
     public static final String mypreference = "mypref";
-    public  String cart_id = "-1";
+    public String cart_id = "-1";
     public static final String product_id = "product_id";
     public static final String qty = "qty";
-    public int flag=0;
-
+    public int flag = 0;
     public static final int CONNECTION_TIMEOUT = 10000;
     public static final int READ_TIMEOUT = 15000;
     private List<Hotels> moviesList;
     private Context mContext;
-    public class MyViewHolder extends RecyclerView.ViewHolder{
-        public TextView txtname,txtdesc,txtkm,txttime;
 
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView txtname, txtdesc, txtkm, txttime;
         RelativeLayout relativehotel;
         ImageView image;
-
         ImageView thumbnail;
 
         public MyViewHolder(View view) {
             super(view);
-
-            txtname=(TextView)view.findViewById(R.id.txtname);
+            txtname = (TextView) view.findViewById(R.id.txtname);
             txtdesc = (TextView) view.findViewById(R.id.txtdesc);
             txttime = (TextView) view.findViewById(R.id.txttime);
-            //txtdesc = (TextView) view.findViewById(R.id.txtdesc);
-
-            image=(ImageView)view.findViewById(R.id.image);
-
-            relativehotel=(RelativeLayout)view.findViewById(R.id.relativehotel);
-
-
+            image = (ImageView) view.findViewById(R.id.image);
+            relativehotel = (RelativeLayout) view.findViewById(R.id.relativehotel);
         }
-
     }
-
-
-
-
-
-
-
-
 
     public HotelAdapter(Context mContext, List<Hotels> moviesList) {
         this.mContext = mContext;
@@ -74,81 +57,43 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.MyViewHolder
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.hotel_row, parent, false);
-
-
-
-
-
-
-
-
-
-
-
-
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.hotel_row, parent, false);
         return new MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Hotels movie = moviesList.get(position);
-
-
-
         holder.txtname.setText(movie.getName());
         holder.txtdesc.setText(movie.getDescp());
-
         holder.txttime.setText(movie.getTime());
-     //   holder.image.setImageResource(movie.getImage());
-//         Typeface font = Typeface.createFromAsset(mContext.getAssets(), "Raleway.ttf");
-
 
         Typeface font = Typeface.createFromAsset(mContext.getAssets(), "GT-Walsheim-Bold.ttf");
         Typeface font1 = Typeface.createFromAsset(mContext.getAssets(), "GT-Walsheim-Medium.ttf");
         Typeface font2 = Typeface.createFromAsset(mContext.getAssets(), "GT-Walsheim-Regular.ttf");
 
         holder.txtname.setTypeface(font);
-
-
         holder.txtdesc.setTypeface(font2);
         holder.txttime.setTypeface(font2);
-       // holder.cart_qty.setTypeface(font);
-       //  holder.cart_price.setTypeface(font);
 
-
-       // Toast.makeText(mContext,grandTotal, Toast.LENGTH_SHORT).show();
         Glide.with(mContext).load(movie.getImage())
                 .placeholder(R.mipmap.ic_launcher)
                 .error(R.mipmap.ic_launcher)
                 .into(holder.image);
 
-            Glide.with(mContext).load(movie.getImage()).into(holder.image);
-
-
+        Glide.with(mContext).load(movie.getImage()).into(holder.image);
 
         holder.relativehotel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Intent i =new Intent(mContext, HotelActivity.class);
+                Intent i = new Intent(mContext, HotelActivity.class);
                 mContext.startActivity(i);
             }
         });
-
-
     }
 
     @Override
     public int getItemCount() {
         return moviesList.size();
     }
-
-
-
-
-
-
-
 }
