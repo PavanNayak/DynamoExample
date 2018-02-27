@@ -78,7 +78,7 @@ public class CartActivity extends AppCompatActivity
 
     public void onClickProceed(View v)
     {
-        Intent i = new Intent(CartActivity.this, TrackActivity.class);
+        Intent i = new Intent(CartActivity.this, OrderConfirmActivity.class);
         startActivity(i);
     }
 }

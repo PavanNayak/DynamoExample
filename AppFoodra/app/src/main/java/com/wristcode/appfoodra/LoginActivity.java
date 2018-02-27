@@ -94,7 +94,7 @@ public class LoginActivity extends AppCompatActivity
 
     public void loginButton(View v)
     {
-        Intent i =new Intent(LoginActivity.this, HotelListActivity.class);
+        Intent i =new Intent(LoginActivity.this, OTPActivity.class);
         startActivity(i);
         finish();
     }

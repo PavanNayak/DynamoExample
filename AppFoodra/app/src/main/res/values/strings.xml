@@ -29,4 +29,8 @@
     </string>
     <string name="title_activity_track">Map</string>
 
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+
 </resources>

@@ -8,9 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.wristcode.appfoodra.Pojo.Hotels;
-import com.wristcode.appfoodra.Pojo.Items;
 import com.wristcode.appfoodra.adapter.HotelAdapter;
-import com.wristcode.appfoodra.adapter.ItemsAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
