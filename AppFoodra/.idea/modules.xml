@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AppFoodra.iml" filepath="$PROJECT_DIR$/AppFoodra.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/duo-navigation-drawer/duo-navigation-drawer.iml" filepath="$PROJECT_DIR$/duo-navigation-drawer/duo-navigation-drawer.iml" />
     </modules>
   </component>
 </project>

@@ -29,8 +29,22 @@
     </string>
     <string name="title_activity_track">Map</string>
 
-    <string name="next">NEXT</string>
-    <string name="skip">SKIP</string>
+    <string name="next">Next</string>
+    <string name="skip">Skip</string>
     <string name="start">GOT IT</string>
+
+    <array name="menuOptions">
+
+        <item>Home</item>
+
+        <item>My Order</item>
+
+        <item>Notifications</item>
+
+        <item>Settings</item>
+
+        <item>Logout</item>
+
+    </array>
 
 </resources>

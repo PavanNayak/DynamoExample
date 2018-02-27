@@ -55,7 +55,8 @@ public class HomeActivity extends AppCompatActivity
                         R.drawable.noodles,
                         R.drawable.taco,
                         R.drawable.hamburger,
-                        R.drawable.donut
+                        R.drawable.donut,
+                        R.drawable.pizza
                 };
 
         Category a = new Category("", "CHINESE", covers[0]);
@@ -65,6 +66,8 @@ public class HomeActivity extends AppCompatActivity
         a = new Category("", "BURGER", covers[2]);
         categoriesList.add(a);
         a = new Category("", "DONUT", covers[3]);
+        categoriesList.add(a);
+        a = new Category("", "PIZZA", covers[4]);
         categoriesList.add(a);
 
         adapter = new CategoryAdapter(HomeActivity.this, categoriesList);
@@ -84,15 +87,15 @@ public class HomeActivity extends AppCompatActivity
                         R.drawable.hotel
                 };
 
-        Offers a = new Offers("Spice n Ice","Chineese, Italian, Arabian",covers[0],"4.1 km","10 AM - 12 AM");
+        Offers a = new Offers("Spice n Ice","Chinese, Italian, Arabian",covers[0],"4.1 km","10 AM - 12 AM");
         categoriesList1.add(a);
-        a =   new Offers("Hot n Spicy","Chineese, Italian, Arabian",covers[1],"4.1 km","10 AM - 12 AM");
+        a =   new Offers("Hot n Spicy","Chinese, Italian, Arabian",covers[1],"4.1 km","10 AM - 12 AM");
         categoriesList1.add(a);
-        a = new Offers("Mexican Burrito","Chineese, Italian, Arabian",covers[2],"4.1 km","10 AM - 12 AM");
+        a = new Offers("Mexican Burrito","Chinese, Italian, Arabian",covers[2],"4.1 km","10 AM - 12 AM");
         categoriesList1.add(a);
-        a = new Offers("Spice n Ice","Chineese, Italian, Arabian",covers[3],"4.1 km","10 AM - 12 AM");
+        a = new Offers("Spice n Ice","Chinese, Italian, Arabian",covers[3],"4.1 km","10 AM - 12 AM");
         categoriesList1.add(a);
-        a = new Offers("Spice n Ice","Chineese, Italian, Arabian",covers[0],"4.1 km","10 AM - 12 AM");
+        a = new Offers("Spice n Ice","Chinese, Italian, Arabian",covers[0],"4.1 km","10 AM - 12 AM");
         categoriesList1.add(a);
 
         adapter1 = new OffersAdapter(HomeActivity.this, categoriesList1);

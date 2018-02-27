@@ -68,9 +68,11 @@ public class WelcomeActivity extends AppCompatActivity
         viewPager.setAdapter(myViewPagerAdapter);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
 
-//        Typeface font1 = Typeface.createFromAsset(getAssets(),"GT-Walsheim-Medium.ttf");
-//        Typeface font2 = Typeface.createFromAsset(getAssets(),"GT-Walsheim-Regular.ttf");
-//
+        Typeface font1 = Typeface.createFromAsset(getAssets(),"GT-Walsheim-Medium.ttf");
+        Typeface font2 = Typeface.createFromAsset(getAssets(),"GT-Walsheim-Regular.ttf");
+
+        btnSkip.setTypeface(font2);
+        btnNext.setTypeface(font2);
 //        tvtitle.setTypeface(font1);
 //        tvdesc1.setTypeface(font2);
 //        tvdesc2.setTypeface(font2);
@@ -88,7 +90,8 @@ public class WelcomeActivity extends AppCompatActivity
                 // checking for last page
                 // if last page home screen will be launched
                 int current = getItem(+1);
-                if (current < layouts.length) {
+                if (current < layouts.length)
+                {
                     // move to next screen
                     viewPager.setCurrentItem(current);
                 } else {
@@ -128,10 +131,11 @@ public class WelcomeActivity extends AppCompatActivity
     }
 
     //  viewpager change listener
-    ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
-
+    ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener()
+    {
         @Override
-        public void onPageSelected(int position) {
+        public void onPageSelected(int position)
+        {
             addBottomDots(position);
 
             String pos= String.valueOf(position);

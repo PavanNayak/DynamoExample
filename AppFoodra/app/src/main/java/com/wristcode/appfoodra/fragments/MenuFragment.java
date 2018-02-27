@@ -88,12 +88,6 @@ public class MenuFragment extends Fragment {
         return v;
     }
 
-
-
-
-
-
-
     private void prepareAlbums() {
         int[] covers = new int[]{
                 R.drawable.chickenb,

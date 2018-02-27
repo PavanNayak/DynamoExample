@@ -15,7 +15,7 @@
             android:id="@+id/txtwelcome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Welcome Back"
+            android:text="Welcome"
             android:textAlignment="center"
             android:textSize="30sp"
             android:textStyle="bold" />
@@ -30,19 +30,19 @@
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/emailtxt"
+            android:id="@+id/txtphone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="30dp"
             android:paddingLeft="5dp"
-            android:text="Email"
+            android:text="Your Phone Number"
             android:textSize="18sp"
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/txtemail"
+            android:id="@+id/valuephone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
@@ -50,62 +50,12 @@
             android:layout_marginRight="30dp"
             android:layout_marginTop="5dp"
             android:backgroundTint="@android:color/darker_gray"
-            android:hint=""
-            android:inputType="textEmailAddress" />
-
-        <TextView
-            android:id="@+id/passtxt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="30dp"
-            android:paddingLeft="5dp"
-            android:text="Password"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/txtpassword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_weight="1"
-                android:backgroundTint="@android:color/darker_gray"
-                android:hint=""
-                android:inputType="textPassword" />
-
-            <ImageView
-                android:id="@+id/hidepass"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center"
-                android:tint="@android:color/darker_gray"
-                android:src="@drawable/invisible" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/txtforgotpass"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="15dp"
-            android:gravity="end"
-            android:text="Forgot Password?"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:hint="+91"
+            android:maxLength="10"
+            android:inputType="number" />
 
         <Button
-            android:id="@+id/loginButton"
+            android:id="@+id/verifyButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
@@ -113,43 +63,12 @@
             android:layout_marginTop="30dp"
             android:background="@color/colorPrimary"
             android:elevation="8dp"
-            android:onClick="loginButton"
-            android:text="Login"
+            android:onClick="verifyButton"
+            android:text="Verify"
             android:textAllCaps="false"
             android:textColor="@android:color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="30dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/txtnewuser"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New User?"
-                android:textAlignment="center"
-                android:textColor="@android:color/black"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/txtsignup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" Signup"
-                android:textAlignment="center"
-                android:textColor="@color/colorPrimary"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
 
     </LinearLayout>
 

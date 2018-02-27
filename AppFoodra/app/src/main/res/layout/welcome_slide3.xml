@@ -30,7 +30,7 @@
         android:id="@+id/tvdesc1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Easilt find the type of food "
+        android:text="Easily find the type of food "
         android:textSize="15dp"
         android:gravity="center"
         android:layout_marginTop="20dp"/>

@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.wristcode.appfoodra.fragments.HomeFragment;
+
 /**
  * Created by Ajay Jagadish on 26-Feb-18.
  */
@@ -46,7 +48,7 @@ public class OTPActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                Intent i = new Intent(OTPActivity.this, HomeActivity.class);
+                Intent i = new Intent(OTPActivity.this, SplashScreen.class);
                 startActivity(i);
                 finish();
             }
