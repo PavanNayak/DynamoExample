@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:background="@color/colorPrimary">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/menu"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Choose your meal"
+        android:textSize="30dp"
+        android:gravity="center"
+        android:layout_marginTop="50dp"/>
+    <TextView
+        android:id="@+id/tvdesc1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Easily find the type of food "
+        android:textSize="15dp"
+        android:gravity="center"
+        android:layout_marginTop="20dp"/>
+    <TextView
+        android:id="@+id/tvdesc2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="your craving "
+        android:textSize="15dp"
+        android:gravity="center"/>
+
+</LinearLayout>

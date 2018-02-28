@@ -37,6 +37,7 @@
         android:layout_height="wrap_content"
         android:text="TextView"
         android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:paddingLeft="10dp"
         android:layout_below="@+id/txtname"
         android:layout_alignParentRight="true"
@@ -62,9 +63,9 @@
         android:layout_toStartOf="@+id/txtdesc" />
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/txtminus"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:background="@drawable/plus"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
@@ -72,19 +73,28 @@
         android:elevation="3dp"
         android:textColor="#fff"
         android:layout_below="@+id/txtdesc"
-        android:layout_marginLeft="81dp"
-        android:layout_marginStart="81dp"
-        android:layout_toEndOf="@+id/txtprice"
-        android:layout_toRightOf="@+id/txtprice"
+        android:layout_toLeftOf="@+id/prodqty"
+        android:textAlignment="center"
         android:text="-" />
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+        android:id="@+id/prodqty"
+        android:layout_width="30dp"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_alignBaseline="@+id/txtplus"
+        android:layout_alignBottom="@+id/txtplus"
+        android:layout_toLeftOf="@+id/txtplus"
+        android:text="1"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/txtplus"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_below="@+id/txtdesc"
-        android:layout_toEndOf="@+id/textView"
-        android:layout_toRightOf="@+id/textView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:text="+"
         android:visibility="gone"
         android:layout_marginLeft="1dp"
@@ -93,4 +103,17 @@
         android:paddingRight="10dp"
         android:elevation="3dp"
         android:textColor="#fff"/>
+
+    <TextView
+        android:id="@+id/txtadd"
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/txtdesc"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:elevation="5dp"
+        android:text="ADD"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:background="@drawable/rect"/>
 </RelativeLayout>
