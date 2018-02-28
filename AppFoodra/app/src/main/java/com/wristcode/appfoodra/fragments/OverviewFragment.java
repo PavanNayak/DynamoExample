@@ -71,7 +71,7 @@ public class OverviewFragment extends Fragment
         Toolbar toolbar = (Toolbar)v.findViewById(R.id.toolbar);
        // setSupportActionBar(toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        ((AppCompatActivity)getActivity()).setTitle(txthotelname.getText().toString());
+        ((AppCompatActivity)getActivity()).setTitle(null);
         return v;
     }
 

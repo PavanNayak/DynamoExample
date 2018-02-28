@@ -1,6 +1,7 @@
 package com.wristcode.appfoodra.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.wristcode.appfoodra.CartActivity;
 import com.wristcode.appfoodra.Pojo.Items;
 import com.wristcode.appfoodra.R;
 import com.wristcode.appfoodra.adapter.ItemsAdapter;
@@ -21,7 +23,8 @@ import com.wristcode.appfoodra.adapter.ItemsAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MenuFragment extends Fragment {
+public class MenuFragment extends Fragment
+{
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -32,7 +35,8 @@ public class MenuFragment extends Fragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
-    public static MenuFragment newInstance(String param1, String param2) {
+    public static MenuFragment newInstance(String param1, String param2)
+    {
         MenuFragment fragment = new MenuFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
@@ -42,7 +46,8 @@ public class MenuFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
