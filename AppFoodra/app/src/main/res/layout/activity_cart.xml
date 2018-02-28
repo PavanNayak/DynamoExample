@@ -14,7 +14,7 @@
         <android.support.v7.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#fff">
+            android:background="@color/colorPrimary">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -24,6 +24,7 @@
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
+                    android:tint="@android:color/white"
                     android:src="@drawable/back" />
 
                 <TextView
@@ -33,7 +34,7 @@
                     android:layout_marginLeft="10dp"
                     android:gravity="center"
                     android:text="MY CART"
-                    android:textColor="#000" />
+                    android:textColor="#FFFFFF" />
 
             </LinearLayout>
 

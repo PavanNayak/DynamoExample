@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#00dc99</color>
-    <color name="colorPrimaryDark">#4db6ac</color>
+    <color name="colorPrimary">#DC143C</color>
+    <color name="colorPrimaryDark">#DC143C</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="green">#00dc99</color>
 
     <!-- Screens background color-->
     <color name="bg_screen1">#f64c73</color>
@@ -17,10 +18,10 @@
     <color name="dot_dark_screen4">#C0C0C0</color>
 
     <!-- dots active colors -->
-    <color name="dot_light_screen1">#00dc99</color>
-    <color name="dot_light_screen2">#00dc99</color>
-    <color name="dot_light_screen3">#00dc99</color>
-    <color name="dot_light_screen4">#00dc99</color>
+    <color name="dot_light_screen1">#DC143C</color>
+    <color name="dot_light_screen2">#DC143C</color>
+    <color name="dot_light_screen3">#DC143C</color>
+    <color name="dot_light_screen4">#DC143C</color>
 
     <array name="array_dot_active">
         <item>@color/dot_light_screen1</item>

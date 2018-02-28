@@ -84,19 +84,50 @@
         android:orientation="horizontal">
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/btnminus"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:background="@color/colorPrimary"
-            android:text="-   2   +"
+            android:text="-"
+            android:textColor="#fff"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/txtitemqty"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="2dp"
+            android:gravity="center"
+            android:text="1"
+            android:textColor="@android:color/black"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/btnplus"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="2dp"
+            android:background="@color/colorPrimary"
+            android:text="+"
+            android:textColor="#fff"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/btnadd"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="2dp"
+            android:background="@color/colorPrimary"
+            android:text="ADD"
             android:textColor="#fff" />
 
         <Button
+            android:id="@+id/proceedcart"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginLeft="2dp"
             android:background="@color/colorPrimary"
-            android:onClick="onClickCart"
-            android:text="ADD TO CART"
+            android:text="PROCEED TO CART"
             android:textColor="#fff" />
     </LinearLayout>
 </RelativeLayout>

@@ -1,11 +1,8 @@
 package com.wristcode.appfoodra.fragments;
 
-import android.content.Context;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -53,12 +50,12 @@ public class OverviewFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View v= inflater.inflate(R.layout.fragment_overview, container, false);
-        txthotelname=(TextView)v.findViewById(R.id.txthotelname);
-        txtlocation=(TextView)v.findViewById(R.id.txtlocation);
-        txtdesc=(TextView)v.findViewById(R.id.txtdesc);
-        txttime=(TextView)v.findViewById(R.id.txttime);
-        txtdistance=(TextView)v.findViewById(R.id.txtdistance);
-        txtdelivery=(TextView)v.findViewById(R.id.txtdelivery);
+        txthotelname = v.findViewById(R.id.txthotelname);
+        txtlocation = v.findViewById(R.id.txtlocation);
+        txtdesc = v.findViewById(R.id.txtdesc);
+        txttime = v.findViewById(R.id.txttime);
+        txtdistance = v.findViewById(R.id.txtdistance);
+        txtdelivery = v.findViewById(R.id.txtdelivery);
 
         Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "GT-Walsheim-Bold.ttf");
         Typeface font1 = Typeface.createFromAsset(getActivity().getAssets(), "GT-Walsheim-Medium.ttf");

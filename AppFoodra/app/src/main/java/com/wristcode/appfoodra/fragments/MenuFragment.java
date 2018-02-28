@@ -3,7 +3,11 @@ package com.wristcode.appfoodra.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,16 +25,12 @@ public class MenuFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    RecyclerView recyclerView;
-    RecyclerView recyclerView1;
-    ItemsAdapter adapter;
-    private List<Items> categoriesList;
-    private List<Items> categoriesList1;
-
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
 
     public static MenuFragment newInstance(String param1, String param2) {
         MenuFragment fragment = new MenuFragment();
@@ -54,60 +54,48 @@ public class MenuFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_menu, container, false);
 
-        recyclerView = (RecyclerView) v.findViewById(R.id.recyclerMenu);
-        recyclerView1 = (RecyclerView) v.findViewById(R.id.recyclerMenu1);
-        categoriesList = new ArrayList<>();
-        categoriesList1 = new ArrayList<>();
+        viewPager = (ViewPager) v.findViewById(R.id.simpleViewPager);
+        setupViewPager(viewPager);
 
-        prepareAlbums();
-        prepareAlbums1();
+        tabLayout = (TabLayout) v.findViewById(R.id.tablayout);
+        tabLayout.setupWithViewPager(viewPager);
         return v;
     }
 
-    private void prepareAlbums() {
-        int[] covers = new int[]{
-                R.drawable.chickenb,
-                R.drawable.muttonb,
-                R.drawable.eggb,
-                R.drawable.chickenb
-        };
-
-        Items a = new Items("Chicken Biriyani", "Spicy Chicken Biriyani flavoured with Rice ", covers[0], "₹ 150");
-        categoriesList.add(a);
-
-        a = new Items("Mutton Biriyani", "Spicy Mutton Biriyani flavoured with Rice ", covers[1], " ₹170");
-        categoriesList.add(a);
-        a = new Items("Egg Biriyani", "Spicy Egg Biriyani flavoured with Rice ", covers[2], "₹ 100");
-        categoriesList.add(a);
-
-        adapter = new ItemsAdapter(getActivity(), categoriesList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setNestedScrollingEnabled(false);
-        recyclerView.setFocusable(false);
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager());
+        adapter.addFragment(new MainDishesFragment(), "MAIN DISHES");
+        adapter.addFragment(new BreakfastFragment(), "BREAKFAST");
+        viewPager.setAdapter(adapter);
     }
 
-    private void prepareAlbums1() {
-        int[] covers = new int[]{
-                R.drawable.upma,
-                R.drawable.chapatti,
-                R.drawable.chapatti
-        };
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
 
-        Items a = new Items("Upma", "Tasty Rava Upma mixed with Tomato and Onion ", covers[0], "₹ 50");
-        categoriesList1.add(a);
-        a = new Items("Idli Vada", "Piece of two idli with sambar and one vada", covers[1], "₹ 70");
-        categoriesList1.add(a);
-        a = new Items("Chapati", "Two chapathis with the kurma and onions", covers[2], "₹ 10");
-        categoriesList1.add(a);
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
 
-        adapter = new ItemsAdapter(getActivity(), categoriesList1);
-        recyclerView1.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView1.setNestedScrollingEnabled(false);
-        recyclerView1.setFocusable(false);
-        recyclerView1.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
     }
 
     public void onButtonPressed(Uri uri) {

@@ -66,7 +66,6 @@ public class NavDrawer extends AppCompatActivity implements DuoMenuView.OnMenuCl
 
     private void handleDrawer()
     {
-        mViewHolder.mDuoDrawerLayout.closeDrawer(Gravity.START);
         DuoDrawerToggle duoDrawerToggle = new DuoDrawerToggle(this, mViewHolder.mDuoDrawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mViewHolder.mDuoDrawerLayout.setDrawerListener(duoDrawerToggle);
         duoDrawerToggle.syncState();
@@ -141,7 +140,7 @@ public class NavDrawer extends AppCompatActivity implements DuoMenuView.OnMenuCl
                     }
                 }
             });
-            mDuoDrawerLayout.openDrawer();
+            mDuoDrawerLayout.closeDrawer();
         }
     }
 

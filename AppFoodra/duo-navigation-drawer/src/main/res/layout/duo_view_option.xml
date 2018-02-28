@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/view_option_text_layout"
         android:layout_alignTop="@+id/view_option_text_layout"
-        android:tint="#00dc99"
+        android:tint="#DC143C"
         android:src="@drawable/duo_shape_rectangled_red"/>
 
     <RelativeLayout

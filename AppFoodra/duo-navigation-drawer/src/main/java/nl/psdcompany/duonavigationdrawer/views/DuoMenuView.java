@@ -24,8 +24,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import nl.psdcompany.psd.duonavigationdrawer.R;
+
+import static nl.psdcompany.psd.duonavigationdrawer.R.id.duo_view_header_text_title;
 
 /**
  * Created by PSD on 13-04-17.
@@ -125,25 +128,28 @@ public class DuoMenuView extends RelativeLayout {
     /**
      * Handles the header view.
      */
-    private void handleHeader() {
-        if (mHeaderViewId == DEFAULT_LAYOUT_ATTRIBUTE_VALUE || mMenuViewHolder.mMenuHeader == null) {
+    private void handleHeader()
+    {
+        if (mHeaderViewId == DEFAULT_LAYOUT_ATTRIBUTE_VALUE || mMenuViewHolder.mMenuHeader == null)
+        {
             return;
         }
-
         View view = mLayoutInflater.inflate(mHeaderViewId, null, false);
-
-        if (view != null) {
-            if (mMenuViewHolder.mMenuHeader.getChildCount() > 0) {
+        if (view != null)
+        {
+            if (mMenuViewHolder.mMenuHeader.getChildCount() > 0)
+            {
                 mMenuViewHolder.mMenuHeader.removeAllViews();
             }
-
             mMenuViewHolder.mMenuHeader.addView(view);
             view.setTag(TAG_HEADER);
             view.bringToFront();
-            view.setOnClickListener(new OnClickListener() {
+            view.setOnClickListener(new OnClickListener()
+            {
                 @Override
                 public void onClick(View v) {
-                    if (mOnMenuClickListener != null) {
+                    if (mOnMenuClickListener != null)
+                    {
                         mOnMenuClickListener.onHeaderClicked();
                     }
                 }

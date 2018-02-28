@@ -15,8 +15,8 @@ import android.widget.TextView;
 
 public class OTPActivity extends AppCompatActivity
 {
-    TextView tvverification,tvtitle,tvsubtitle;
-    EditText etotp;
+    TextView tvtitle, tvsubtitle, tvotp;
+    EditText valueotp;
     Button btn_verify;
 
     @Override
@@ -25,21 +25,21 @@ public class OTPActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_otp);
 
-        tvverification = (TextView)findViewById(R.id.tvverification);
         tvtitle = (TextView)findViewById(R.id.tvtitle);
         tvsubtitle = (TextView)findViewById(R.id.tvsubtitle);
-        etotp = (EditText)findViewById(R.id.etotp);
+        tvotp = (TextView) findViewById(R.id.txtotp);
+        valueotp = (EditText)findViewById(R.id.valueotp);
         btn_verify = (Button)findViewById(R.id.btn_verify);
 
         Typeface font = Typeface.createFromAsset(getAssets(),"GT-Walsheim-Bold.ttf");
         Typeface font1 = Typeface.createFromAsset(getAssets(),"GT-Walsheim-Medium.ttf");
         Typeface font2 = Typeface.createFromAsset(getAssets(),"GT-Walsheim-Regular.ttf");
 
-        tvverification.setTypeface(font1);
-        tvtitle.setTypeface(font1);
+        tvtitle.setTypeface(font);
         tvsubtitle.setTypeface(font2);
-        etotp.setTypeface(font2);
-        btn_verify.setTypeface(font1);
+        tvotp.setTypeface(font2);
+        valueotp.setTypeface(font2);
+        btn_verify.setTypeface(font2);
 
         btn_verify.setOnClickListener(new View.OnClickListener()
         {
@@ -51,10 +51,5 @@ public class OTPActivity extends AppCompatActivity
                 finish();
             }
         });
-    }
-
-    public void back(View view){
-        startActivity(new Intent(OTPActivity.this,LoginActivity.class));
-        finish();
     }
 }
