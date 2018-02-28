@@ -24,27 +24,34 @@
 
 
     <LinearLayout
+        android:id="@+id/linearbrand"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:gravity="center"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
+            android:id="@+id/logotext1"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:text="Designed"
             android:textColor="@android:color/black"
-            android:textStyle="bold"
-            android:text="Designed and Developed by"/>
+            android:textAlignment="center"/>
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/like"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"/>
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-
+            android:id="@+id/logotext2"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
             android:textColor="@android:color/black"
-            android:text="Wristcode Technologies"/>
-
-
-
+            android:text="Wristcode Technologies"
+            android:textAlignment="center"/>
     </LinearLayout>
 </RelativeLayout>

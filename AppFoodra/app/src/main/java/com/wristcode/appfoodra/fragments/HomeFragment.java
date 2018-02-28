@@ -113,9 +113,10 @@ public class HomeFragment extends Fragment {
         categoriesList.add(a);
 
         adapter = new CategoryAdapter(getActivity(), categoriesList);
-        menurecycler.setAdapter(adapter);
         HorizontalLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         menurecycler.setLayoutManager(HorizontalLayout);
+        menurecycler.setNestedScrollingEnabled(false);
+        menurecycler.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
 
@@ -141,11 +142,11 @@ public class HomeFragment extends Fragment {
         categoriesList1.add(a);
 
         adapter1 = new OffersAdapter(getActivity(), categoriesList1);
+        offerrecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+        offerrecycler.setNestedScrollingEnabled(false);
         offerrecycler.setFocusable(false);
         offerrecycler.setAdapter(adapter1);
-        offerrecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter1.notifyDataSetChanged();
-
     }
 
 

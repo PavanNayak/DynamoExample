@@ -27,11 +27,12 @@
                     android:src="@drawable/back" />
 
                 <TextView
+                    android:id="@+id/txttitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:gravity="center"
-                    android:text="My Cart"
+                    android:text="MY CART"
                     android:textColor="#000" />
 
             </LinearLayout>
@@ -165,13 +166,13 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/placeorder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_margin="10dp"
         android:background="@color/colorPrimary"
         android:elevation="8dp"
-        android:onClick="onClickProceed"
         android:text="PLACE YOUR ORDER"
         android:textColor="#fff" />
 </RelativeLayout>

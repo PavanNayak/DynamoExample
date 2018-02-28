@@ -1,13 +1,16 @@
 package com.wristcode.appfoodra;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wristcode.appfoodra.adapter.MenuAdapters;
@@ -31,16 +34,20 @@ public class NavDrawer extends AppCompatActivity implements DuoMenuView.OnMenuCl
     private ViewHolder mViewHolder;
     private ArrayList<String> mTitles = new ArrayList<>();
     Animation animSlideDown,animSlideUp,animSlideDown1,animSlideDown2;
+    TextView txttitle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navdrawer);
+        txttitle = (TextView) findViewById(R.id.txttitle);
         mTitles = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.menuOptions)));
 
         animSlideDown = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_down);
         animSlideUp = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up);
         animSlideDown1 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_downbg);
         animSlideDown2 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.leftanim);
+        Typeface font = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Medium.ttf");
+        txttitle.setTypeface(font);
         mViewHolder = new ViewHolder();
 
         handleMenu();
@@ -59,6 +66,7 @@ public class NavDrawer extends AppCompatActivity implements DuoMenuView.OnMenuCl
 
     private void handleDrawer()
     {
+        mViewHolder.mDuoDrawerLayout.closeDrawer(Gravity.START);
         DuoDrawerToggle duoDrawerToggle = new DuoDrawerToggle(this, mViewHolder.mDuoDrawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mViewHolder.mDuoDrawerLayout.setDrawerListener(duoDrawerToggle);
         duoDrawerToggle.syncState();

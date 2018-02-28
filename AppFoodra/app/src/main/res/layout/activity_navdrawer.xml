@@ -44,12 +44,13 @@
                     android:src="@drawable/navdrawer" />
 
                 <TextView
+                    android:id="@+id/txttitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="15dp"
                     android:layout_weight="1"
-                    android:text="Home"
+                    android:text="App Foodra"
                     android:textColor="#000"
                     android:textSize="20sp" />
 
@@ -67,8 +68,7 @@
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#eeeeee"
-            android:padding="?attr/listPreferredItemPaddingRight" />
+            android:background="@android:color/white" />
 
     </LinearLayout>
 
