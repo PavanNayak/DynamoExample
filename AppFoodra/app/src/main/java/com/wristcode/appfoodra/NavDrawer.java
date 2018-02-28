@@ -24,7 +24,7 @@ import nl.psdcompany.duonavigationdrawer.widgets.DuoDrawerToggle;
  * Created by Ajay Jagadish on 27-Feb-18.
  */
 
-public class SplashScreen extends AppCompatActivity implements DuoMenuView.OnMenuClickListener
+public class NavDrawer extends AppCompatActivity implements DuoMenuView.OnMenuClickListener
 {
     private MenuAdapters mMenuAdapter;
 
@@ -34,7 +34,7 @@ public class SplashScreen extends AppCompatActivity implements DuoMenuView.OnMen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splashscreen);
+        setContentView(R.layout.activity_navdrawer);
         mTitles = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.menuOptions)));
 
         animSlideDown = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_down);
@@ -140,7 +140,7 @@ public class SplashScreen extends AppCompatActivity implements DuoMenuView.OnMen
 
     public void onClickNext(View v){
 
-//        Intent i =new Intent(SplashScreen.this,VehicleListActivity.class);
+//        Intent i =new Intent(NavDrawer.this,VehicleListActivity.class);
 //        startActivity(i);
     }
 

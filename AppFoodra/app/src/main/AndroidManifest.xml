@@ -26,7 +26,7 @@
             android:label="@string/title_activity_hotel" />
         <activity android:name=".LoginActivity"/>
         <activity android:name=".OTPActivity"/>
-        <activity android:name=".SplashScreen"/>
+        <activity android:name=".NavDrawer"/>
         <activity android:name=".HomeActivity"/>
         <activity android:name=".ItemActivity" />
         <activity android:name=".CartActivity" />
