@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -6,13 +6,74 @@
     android:background="#fff"
     tools:context="com.wristcode.appfoodra.fragments.MenuFragment">
 
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar"
+        android:background="@color/colorPrimary">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:padding="10dp"
+                android:tint="@android:color/white"
+                android:src="@drawable/back"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DELIWALA"
+                android:id="@+id/txttitle"
+                android:layout_weight="1"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
+                android:textSize="20sp"/>
+
+            <FrameLayout
+                style="?attr/actionButtonStyle"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="10dp"
+                    android:onClick="onClickCart"
+                    android:layout_gravity="center"
+                    android:src="@drawable/cart"/>
+                <TextView
+                    android:id="@+id/cart_badge"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="right|end|top"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginRight="-5dp"
+                    android:layout_marginTop="7dp"
+                    android:background="@drawable/badge_background"
+                    android:gravity="center"
+                    android:textColor="@color/colorPrimary"
+                    android:text="0"
+                    android:textSize="10sp"/>
+            </FrameLayout>
+        </LinearLayout>
+    </android.support.v7.widget.Toolbar>
+
     <LinearLayout
         android:id="@+id/tablinear"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/toolbar"
         android:orientation="vertical">
 
         <android.support.design.widget.TabLayout
@@ -35,4 +96,4 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     </LinearLayout>
-</FrameLayout>
+</RelativeLayout>

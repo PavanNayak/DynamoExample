@@ -143,13 +143,4 @@ public class NavDrawer extends AppCompatActivity implements DuoMenuView.OnMenuCl
             mDuoDrawerLayout.closeDrawer();
         }
     }
-
-
-    public void onClickNext(View v){
-
-//        Intent i =new Intent(NavDrawer.this,VehicleListActivity.class);
-//        startActivity(i);
-    }
-
-
 }

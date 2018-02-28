@@ -1,5 +1,7 @@
 package com.wristcode.appfoodra;
 
+import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -7,6 +9,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.wristcode.appfoodra.fragments.MenuFragment;
 import com.wristcode.appfoodra.fragments.OverviewFragment;
@@ -20,6 +24,7 @@ public class HotelActivity extends AppCompatActivity
     private OverviewFragment fragment3;
     int flag=0;
     private FragmentManager fragmentManager;
+    TextView txttitle;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -70,9 +75,12 @@ public class HotelActivity extends AppCompatActivity
         fragment3=new OverviewFragment();
         final FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.content, fragment3).commit();
+    }
 
-
-
+    public void onClickCart(View v)
+    {
+        Intent i = new Intent(HotelActivity.this, CartActivity.class);
+        startActivity(i);
     }
 
 }
