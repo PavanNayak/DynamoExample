@@ -79,9 +79,11 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
 
         Glide.with(mContext).load(movie.getImage()).into(holder.image);
 
-        holder.relativehotel.setOnClickListener(new View.OnClickListener() {
+        holder.relativehotel.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 Intent i = new Intent(mContext, HotelActivity.class);
                 mContext.startActivity(i);
             }
