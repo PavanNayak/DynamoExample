@@ -57,15 +57,11 @@
         <activity
             android:name=".TrackActivity"
             android:label="@string/title_activity_track" />
-<<<<<<< HEAD
-        <activity android:name=".HotelActivity" />
-        <activity android:name=".AnimationScreenActivity"></activity>
-=======
+        <activity android:name=".AnimationScreenActivity"/>
         <activity
             android:name=".HotelActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
->>>>>>> 7866537fb019c9f1280054d3c311cdcf87539dd5
     </application>
 
 </manifest>
