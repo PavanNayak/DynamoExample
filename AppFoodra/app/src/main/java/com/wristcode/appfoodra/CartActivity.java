@@ -61,7 +61,7 @@ public class CartActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                Intent i = new Intent(CartActivity.this, OrderConfirmActivity.class);
+                Intent i = new Intent(CartActivity.this, PaymentActivity.class);
                 startActivity(i);
             }
         });

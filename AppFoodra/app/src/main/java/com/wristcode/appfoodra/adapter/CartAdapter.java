@@ -35,7 +35,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
     private Context mContext;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView txtname, txtqty, txtprice;
+        public TextView txtname, txtqty, txtprice, txtplus, txtminus;
         RelativeLayout relative;
         ImageView image;
         ImageView thumbnail;
@@ -45,6 +45,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
             txtname = (TextView) view.findViewById(R.id.txtname);
             txtprice = (TextView) view.findViewById(R.id.txtprice);
             txtqty = (TextView) view.findViewById(R.id.txtqty);
+            txtplus = view.findViewById(R.id.txtplus);
+            txtminus = view.findViewById(R.id.txtminus);
             relative = (RelativeLayout) view.findViewById(R.id.relative);
             image = (ImageView) view.findViewById(R.id.image);
         }

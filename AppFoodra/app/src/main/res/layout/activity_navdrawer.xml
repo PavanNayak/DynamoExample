@@ -60,7 +60,8 @@
                     android:layout_height="35dp"
                     android:padding="5dp"
                     android:tint="@android:color/white"
-                    android:src="@drawable/settings" />
+                    android:src="@drawable/settings"
+                    android:visibility="gone"/>
             </LinearLayout>
 
 
