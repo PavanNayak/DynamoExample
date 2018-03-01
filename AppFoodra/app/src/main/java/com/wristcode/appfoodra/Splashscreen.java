@@ -19,7 +19,8 @@ public class Splashscreen extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.imageView);
         animSlideDown = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate);
         imageView.startAnimation(animSlideDown);
-        new Handler().postDelayed(new Runnable() {
+        new Handler().postDelayed(new Runnable()
+        {
             @Override
             public void run() {
                 Intent i = new Intent(Splashscreen.this, WelcomeActivity.class);
