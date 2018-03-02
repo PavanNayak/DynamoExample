@@ -35,6 +35,8 @@ public class MenuFragment extends Fragment
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
+    public MenuFragment() {}
+
     public static MenuFragment newInstance(String param1, String param2)
     {
         MenuFragment fragment = new MenuFragment();

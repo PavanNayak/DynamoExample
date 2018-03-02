@@ -1,5 +1,6 @@
 package com.wristcode.appfoodra.fragments;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,9 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.wristcode.appfoodra.Pojo.Items;
+import com.wristcode.appfoodra.Pojo.Reviews;
 import com.wristcode.appfoodra.R;
-import com.wristcode.appfoodra.adapter.ItemsAdapter;
+import com.wristcode.appfoodra.adapter.ReviewsAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,46 +22,91 @@ import java.util.List;
 
 public class ReviewsFragment extends Fragment
 {
-    RecyclerView recyclerMenu;
-    private List<Items> categoriesList;
-    ItemsAdapter adapter;
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+
+    private String mParam1;
+    private String mParam2;
+
+    private OnFragmentInteractionListener mListener;
+
+    RecyclerView recyclerReview;
+    private List<Reviews> reviewsList;
+    ReviewsAdapter adapter;
 
     public ReviewsFragment() {}
 
+    public static ReviewsFragment newInstance(String param1, String param2)
+    {
+        ReviewsFragment fragment = new ReviewsFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_items, container, false);
-        recyclerMenu = v.findViewById(R.id.recyclerMenu);
-        categoriesList = new ArrayList<>();
+        View v = inflater.inflate(R.layout.fragment_reviews, container, false);
+        recyclerReview = v.findViewById(R.id.recyclerReview);
+        reviewsList = new ArrayList<>();
         prepareAlbums();
         return v;
     }
 
     private void prepareAlbums() {
         int[] covers = new int[]{
-                R.drawable.chickenb,
-                R.drawable.muttonb,
-                R.drawable.eggb,
-                R.drawable.chickenb
+                R.drawable.userimg,
+                R.drawable.userimg,
+                R.drawable.userimg,
+                R.drawable.userimg
         };
 
-        Items a = new Items("Chicken Biriyani", "Spicy Chicken Biriyani flavoured with Rice ", covers[0], "₹ 150");
-        categoriesList.add(a);
-        a = new Items("Mutton Biriyani", "Spicy Mutton Biriyani flavoured with Rice ", covers[1], " ₹ 170");
-        categoriesList.add(a);
-        a = new Items("Egg Biriyani", "Spicy Egg Biriyani flavoured with Rice ", covers[2], "₹ 100");
-        categoriesList.add(a);
+        Reviews a = new Reviews("", "Pavan Nayak", "Loved the restaurant!!!", covers[0]);
+        reviewsList.add(a);
+        a = new Reviews("", "Srikanth", "Tasty Food, Would love to visit again!!", covers[1]);
+        reviewsList.add(a);
+        a = new Reviews("", "Shailesh", "Good..", covers[2]);
+        reviewsList.add(a);
+        a = new Reviews("", "Prashanth", "Wonderful...", covers[3]);
+        reviewsList.add(a);
 
-        adapter = new ItemsAdapter(getActivity(), categoriesList);
-        recyclerMenu.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerMenu.setNestedScrollingEnabled(false);
-        recyclerMenu.setFocusable(false);
-        recyclerMenu.setAdapter(adapter);
+        adapter = new ReviewsAdapter(getActivity(), reviewsList);
+        recyclerReview.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerReview.setNestedScrollingEnabled(false);
+        recyclerReview.setFocusable(false);
+        recyclerReview.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+    }
+
+    public void onButtonPressed(Uri uri)
+    {
+        if (mListener != null)
+        {
+            mListener.onFragmentInteraction(uri);
+        }
+    }
+
+    @Override
+    public void onDetach()
+    {
+        super.onDetach();
+        mListener = null;
+    }
+
+    public interface OnFragmentInteractionListener
+    {
+        void onFragmentInteraction(Uri uri);
     }
 }
