@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.wristcode.appfoodra.Pojo.Category;
@@ -30,8 +31,9 @@ public class PaymentActivity extends AppCompatActivity
     private List<Payment> paymentList;
     PaymentAdapter adapter;
     LinearLayoutManager HorizontalLayout;
-    TextView txttotal, valuetotal;
-    Button pay;
+    TextView txttotal, valuetotal, txtpromo;
+    EditText valuepromo;
+    Button pay, applypromo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +41,17 @@ public class PaymentActivity extends AppCompatActivity
         setContentView(R.layout.activity_payment);
         txttotal = (TextView) findViewById(R.id.txttotal);
         valuetotal = (TextView) findViewById(R.id.valuetotal);
+        txtpromo = (TextView) findViewById(R.id.txtpromo);
+        valuepromo = (EditText) findViewById(R.id.valuepromo);
+        applypromo = (Button) findViewById(R.id.applypromo);
         pay = (Button) findViewById(R.id.pay);
         Typeface font1 = Typeface.createFromAsset(getAssets(),"GT-Walsheim-Medium.ttf");
         Typeface font2 = Typeface.createFromAsset(getAssets(),"GT-Walsheim-Regular.ttf");
         txttotal.setTypeface(font1);
         valuetotal.setTypeface(font2);
+        txtpromo.setTypeface(font1);
+        valuepromo.setTypeface(font2);
+        applypromo.setTypeface(font2);
         pay.setTypeface(font2);
         recyclerpayment = (RecyclerView) findViewById(R.id.recyclerpayment);
         paymentList = new ArrayList<>();

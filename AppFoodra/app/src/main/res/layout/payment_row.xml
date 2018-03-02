@@ -29,7 +29,6 @@
             android:id="@+id/payimg"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:tint="#C0C0C0"
             android:layout_gravity="center"
             android:layout_marginTop="10dp" />
 

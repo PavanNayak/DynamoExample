@@ -97,9 +97,9 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.MyViewHo
         Glide.with(mContext).load(movie.getImg()).into(holder.payimg);
         holder.radiobutton.setChecked(lastSelectedPosition == position);
 
-        int colorImg = (position == lastSelectedPosition)? Color.parseColor("#DC143C") : Color.parseColor("#000000");
+        int colorImg = (position == lastSelectedPosition)? Color.parseColor("#DC143C") : Color.parseColor("#C0C0C0");
         holder.payimg.setColorFilter(colorImg);
-        int colorTitle = (position == lastSelectedPosition)? Color.parseColor("#DC143C") : Color.parseColor("#000000");
+        int colorTitle = (position == lastSelectedPosition)? Color.parseColor("#DC143C") : Color.parseColor("#C0C0C0");
         holder.payname.setTextColor(colorTitle);
     }
 
