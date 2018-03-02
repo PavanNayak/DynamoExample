@@ -64,7 +64,8 @@
         <activity
             android:name=".TrackActivity"
             android:label="@string/title_activity_track" />
-        <activity android:name=".AnimationScreenActivity"/>
+        <activity android:name=".AnimationScreenActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".HotelActivity"
             android:screenOrientation="portrait"
