@@ -66,9 +66,9 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
         txtarrive = findViewById(R.id.txtarrive);
         txttimevalue = findViewById(R.id.txttimevalue);
         txtmins = findViewById(R.id.txtmins);
-        Typeface font = Typeface.createFromAsset(getAssets(),"GT-Walsheim-Bold.ttf");
-        Typeface font1 = Typeface.createFromAsset(getAssets(),"GT-Walsheim-Medium.ttf");
-        Typeface font2 = Typeface.createFromAsset(getAssets(),"GT-Walsheim-Regular.ttf");
+        Typeface font = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Bold.ttf");
+        Typeface font1 = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Medium.ttf");
+        Typeface font2 = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Regular.ttf");
         txttrack.setTypeface(font);
         txtitem.setTypeface(font1);
         txtorderid.setTypeface(font2);
@@ -243,11 +243,11 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
 
     private class ParserTask extends AsyncTask<String, Integer, List<List<HashMap<String, String>>>> {
         @Override
-        protected List<List<HashMap<String, String>>> doInBackground(String... jsonData) {
-            JSONObject jObject;
+        protected List<List<HashMap<String, String>>> doInBackground(String... jsonData)
+        {
             List<List<HashMap<String, String>>> routes = null;
             try {
-                jObject = new JSONObject(jsonData[0]);
+                JSONObject jObject = new JSONObject(jsonData[0]);
                 Log.d("ParserTask", jsonData[0].toString());
                 DataParser parser = new DataParser();
                 Log.d("ParserTask", parser.toString());
@@ -263,23 +263,31 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
 
         @Override
         protected void onPostExecute(List<List<HashMap<String, String>>> result) {
-            ArrayList<LatLng> points;
-            PolylineOptions lineOptions = null;
-            for (int i = 0; i < result.size(); i++) {
-                points = new ArrayList<>();
-                lineOptions = new PolylineOptions();
-                List<HashMap<String, String>> path = result.get(i);
-                for (int j = 0; j < path.size(); j++) {
-                    HashMap<String, String> point = path.get(j);
-                    double lat = Double.parseDouble(point.get("lat"));
-                    double lng = Double.parseDouble(point.get("lng"));
-                    LatLng position = new LatLng(lat, lng);
-                    points.add(position);
+            ArrayList<LatLng> points = new ArrayList<>();
+            PolylineOptions lineOptions = new PolylineOptions();
+            try
+            {
+                for (int i = 0; i < result.size(); i++)
+                {
+                    List<HashMap<String, String>> path = result.get(i);
+                    for (int j = 0; j < path.size(); j++)
+                    {
+                        HashMap<String, String> point = path.get(j);
+                        double lat = Double.parseDouble(point.get("lat"));
+                        double lng = Double.parseDouble(point.get("lng"));
+                        LatLng position = new LatLng(lat, lng);
+                        points.add(position);
+                    }
+                    lineOptions.addAll(points);
+                    lineOptions.width(16);
+                    lineOptions.color(Color.parseColor("#4db6ac"));
+                    Log.d("onPostExecute", "onPostExecute lineoptions decoded");
                 }
-                lineOptions.addAll(points);
-                lineOptions.width(16);
-                lineOptions.color(Color.parseColor("#4db6ac"));
-                Log.d("onPostExecute", "onPostExecute lineoptions decoded");
+            }
+            catch(Exception e)
+            {
+                Log.d("onPostExecute", e.toString());
+                e.printStackTrace();
             }
 
             if (lineOptions != null) {
