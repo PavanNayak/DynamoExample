@@ -4,7 +4,7 @@ android {
     compileSdkVersion 27
     buildToolsVersion "27.0.1"
     defaultConfig {
-        applicationId "com.wristcode.appfoodra"
+        applicationId "com.wristcode.deliwala"
         minSdkVersion 15
         targetSdkVersion 27
         versionCode 1
@@ -32,8 +32,11 @@ dependencies {
     compile 'com.android.support:design:26.+'
     compile 'de.hdodenhof:circleimageview:2.2.0'
     compile 'com.google.android.gms:play-services-location:11.0.4'
+    compile 'com.google.android.gms:play-services-auth:11.0.4'
     compile 'com.android.support:support-vector-drawable:26.+'
     compile 'com.android.support:support-v4:26.+'
     compile 'com.google.android.gms:play-services-maps:11.0.4'
+    compile 'com.android.volley:volley:1.1.0'
     testCompile 'junit:junit:4.12'
 }
+apply plugin: 'com.google.gms.google-services'

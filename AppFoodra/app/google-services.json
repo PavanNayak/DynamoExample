@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1080913048671",
+    "project_id": "firebase-deliwala"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1080913048671:android:bb1d5c1412900467",
+        "android_client_info": {
+          "package_name": "com.wristcode.deliwala"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1080913048671-t6bct2r5ddnstedc1l4c6r8b3bfji8eg.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "1080913048671-7iu48qggdn831qn28ojud1qi2stlsu0n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wristcode.deliwala",
+            "certificate_hash": "0e408f623fe32dd488419ba78ae288c44ed47136"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCtY3XjU2MzzOgH42Y4OvoKL6IjZKQGbs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

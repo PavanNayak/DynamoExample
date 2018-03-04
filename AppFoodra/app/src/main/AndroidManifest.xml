@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.wristcode.appfoodra">
+    package="com.wristcode.deliwala">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
@@ -15,7 +15,7 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".Splashscreen">
+        <activity android:name="com.wristcode.deliwala.Splashscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,38 +23,38 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name="com.wristcode.deliwala.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".LoginActivity"
+            android:name="com.wristcode.deliwala.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".WelcomeActivity"
+            android:name="com.wristcode.deliwala.WelcomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".OTPActivity"
+            android:name="com.wristcode.deliwala.OTPActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".NavDrawer"
+            android:name="com.wristcode.deliwala.NavDrawer"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".ItemActivity" />
-        <activity android:name=".CartActivity" />
-        <activity android:name=".HotelListActivity" />
+        <activity android:name="com.wristcode.deliwala.HomeActivity" />
+        <activity android:name="com.wristcode.deliwala.ItemActivity" />
+        <activity android:name="com.wristcode.deliwala.CartActivity" />
+        <activity android:name="com.wristcode.deliwala.HotelListActivity" />
 
         <activity
-            android:name=".PaymentActivity"
+            android:name="com.wristcode.deliwala.PaymentActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".OrderConfirmActivity"
+            android:name="com.wristcode.deliwala.OrderConfirmActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
@@ -63,12 +63,12 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".TrackActivity"
+            android:name="com.wristcode.deliwala.TrackActivity"
             android:label="@string/title_activity_track" />
-        <activity android:name=".AnimationScreenActivity"
+        <activity android:name="com.wristcode.deliwala.AnimationScreenActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".HotelActivity"
+            android:name="com.wristcode.deliwala.HotelActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
     </application>
