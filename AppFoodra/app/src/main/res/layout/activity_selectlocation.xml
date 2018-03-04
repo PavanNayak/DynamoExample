@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@android:color/white"
+            android:orientation="vertical"
+            android:layout_margin="40dp"
+            android:padding="10dp">
+
+            <EditText
+                android:id="@+id/housenumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="House/Flat number" />
+
+            <EditText
+                android:id="@+id/landmark"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Landmark" />
+
+            <TextView
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:maxLines="2"
+                android:padding="5dp"
+                android:text="City Bus Stand, Udupi"
+                android:textColor="@android:color/black"
+                android:textSize="15dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:maxLines="1"
+                android:text="-------------------------OR--------------------------"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/txtmanually"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:padding="5dp"
+                android:text="SET MANUALLY"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:background="@color/colorPrimary"
+                android:onClick="onSave"
+                android:text="Proceed"
+                android:textColor="@android:color/white" />
+
+        </LinearLayout>
+
+</RelativeLayout>

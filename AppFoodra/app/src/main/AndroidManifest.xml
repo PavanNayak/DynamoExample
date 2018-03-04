@@ -7,6 +7,11 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="com.apps.maps.permission.MAPS_RECEIVE" />
     <uses-permission android:name="android.location.GPS_ENABLED_CHANGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
@@ -31,6 +36,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name="com.wristcode.deliwala.SelectLocationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name="com.wristcode.deliwala.WelcomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -50,8 +59,8 @@
         <activity
             android:name="com.wristcode.deliwala.PaymentActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
 
         <activity
             android:name="com.wristcode.deliwala.OrderConfirmActivity"
@@ -65,12 +74,19 @@
         <activity
             android:name="com.wristcode.deliwala.TrackActivity"
             android:label="@string/title_activity_track" />
-        <activity android:name="com.wristcode.deliwala.AnimationScreenActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name="com.wristcode.deliwala.AnimationScreenActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.wristcode.deliwala.HotelActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <receiver android:name="com.wristcode.deliwala.extra.IncomingSMS">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
