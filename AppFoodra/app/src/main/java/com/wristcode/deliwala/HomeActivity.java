@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
 import com.wristcode.deliwala.Pojo.Category;
-import com.wristcode.deliwala.Pojo.Offers;
+import com.wristcode.deliwala.Pojo.Restaurants;
 import com.wristcode.deliwala.adapter.CategoryAdapter;
 import com.wristcode.deliwala.adapter.OffersAdapter;
 
@@ -24,7 +24,7 @@ public class HomeActivity extends AppCompatActivity
     TextView text1,text2;
     RecyclerView menurecycler, offerrecycler;
     private List<Category> categoriesList;
-    private List<Offers> categoriesList1;
+    private List<Restaurants> categoriesList1;
     CategoryAdapter adapter;
     OffersAdapter adapter1;
     LinearLayoutManager HorizontalLayout;
@@ -87,15 +87,15 @@ public class HomeActivity extends AppCompatActivity
                         R.drawable.hotel
                 };
 
-        Offers a = new Offers("Spice n Ice","Chinese, Italian, Arabian",covers[0],"4.1 km","10 AM - 12 AM");
+        Restaurants a = new Restaurants("Spice n Ice","Chinese, Italian, Arabian",covers[0],"4.1 km","10 AM - 12 AM");
         categoriesList1.add(a);
-        a =   new Offers("Hot n Spicy","Chinese, Italian, Arabian",covers[1],"4.1 km","10 AM - 12 AM");
+        a =   new Restaurants("Hot n Spicy","Chinese, Italian, Arabian",covers[1],"4.1 km","10 AM - 12 AM");
         categoriesList1.add(a);
-        a = new Offers("Mexican Burrito","Chinese, Italian, Arabian",covers[2],"4.1 km","10 AM - 12 AM");
+        a = new Restaurants("Mexican Burrito","Chinese, Italian, Arabian",covers[2],"4.1 km","10 AM - 12 AM");
         categoriesList1.add(a);
-        a = new Offers("Spice n Ice","Chinese, Italian, Arabian",covers[3],"4.1 km","10 AM - 12 AM");
+        a = new Restaurants("Spice n Ice","Chinese, Italian, Arabian",covers[3],"4.1 km","10 AM - 12 AM");
         categoriesList1.add(a);
-        a = new Offers("Spice n Ice","Chinese, Italian, Arabian",covers[0],"4.1 km","10 AM - 12 AM");
+        a = new Restaurants("Spice n Ice","Chinese, Italian, Arabian",covers[0],"4.1 km","10 AM - 12 AM");
         categoriesList1.add(a);
 
         adapter1 = new OffersAdapter(HomeActivity.this, categoriesList1);

@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.wristcode.deliwala.HotelActivity;
 
-import com.wristcode.deliwala.Pojo.Offers;
+import com.wristcode.deliwala.Pojo.Restaurants;
 import com.wristcode.deliwala.R;
 
 import java.util.List;
@@ -27,7 +27,7 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
     public int flag = 0;
     public static final int CONNECTION_TIMEOUT = 10000;
     public static final int READ_TIMEOUT = 15000;
-    private List<Offers> moviesList;
+    private List<Restaurants> moviesList;
     private Context mContext;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -46,7 +46,7 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
         }
     }
 
-    public OffersAdapter(Context mContext, List<Offers> moviesList) {
+    public OffersAdapter(Context mContext, List<Restaurants> moviesList) {
         this.mContext = mContext;
         this.moviesList = moviesList;
     }
@@ -59,7 +59,7 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Offers movie = moviesList.get(position);
+        Restaurants movie = moviesList.get(position);
         holder.txtname.setText(movie.getName());
         holder.txtdesc.setText(movie.getDescp());
         holder.txttime.setText(movie.getTime());

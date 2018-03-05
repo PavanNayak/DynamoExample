@@ -2,13 +2,10 @@ package com.wristcode.deliwala.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,10 +15,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.wristcode.deliwala.LoginActivity;
-import com.wristcode.deliwala.OTPActivity;
 import com.wristcode.deliwala.Pojo.Category;
-import com.wristcode.deliwala.Pojo.Offers;
+import com.wristcode.deliwala.Pojo.Restaurants;
 import com.wristcode.deliwala.R;
 import com.wristcode.deliwala.adapter.CategoryAdapter;
 import com.wristcode.deliwala.adapter.OffersAdapter;
@@ -32,12 +27,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -52,7 +44,7 @@ public class HomeFragment extends Fragment implements IConstants
     TextView text1,text2;
     RecyclerView menurecycler, offerrecycler;
     private List<Category> categoriesList;
-    private List<Offers> categoriesList1;
+    private List<Restaurants> categoriesList1;
     CategoryAdapter adapter;
     OffersAdapter adapter1;
     LinearLayoutManager HorizontalLayout;
@@ -143,15 +135,15 @@ public class HomeFragment extends Fragment implements IConstants
                         R.drawable.hotel
                 };
 
-        Offers a = new Offers("Spice n Ice","Chinese, Italian, Arabian",covers[0],"4.1 km","10 AM - 12 AM");
+        Restaurants a = new Restaurants("Spice n Ice","Chinese, Italian, Arabian",covers[0],"4.1 km","10 AM - 12 AM");
         categoriesList1.add(a);
-        a =   new Offers("Hot n Spicy","Chinese, Italian, Arabian",covers[1],"4.1 km","10 AM - 12 AM");
+        a =   new Restaurants("Hot n Spicy","Chinese, Italian, Arabian",covers[1],"4.1 km","10 AM - 12 AM");
         categoriesList1.add(a);
-        a = new Offers("Mexican Burrito","Chinese, Italian, Arabian",covers[2],"4.1 km","10 AM - 12 AM");
+        a = new Restaurants("Mexican Burrito","Chinese, Italian, Arabian",covers[2],"4.1 km","10 AM - 12 AM");
         categoriesList1.add(a);
-        a = new Offers("Spice n Ice","Chinese, Italian, Arabian",covers[3],"4.1 km","10 AM - 12 AM");
+        a = new Restaurants("Spice n Ice","Chinese, Italian, Arabian",covers[3],"4.1 km","10 AM - 12 AM");
         categoriesList1.add(a);
-        a = new Offers("Spice n Ice","Chinese, Italian, Arabian",covers[0],"4.1 km","10 AM - 12 AM");
+        a = new Restaurants("Spice n Ice","Chinese, Italian, Arabian",covers[0],"4.1 km","10 AM - 12 AM");
         categoriesList1.add(a);
 
         adapter1 = new OffersAdapter(getActivity(), categoriesList1);
@@ -241,10 +233,12 @@ public class HomeFragment extends Fragment implements IConstants
                     for (int i = 0; i < jArray.length(); i++)
                     {
                         JSONObject json_data = jArray.getJSONObject(i);
-                        Offers resData = new Offers();
-                        resData.id = json_data.getString("id");
-                        resData.name = json_data.getString("restaurantName");
-
+                        Restaurants resData = new Restaurants();
+                        resData.resid = json_data.getString("id");
+                        resData.resname = json_data.getString("restaurantName");
+                        resData.resadd = json_data.getString("restaurantAddress");
+                        resData.reslat = json_data.getString("restaurantLat");
+                        resData.reslong = json_data.getString("restaurantLat");
                     }
                 }
             }
