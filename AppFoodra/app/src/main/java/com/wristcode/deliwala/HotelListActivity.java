@@ -55,7 +55,8 @@ public class HotelListActivity extends AppCompatActivity implements IConstants {
 
         EditSearch.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
                 filter(s.toString());
                 // TODO Auto-generated method stub
             }
@@ -96,10 +97,12 @@ public class HotelListActivity extends AppCompatActivity implements IConstants {
 
     void filter(String text){
         List<Restaurants> temp = new ArrayList();
-        for(Restaurants d: data){
+        for(Restaurants d: data)
+        {
             //or use .equal(text) with you want equal match
             //use .toLowerCase() for better matches
-            if(d.getResname().contains(text.toUpperCase()) || d.getResname().contains(text.toLowerCase())){
+            if(d.getResname().contains(text.toUpperCase()) || d.getResname().contains(text.toLowerCase()))
+            {
                 temp.add(d);
             }
         }
@@ -263,10 +266,5 @@ public class HotelListActivity extends AppCompatActivity implements IConstants {
             }
         }
     }
-
-
-
-
-
 
 }
