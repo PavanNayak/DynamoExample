@@ -1,7 +1,9 @@
 package com.wristcode.deliwala;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.animation.Animation;
@@ -22,10 +24,22 @@ public class Splashscreen extends AppCompatActivity {
         new Handler().postDelayed(new Runnable()
         {
             @Override
-            public void run() {
-                Intent i = new Intent(Splashscreen.this, WelcomeActivity.class);
-                startActivity(i);
-                finish();
+            public void run()
+            {
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(Splashscreen.this);
+                if(preferences.getString("flag", "").toString().equals("1"))
+                {
+                    Intent i = new Intent(Splashscreen.this, NavDrawer.class);
+                    startActivity(i);
+                    finish();
+                }
+                else
+                {
+                    Intent i = new Intent(Splashscreen.this, WelcomeActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+
             }
         }, 3000);
     }
