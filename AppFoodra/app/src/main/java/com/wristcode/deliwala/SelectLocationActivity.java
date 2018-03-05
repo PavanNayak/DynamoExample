@@ -382,7 +382,6 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
         @Override
         protected void onPostExecute(String result) {
             pdLoading.dismiss();
-            Toast.makeText(SelectLocationActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
             try
             {
                 JSONObject jsonObject = new JSONObject(result);
