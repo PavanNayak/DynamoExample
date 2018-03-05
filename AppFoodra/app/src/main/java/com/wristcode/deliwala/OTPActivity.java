@@ -76,10 +76,15 @@ public class OTPActivity extends AppCompatActivity implements IConstants {
                     {
                         new AsyncRegister().execute(pref.getString("Name", "").toString(), pref.getString("Email", "").toString(), pref.getString("PhoneNo", "").toString(), pref.getString("Profile", "").toString());
                     }
-                    Intent i = new Intent(OTPActivity.this, SelectLocationActivity.class);
-                    startActivity(i);
-                    finish();
-                } else {
+                    else
+                    {
+                        Intent i = new Intent(OTPActivity.this, SelectLocationActivity.class);
+                        startActivity(i);
+                        finish();
+                    }
+                }
+                else
+                {
                     Toast.makeText(OTPActivity.this, "Please enter a valid OTP!!!", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -165,7 +170,8 @@ public class OTPActivity extends AppCompatActivity implements IConstants {
             pdLoading.dismiss();
             try {
                 JSONObject jsonObject = new JSONObject(result);
-                if (jsonObject.getString("status").equals("true")) {
+                if (jsonObject.getString("status").equals("true"))
+                {
                     JSONObject jsonObject1 = jsonObject.getJSONObject("data");
 
                     SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(OTPActivity.this);
@@ -175,6 +181,7 @@ public class OTPActivity extends AppCompatActivity implements IConstants {
 
                     Intent i = new Intent(OTPActivity.this, SelectLocationActivity.class);
                     startActivity(i);
+                    finish();
                 }
             } catch (JSONException e) {
                 Toast.makeText(OTPActivity.this, e.toString(), Toast.LENGTH_LONG).show();
@@ -248,13 +255,17 @@ public class OTPActivity extends AppCompatActivity implements IConstants {
         @Override
         protected void onPostExecute(String result) {
             pdLoading.dismiss();
-            try {
+            try
+            {
                 JSONObject jsonObject = new JSONObject(result);
-                if (jsonObject.getString("status").equals("true")) {
-                    Intent i = new Intent(OTPActivity.this, SelectLocationActivity.class);
-                    startActivity(i);
+                if (jsonObject.getString("status").equals("true"))
+                {
+//                    Intent i = new Intent(OTPActivity.this, SelectLocationActivity.class);
+//                    startActivity(i);
                 }
-            } catch (JSONException e) {
+            }
+            catch (JSONException e)
+            {
                 Toast.makeText(OTPActivity.this, e.toString(), Toast.LENGTH_LONG).show();
             }
         }

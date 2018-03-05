@@ -74,7 +74,7 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
     EditText housenumber, landmark, houseno, streetname;
     Spinner spinner;
     private LayoutInflater inflater;
-    String mobilenum;
+    String latitude, longitude;
     public static final String mypreference = "mypref";
     private AlertDialog progressDialog;
     SharedPreferences pref1;
@@ -231,6 +231,9 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
                 .draggable(true);
         locationMarker = mGoogleMap.addMarker(markerOptions);
         mAddress.setText(getCompleteAddressString(latLng.latitude, latLng.longitude, SelectLocationActivity.this));
+        latitude = String.valueOf(latLng.latitude);
+        longitude = String.valueOf(latLng.longitude);
+        Toast.makeText(this, "Lat: "+latitude+ " Lon: "+longitude, Toast.LENGTH_SHORT).show();
         locationMarker.setDraggable(false);
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 17);
         mGoogleMap.animateCamera(cameraUpdate);
@@ -274,26 +277,25 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
         }
     }
 
-    public void onSave(View v) {
-        if (housenumber.getText().toString().matches("") || landmark.getText().toString().matches("")) {
+    public void onSave(View v)
+    {
+        if (housenumber.getText().toString().matches("") || landmark.getText().toString().matches(""))
+        {
             Toast.makeText(this, "House Number and Landmark are Mandatory!!!", Toast.LENGTH_SHORT).show();
-        } else {
-            String loc = mAddress.getText().toString();
-            loc = loc.replaceAll(" ", "_");
-            String fulladdress = housenumber.getText().toString().trim() + ",_" + landmark.getText().toString().trim() + ",_" + loc.trim();
+        }
+        else
+        {
+            String fulladdress = housenumber.getText().toString().trim() + ", " + landmark.getText().toString().trim() + ", " + mAddress.getText().toString().trim();
             SharedPreferences preferences1 = PreferenceManager.getDefaultSharedPreferences(SelectLocationActivity.this);
             SharedPreferences.Editor editor1 = preferences1.edit();
-
-            editor1.putString("address", fulladdress);
+            editor1.putString("HouseNumber", housenumber.getText().toString().trim());
+            editor1.putString("Landmark", landmark.getText().toString().trim());
+            editor1.putString("Address", fulladdress.toString());
+            editor1.putString("Latitude", latitude.toString());
+            editor1.putString("Longitiude", longitude.toString());
             editor1.apply();
 
-            SharedPreferences preferences2 = PreferenceManager.getDefaultSharedPreferences(SelectLocationActivity.this);
-            SharedPreferences.Editor editor2 = preferences2.edit();
-            editor2.putString("HouseNumber", housenumber.getText().toString().trim());
-            editor2.putString("Landmark", landmark.getText().toString().trim());
-            editor2.apply();
-
-            new AsyncGetMenu().execute(pref1.getString("name", "").toString(), pref1.getString("phno", "").toString(), pref1.getString("email", "").toString(), pref1.getString("address", "").toString());
+            new AsyncAddAddress().execute(pref1.getString("Id", "").toString(), pref1.getString("Name", "").toString(), pref1.getString("Address", "").toString(), pref1.getString("Longitiude", "").toString(), pref1.getString("Latitude", "").toString());
         }
     }
 
@@ -303,14 +305,14 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
         } else {
             SharedPreferences preferences1 = PreferenceManager.getDefaultSharedPreferences(SelectLocationActivity.this);
             SharedPreferences.Editor editor1 = preferences1.edit();
-            editor1.putString("address", houseno.getText().toString().trim() + ",_" + streetname.getText().toString().trim() + ",_" + spinner.getSelectedItem().toString().trim());
+            editor1.putString("Address", houseno.getText().toString().trim() + ",_" + streetname.getText().toString().trim() + ",_" + spinner.getSelectedItem().toString().trim());
             editor1.apply();
 
-            new AsyncGetMenu().execute(pref1.getString("name", "").toString(), pref1.getString("phno", "").toString(), pref1.getString("email", "").toString(), pref1.getString("address", "").toString());
+            new AsyncAddAddress().execute(pref1.getString("name", "").toString(), pref1.getString("phno", "").toString(), pref1.getString("email", "").toString(), pref1.getString("address", "").toString());
         }
     }
 
-    private class AsyncGetMenu extends AsyncTask<String, String, String> {
+    private class AsyncAddAddress extends AsyncTask<String, String, String> {
         ProgressDialog pdLoading = new ProgressDialog(SelectLocationActivity.this);
         HttpURLConnection conn;
         URL url = null;
@@ -319,7 +321,7 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
         protected void onPreExecute() {
             super.onPreExecute();
 
-            pdLoading.setMessage("\tRegistering...");
+            pdLoading.setMessage("\tPlease Wait...");
             pdLoading.setCancelable(false);
             pdLoading.show();
         }
@@ -327,7 +329,7 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
         @Override
         protected String doInBackground(String... params) {
             try {
-                url = new URL("http://mexicanaburrito.com/mexican/api/v1/register_user.php");
+                url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/customer/address/add-new");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 return "exception";
@@ -341,10 +343,11 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
                 conn.setDoOutput(true);
 
                 Uri.Builder builder = new Uri.Builder()
-                        .appendQueryParameter("name", params[0])
-                        .appendQueryParameter("mobile", params[1])
-                        .appendQueryParameter("email", params[2])
-                        .appendQueryParameter("address", params[3]);
+                        .appendQueryParameter("apiKey", params[0])
+                        .appendQueryParameter("fullName", params[1])
+                        .appendQueryParameter("address", params[2])
+                        .appendQueryParameter("longitude", params[3])
+                        .appendQueryParameter("lattitude", params[4]);
                 String query = builder.build().getEncodedQuery();
 
                 OutputStream os = conn.getOutputStream();
@@ -380,25 +383,17 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
         @Override
         protected void onPostExecute(String result) {
             pdLoading.dismiss();
-            try {
-                JSONArray jArray = new JSONArray(result);
-                for (int i = 0; i < jArray.length(); i++) {
-                    JSONObject json_data = jArray.getJSONObject(i);
-                    if (json_data.getString("status").toString().equals("1")) {
-                        SharedPreferences preferences1 = PreferenceManager.getDefaultSharedPreferences(SelectLocationActivity.this);
-                        SharedPreferences.Editor editor1 = preferences1.edit();
-                        editor1.putString("id", json_data.getString("id").toString());
-                        editor1.apply();
-
-                        Intent i1 = new Intent(SelectLocationActivity.this, NavDrawer.class);
-                        startActivity(i1);
-                        finish();
-                    } else if (json_data.getInt("status") == 0) {
-                        Toast.makeText(SelectLocationActivity.this, json_data.getString("message"), Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(SelectLocationActivity.this, json_data.getString("message"), Toast.LENGTH_LONG).show();
-                    }
+            Toast.makeText(SelectLocationActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
+            try
+            {
+                JSONObject jsonObject = new JSONObject(result);
+                if (jsonObject.getString("status").equals("true"))
+                {
+                    Intent i = new Intent(SelectLocationActivity.this, NavDrawer.class);
+                    startActivity(i);
+                    finish();
                 }
+
             } catch (JSONException e) {
                 Toast.makeText(SelectLocationActivity.this, "OOPS! Something went wrong. Retry", Toast.LENGTH_LONG).show();
             }
@@ -413,10 +408,13 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
         final BottomSheetDialog dialog = new BottomSheetDialog(SelectLocationActivity.this);
 
         dialog.setContentView(view);
-        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+        dialog.setOnShowListener(new DialogInterface.OnShowListener()
+        {
             @Override
-            public void onShow(DialogInterface dialog) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            public void onShow(DialogInterface dialog)
+            {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                {
                     SelectLocationActivity.this.getWindow().setStatusBarColor(SelectLocationActivity.this.getResources().getColor(R.color.colorPrimary));
                 }
             }

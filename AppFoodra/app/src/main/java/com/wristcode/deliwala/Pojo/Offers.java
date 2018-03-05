@@ -6,13 +6,10 @@ package com.wristcode.deliwala.Pojo;
 
 public class Offers {
 
-    private String id;
-    private String name;
-    private String km;
-    private String descp;
-    private String time;
-
+    public String id, name, km, descp, time;
     int image;
+
+    public Offers(){}
 
     public Offers(String s, String s1, int cover, String km,String time) {
 

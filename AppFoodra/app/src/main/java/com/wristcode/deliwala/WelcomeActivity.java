@@ -73,9 +73,6 @@ public class WelcomeActivity extends AppCompatActivity
 
         btnSkip.setTypeface(font2);
         btnNext.setTypeface(font2);
-//        tvtitle.setTypeface(font1);
-//        tvdesc1.setTypeface(font2);
-//        tvdesc2.setTypeface(font2);
 
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override

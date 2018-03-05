@@ -134,10 +134,8 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
             imageLoader = CustomVolleyRequest.getInstance(this.getApplicationContext()).getImageLoader();
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
             SharedPreferences.Editor editor = pref.edit();
-            String name = acct.getDisplayName().toString();
-            name = name.replaceAll(" ", "_");
-            editor.putString("Name", name.toString());
-            editor.putString("Email", acct.getEmail().toString().trim());
+            editor.putString("Name", acct.getDisplayName().toString());
+            editor.putString("Email", acct.getEmail().toString());
             editor.putString("Profile", acct.getPhotoUrl().toString());
             editor.apply();
         } else {
@@ -267,6 +265,7 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
 
                     Intent i = new Intent(LoginActivity.this, OTPActivity.class);
                     startActivity(i);
+                    finish();
                 }
             }
             catch (JSONException e)
