@@ -1,10 +1,14 @@
 package com.wristcode.deliwala;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.wristcode.deliwala.Pojo.Category;
@@ -19,8 +23,8 @@ import java.util.List;
  * Created by Ajay Jagadish on 26-Feb-18.
  */
 
-public class HomeActivity extends AppCompatActivity
-{
+public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
+    EditText searchRest;
     TextView text1,text2;
     RecyclerView menurecycler, offerrecycler;
     private List<Category> categoriesList;
@@ -45,6 +49,9 @@ public class HomeActivity extends AppCompatActivity
         prepareAlbums();
         offerrecycler = (RecyclerView) findViewById(R.id.offerrecycler);
         categoriesList1 = new ArrayList<>();
+
+        searchRest=(EditText) findViewById(R.id.searchRest);
+        searchRest.setOnClickListener(this);
         //prepareAlbums1();
     }
 
@@ -75,6 +82,12 @@ public class HomeActivity extends AppCompatActivity
         HorizontalLayout = new LinearLayoutManager(HomeActivity.this, LinearLayoutManager.HORIZONTAL, false);
         menurecycler.setLayoutManager(HorizontalLayout);
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onClick(View view) {
+        Intent i =new Intent(HomeActivity.this,HotelListActivity.class);
+        startActivity(i);
     }
 
 //    private void prepareAlbums1()

@@ -89,7 +89,10 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
             }
         });
     }
-
+    public void updateList(List<Restaurants> list){
+        moviesList = list;
+        notifyDataSetChanged();
+    }
     @Override
     public int getItemCount() {
         return moviesList.size();

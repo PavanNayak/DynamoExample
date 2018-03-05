@@ -93,7 +93,7 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-        signIn();
+
 
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECEIVE_SMS) == PackageManager.PERMISSION_GRANTED){
         }
@@ -101,6 +101,9 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
         {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.RECEIVE_SMS}, REQUEST_CODE);
         }
+
+
+        signIn();
     }
 
     private static final int RC_SIGN_IN = 9001;
@@ -138,9 +141,13 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
             editor.putString("Email", acct.getEmail().toString());
             editor.putString("Profile", acct.getPhotoUrl().toString());
             editor.apply();
+
+
         } else {
             Toast.makeText(this, "Login Failed", Toast.LENGTH_LONG).show();
         }
+
+
     }
 
     @Override

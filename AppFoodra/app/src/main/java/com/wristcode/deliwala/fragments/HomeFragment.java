@@ -2,6 +2,7 @@ package com.wristcode.deliwala.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -12,9 +13,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.wristcode.deliwala.HotelListActivity;
 import com.wristcode.deliwala.Pojo.Category;
 import com.wristcode.deliwala.Pojo.Restaurants;
 import com.wristcode.deliwala.R;
@@ -36,11 +39,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment implements IConstants
-{
+public class HomeFragment extends Fragment implements IConstants, View.OnFocusChangeListener {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    EditText editSearch;
     TextView text1,text2;
     RecyclerView menurecycler, offerrecycler;
     private List<Category> categoriesList;
@@ -85,11 +88,14 @@ public class HomeFragment extends Fragment implements IConstants
         text1.setTypeface(font1);
         text2.setTypeface(font2);
         menurecycler = v.findViewById(R.id.menurecycler);
+        editSearch=(EditText)v.findViewById(R.id.editSearch);
         categoriesList = new ArrayList<>();
         prepareAlbums();
         offerrecycler = v.findViewById(R.id.offerrecycler);
         categoriesList1 = new ArrayList<>();
         //prepareAlbums1();
+
+        editSearch.setOnFocusChangeListener(this);
         new AsyncRestaurants().execute();
         return v;
     }
@@ -122,6 +128,18 @@ public class HomeFragment extends Fragment implements IConstants
         menurecycler.setNestedScrollingEnabled(false);
         menurecycler.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+    }
+
+
+
+    @Override
+    public void onFocusChange(View view, boolean b) {
+
+        if(b==true){
+
+            Intent i =new Intent(getActivity(),HotelListActivity.class);
+            startActivity(i);
+        }
     }
 
 //    private void prepareAlbums1()
@@ -222,6 +240,7 @@ public class HomeFragment extends Fragment implements IConstants
         @Override
         protected void onPostExecute(String result)
         {
+            //Toast.makeText(getActivity(),res, Toast.LENGTH_SHORT).show();
             pdLoading.dismiss();
             List<Restaurants> data = new ArrayList<>();
             try

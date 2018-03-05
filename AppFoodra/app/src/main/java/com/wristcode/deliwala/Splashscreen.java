@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class Splashscreen extends AppCompatActivity {
     Animation animSlideDown;
@@ -27,6 +28,7 @@ public class Splashscreen extends AppCompatActivity {
             public void run()
             {
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(Splashscreen.this);
+                Toast.makeText(Splashscreen.this,preferences.getString("flag", "").toString(), Toast.LENGTH_SHORT).show();
                 if(preferences.getString("flag", "").toString().equals("1"))
                 {
                     Intent i = new Intent(Splashscreen.this, NavDrawer.class);

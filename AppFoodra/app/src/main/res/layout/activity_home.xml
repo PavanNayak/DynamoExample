@@ -57,11 +57,13 @@
                 android:padding="10dp"
                 android:src="@drawable/location" />
 
-            <SearchView
+            <EditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/searchRest"
+                android:paddingLeft="20dp"
                 android:background="@android:color/white"
-                android:queryHint="Search Restaurant" />
+                android:hint="Search Restaurant" />
         </LinearLayout>
     </RelativeLayout>
 
