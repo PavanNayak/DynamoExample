@@ -327,9 +327,12 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
 
         @Override
         protected String doInBackground(String... params) {
-            try {
+            try
+            {
                 url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/customer/address/add-new");
-            } catch (MalformedURLException e) {
+            }
+            catch (MalformedURLException e)
+            {
                 e.printStackTrace();
                 return "exception";
             }

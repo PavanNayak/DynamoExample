@@ -42,11 +42,11 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.MyViewHolder
 
         public MyViewHolder(View view) {
             super(view);
-            txtname = (TextView) view.findViewById(R.id.txtname);
-            txtdesc = (TextView) view.findViewById(R.id.txtdesc);
-            txttime = (TextView) view.findViewById(R.id.txttime);
-            image = (ImageView) view.findViewById(R.id.image);
-            relativehotel = (RelativeLayout) view.findViewById(R.id.relativehotel);
+            txtname = view.findViewById(R.id.txtname);
+            txtdesc = view.findViewById(R.id.txtdesc);
+            txttime = view.findViewById(R.id.txttime);
+            image = view.findViewById(R.id.image);
+            relativehotel = view.findViewById(R.id.relativehotel);
         }
     }
 

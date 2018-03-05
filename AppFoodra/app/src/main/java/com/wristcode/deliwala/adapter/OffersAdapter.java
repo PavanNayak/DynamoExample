@@ -61,8 +61,8 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Restaurants movie = moviesList.get(position);
         holder.txtname.setText(movie.getResname());
-//        holder.txtdesc.setText(movie.getDescp());
-//        holder.txttime.setText(movie.getTime());
+        holder.txtdesc.setText("Chinese, Arabian, Italian");
+        holder.txttime.setText("10AM - 10PM");
 
         Typeface font = Typeface.createFromAsset(mContext.getAssets(), "GT-Walsheim-Bold.ttf");
         Typeface font1 = Typeface.createFromAsset(mContext.getAssets(), "GT-Walsheim-Medium.ttf");
@@ -72,12 +72,12 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
         holder.txtdesc.setTypeface(font2);
         holder.txttime.setTypeface(font2);
 
-        Glide.with(mContext).load(movie.getResimg())
+        Glide.with(mContext).load("http://appfoodra.com/uploads/restaurant/icons/"+movie.getResimg())
                 .placeholder(R.mipmap.ic_launcher)
                 .error(R.mipmap.ic_launcher)
                 .into(holder.image);
 
-        Glide.with(mContext).load(movie.getResimg()).into(holder.image);
+        Glide.with(mContext).load("http://appfoodra.com/uploads/restaurant/icons/"+movie.getResimg()).into(holder.image);
 
         holder.relativehotel.setOnClickListener(new View.OnClickListener()
         {
