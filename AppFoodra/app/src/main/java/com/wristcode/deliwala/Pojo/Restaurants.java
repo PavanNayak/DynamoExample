@@ -6,11 +6,12 @@ package com.wristcode.deliwala.Pojo;
 
 public class Restaurants {
 
-    public String resid, resname, resadd, reslat, reslong, resmob, respop, resimg, resdescp;
+    public String resid, resname, resadd, reslat, reslong, resmob, resisopen, respop, resimg, resdescp;
 
-    public Restaurants() {}
+    public Restaurants() {
+    }
 
-    public Restaurants(String resid, String resname, String resadd, String reslat, String reslong, String resmob, String respop, String resdescp, String resimg) {
+    public Restaurants(String resid, String resname, String resadd, String reslat, String reslong, String resmob, String resisopen, String respop, String resdescp, String resimg) {
 
         this.resid = resid;
         this.resname = resname;
@@ -18,6 +19,7 @@ public class Restaurants {
         this.reslat = reslat;
         this.reslong = reslong;
         this.resmob = resmob;
+        this.resisopen = resisopen;
         this.respop = respop;
         this.resdescp = resdescp;
         this.resimg = resimg;
@@ -70,6 +72,14 @@ public class Restaurants {
 
     public void setResmob(String resmob) {
         this.resmob = resmob;
+    }
+
+    public String getResisopen() {
+        return resisopen;
+    }
+
+    public void setResisopen(String resisopen) {
+        this.resisopen = resisopen;
     }
 
     public String getRespop() {

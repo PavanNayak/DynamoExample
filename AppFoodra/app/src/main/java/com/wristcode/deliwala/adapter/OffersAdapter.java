@@ -38,11 +38,11 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
 
         public MyViewHolder(View view) {
             super(view);
-            txtname = (TextView) view.findViewById(R.id.txtname);
-            txtdesc = (TextView) view.findViewById(R.id.txtdesc);
-            txttime = (TextView) view.findViewById(R.id.txttime);
-            image = (ImageView) view.findViewById(R.id.image);
-            relativehotel = (RelativeLayout) view.findViewById(R.id.relativehotel);
+            txtname = view.findViewById(R.id.txtname);
+            txtdesc = view.findViewById(R.id.txtdesc);
+            txttime = view.findViewById(R.id.txttime);
+            image = view.findViewById(R.id.image);
+            relativehotel = view.findViewById(R.id.relativehotel);
         }
     }
 
@@ -53,16 +53,16 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.offer_row, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.restaurant_row, parent, false);
         return new MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Restaurants movie = moviesList.get(position);
-        holder.txtname.setText(movie.getName());
-        holder.txtdesc.setText(movie.getDescp());
-        holder.txttime.setText(movie.getTime());
+        holder.txtname.setText(movie.getResname());
+//        holder.txtdesc.setText(movie.getDescp());
+//        holder.txttime.setText(movie.getTime());
 
         Typeface font = Typeface.createFromAsset(mContext.getAssets(), "GT-Walsheim-Bold.ttf");
         Typeface font1 = Typeface.createFromAsset(mContext.getAssets(), "GT-Walsheim-Medium.ttf");
@@ -72,12 +72,12 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
         holder.txtdesc.setTypeface(font2);
         holder.txttime.setTypeface(font2);
 
-        Glide.with(mContext).load(movie.getImage())
+        Glide.with(mContext).load(movie.getResimg())
                 .placeholder(R.mipmap.ic_launcher)
                 .error(R.mipmap.ic_launcher)
                 .into(holder.image);
 
-        Glide.with(mContext).load(movie.getImage()).into(holder.image);
+        Glide.with(mContext).load(movie.getResimg()).into(holder.image);
 
         holder.relativehotel.setOnClickListener(new View.OnClickListener()
         {

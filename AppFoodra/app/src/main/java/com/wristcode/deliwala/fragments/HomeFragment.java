@@ -48,7 +48,6 @@ public class HomeFragment extends Fragment implements IConstants
     CategoryAdapter adapter;
     OffersAdapter adapter1;
     LinearLayoutManager HorizontalLayout;
-    Context mContext;
     private String mParam1;
     private String mParam2;
 
@@ -90,8 +89,8 @@ public class HomeFragment extends Fragment implements IConstants
         prepareAlbums();
         offerrecycler = v.findViewById(R.id.offerrecycler);
         categoriesList1 = new ArrayList<>();
-        prepareAlbums1();
-        new AsyncRestaurants.execute();
+        //prepareAlbums1();
+        new AsyncRestaurants().execute();
         return v;
     }
 
@@ -125,38 +124,38 @@ public class HomeFragment extends Fragment implements IConstants
         adapter.notifyDataSetChanged();
     }
 
-    private void prepareAlbums1()
-    {
-        int[] covers = new int[]
-                {
-                        R.drawable.hotel,
-                        R.drawable.hotel1,
-                        R.drawable.hotel2,
-                        R.drawable.hotel
-                };
-
-        Restaurants a = new Restaurants("Spice n Ice","Chinese, Italian, Arabian",covers[0],"4.1 km","10 AM - 12 AM");
-        categoriesList1.add(a);
-        a =   new Restaurants("Hot n Spicy","Chinese, Italian, Arabian",covers[1],"4.1 km","10 AM - 12 AM");
-        categoriesList1.add(a);
-        a = new Restaurants("Mexican Burrito","Chinese, Italian, Arabian",covers[2],"4.1 km","10 AM - 12 AM");
-        categoriesList1.add(a);
-        a = new Restaurants("Spice n Ice","Chinese, Italian, Arabian",covers[3],"4.1 km","10 AM - 12 AM");
-        categoriesList1.add(a);
-        a = new Restaurants("Spice n Ice","Chinese, Italian, Arabian",covers[0],"4.1 km","10 AM - 12 AM");
-        categoriesList1.add(a);
-
-        adapter1 = new OffersAdapter(getActivity(), categoriesList1);
-        offerrecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
-        offerrecycler.setNestedScrollingEnabled(false);
-        offerrecycler.setFocusable(false);
-        offerrecycler.setAdapter(adapter1);
-        adapter1.notifyDataSetChanged();
-    }
+//    private void prepareAlbums1()
+//    {
+//        int[] covers = new int[]
+//                {
+//                        R.drawable.hotel,
+//                        R.drawable.hotel1,
+//                        R.drawable.hotel2,
+//                        R.drawable.hotel
+//                };
+//
+//        Restaurants a = new Restaurants("Spice n Ice","Chinese, Italian, Arabian",covers[0],"4.1 km","10 AM - 12 AM");
+//        categoriesList1.add(a);
+//        a =   new Restaurants("Hot n Spicy","Chinese, Italian, Arabian",covers[1],"4.1 km","10 AM - 12 AM");
+//        categoriesList1.add(a);
+//        a = new Restaurants("Mexican Burrito","Chinese, Italian, Arabian",covers[2],"4.1 km","10 AM - 12 AM");
+//        categoriesList1.add(a);
+//        a = new Restaurants("Spice n Ice","Chinese, Italian, Arabian",covers[3],"4.1 km","10 AM - 12 AM");
+//        categoriesList1.add(a);
+//        a = new Restaurants("Spice n Ice","Chinese, Italian, Arabian",covers[0],"4.1 km","10 AM - 12 AM");
+//        categoriesList1.add(a);
+//
+//        adapter1 = new OffersAdapter(getActivity(), categoriesList1);
+//        offerrecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        offerrecycler.setNestedScrollingEnabled(false);
+//        offerrecycler.setFocusable(false);
+//        offerrecycler.setAdapter(adapter1);
+//        adapter1.notifyDataSetChanged();
+//    }
 
     private class AsyncRestaurants extends AsyncTask<String, String, String>
     {
-        ProgressDialog pdLoading = new ProgressDialog(mContext);
+        ProgressDialog pdLoading = new ProgressDialog(getActivity());
         HttpURLConnection conn;
         URL url = null;
 
@@ -224,6 +223,7 @@ public class HomeFragment extends Fragment implements IConstants
         protected void onPostExecute(String result)
         {
             pdLoading.dismiss();
+            List<Restaurants> data = new ArrayList<>();
             try
             {
                 JSONObject jsonObject = new JSONObject(result);
@@ -238,13 +238,24 @@ public class HomeFragment extends Fragment implements IConstants
                         resData.resname = json_data.getString("restaurantName");
                         resData.resadd = json_data.getString("restaurantAddress");
                         resData.reslat = json_data.getString("restaurantLat");
-                        resData.reslong = json_data.getString("restaurantLat");
+                        resData.reslong = json_data.getString("restaurantLong");
+                        resData.resmob = json_data.getString("primaryMobile");
+                        resData.resisopen = json_data.getString("isOpen");
+                        resData.respop = json_data.getString("popularity");
+                        resData.resimg = json_data.getString("iconImage");
+                        data.add(resData);
                     }
+                    adapter1 = new OffersAdapter(getActivity(), data);
+                    offerrecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    offerrecycler.setNestedScrollingEnabled(false);
+                    offerrecycler.setFocusable(false);
+                    offerrecycler.setAdapter(adapter1);
+                    adapter1.notifyDataSetChanged();
                 }
             }
             catch (JSONException e)
             {
-                Toast.makeText(mContext, e.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
             }
         }
     }

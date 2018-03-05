@@ -168,6 +168,7 @@ public class OTPActivity extends AppCompatActivity implements IConstants {
         @Override
         protected void onPostExecute(String result) {
             pdLoading.dismiss();
+            Toast.makeText(OTPActivity.this,result, Toast.LENGTH_SHORT).show();
             try {
                 JSONObject jsonObject = new JSONObject(result);
                 if (jsonObject.getString("status").equals("true"))

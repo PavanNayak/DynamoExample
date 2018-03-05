@@ -45,7 +45,7 @@ public class HomeActivity extends AppCompatActivity
         prepareAlbums();
         offerrecycler = (RecyclerView) findViewById(R.id.offerrecycler);
         categoriesList1 = new ArrayList<>();
-        prepareAlbums1();
+        //prepareAlbums1();
     }
 
     private void prepareAlbums()
@@ -77,32 +77,32 @@ public class HomeActivity extends AppCompatActivity
         adapter.notifyDataSetChanged();
     }
 
-    private void prepareAlbums1()
-    {
-        int[] covers = new int[]
-                {
-                        R.drawable.hotel,
-                        R.drawable.hotel1,
-                        R.drawable.hotel2,
-                        R.drawable.hotel
-                };
-
-        Restaurants a = new Restaurants("Spice n Ice","Chinese, Italian, Arabian",covers[0],"4.1 km","10 AM - 12 AM");
-        categoriesList1.add(a);
-        a =   new Restaurants("Hot n Spicy","Chinese, Italian, Arabian",covers[1],"4.1 km","10 AM - 12 AM");
-        categoriesList1.add(a);
-        a = new Restaurants("Mexican Burrito","Chinese, Italian, Arabian",covers[2],"4.1 km","10 AM - 12 AM");
-        categoriesList1.add(a);
-        a = new Restaurants("Spice n Ice","Chinese, Italian, Arabian",covers[3],"4.1 km","10 AM - 12 AM");
-        categoriesList1.add(a);
-        a = new Restaurants("Spice n Ice","Chinese, Italian, Arabian",covers[0],"4.1 km","10 AM - 12 AM");
-        categoriesList1.add(a);
-
-        adapter1 = new OffersAdapter(HomeActivity.this, categoriesList1);
-        offerrecycler.setFocusable(false);
-        offerrecycler.setAdapter(adapter1);
-        offerrecycler.setLayoutManager(new LinearLayoutManager(this));
-        adapter1.notifyDataSetChanged();
-
-    }
+//    private void prepareAlbums1()
+//    {
+//        int[] covers = new int[]
+//                {
+//                        R.drawable.hotel,
+//                        R.drawable.hotel1,
+//                        R.drawable.hotel2,
+//                        R.drawable.hotel
+//                };
+//
+//        Restaurants a = new Restaurants("Spice n Ice","Chinese, Italian, Arabian",covers[0],"4.1 km","10 AM - 12 AM");
+//        categoriesList1.add(a);
+//        a =   new Restaurants("Hot n Spicy","Chinese, Italian, Arabian",covers[1],"4.1 km","10 AM - 12 AM");
+//        categoriesList1.add(a);
+//        a = new Restaurants("Mexican Burrito","Chinese, Italian, Arabian",covers[2],"4.1 km","10 AM - 12 AM");
+//        categoriesList1.add(a);
+//        a = new Restaurants("Spice n Ice","Chinese, Italian, Arabian",covers[3],"4.1 km","10 AM - 12 AM");
+//        categoriesList1.add(a);
+//        a = new Restaurants("Spice n Ice","Chinese, Italian, Arabian",covers[0],"4.1 km","10 AM - 12 AM");
+//        categoriesList1.add(a);
+//
+//        adapter1 = new OffersAdapter(HomeActivity.this, categoriesList1);
+//        offerrecycler.setFocusable(false);
+//        offerrecycler.setAdapter(adapter1);
+//        offerrecycler.setLayoutManager(new LinearLayoutManager(this));
+//        adapter1.notifyDataSetChanged();
+//
+//    }
 }
