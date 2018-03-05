@@ -58,8 +58,7 @@ import java.util.Map;
  * Created by Ajay Jagadish on 20-Feb-18.
  */
 
-public class LoginActivity extends AppCompatActivity implements IConstants, GoogleApiClient.OnConnectionFailedListener
-{
+public class LoginActivity extends AppCompatActivity implements IConstants, GoogleApiClient.OnConnectionFailedListener {
     TextView txtwelcome, txtsignin, txtphone;
     EditText valuephone;
     Button verifyButton;
@@ -70,8 +69,7 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
     private int REQUEST_CODE = 1;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         txtwelcome = (TextView) findViewById(R.id.txtwelcome);
@@ -93,23 +91,26 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> de060d96eb05f639d252040f89d9fd8a0d931a42
 
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECEIVE_SMS) == PackageManager.PERMISSION_GRANTED){
-        }
-        else
-        {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECEIVE_SMS) == PackageManager.PERMISSION_GRANTED) {
+        } else {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.RECEIVE_SMS}, REQUEST_CODE);
         }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> de060d96eb05f639d252040f89d9fd8a0d931a42
         signIn();
     }
 
     private static final int RC_SIGN_IN = 9001;
 
-    private void signIn()
-    {
+    private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -117,9 +118,9 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
+        Toast.makeText(this, "Name", Toast.LENGTH_SHORT).show();
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_SIGN_IN && resultCode == LoginActivity.RESULT_OK)
-        {
+        if (requestCode == RC_SIGN_IN && resultCode == LoginActivity.RESULT_OK) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
 
@@ -130,15 +131,14 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
         }
     }
 
-    private void handleSignInResult(GoogleSignInResult result)
-    {
+    private void handleSignInResult(GoogleSignInResult result) {
         if (result.isSuccess()) {
             GoogleSignInAccount acct = result.getSignInAccount();
             imageLoader = CustomVolleyRequest.getInstance(this.getApplicationContext()).getImageLoader();
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
             SharedPreferences.Editor editor = pref.edit();
-            editor.putString("Name", acct.getDisplayName().toString());
-            editor.putString("Email", acct.getEmail().toString());
+            editor.putString("Name", acct.getDisplayName());
+            editor.putString("Email", acct.getEmail());
             editor.putString("Profile", acct.getPhotoUrl().toString());
             editor.apply();
 
@@ -151,30 +151,26 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {}
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+    }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
-    {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-            {}
-            else
-            {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            } else {
                 //Toast.makeText(this, "You denied the permission", Toast.LENGTH_LONG).show();
             }
         }
     }
 
-    private class AsyncPreRegister extends AsyncTask<String, String, String>
-    {
+    private class AsyncPreRegister extends AsyncTask<String, String, String> {
         ProgressDialog pdLoading = new ProgressDialog(LoginActivity.this);
         HttpURLConnection conn;
         URL url = null;
 
         @Override
-        protected void onPreExecute()
-        {
+        protected void onPreExecute() {
             super.onPreExecute();
 
             pdLoading.setMessage("\tLoading...");
@@ -183,19 +179,14 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
         }
 
         @Override
-        protected String doInBackground(String... params)
-        {
-            try
-            {
+        protected String doInBackground(String... params) {
+            try {
                 url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/customer/pre-register");
-            }
-            catch (MalformedURLException e)
-            {
+            } catch (MalformedURLException e) {
                 e.printStackTrace();
                 return "exception";
             }
-            try
-            {
+            try {
                 conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(READ_TIMEOUT);
                 conn.setConnectTimeout(CONNECTION_TIMEOUT);
@@ -213,58 +204,44 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
                 writer.close();
                 os.close();
                 conn.connect();
-            }
-            catch (IOException e1)
-            {
+            } catch (IOException e1) {
                 e1.printStackTrace();
                 return "exception";
             }
 
-            try
-            {
+            try {
                 InputStream input = conn.getInputStream();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(input));
                 StringBuilder result = new StringBuilder();
                 String line;
 
-                while ((line = reader.readLine()) != null)
-                {
+                while ((line = reader.readLine()) != null) {
                     result.append(line);
                 }
-                return(result.toString());
-            }
-            catch (IOException e)
-            {
+                return (result.toString());
+            } catch (IOException e) {
                 e.printStackTrace();
                 return "exception";
-            }
-            finally
-            {
+            } finally {
                 conn.disconnect();
             }
         }
 
         @Override
-        protected void onPostExecute(String result)
-        {
+        protected void onPostExecute(String result) {
             pdLoading.dismiss();
-            try
-            {
+            try {
                 JSONObject jsonObject = new JSONObject(result);
-                if (jsonObject.getString("status").equals("true"))
-                {
+                if (jsonObject.getString("status").equals("true")) {
                     JSONObject jsonObject1 = jsonObject.getJSONObject("data");
 
                     SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
                     SharedPreferences.Editor editor1 = pref1.edit();
                     editor1.putString("UserType", jsonObject.getString("type").toString());
                     editor1.putString("Otp", jsonObject1.getString("otp").toString());
-                    if(jsonObject1.has("apiKey"))
-                    {
+                    if (jsonObject1.has("apiKey")) {
                         editor1.putString("Id", jsonObject1.getString("apiKey").toString());
-                    }
-                    else
-                    {
+                    } else {
                         editor1.putString("Id", "");
                     }
                     editor1.putString("PhoneNo", valuephone.getText().toString().trim());
@@ -274,22 +251,16 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
                     startActivity(i);
                     finish();
                 }
-            }
-            catch (JSONException e)
-            {
+            } catch (JSONException e) {
                 Toast.makeText(LoginActivity.this, e.toString(), Toast.LENGTH_LONG).show();
             }
         }
     }
 
-    public void verifyButton(View v)
-    {
-        if (valuephone.getText().toString().matches(""))
-        {
+    public void verifyButton(View v) {
+        if (valuephone.getText().toString().matches("")) {
             Toast.makeText(LoginActivity.this, "You must enter your mobile number!!!", Toast.LENGTH_SHORT).show();
-        }
-        else
-        {
+        } else {
             new AsyncPreRegister().execute(valuephone.getText().toString().trim());
         }
     }
