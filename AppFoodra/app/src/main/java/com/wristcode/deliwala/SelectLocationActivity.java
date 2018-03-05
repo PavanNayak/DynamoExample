@@ -233,7 +233,6 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
         mAddress.setText(getCompleteAddressString(latLng.latitude, latLng.longitude, SelectLocationActivity.this));
         latitude = String.valueOf(latLng.latitude);
         longitude = String.valueOf(latLng.longitude);
-        Toast.makeText(this, "Lat: "+latitude+ " Lon: "+longitude, Toast.LENGTH_SHORT).show();
         locationMarker.setDraggable(false);
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 17);
         mGoogleMap.animateCamera(cameraUpdate);
