@@ -46,7 +46,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         text2.setTypeface(font2);
         menurecycler = (RecyclerView) findViewById(R.id.menurecycler);
         categoriesList = new ArrayList<>();
-        prepareAlbums();
+        //prepareAlbums();
         offerrecycler = (RecyclerView) findViewById(R.id.offerrecycler);
         categoriesList1 = new ArrayList<>();
 
@@ -55,34 +55,34 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         //prepareAlbums1();
     }
 
-    private void prepareAlbums()
-    {
-        int[] covers = new int[]
-                {
-                        R.drawable.noodles,
-                        R.drawable.taco,
-                        R.drawable.hamburger,
-                        R.drawable.donut,
-                        R.drawable.pizza
-                };
-
-        Category a = new Category("", "CHINESE", covers[0]);
-        categoriesList.add(a);
-        a = new Category("", "TACOS", covers[1]);
-        categoriesList.add(a);
-        a = new Category("", "BURGER", covers[2]);
-        categoriesList.add(a);
-        a = new Category("", "DONUT", covers[3]);
-        categoriesList.add(a);
-        a = new Category("", "PIZZA", covers[4]);
-        categoriesList.add(a);
-
-        adapter = new CategoryAdapter(HomeActivity.this, categoriesList);
-        menurecycler.setAdapter(adapter);
-        HorizontalLayout = new LinearLayoutManager(HomeActivity.this, LinearLayoutManager.HORIZONTAL, false);
-        menurecycler.setLayoutManager(HorizontalLayout);
-        adapter.notifyDataSetChanged();
-    }
+//    private void prepareAlbums()
+//    {
+//        int[] covers = new int[]
+//                {
+//                        R.drawable.noodles,
+//                        R.drawable.taco,
+//                        R.drawable.hamburger,
+//                        R.drawable.donut,
+//                        R.drawable.pizza
+//                };
+//
+//        Category a = new Category("", "CHINESE", covers[0]);
+//        categoriesList.add(a);
+//        a = new Category("", "TACOS", covers[1]);
+//        categoriesList.add(a);
+//        a = new Category("", "BURGER", covers[2]);
+//        categoriesList.add(a);
+//        a = new Category("", "DONUT", covers[3]);
+//        categoriesList.add(a);
+//        a = new Category("", "PIZZA", covers[4]);
+//        categoriesList.add(a);
+//
+//        adapter = new CategoryAdapter(HomeActivity.this, categoriesList);
+//        menurecycler.setAdapter(adapter);
+//        HorizontalLayout = new LinearLayoutManager(HomeActivity.this, LinearLayoutManager.HORIZONTAL, false);
+//        menurecycler.setLayoutManager(HorizontalLayout);
+//        adapter.notifyDataSetChanged();
+//    }
 
     @Override
     public void onClick(View view) {
