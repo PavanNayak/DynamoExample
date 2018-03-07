@@ -36,7 +36,7 @@ public class Splashscreen extends AppCompatActivity {
                 }
                 else
                 {
-                    Intent i = new Intent(Splashscreen.this, WelcomeActivity.class);
+                    Intent i = new Intent(Splashscreen.this, NavDrawer.class);
                     startActivity(i);
                     finish();
                 }
