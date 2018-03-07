@@ -62,11 +62,11 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        txtwelcome = (TextView) findViewById(R.id.txtwelcome);
-        txtsignin = (TextView) findViewById(R.id.txtsignin);
-        txtphone = (TextView) findViewById(R.id.txtphone);
-        valuephone = (EditText) findViewById(R.id.valuephone);
-        verifyButton = (Button) findViewById(R.id.verifyButton);
+        txtwelcome = findViewById(R.id.txtwelcome);
+        txtsignin = findViewById(R.id.txtsignin);
+        txtphone = findViewById(R.id.txtphone);
+        valuephone = findViewById(R.id.valuephone);
+        verifyButton = findViewById(R.id.verifyButton);
         Typeface font = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Bold.ttf");
         Typeface font1 = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Regular.ttf");
         txtwelcome.setTypeface(font);
@@ -81,9 +81,15 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
+<<<<<<< HEAD
 
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECEIVE_SMS) == PackageManager.PERMISSION_GRANTED) {
         } else {
+=======
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECEIVE_SMS) == PackageManager.PERMISSION_GRANTED) {}
+        else
+        {
+>>>>>>> 327514271ae0e30d9adea65901fca3d906c490a3
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.RECEIVE_SMS}, REQUEST_CODE);
         }
 
@@ -92,7 +98,8 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
 
     private static final int RC_SIGN_IN = 9001;
 
-    private void signIn() {
+    private void signIn()
+    {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -101,7 +108,8 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_SIGN_IN && resultCode == LoginActivity.RESULT_OK) {
+        if (requestCode == RC_SIGN_IN && resultCode == LoginActivity.RESULT_OK)
+        {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
 
@@ -125,13 +133,10 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
         } else {
             Toast.makeText(this, "Login Failed", Toast.LENGTH_LONG).show();
         }
-
-
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-    }
+    public void onConnectionFailed(ConnectionResult connectionResult) {}
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -211,14 +216,15 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
             pdLoading.dismiss();
             try {
                 JSONObject jsonObject = new JSONObject(result);
-                if (jsonObject.getString("status").equals("true")) {
+                if (jsonObject.getString("status").equals("true"))
+                {
                     JSONObject jsonObject1 = jsonObject.getJSONObject("data");
-
                     SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
                     SharedPreferences.Editor editor1 = pref1.edit();
                     editor1.putString("UserType", jsonObject.getString("type").toString());
                     editor1.putString("Otp", jsonObject1.getString("otp").toString());
-                    if (jsonObject1.has("apiKey")) {
+                    if (jsonObject1.has("apiKey"))
+                    {
                         editor1.putString("Id", jsonObject1.getString("apiKey").toString());
                     } else {
                         editor1.putString("Id", "");
@@ -228,7 +234,6 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
 
                     Intent i = new Intent(LoginActivity.this, OTPActivity.class);
                     startActivity(i);
-                    finish();
                 }
             } catch (JSONException e) {
                 Toast.makeText(LoginActivity.this, e.toString(), Toast.LENGTH_LONG).show();
