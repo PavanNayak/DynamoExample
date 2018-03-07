@@ -20,13 +20,8 @@ import com.wristcode.deliwala.R;
 
 import java.util.List;
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyViewHolder> {
-    public static final String mypreference = "mypref";
-    public String cart_id = "-1";
-    public static final String product_id = "product_id";
-    public static final String qty = "qty";
-    public int flag = 0;
-
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyViewHolder>
+{
     public static final int CONNECTION_TIMEOUT = 10000;
     public static final int READ_TIMEOUT = 15000;
     private List<Category> moviesList;
@@ -39,9 +34,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
 
         public MyViewHolder(View view) {
             super(view);
-            catname = (TextView) view.findViewById(R.id.catname);
-            relative = (RelativeLayout) view.findViewById(R.id.relative);
-            catimg = (ImageView) view.findViewById(R.id.catimg);
+            catname = view.findViewById(R.id.catname);
+            relative = view.findViewById(R.id.relative);
+            catimg = view.findViewById(R.id.catimg);
         }
     }
 
@@ -67,12 +62,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
 
         holder.catname.setTypeface(font2);
 
-        Glide.with(mContext).load(movie.getImg())
+        Glide.with(mContext).load("http://appfoodra.com/uploads/category/icons/"+movie.getImg())
                 .placeholder(R.mipmap.ic_launcher)
                 .error(R.mipmap.ic_launcher)
                 .into(holder.catimg);
 
-        Glide.with(mContext).load(movie.getImg()).into(holder.catimg);
+        Glide.with(mContext).load("http://appfoodra.com/uploads/category/icons/"+movie.getImg()).into(holder.catimg);
     }
 
     @Override

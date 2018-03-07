@@ -37,6 +37,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class HomeFragment extends Fragment implements IConstants, View.OnFocusChangeListener {
@@ -44,10 +45,8 @@ public class HomeFragment extends Fragment implements IConstants, View.OnFocusCh
     private static final String ARG_PARAM2 = "param2";
 
     EditText editSearch;
-    TextView text1,text2;
+    TextView text1, text2;
     RecyclerView menurecycler, offerrecycler;
-    private List<Category> categoriesList;
-    private List<Restaurants> categoriesList1;
     CategoryAdapter adapter;
     OffersAdapter adapter1;
     LinearLayoutManager HorizontalLayout;
@@ -56,8 +55,7 @@ public class HomeFragment extends Fragment implements IConstants, View.OnFocusCh
 
     private OnFragmentInteractionListener mListener;
 
-    public static HomeFragment newInstance(String param1, String param2)
-    {
+    public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
@@ -67,119 +65,47 @@ public class HomeFragment extends Fragment implements IConstants, View.OnFocusCh
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null)
-        {
+        if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
-        View v= inflater.inflate(R.layout.fragment_home, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_home, container, false);
         text1 = v.findViewById(R.id.text1);
         text2 = v.findViewById(R.id.text2);
-        Typeface font1 = Typeface.createFromAsset(getActivity().getAssets(),"GT-Walsheim-Medium.ttf");
-        Typeface font2 = Typeface.createFromAsset(getActivity().getAssets(),"GT-Walsheim-Regular.ttf");
+        Typeface font1 = Typeface.createFromAsset(getActivity().getAssets(), "GT-Walsheim-Medium.ttf");
+        Typeface font2 = Typeface.createFromAsset(getActivity().getAssets(), "GT-Walsheim-Regular.ttf");
         text1.setTypeface(font1);
         text2.setTypeface(font2);
         menurecycler = v.findViewById(R.id.menurecycler);
-        editSearch=(EditText)v.findViewById(R.id.editSearch);
-        categoriesList = new ArrayList<>();
-        prepareAlbums();
         offerrecycler = v.findViewById(R.id.offerrecycler);
-        categoriesList1 = new ArrayList<>();
-        //prepareAlbums1();
-
+        editSearch = v.findViewById(R.id.editSearch);
         editSearch.setOnFocusChangeListener(this);
+        new AsyncCategories().execute();
         new AsyncRestaurants().execute();
         return v;
     }
 
-    private void prepareAlbums()
-    {
-        int[] covers = new int[]
-                {
-                        R.drawable.noodles,
-                        R.drawable.taco,
-                        R.drawable.hamburger,
-                        R.drawable.donut,
-                        R.drawable.pizza
-                };
-
-        Category a = new Category("", "CHINESE", covers[0]);
-        categoriesList.add(a);
-        a = new Category("", "TACOS", covers[1]);
-        categoriesList.add(a);
-        a = new Category("", "BURGER", covers[2]);
-        categoriesList.add(a);
-        a = new Category("", "DONUT", covers[3]);
-        categoriesList.add(a);
-        a = new Category("", "PIZZA", covers[4]);
-        categoriesList.add(a);
-
-        adapter = new CategoryAdapter(getActivity(), categoriesList);
-        HorizontalLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-        menurecycler.setLayoutManager(HorizontalLayout);
-        menurecycler.setNestedScrollingEnabled(false);
-        menurecycler.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-    }
-
-
-
     @Override
     public void onFocusChange(View view, boolean b) {
-
-        if(b==true){
-
-            Intent i =new Intent(getActivity(),HotelListActivity.class);
+        if (b == true) {
+            Intent i = new Intent(getActivity(), HotelListActivity.class);
             startActivity(i);
         }
     }
 
-//    private void prepareAlbums1()
-//    {
-//        int[] covers = new int[]
-//                {
-//                        R.drawable.hotel,
-//                        R.drawable.hotel1,
-//                        R.drawable.hotel2,
-//                        R.drawable.hotel
-//                };
-//
-//        Restaurants a = new Restaurants("Spice n Ice","Chinese, Italian, Arabian",covers[0],"4.1 km","10 AM - 12 AM");
-//        categoriesList1.add(a);
-//        a =   new Restaurants("Hot n Spicy","Chinese, Italian, Arabian",covers[1],"4.1 km","10 AM - 12 AM");
-//        categoriesList1.add(a);
-//        a = new Restaurants("Mexican Burrito","Chinese, Italian, Arabian",covers[2],"4.1 km","10 AM - 12 AM");
-//        categoriesList1.add(a);
-//        a = new Restaurants("Spice n Ice","Chinese, Italian, Arabian",covers[3],"4.1 km","10 AM - 12 AM");
-//        categoriesList1.add(a);
-//        a = new Restaurants("Spice n Ice","Chinese, Italian, Arabian",covers[0],"4.1 km","10 AM - 12 AM");
-//        categoriesList1.add(a);
-//
-//        adapter1 = new OffersAdapter(getActivity(), categoriesList1);
-//        offerrecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
-//        offerrecycler.setNestedScrollingEnabled(false);
-//        offerrecycler.setFocusable(false);
-//        offerrecycler.setAdapter(adapter1);
-//        adapter1.notifyDataSetChanged();
-//    }
-
-    private class AsyncRestaurants extends AsyncTask<String, String, String>
-    {
+    private class AsyncCategories extends AsyncTask<String, String, String> {
         ProgressDialog pdLoading = new ProgressDialog(getActivity());
         HttpURLConnection conn;
         URL url = null;
 
         @Override
-        protected void onPreExecute()
-        {
+        protected void onPreExecute() {
             super.onPreExecute();
 
             pdLoading.setMessage("\tLoading...");
@@ -188,69 +114,130 @@ public class HomeFragment extends Fragment implements IConstants, View.OnFocusCh
         }
 
         @Override
-        protected String doInBackground(String... params)
-        {
-            try
-            {
-                url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/all-restaurant");
-            }
-            catch (MalformedURLException e)
-            {
+        protected String doInBackground(String... params) {
+            try {
+                url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/all-category");
+            } catch (MalformedURLException e) {
                 e.printStackTrace();
                 return "exception";
             }
-            try
-            {
+            try {
                 conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(READ_TIMEOUT);
                 conn.setConnectTimeout(CONNECTION_TIMEOUT);
                 conn.setRequestMethod("POST");
                 conn.setDoOutput(true);
-            }
-            catch (IOException e1)
-            {
+            } catch (IOException e1) {
                 e1.printStackTrace();
                 return "exception";
             }
 
-            try
-            {
+            try {
                 InputStream input = conn.getInputStream();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(input));
                 StringBuilder result = new StringBuilder();
                 String line;
 
-                while ((line = reader.readLine()) != null)
-                {
+                while ((line = reader.readLine()) != null) {
                     result.append(line);
                 }
-                return(result.toString());
-            }
-            catch (IOException e)
-            {
+                return (result.toString());
+            } catch (IOException e) {
                 e.printStackTrace();
                 return "exception";
-            }
-            finally
-            {
+            } finally {
                 conn.disconnect();
             }
         }
 
         @Override
-        protected void onPostExecute(String result)
-        {
+        protected void onPostExecute(String result) {
+            pdLoading.dismiss();
+            List<Category> data = new ArrayList<>();
+            try {
+                JSONArray jArray = new JSONArray(result);
+                for (int i = 0; i < jArray.length(); i++)
+                {
+                    JSONObject json_data = jArray.getJSONObject(i);
+                    Category catData = new Category();
+                    catData.id = json_data.getString("id");
+                    catData.name = json_data.getString("categoryName");
+                    catData.img = json_data.getString("iconImage");
+                    data.add(catData);
+                }
+                adapter = new CategoryAdapter(getActivity(), data);
+                HorizontalLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+                menurecycler.setLayoutManager(HorizontalLayout);
+                menurecycler.setNestedScrollingEnabled(false);
+                menurecycler.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            } catch (JSONException e) {
+                Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private class AsyncRestaurants extends AsyncTask<String, String, String> {
+        ProgressDialog pdLoading = new ProgressDialog(getActivity());
+        HttpURLConnection conn;
+        URL url = null;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            pdLoading.setMessage("\tLoading...");
+            pdLoading.setCancelable(false);
+            pdLoading.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/all-restaurant");
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+                return "exception";
+            }
+            try {
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(READ_TIMEOUT);
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+                conn.setRequestMethod("POST");
+                conn.setDoOutput(true);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+                return "exception";
+            }
+
+            try {
+                InputStream input = conn.getInputStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                StringBuilder result = new StringBuilder();
+                String line;
+
+                while ((line = reader.readLine()) != null) {
+                    result.append(line);
+                }
+                return (result.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "exception";
+            } finally {
+                conn.disconnect();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
             //Toast.makeText(getActivity(),res, Toast.LENGTH_SHORT).show();
             pdLoading.dismiss();
             List<Restaurants> data = new ArrayList<>();
-            try
-            {
+            try {
                 JSONObject jsonObject = new JSONObject(result);
-                if (jsonObject.getString("status").equals("true"))
-                {
+                if (jsonObject.getString("status").equals("true")) {
                     JSONArray jArray = jsonObject.getJSONArray("data");
-                    for (int i = 0; i < jArray.length(); i++)
-                    {
+                    for (int i = 0; i < jArray.length(); i++) {
                         JSONObject json_data = jArray.getJSONObject(i);
                         Restaurants resData = new Restaurants();
                         resData.resid = json_data.getString("id");
@@ -271,14 +258,11 @@ public class HomeFragment extends Fragment implements IConstants, View.OnFocusCh
                     offerrecycler.setAdapter(adapter1);
                     adapter1.notifyDataSetChanged();
                 }
-            }
-            catch (JSONException e)
-            {
+            } catch (JSONException e) {
                 Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
             }
         }
     }
-
 
 
     // TODO: Rename method, update argument and hook method into UI event

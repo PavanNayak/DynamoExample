@@ -43,21 +43,21 @@ public class HotelListActivity extends AppCompatActivity implements IConstants {
     private List<Hotels> categoriesList;
     OffersAdapter adapter1;
 
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hotel_list);
 
         EditSearch=(EditText)findViewById(R.id.EditSearch);
-      //  EditSearch.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        EditSearch.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
 
-
-        EditSearch.addTextChangedListener(new TextWatcher() {
+        EditSearch.addTextChangedListener(new TextWatcher()
+        {
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
                 filter(s.toString());
-                // TODO Auto-generated method stub
             }
 
             @Override
@@ -67,7 +67,8 @@ public class HotelListActivity extends AppCompatActivity implements IConstants {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
+            public void afterTextChanged(Editable s)
+            {
 
                 // filter your list from your input
 
@@ -77,16 +78,13 @@ public class HotelListActivity extends AppCompatActivity implements IConstants {
 
 
         recyclerView = (RecyclerView)findViewById(R.id.recyclerHotel);
-
         categoriesList = new ArrayList<>();
         new AsyncRestaurants().execute();
-        //prepareAlbums();
-        List<String> spinnerArray =  new ArrayList<String>();
+        List<String> spinnerArray =  new ArrayList<>();
         spinnerArray.add("Manipal");
         spinnerArray.add("Udupi");
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinnerArray);
-
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, spinnerArray);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         Spinner sItems = (Spinner) findViewById(R.id.spinner1);
         sItems.setAdapter(adapter);
@@ -94,16 +92,16 @@ public class HotelListActivity extends AppCompatActivity implements IConstants {
 
 
 
-    void filter(String text){
+    void filter(String text)
+    {
         List<Restaurants> temp = new ArrayList();
-        for(Restaurants d: data){
-            //or use .equal(text) with you want equal match
-            //use .toLowerCase() for better matches
-            if(d.getResname().contains(text.toUpperCase()) || d.getResname().contains(text.toLowerCase())){
+        for(Restaurants d: data)
+        {
+            if(d.getResname().contains(text))
+            {
                 temp.add(d);
             }
         }
-        //update recyclerview
         adapter1.updateList(temp);
     }
 
@@ -116,47 +114,24 @@ public class HotelListActivity extends AppCompatActivity implements IConstants {
                 R.drawable.hotel
         };
 
-        Hotels a = new Hotels("Spice n Ice","Chineese, Italian, Arabian",covers[0],"4.1 km","10 AM - 12 AM");
+        Hotels a = new Hotels("Spice n Ice","Chinese, Italian, Arabian",covers[0],"4.1 km","10 AM - 12 AM");
         categoriesList.add(a);
-
-        a =   new Hotels("Hot n Spicy","Chineese, Italian, Arabian",covers[1],"4.1 km","10 AM - 12 AM");
+        a =   new Hotels("Hot n Spicy","Chinese, Italian, Arabian",covers[1],"4.1 km","10 AM - 12 AM");
         categoriesList.add(a);
-        a = new Hotels("Mexican Burrito","Chineese, Italian, Arabian",covers[2],"4.1 km","10 AM - 12 AM");
+        a = new Hotels("Mexican Burrito","Chinese, Italian, Arabian",covers[2],"4.1 km","10 AM - 12 AM");
         categoriesList.add(a);
-
-        a = new Hotels("Spice n Ice","Chineese, Italian, Arabian",covers[3],"4.1 km","10 AM - 12 AM");
+        a = new Hotels("Spice n Ice","Chinese, Italian, Arabian",covers[3],"4.1 km","10 AM - 12 AM");
         categoriesList.add(a);
-
-        a = new Hotels("Spice n Ice","Chineese, Italian, Arabian",covers[0],"4.1 km","10 AM - 12 AM");
+        a = new Hotels("Spice n Ice","Chinese, Italian, Arabian",covers[0],"4.1 km","10 AM - 12 AM");
         categoriesList.add(a);
-
-//        a = new Items("Veg Biriyani","Spicy Veg Biriyani flavoured with Rice ",covers[3]);
-//        categoriesList.add(a);
-//
-//
-//        a =  new Items("Mutton Biriyani","Spicy Mutton Biriyani flavoured with Rice ",covers[1]);
-//        categoriesList.add(a);
-
-
-
-
-
 
         adapter=new HotelAdapter(this,categoriesList);
-
         recyclerView.setFocusable(false);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter.notifyDataSetChanged();
-
-
-
-
-
-
-
-
     }
+
     private class AsyncRestaurants extends AsyncTask<String, String, String>
     {
         ProgressDialog pdLoading = new ProgressDialog(HotelListActivity.this);
@@ -167,7 +142,6 @@ public class HotelListActivity extends AppCompatActivity implements IConstants {
         protected void onPreExecute()
         {
             super.onPreExecute();
-
             pdLoading.setMessage("\tLoading...");
             pdLoading.setCancelable(false);
             pdLoading.show();
@@ -263,10 +237,5 @@ public class HotelListActivity extends AppCompatActivity implements IConstants {
             }
         }
     }
-
-
-
-
-
 
 }
