@@ -200,7 +200,8 @@ public class DuoOptionView extends RelativeLayout {
         Typeface font1 = Typeface.createFromAsset(getContext().getAssets(), "GT-Walsheim-Medium.ttf");
 
 
-        OptionViewHolder(ViewGroup rootView) {
+        OptionViewHolder(ViewGroup rootView)
+        {
             mTextViewOption = (TextView) rootView.findViewById(R.id.duo_view_option_text);
 
             mTextViewOption.setTypeface(font1);
