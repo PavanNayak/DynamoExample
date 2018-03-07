@@ -1,6 +1,8 @@
 package com.wristcode.deliwala.fragments;
 
+import android.app.ProgressDialog;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -10,17 +12,36 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.wristcode.deliwala.LoginActivity;
 import com.wristcode.deliwala.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MenuFragment extends Fragment
-{
+import static com.wristcode.deliwala.SelectLocationActivity.READ_TIMEOUT;
+import static com.wristcode.deliwala.adapter.OffersAdapter.CONNECTION_TIMEOUT;
+
+public class MenuFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    List<String> strMenuTitle,strJson;
     private String mParam1;
     private String mParam2;
 
@@ -28,10 +49,10 @@ public class MenuFragment extends Fragment
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
-    public MenuFragment() {}
+    public MenuFragment() {
+    }
 
-    public static MenuFragment newInstance(String param1, String param2)
-    {
+    public static MenuFragment newInstance(String param1, String param2) {
         MenuFragment fragment = new MenuFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
@@ -41,8 +62,7 @@ public class MenuFragment extends Fragment
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -54,8 +74,12 @@ public class MenuFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_menu, container, false);
 
+        strMenuTitle=new ArrayList<>();
+        strJson=new ArrayList<>();
+
+        new AsyncGetData().execute("2");
         viewPager = (ViewPager) v.findViewById(R.id.simpleViewPager);
-        setupViewPager(viewPager);
+
 
         tabLayout = (TabLayout) v.findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(viewPager);
@@ -64,8 +88,11 @@ public class MenuFragment extends Fragment
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager());
-        adapter.addFragment(new MainDishesFragment(), "MAIN DISHES");
-        adapter.addFragment(new BreakfastFragment(), "BREAKFAST");
+
+        for(int i=0; i<strMenuTitle.size(); i++)
+
+        adapter.addFragment(new MainDishesFragment(strJson.get(i)), strMenuTitle.get(i));
+
         viewPager.setAdapter(adapter);
     }
 
@@ -112,5 +139,119 @@ public class MenuFragment extends Fragment
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
+    }
+
+
+    private class AsyncGetData extends AsyncTask<String, String, String> {
+        ProgressDialog pdLoading = new ProgressDialog(getActivity());
+        HttpURLConnection conn;
+        URL url = null;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            pdLoading.setMessage("\tLoading...");
+            pdLoading.setCancelable(false);
+            pdLoading.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/restaurant/search-product");
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+                return "exception";
+            }
+            try {
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(READ_TIMEOUT);
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                Uri.Builder builder = new Uri.Builder().appendQueryParameter("restId", params[0]);
+                String query = builder.build().getEncodedQuery();
+
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+                writer.write(query);
+                writer.flush();
+                writer.close();
+                os.close();
+                conn.connect();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+                return "exception";
+            }
+
+            try {
+                InputStream input = conn.getInputStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                StringBuilder result = new StringBuilder();
+                String line;
+
+                while ((line = reader.readLine()) != null) {
+                    result.append(line);
+                }
+                return (result.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "exception";
+            } finally {
+                conn.disconnect();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            pdLoading.dismiss();
+
+            //Toast.makeText(getActivity(), result, Toast.LENGTH_SHORT).show();
+            JSONObject jsonObject = null;
+            try {
+                jsonObject = new JSONObject(result);
+                if (jsonObject.getString("status").equals("true")) {
+                    JSONArray jsonArray = jsonObject.getJSONArray("data");
+
+
+
+                    for(int i=0;i<jsonArray.length();i++){
+
+
+                      //  JSONObject json=new JSONObject(String.valueOf(jsonArray));
+                       // strJson.add(String.valueOf(json));
+                        JSONObject jobject=jsonArray.getJSONObject(i);
+
+                        JSONObject jCategory=jobject.getJSONObject("category");
+
+                        if(!(strMenuTitle.contains(jCategory.getString("categoryName")))){
+                            strMenuTitle.add(jCategory.getString("categoryName"));
+                            strJson.add(String.valueOf(jsonArray.get(i)));
+                      //      Toast.makeText(getActivity(),jCategory.getString("categoryName"), Toast.LENGTH_SHORT).show();
+                        }
+//                        else {
+//                            strMenuTitle.add("");
+//                            strJson.add(String.valueOf(jsonArray.get(i)));
+//                        }
+                     //   for(int j=0;j<strMenuTitle.size();j++)
+                     //   if(!(strMenuTitle.get(i).equals(jCategory.getString("categoryName")))){
+
+                      //  }
+                      //  else
+                       //     Toast.makeText(getActivity(), "No", Toast.LENGTH_SHORT).show();
+
+                        setupViewPager(viewPager);
+
+
+                    }
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

@@ -81,10 +81,7 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 5f86f2f3ac6a495e0eb5bc943db6dcbf8d6cf346
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECEIVE_SMS) == PackageManager.PERMISSION_GRANTED) {
         } else {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.RECEIVE_SMS}, REQUEST_CODE);

@@ -1,5 +1,6 @@
 package com.wristcode.deliwala.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,10 @@ import android.view.ViewGroup;
 import com.wristcode.deliwala.Pojo.Items;
 import com.wristcode.deliwala.R;
 import com.wristcode.deliwala.adapter.ItemsAdapter;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +29,16 @@ public class MainDishesFragment extends Fragment
     RecyclerView recyclerMenu;
     private List<Items> categoriesList;
     ItemsAdapter adapter;
+    String jsonString;
+
 
     public MainDishesFragment() {}
+
+    @SuppressLint("ValidFragment")
+    public MainDishesFragment(String s) {
+
+        this.jsonString=s;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,9 +48,36 @@ public class MainDishesFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_items, container, false);
-        recyclerMenu = v.findViewById(R.id.recyclerMenu);
+
         categoriesList = new ArrayList<>();
-        prepareAlbums();
+        try {
+            JSONObject jobject=new JSONObject(jsonString);
+           // for(int i=0;i<jArray.length();i++){
+
+                Items data=new Items();
+               // JSONObject json=jArray.getJSONObject(i);
+
+                data.name=jobject.getString("itemName");
+                data.descp=jobject.getString("itemShortDescription");
+                data.price=jobject.getString("regularPrice");
+
+
+                categoriesList.add(data);
+
+          //  }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        recyclerMenu = v.findViewById(R.id.recyclerMenu);
+        adapter = new ItemsAdapter(getActivity(), categoriesList);
+        recyclerMenu.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerMenu.setNestedScrollingEnabled(false);
+        recyclerMenu.setFocusable(false);
+        recyclerMenu.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        //prepareAlbums();
         return v;
     }
 
@@ -56,11 +96,6 @@ public class MainDishesFragment extends Fragment
         a = new Items("Egg Biriyani", "Spicy Egg Biriyani flavoured with Rice ", covers[2], "₹ 100");
         categoriesList.add(a);
 
-        adapter = new ItemsAdapter(getActivity(), categoriesList);
-        recyclerMenu.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerMenu.setNestedScrollingEnabled(false);
-        recyclerMenu.setFocusable(false);
-        recyclerMenu.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+
     }
 }
