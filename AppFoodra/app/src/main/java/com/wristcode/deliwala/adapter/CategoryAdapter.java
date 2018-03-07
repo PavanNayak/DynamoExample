@@ -62,12 +62,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
 
         holder.catname.setTypeface(font2);
 
-        Glide.with(mContext).load("http://appfoodra.com/uploads/category/icons/"+movie.getImg())
+        Glide.with(mContext).load(movie.getImg())
                 .placeholder(R.mipmap.ic_launcher)
                 .error(R.mipmap.ic_launcher)
                 .into(holder.catimg);
 
-        Glide.with(mContext).load("http://appfoodra.com/uploads/category/icons/"+movie.getImg()).into(holder.catimg);
+        Glide.with(mContext).load(movie.getImg()).into(holder.catimg);
     }
 
     @Override

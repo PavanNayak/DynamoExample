@@ -47,6 +47,7 @@ public class HomeFragment extends Fragment implements IConstants, View.OnFocusCh
     EditText editSearch;
     TextView text1, text2;
     RecyclerView menurecycler, offerrecycler;
+    private List<Category> categoriesList;
     CategoryAdapter adapter;
     OffersAdapter adapter1;
     LinearLayoutManager HorizontalLayout;
@@ -83,99 +84,132 @@ public class HomeFragment extends Fragment implements IConstants, View.OnFocusCh
         text1.setTypeface(font1);
         text2.setTypeface(font2);
         menurecycler = v.findViewById(R.id.menurecycler);
+        categoriesList = new ArrayList<>();
+        prepareAlbums();
         offerrecycler = v.findViewById(R.id.offerrecycler);
         editSearch = v.findViewById(R.id.editSearch);
         editSearch.setOnFocusChangeListener(this);
-        new AsyncCategories().execute();
+        //new AsyncCategories().execute();
         new AsyncRestaurants().execute();
         return v;
     }
 
     @Override
     public void onFocusChange(View view, boolean b) {
-        if (b == true) {
+        if (b == true)
+        {
             Intent i = new Intent(getActivity(), HotelListActivity.class);
             startActivity(i);
         }
     }
 
-    private class AsyncCategories extends AsyncTask<String, String, String> {
-        ProgressDialog pdLoading = new ProgressDialog(getActivity());
-        HttpURLConnection conn;
-        URL url = null;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            pdLoading.setMessage("\tLoading...");
-            pdLoading.setCancelable(false);
-            pdLoading.show();
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            try {
-                url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/all-category");
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-                return "exception";
-            }
-            try {
-                conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(READ_TIMEOUT);
-                conn.setConnectTimeout(CONNECTION_TIMEOUT);
-                conn.setRequestMethod("POST");
-                conn.setDoOutput(true);
-            } catch (IOException e1) {
-                e1.printStackTrace();
-                return "exception";
-            }
-
-            try {
-                InputStream input = conn.getInputStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-                StringBuilder result = new StringBuilder();
-                String line;
-
-                while ((line = reader.readLine()) != null) {
-                    result.append(line);
-                }
-                return (result.toString());
-            } catch (IOException e) {
-                e.printStackTrace();
-                return "exception";
-            } finally {
-                conn.disconnect();
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            pdLoading.dismiss();
-            List<Category> data = new ArrayList<>();
-            try {
-                JSONArray jArray = new JSONArray(result);
-                for (int i = 0; i < jArray.length(); i++)
+    private void prepareAlbums()
+    {
+        int[] covers = new int[]
                 {
-                    JSONObject json_data = jArray.getJSONObject(i);
-                    Category catData = new Category();
-                    catData.id = json_data.getString("id");
-                    catData.name = json_data.getString("categoryName");
-                    catData.img = json_data.getString("iconImage");
-                    data.add(catData);
-                }
-                adapter = new CategoryAdapter(getActivity(), data);
-                HorizontalLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-                menurecycler.setLayoutManager(HorizontalLayout);
-                menurecycler.setNestedScrollingEnabled(false);
-                menurecycler.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-            } catch (JSONException e) {
-                Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
-            }
-        }
+                        R.drawable.noodles,
+                        R.drawable.taco,
+                        R.drawable.hamburger,
+                        R.drawable.donut,
+                        R.drawable.pizza
+                };
+
+        Category a = new Category("", "CHINESE", covers[0]);
+        categoriesList.add(a);
+        a = new Category("", "TACOS", covers[1]);
+        categoriesList.add(a);
+        a = new Category("", "BURGER", covers[2]);
+        categoriesList.add(a);
+        a = new Category("", "DONUT", covers[3]);
+        categoriesList.add(a);
+        a = new Category("", "PIZZA", covers[4]);
+        categoriesList.add(a);
+
+        adapter = new CategoryAdapter(getActivity(), categoriesList);
+        HorizontalLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        menurecycler.setLayoutManager(HorizontalLayout);
+        menurecycler.setNestedScrollingEnabled(false);
+        menurecycler.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
+
+//    private class AsyncCategories extends AsyncTask<String, String, String> {
+//        ProgressDialog pdLoading = new ProgressDialog(getActivity());
+//        HttpURLConnection conn;
+//        URL url = null;
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//
+//            pdLoading.setMessage("\tLoading...");
+//            pdLoading.setCancelable(false);
+//            pdLoading.show();
+//        }
+//
+//        @Override
+//        protected String doInBackground(String... params) {
+//            try {
+//                url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/all-category");
+//            } catch (MalformedURLException e) {
+//                e.printStackTrace();
+//                return "exception";
+//            }
+//            try {
+//                conn = (HttpURLConnection) url.openConnection();
+//                conn.setReadTimeout(READ_TIMEOUT);
+//                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+//                conn.setRequestMethod("POST");
+//                conn.setDoOutput(true);
+//            } catch (IOException e1) {
+//                e1.printStackTrace();
+//                return "exception";
+//            }
+//
+//            try {
+//                InputStream input = conn.getInputStream();
+//                BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+//                StringBuilder result = new StringBuilder();
+//                String line;
+//
+//                while ((line = reader.readLine()) != null) {
+//                    result.append(line);
+//                }
+//                return (result.toString());
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//                return "exception";
+//            } finally {
+//                conn.disconnect();
+//            }
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String result) {
+//            pdLoading.dismiss();
+//            List<Category> data = new ArrayList<>();
+//            try {
+//                JSONArray jArray = new JSONArray(result);
+//                for (int i = 0; i < jArray.length(); i++)
+//                {
+//                    JSONObject json_data = jArray.getJSONObject(i);
+//                    Category catData = new Category();
+//                    catData.id = json_data.getString("id");
+//                    catData.name = json_data.getString("categoryName");
+//                    catData.img = json_data.getString("iconImage");
+//                    data.add(catData);
+//                }
+//                adapter = new CategoryAdapter(getActivity(), data);
+//                HorizontalLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+//                menurecycler.setLayoutManager(HorizontalLayout);
+//                menurecycler.setNestedScrollingEnabled(false);
+//                menurecycler.setAdapter(adapter);
+//                adapter.notifyDataSetChanged();
+//            } catch (JSONException e) {
+//                Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
+//            }
+//        }
+//    }
 
     private class AsyncRestaurants extends AsyncTask<String, String, String> {
         ProgressDialog pdLoading = new ProgressDialog(getActivity());

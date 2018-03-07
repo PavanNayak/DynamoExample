@@ -2,11 +2,12 @@ package com.wristcode.deliwala.Pojo;
 
 public class Category {
 
-    public String id, name, img;
+    public String id, name;
+    public int img;
 
     public Category() {}
 
-    public Category(String id, String name, String img) {
+    public Category(String id, String name, int img) {
 
         this.id = id;
         this.name = name;
@@ -30,9 +31,9 @@ public class Category {
         this.name = name;
     }
 
-    public String getImg(){
+    public int getImg(){
         return  img;
     }
 
-    public void setImg(String img) { this.img = img; }
+    public void setImg(int img) { this.img = img; }
 }

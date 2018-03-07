@@ -18,7 +18,8 @@ import com.wristcode.deliwala.R;
 
 import java.util.List;
 
-public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder> {
+public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder>
+{
     private List<Items> moviesList;
     private Context mContext;
 
