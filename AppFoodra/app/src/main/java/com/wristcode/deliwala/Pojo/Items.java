@@ -6,10 +6,10 @@ package com.wristcode.deliwala.Pojo;
 
 public class Items {
 
-    private String id;
-    private String name;
-    private String price;
-    private String descp;
+    public String id;
+    public String name;
+    public String price;
+    public String descp;
 
     int image;
 
@@ -19,6 +19,10 @@ public class Items {
         this.descp=s1;
         this.image=cover;
         this.price=price;
+    }
+
+    public Items() {
+
     }
 
 

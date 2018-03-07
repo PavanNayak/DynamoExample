@@ -154,7 +154,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
         Items movie = moviesList.get(position);
         holder.txtname.setText(movie.getName());
         holder.txtdesc.setText(movie.getDescp());
-        holder.txtprice.setText(movie.getPrice());
+        holder.txtprice.setText("₹ "+movie.getPrice());
 
         Typeface font = Typeface.createFromAsset(mContext.getAssets(), "GT-Walsheim-Bold.ttf");
         Typeface font1 = Typeface.createFromAsset(mContext.getAssets(), "GT-Walsheim-Medium.ttf");
@@ -166,7 +166,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
         holder.txtadd.setTypeface(font2);
         holder.prodqty.setTypeface(font2);
 
-        Glide.with(mContext).load(movie.getImage()).into(holder.image);
+      //  Glide.with(mContext).load(movie.getImage()).into(holder.image);
 
         holder.txtadd.setOnClickListener(new View.OnClickListener() {
             @Override
