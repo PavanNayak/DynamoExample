@@ -3,10 +3,12 @@ package com.wristcode.deliwala.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -51,6 +53,7 @@ public class HomeFragment extends Fragment implements IConstants, View.OnFocusCh
     CategoryAdapter adapter;
     OffersAdapter adapter1;
     LinearLayoutManager HorizontalLayout;
+    SharedPreferences pref;
     private String mParam1;
     private String mParam2;
 
@@ -83,6 +86,10 @@ public class HomeFragment extends Fragment implements IConstants, View.OnFocusCh
         Typeface font2 = Typeface.createFromAsset(getActivity().getAssets(), "GT-Walsheim-Regular.ttf");
         text1.setTypeface(font1);
         text2.setTypeface(font2);
+        pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("fg", "0");
+        editor.apply();
         menurecycler = v.findViewById(R.id.menurecycler);
         categoriesList = new ArrayList<>();
         prepareAlbums();

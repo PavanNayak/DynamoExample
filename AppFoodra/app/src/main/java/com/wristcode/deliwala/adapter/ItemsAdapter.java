@@ -33,7 +33,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
     ExampleDBHelper dbHelper;
     SharedPreferences pref;
     String subname, imgpath;
-    int subresid, subqty = 0, subprice = 0, qty = 0, price = 0, TOTAL = 0, RATE = 0, itemprice;
+    int subresid, subqty = 0, subprice = 0, qty = 0, price = 0, TOTAL = 0, RATE = 0;
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
@@ -75,7 +75,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
                     prodqty.setText("1");
                     if (pref.getString("fg", "").toString().equals("0"))
                     {
-                        dbHelper.insertItem(Integer.parseInt(txtid.getText().toString()), Integer.parseInt(txtresid.getText().toString()), txtname.getText().toString(), Integer.parseInt(prodqty.getText().toString()), Integer.parseInt(txtprice.getText().toString()), txtimg.getText().toString());
+                        dbHelper.insertItem(Integer.parseInt(txtid.getText().toString()), 2, txtname.getText().toString(), Integer.parseInt(prodqty.getText().toString()), Integer.parseInt(txtprice.getText().toString()), txtimg.getText().toString());
                     }
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putString("fg", "1");
@@ -110,8 +110,10 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
                                 price = subprice + Integer.parseInt(txtprice.getText().toString());
                                 dbHelper.updateItem(value1, subresid, txtname.getText().toString(), qty, price, imgpath);
                             }
-                        } else {
-                            dbHelper.insertItem(Integer.parseInt(txtid.getText().toString()), Integer.parseInt(txtresid.getText().toString()), txtname.getText().toString(), Integer.parseInt(prodqty.getText().toString()), Integer.parseInt(txtprice.getText().toString()), txtimg.getText().toString());
+                        }
+                        else
+                        {
+                            dbHelper.insertItem(Integer.parseInt(txtid.getText().toString()), 2, txtname.getText().toString(), Integer.parseInt(prodqty.getText().toString()), Integer.parseInt(txtprice.getText().toString()), txtimg.getText().toString());
                         }
                     }
 //                    SharedPreferences.Editor editor1 = pref.edit();
@@ -127,7 +129,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
 
                 case R.id.txtminus:
                     i = Integer.parseInt(prodqty.getText().toString());
-                    if (i > 0)
+                    if (i > 1)
                     {
                         i--;
                         prodqty.setText(String.valueOf(i));
@@ -160,7 +162,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
                         passprice(RATE);
                         passval1(TOTAL);
                     }
-                    else if (i < 0 || i == 0)
+                    else if (i <= 0 || i == 1)
                     {
                         //prodqty.setText("0");
                         txtminus.setVisibility(View.GONE);
@@ -203,9 +205,10 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         Items movie = moviesList.get(position);
+        holder.txtid.setText(movie.getId());
         holder.txtname.setText(movie.getName());
         holder.txtdesc.setText(movie.getDescp());
-        holder.txtprice.setText("₹ "+movie.getPrice());
+        holder.txtprice.setText(movie.getPrice());
 
         Typeface font = Typeface.createFromAsset(mContext.getAssets(), "GT-Walsheim-Bold.ttf");
         Typeface font1 = Typeface.createFromAsset(mContext.getAssets(), "GT-Walsheim-Medium.ttf");

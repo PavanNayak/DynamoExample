@@ -57,6 +57,7 @@ public class MainDishesFragment extends Fragment
         {
             JSONObject jobject = new JSONObject(jsonString);
             Items data = new Items();
+            Toast.makeText(getActivity(), String.valueOf(jobject.getString("id")), Toast.LENGTH_SHORT).show();
             data.id = jobject.getString("id");
             data.name=jobject.getString("itemName");
             data.descp=jobject.getString("itemShortDescription");
