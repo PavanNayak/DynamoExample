@@ -12,10 +12,12 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wristcode.deliwala.LoginActivity;
 import com.wristcode.deliwala.R;
+import com.wristcode.deliwala.sqlite.ExampleDBHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,13 +43,15 @@ public class MenuFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    List<String> strMenuTitle,strJson;
+    List<String> strMenuTitle, strJson;
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    TextView cart_badge;
+    ExampleDBHelper dh;
 
     public MenuFragment() {
     }
@@ -78,10 +82,9 @@ public class MenuFragment extends Fragment {
         strJson=new ArrayList<>();
 
         new AsyncGetData().execute("2");
-        viewPager = (ViewPager) v.findViewById(R.id.simpleViewPager);
+        viewPager = v.findViewById(R.id.simpleViewPager);
 
-
-        tabLayout = (TabLayout) v.findViewById(R.id.tablayout);
+        tabLayout = v.findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(viewPager);
         return v;
     }
@@ -213,7 +216,8 @@ public class MenuFragment extends Fragment {
             JSONObject jsonObject = null;
             try {
                 jsonObject = new JSONObject(result);
-                if (jsonObject.getString("status").equals("true")) {
+                if (jsonObject.getString("status").equals("true"))
+                {
                     JSONArray jsonArray = jsonObject.getJSONArray("data");
 
 

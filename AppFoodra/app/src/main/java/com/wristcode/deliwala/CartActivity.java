@@ -76,11 +76,11 @@ public class CartActivity extends AppCompatActivity
                         R.drawable.chickenb
                 };
 
-        Items a = new Items("Chicken Biriyani", "", covers[0], "₹ 150");
+        Items a = new Items("1", "Chicken Biriyani", "₹ 150", "", covers[0]);
         categoriesList.add(a);
-        a = new Items("Mutton Biriyani", "", covers[1], " ₹170");
+        a = new Items("2", "Mutton Biriyani", "₹170", "", covers[1]);
         categoriesList.add(a);
-        a = new Items("Egg Biriyani", "", covers[2], "₹ 100");
+        a = new Items("3", "Egg Biriyani", "₹100", "", covers[2]);
         categoriesList.add(a);
 
         adapter = new CartAdapter(CartActivity.this, categoriesList);

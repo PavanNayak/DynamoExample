@@ -103,7 +103,7 @@ public class ExampleDBHelper extends SQLiteOpenHelper {
     public int gettotalqty() {
         int qtyValue = 0;
         SQLiteDatabase database = this.getWritableDatabase();
-        final Cursor cursor1 = database.rawQuery("SELECT SUM(sub_qty) FROM " + SUBCAT_TABLE_NAME, null);
+        final Cursor cursor1 = database.rawQuery("SELECT SUM(item_qty) FROM " + SUBCAT_TABLE_NAME, null);
         if (cursor1 != null) {
             try {
                 if (cursor1.moveToFirst()) {
@@ -119,7 +119,7 @@ public class ExampleDBHelper extends SQLiteOpenHelper {
     public int gettotalprice() {
         int priceValue = 0;
         SQLiteDatabase database = this.getWritableDatabase();
-        final Cursor cursor1 = database.rawQuery("SELECT SUM(sub_price) FROM " + SUBCAT_TABLE_NAME, null);
+        final Cursor cursor1 = database.rawQuery("SELECT SUM(item_price) FROM " + SUBCAT_TABLE_NAME, null);
         if (cursor1 != null) {
             try {
                 if (cursor1.moveToFirst()) {

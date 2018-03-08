@@ -13,17 +13,16 @@ public class Items {
 
     int image;
 
-    public Items(String s, String s1, int cover,String price) {
-
-        this.name=s;
-        this.descp=s1;
-        this.image=cover;
-        this.price=price;
+    public Items(String id, String name, String price, String descp, int image)
+    {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.descp = descp;
+        this.image = image;
     }
 
-    public Items() {
-
-    }
+    public Items() {}
 
 
     public String getId() {
@@ -42,15 +41,10 @@ public class Items {
         this.name=name;
     }
 
-    public String getPrice(){
-        return  price;
+    public String getPrice() { return  price;}
 
-    }
+    public void setPrice(String price) { this.price=price; }
 
-    public void setPrice(String price){
-        this.price=price;
-
-    }
     public  String getDescp(){
         return  descp;
     }

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,8 @@ import com.bumptech.glide.Glide;
 import com.wristcode.deliwala.ItemActivity;
 import com.wristcode.deliwala.Pojo.Items;
 import com.wristcode.deliwala.R;
+import com.wristcode.deliwala.fragments.MainDishesFragment;
+import com.wristcode.deliwala.fragments.MenuFragment;
 import com.wristcode.deliwala.sqlite.ExampleDBHelper;
 
 import java.util.List;
@@ -26,25 +29,34 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
 {
     private List<Items> moviesList;
     private Context mContext;
+    MainDishesFragment fragment;
     ExampleDBHelper dbHelper;
     SharedPreferences pref;
+    String subname, imgpath;
+    int subresid, subqty = 0, subprice = 0, qty = 0, price = 0, TOTAL = 0, RATE = 0, itemprice;
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
-        public TextView txtname, txtdesc, txtprice, txtminus, txtplus, txtadd, prodqty;
+        public TextView txtid, txtresid, txtname, txtdesc, txtprice, txtminus, txtplus, txtadd, prodqty, txtimg;
         RelativeLayout relative;
         ImageView image;
 
         public MyViewHolder(View view)
         {
             super(view);
+            txtid = view.findViewById(R.id.txtid);
+            txtresid = view.findViewById(R.id.txtresid);
             txtname = view.findViewById(R.id.txtname);
             txtdesc = view.findViewById(R.id.txtdesc);
             txtprice = view.findViewById(R.id.txtprice);
             txtminus = view.findViewById(R.id.txtminus);
+            txtminus.setOnClickListener(this);
             txtplus = view.findViewById(R.id.txtplus);
+            txtplus.setOnClickListener(this);
             txtadd = view.findViewById(R.id.txtadd);
+            txtadd.setOnClickListener(this);
             prodqty = view.findViewById(R.id.prodqty);
+            txtimg = view.findViewById(R.id.txtimg);
             relative = view.findViewById(R.id.relative);
             image = view.findViewById(R.id.image);
             dbHelper = new ExampleDBHelper(mContext);
@@ -55,38 +67,56 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
         public void onClick(View v) {
             switch (v.getId())
             {
+                case R.id.txtadd:
+                    txtadd.setVisibility(View.GONE);
+                    txtminus.setVisibility(View.VISIBLE);
+                    txtplus.setVisibility(View.VISIBLE);
+                    prodqty.setVisibility(View.VISIBLE);
+                    prodqty.setText("1");
+                    if (pref.getString("fg", "").toString().equals("0"))
+                    {
+                        dbHelper.insertItem(Integer.parseInt(txtid.getText().toString()), Integer.parseInt(txtresid.getText().toString()), txtname.getText().toString(), Integer.parseInt(prodqty.getText().toString()), Integer.parseInt(txtprice.getText().toString()), txtimg.getText().toString());
+                    }
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("fg", "1");
+                    editor.apply();
+
+                    TOTAL = dbHelper.gettotalqty();
+                    RATE = dbHelper.gettotalprice();
+                    passprice(RATE);
+                    passval(TOTAL);
+                    break;
+
                 case R.id.txtplus:
                     int i = Integer.parseInt(prodqty.getText().toString());
                     i++;
                     prodqty.setText(String.valueOf(i));
 
-                    if (pref.getString("fg", "").toString().equals("0"))
+                    if (pref.getString("fg", "").toString().equals("1"))
                     {
-                        dbHelper.insertItem(Integer.parseInt(sub_id.getText().toString()), sub_name.getText().toString(), Integer.parseInt(sub_qty.getText().toString()), Integer.parseInt(sub_price.getText().toString()), Integer.parseInt(img_type.getText().toString()), Integer.parseInt(sub_price.getText().toString()));
-                    } else if (pref.getString("fg", "").toString().equals("1")) {
-                        int value1 = Integer.parseInt(sub_id.getText().toString());
+                        int value1 = Integer.parseInt(txtid.getText().toString());
                         Boolean value2 = dbHelper.checksubid(value1);
                         if (value2.equals(true))
                         {
-                            Cursor rs = dbHelper.getItem(Integer.parseInt(sub_id.getText().toString()));
+                            Cursor rs = dbHelper.getItem(Integer.parseInt(txtid.getText().toString()));
                             while (rs.moveToNext())
                             {
+                                subresid = rs.getInt(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_RESID));
                                 subname = rs.getString(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_NAME));
                                 subqty = rs.getInt(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_QUANTITY));
                                 subprice = rs.getInt(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_PRICE));
-                                imgtype = rs.getInt(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_IMGTYPE));
-                                itemprice = rs.getInt(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_ITEMPRICE));
+                                imgpath = rs.getString(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_IMAGE));
                                 qty = subqty + 1;
-                                price = subprice + Integer.parseInt(sub_price.getText().toString());
-                                dbHelper.updateItem(value1, sub_name.getText().toString(), qty, price, imgtype, itemprice);
+                                price = subprice + Integer.parseInt(txtprice.getText().toString());
+                                dbHelper.updateItem(value1, subresid, txtname.getText().toString(), qty, price, imgpath);
                             }
                         } else {
-                            dbHelper.insertItem(Integer.parseInt(sub_id.getText().toString()), sub_name.getText().toString(), Integer.parseInt(sub_qty.getText().toString()), Integer.parseInt(sub_price.getText().toString()), Integer.parseInt(img_type.getText().toString()), Integer.parseInt(sub_price.getText().toString()));
+                            dbHelper.insertItem(Integer.parseInt(txtid.getText().toString()), Integer.parseInt(txtresid.getText().toString()), txtname.getText().toString(), Integer.parseInt(prodqty.getText().toString()), Integer.parseInt(txtprice.getText().toString()), txtimg.getText().toString());
                         }
                     }
-                    SharedPreferences.Editor editor = pref.edit();
-                    editor.putString("fg", "1");
-                    editor.apply();
+//                    SharedPreferences.Editor editor1 = pref.edit();
+//                    editor1.putString("fg", "1");
+//                    editor1.apply();
 
                     TOTAL = dbHelper.gettotalqty();
                     RATE = dbHelper.gettotalprice();
@@ -101,24 +131,24 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
                     {
                         i--;
                         prodqty.setText(String.valueOf(i));
-                        int value1 = Integer.parseInt(sub_id.getText().toString());
+                        int value1 = Integer.parseInt(txtid.getText().toString());
                         Boolean value2 = dbHelper.checksubid(value1);
                         if (value2.equals(true))
                         {
-                            Cursor rs = dbHelper.getItem(Integer.parseInt(sub_id.getText().toString()));
+                            Cursor rs = dbHelper.getItem(Integer.parseInt(txtid.getText().toString()));
                             while (rs.moveToNext())
                             {
+                                subresid = rs.getInt(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_RESID));
                                 subname = rs.getString(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_NAME));
                                 subqty = rs.getInt(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_QUANTITY));
                                 subprice = rs.getInt(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_PRICE));
-                                imgtype = rs.getInt(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_IMGTYPE));
-                                itemprice = rs.getInt(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_ITEMPRICE));
+                                imgpath = rs.getString(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_IMAGE));
                                 qty = subqty - 1;
-                                price = subprice - Integer.parseInt(sub_price.getText().toString());
+                                price = subprice - Integer.parseInt(txtprice.getText().toString());
                                 if (qty == 0) {
-                                    dbHelper.deleteItem(Integer.parseInt(sub_id.getText().toString()));
+                                    dbHelper.deleteItem(Integer.parseInt(txtid.getText().toString()));
                                 } else {
-                                    dbHelper.updateItem(value1, sub_name.getText().toString(), qty, price, imgtype, itemprice);
+                                    dbHelper.updateItem(value1, subresid, txtname.getText().toString(), qty, price, imgpath);
                                 }
                             }
                         } else {
@@ -129,8 +159,14 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
                         RATE = dbHelper.gettotalprice();
                         passprice(RATE);
                         passval1(TOTAL);
-                    } else if (i < 0 || i == 0) {
-                        prodqty.setText("0");
+                    }
+                    else if (i < 0 || i == 0)
+                    {
+                        //prodqty.setText("0");
+                        txtminus.setVisibility(View.GONE);
+                        txtplus.setVisibility(View.GONE);
+                        prodqty.setVisibility(View.GONE);
+                        txtadd.setVisibility(View.VISIBLE);
                     }
                     break;
             }
@@ -138,9 +174,24 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
         }
     }
 
-    public ItemsAdapter(Context mContext, List<Items> moviesList) {
+    public void passval(int val)
+    {
+        ((MainDishesFragment) fragment).setCart(val);
+    }
+
+    public void passval1(int val)
+    {
+        ((MainDishesFragment) fragment).setCart(val);
+    }
+
+    public void passprice(int val) {
+        ((MainDishesFragment) fragment).setPrice(val);
+    }
+
+    public ItemsAdapter(Context mContext, List<Items> moviesList, MainDishesFragment fragment) {
         this.mContext = mContext;
         this.moviesList = moviesList;
+        this.fragment = fragment;
     }
 
     @Override
@@ -168,48 +219,48 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
 
       //  Glide.with(mContext).load(movie.getImage()).into(holder.image);
 
-        holder.txtadd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                holder.txtadd.setVisibility(View.GONE);
-                holder.txtminus.setVisibility(View.VISIBLE);
-                holder.txtplus.setVisibility(View.VISIBLE);
-                holder.prodqty.setVisibility(View.VISIBLE);
-            }
-        });
+//        holder.txtadd.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                holder.txtadd.setVisibility(View.GONE);
+//                holder.txtminus.setVisibility(View.VISIBLE);
+//                holder.txtplus.setVisibility(View.VISIBLE);
+//                holder.prodqty.setVisibility(View.VISIBLE);
+//            }
+//        });
+//
+//        holder.txtminus.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (holder.prodqty.getText().toString().equals("1")) {
+//                    holder.txtminus.setVisibility(View.GONE);
+//                    holder.txtplus.setVisibility(View.GONE);
+//                    holder.prodqty.setVisibility(View.GONE);
+//                    holder.txtadd.setVisibility(View.VISIBLE);
+//                } else {
+//                    int i = Integer.parseInt(holder.prodqty.getText().toString());
+//                    i--;
+//                    holder.prodqty.setText(String.valueOf(i));
+//                }
+//            }
+//        });
+//
+//        holder.txtplus.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                int i = Integer.parseInt(holder.prodqty.getText().toString());
+//                i++;
+//                holder.prodqty.setText(String.valueOf(i));
+//            }
+//        });
 
-        holder.txtminus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (holder.prodqty.getText().toString().equals("1")) {
-                    holder.txtminus.setVisibility(View.GONE);
-                    holder.txtplus.setVisibility(View.GONE);
-                    holder.prodqty.setVisibility(View.GONE);
-                    holder.txtadd.setVisibility(View.VISIBLE);
-                } else {
-                    int i = Integer.parseInt(holder.prodqty.getText().toString());
-                    i--;
-                    holder.prodqty.setText(String.valueOf(i));
-                }
-            }
-        });
-
-        holder.txtplus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int i = Integer.parseInt(holder.prodqty.getText().toString());
-                i++;
-                holder.prodqty.setText(String.valueOf(i));
-            }
-        });
-
-        holder.relative.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(mContext, ItemActivity.class);
-                mContext.startActivity(i);
-            }
-        });
+//        holder.relative.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent i = new Intent(mContext, ItemActivity.class);
+//                mContext.startActivity(i);
+//            }
+//        });
     }
 
     @Override
