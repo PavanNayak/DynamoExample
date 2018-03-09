@@ -65,12 +65,10 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-
-        txtusername=(TextView)findViewById(R.id.txtusername);
-        txtemail=(TextView)findViewById(R.id.txtemail);
-        valueusername=(EditText)findViewById(R.id.valueusername);
-        valueemail=(EditText)findViewById(R.id.valueemail);
+        txtusername = findViewById(R.id.txtusername);
+        txtemail = findViewById(R.id.txtemail);
+        valueusername = findViewById(R.id.valueusername);
+        valueemail = findViewById(R.id.valueemail);
         txtwelcome = findViewById(R.id.txtwelcome);
         txtsignin = findViewById(R.id.txtsignin);
         txtphone = findViewById(R.id.txtphone);

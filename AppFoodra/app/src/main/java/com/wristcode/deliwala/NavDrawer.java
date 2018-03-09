@@ -87,14 +87,14 @@ public class NavDrawer extends AppCompatActivity implements DuoMenuView.OnMenuCl
         Toast.makeText(this, "onHeaderClicked", Toast.LENGTH_SHORT).show();
     }
 
-    private void goToFragment(Fragment fragment, boolean addToBackStack) {
+    private void goToFragment(Fragment fragment, boolean addToBackStack)
+    {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-        if (addToBackStack) {
+        if (addToBackStack)
+        {
             transaction.addToBackStack(null);
         }
-
-        transaction.add(R.id.container, fragment).commit();
+        transaction.replace(R.id.container, fragment).commit();
     }
 
     @Override

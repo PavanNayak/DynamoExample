@@ -38,8 +38,14 @@ public class OrderConfirmActivity extends AppCompatActivity
             {
                 Intent i = new Intent(OrderConfirmActivity.this, TrackActivity.class);
                 startActivity(i);
-
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(OrderConfirmActivity.this, OrderConfirmActivity.class);
+        startActivity(i);
+        finish();
     }
 }

@@ -136,10 +136,10 @@ public class ExampleDBHelper extends SQLiteOpenHelper {
         return priceValue;
     }
 
-    public int getQuantity(int sub_id) {
+    public int getQuantity(int item_id) {
         int qty = 0;
         SQLiteDatabase db = this.getReadableDatabase();
-        String strSql = "SELECT * FROM " + SUBCAT_TABLE_NAME + " WHERE " + SUBCAT_COLUMN_ID + " = " + sub_id;
+        String strSql = "SELECT * FROM " + SUBCAT_TABLE_NAME + " WHERE " + SUBCAT_COLUMN_ID + " = " + item_id;
         Cursor cursor = db.rawQuery(strSql, null);
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();

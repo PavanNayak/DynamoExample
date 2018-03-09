@@ -92,11 +92,8 @@ public class HomeFragment extends Fragment implements IConstants, View.OnFocusCh
         text1.setTypeface(font1);
         text2.setTypeface(font2);
         pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putString("fg", "0");
-        editor.apply();
         dh = new ExampleDBHelper(getActivity());
-        //exportDB();
+        exportDB();
         menurecycler = v.findViewById(R.id.menurecycler);
         categoriesList = new ArrayList<>();
         prepareAlbums();

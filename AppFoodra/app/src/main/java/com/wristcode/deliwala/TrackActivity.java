@@ -56,7 +56,8 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
     TextView txttrack, txtitem, txtorderid, txtdeltitle, txtdeladd, txtarrive, txttimevalue, txtmins;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_track);
         txttrack = findViewById(R.id.txttrack);
@@ -394,6 +395,13 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
 
     public void backButton(View v) {
         Intent i = new Intent(TrackActivity.this, NavDrawer.class);
+        startActivity(i);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(TrackActivity.this, TrackActivity.class);
         startActivity(i);
         finish();
     }
