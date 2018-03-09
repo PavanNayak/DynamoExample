@@ -81,7 +81,7 @@
             android:layout_marginBottom="10dp"
             app:tabBackground="@android:color/white"
             app:tabIndicatorColor="@color/colorPrimary"
-            app:tabMode="fixed"
+            app:tabMode="scrollable"
             app:tabSelectedTextColor="@color/colorPrimary"
             app:tabTextColor="@color/colorPrimaryDark">
 

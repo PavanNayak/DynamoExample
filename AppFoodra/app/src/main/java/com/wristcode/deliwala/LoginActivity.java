@@ -49,6 +49,7 @@ import java.net.URL;
  */
 
 public class LoginActivity extends AppCompatActivity implements IConstants, GoogleApiClient.OnConnectionFailedListener {
+    int flag=0;
     TextView txtwelcome, txtsignin, txtphone;
     EditText valuephone;
     Button verifyButton;
@@ -58,10 +59,18 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
     SharedPreferences pref;
     private int REQUEST_CODE = 1;
 
+    TextView txtusername,txtemail;
+    EditText valueusername,valueemail;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+
+        txtusername=(TextView)findViewById(R.id.txtusername);
+        txtemail=(TextView)findViewById(R.id.txtemail);
+        valueusername=(EditText)findViewById(R.id.valueusername);
+        valueemail=(EditText)findViewById(R.id.valueemail);
         txtwelcome = findViewById(R.id.txtwelcome);
         txtsignin = findViewById(R.id.txtsignin);
         txtphone = findViewById(R.id.txtphone);
@@ -74,6 +83,10 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
         txtphone.setTypeface(font1);
         valuephone.setTypeface(font1);
         verifyButton.setTypeface(font1);
+        txtusername.setTypeface(font1);
+        txtemail.setTypeface(font1);
+        valueemail.setTypeface(font1);
+        valueusername.setTypeface(font1);
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -111,6 +124,21 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
             SharedPreferences.Editor editor1 = preferences1.edit();
             editor1.putString("flag", "1");
             editor1.apply();
+
+        }
+        else {
+            flag=1;
+            Toast.makeText(this, "Sorry, We could not fetch your email id.", Toast.LENGTH_SHORT).show();
+            txtusername.setVisibility(View.VISIBLE);
+            txtemail.setVisibility(View.VISIBLE);
+            valueusername.setVisibility(View.VISIBLE);
+            valueemail.setVisibility(View.VISIBLE);
+
+            SharedPreferences preferences1 = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+            SharedPreferences.Editor editor1 = preferences1.edit();
+            editor1.putString("flag", "1");
+            editor1.apply();
+
         }
     }
 
@@ -217,6 +245,7 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
                     SharedPreferences.Editor editor1 = pref1.edit();
                     editor1.putString("UserType", jsonObject.getString("type").toString());
                     editor1.putString("Otp", jsonObject1.getString("otp").toString());
+
                     if (jsonObject1.has("apiKey"))
                     {
                         editor1.putString("Id", jsonObject1.getString("apiKey").toString());
@@ -226,6 +255,15 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
                     editor1.putString("PhoneNo", valuephone.getText().toString().trim());
                     editor1.apply();
 
+
+                    if(flag==1){
+                        SharedPreferences pref2 = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+                        SharedPreferences.Editor editor2 = pref2.edit();
+                        editor2.putString("Name", valueusername.getText().toString());
+                        editor2.putString("Email", valueemail.getText().toString());
+                        editor2.apply();
+
+                    }
                     Intent i = new Intent(LoginActivity.this, OTPActivity.class);
                     startActivity(i);
                 }
@@ -239,6 +277,7 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
         if (valuephone.getText().toString().matches("")) {
             Toast.makeText(LoginActivity.this, "You must enter your mobile number!!!", Toast.LENGTH_SHORT).show();
         } else {
+
             new AsyncPreRegister().execute(valuephone.getText().toString().trim());
         }
     }

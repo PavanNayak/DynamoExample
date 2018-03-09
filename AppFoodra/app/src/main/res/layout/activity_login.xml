@@ -5,10 +5,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#FFFFFF"
+        android:layout_gravity="center"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -41,14 +45,62 @@
             android:text="Sign in to continue"
             android:textAlignment="center"
             android:textSize="20sp" />
+        <TextView
+            android:id="@+id/txtusername"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="30dp"
+            android:paddingLeft="5dp"
+            android:text="Username"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
+        <EditText
+            android:id="@+id/valueusername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="5dp"
+            android:backgroundTint="@android:color/darker_gray"
+            android:hint=""
+            android:maxLength="10" />
+        <TextView
+            android:id="@+id/txtemail"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="5dp"
+            android:paddingLeft="5dp"
+            android:text="Email Id"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/valueemail"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="5dp"
+            android:backgroundTint="@android:color/darker_gray"
+            android:hint="" />
         <TextView
             android:id="@+id/txtphone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="25dp"
             android:paddingLeft="5dp"
             android:text="Your Phone Number"
             android:textSize="18sp"
@@ -84,5 +136,5 @@
             android:textStyle="bold" />
 
     </LinearLayout>
-
+    </ScrollView>
 </LinearLayout>
