@@ -20,6 +20,7 @@ public class ExampleDBHelper extends SQLiteOpenHelper {
     public static final String SUBCAT_COLUMN_NAME = "item_name";
     public static final String SUBCAT_COLUMN_QUANTITY = "item_qty";
     public static final String SUBCAT_COLUMN_PRICE = "item_price";
+    public static final String SUBCAT_COLUMN_ACTUALPRICE = "item_actualprice";
     public static final String SUBCAT_COLUMN_IMAGE = "item_image";
 
     public ExampleDBHelper(Context context) {
@@ -34,6 +35,7 @@ public class ExampleDBHelper extends SQLiteOpenHelper {
                 SUBCAT_COLUMN_NAME + " TEXT, " +
                 SUBCAT_COLUMN_QUANTITY + " INTEGER, " +
                 SUBCAT_COLUMN_PRICE + " INTEGER, " +
+                SUBCAT_COLUMN_ACTUALPRICE + " INTEGER, " +
                 SUBCAT_COLUMN_IMAGE + " TEXT)"
         );
     }
@@ -44,7 +46,7 @@ public class ExampleDBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public String insertItem(int item_id, int res_id, String item_name, int item_qty, int item_price, String item_image) {
+    public String insertItem(int item_id, int res_id, String item_name, int item_qty, int item_price, int item_actualprice, String item_image) {
         SQLiteDatabase db = this.getWritableDatabase();
         String Str_Return_Value = null;
         long query_ret;
@@ -55,6 +57,7 @@ public class ExampleDBHelper extends SQLiteOpenHelper {
             values.put(SUBCAT_COLUMN_NAME, item_name);
             values.put(SUBCAT_COLUMN_QUANTITY, item_qty);
             values.put(SUBCAT_COLUMN_PRICE, item_price);
+            values.put(SUBCAT_COLUMN_ACTUALPRICE, item_actualprice);
             values.put(SUBCAT_COLUMN_IMAGE, item_image);
             query_ret = db.insertWithOnConflict(SUBCAT_TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_IGNORE);
             if (query_ret != -1) {
@@ -68,7 +71,7 @@ public class ExampleDBHelper extends SQLiteOpenHelper {
         return Str_Return_Value;
     }
 
-    public boolean updateItem(int item_id, int res_id, String item_name, int item_qty, int item_price, String item_image) {
+    public boolean updateItem(int item_id, int res_id, String item_name, int item_qty, int item_price, int item_actualprice, String item_image) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(SUBCAT_COLUMN_ID, item_id);
@@ -76,6 +79,7 @@ public class ExampleDBHelper extends SQLiteOpenHelper {
         contentValues.put(SUBCAT_COLUMN_NAME, item_name);
         contentValues.put(SUBCAT_COLUMN_QUANTITY, item_qty);
         contentValues.put(SUBCAT_COLUMN_PRICE, item_price);
+        contentValues.put(SUBCAT_COLUMN_ACTUALPRICE, item_actualprice);
         contentValues.put(SUBCAT_COLUMN_IMAGE, item_image);
         db.update(SUBCAT_TABLE_NAME, contentValues, SUBCAT_COLUMN_ID + "=?", new String[]{Integer.toString(item_id)});
         return true;

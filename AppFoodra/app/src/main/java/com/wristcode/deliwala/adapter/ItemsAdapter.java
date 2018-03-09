@@ -29,11 +29,11 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
 {
     private List<Items> moviesList;
     private Context mContext;
-    MainDishesFragment fragment;
+    MenuFragment fragment = new MenuFragment();
     ExampleDBHelper dbHelper;
     SharedPreferences pref;
     String subname, imgpath;
-    int subresid, subqty = 0, subprice = 0, qty = 0, price = 0, TOTAL = 0, RATE = 0;
+    int subresid, subqty = 0, subprice = 0, qty = 0, price = 0, TOTAL = 0, RATE = 0, itemprice;;
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
@@ -75,7 +75,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
                     prodqty.setText("1");
                     if (pref.getString("fg", "").toString().equals("0"))
                     {
-                        dbHelper.insertItem(Integer.parseInt(txtid.getText().toString()), 2, txtname.getText().toString(), Integer.parseInt(prodqty.getText().toString()), Integer.parseInt(txtprice.getText().toString()), txtimg.getText().toString());
+                        dbHelper.insertItem(Integer.parseInt(txtid.getText().toString()), 2, txtname.getText().toString(), Integer.parseInt(prodqty.getText().toString()), Integer.parseInt(txtprice.getText().toString()), Integer.parseInt(txtprice.getText().toString()), txtimg.getText().toString());
                     }
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putString("fg", "1");
@@ -105,20 +105,21 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
                                 subname = rs.getString(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_NAME));
                                 subqty = rs.getInt(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_QUANTITY));
                                 subprice = rs.getInt(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_PRICE));
+                                itemprice = rs.getInt(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_ACTUALPRICE));
                                 imgpath = rs.getString(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_IMAGE));
                                 qty = subqty + 1;
                                 price = subprice + Integer.parseInt(txtprice.getText().toString());
-                                dbHelper.updateItem(value1, subresid, txtname.getText().toString(), qty, price, imgpath);
+                                dbHelper.updateItem(value1, subresid, txtname.getText().toString(), qty, price, itemprice, imgpath);
                             }
                         }
                         else
                         {
-                            dbHelper.insertItem(Integer.parseInt(txtid.getText().toString()), 2, txtname.getText().toString(), Integer.parseInt(prodqty.getText().toString()), Integer.parseInt(txtprice.getText().toString()), txtimg.getText().toString());
+                            dbHelper.insertItem(Integer.parseInt(txtid.getText().toString()), 2, txtname.getText().toString(), Integer.parseInt(prodqty.getText().toString()), Integer.parseInt(txtprice.getText().toString()), Integer.parseInt(txtprice.getText().toString()), txtimg.getText().toString());
                         }
                     }
-//                    SharedPreferences.Editor editor1 = pref.edit();
-//                    editor1.putString("fg", "1");
-//                    editor1.apply();
+                    SharedPreferences.Editor editor1 = pref.edit();
+                    editor1.putString("fg", "1");
+                    editor1.apply();
 
                     TOTAL = dbHelper.gettotalqty();
                     RATE = dbHelper.gettotalprice();
@@ -144,13 +145,14 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
                                 subname = rs.getString(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_NAME));
                                 subqty = rs.getInt(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_QUANTITY));
                                 subprice = rs.getInt(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_PRICE));
+                                itemprice = rs.getInt(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_ACTUALPRICE));
                                 imgpath = rs.getString(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_IMAGE));
                                 qty = subqty - 1;
                                 price = subprice - Integer.parseInt(txtprice.getText().toString());
                                 if (qty == 0) {
                                     dbHelper.deleteItem(Integer.parseInt(txtid.getText().toString()));
                                 } else {
-                                    dbHelper.updateItem(value1, subresid, txtname.getText().toString(), qty, price, imgpath);
+                                    dbHelper.updateItem(value1, subresid, txtname.getText().toString(), qty, price, itemprice, imgpath);
                                 }
                             }
                         } else {
@@ -178,19 +180,19 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
 
     public void passval(int val)
     {
-        ((MainDishesFragment) fragment).setCart(val);
+        //fragment.setCart(val);
     }
 
     public void passval1(int val)
     {
-        ((MainDishesFragment) fragment).setCart(val);
+        //fragment.setCart(val);
     }
 
     public void passprice(int val) {
-        ((MainDishesFragment) fragment).setPrice(val);
+        //((MenuFragment) fragment).setPrice(val);
     }
 
-    public ItemsAdapter(Context mContext, List<Items> moviesList, MainDishesFragment fragment) {
+    public ItemsAdapter(Context mContext, List<Items> moviesList, MenuFragment fragment) {
         this.mContext = mContext;
         this.moviesList = moviesList;
         this.fragment = fragment;

@@ -1,6 +1,7 @@
 package com.wristcode.deliwala;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -389,5 +390,11 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
                 return;
             }
         }
+    }
+
+    public void backButton(View v) {
+        Intent i = new Intent(TrackActivity.this, NavDrawer.class);
+        startActivity(i);
+        finish();
     }
 }

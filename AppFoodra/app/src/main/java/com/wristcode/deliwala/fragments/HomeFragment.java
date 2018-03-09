@@ -1,13 +1,13 @@
 package com.wristcode.deliwala.fragments;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,22 +24,26 @@ import com.wristcode.deliwala.Pojo.Category;
 import com.wristcode.deliwala.Pojo.Restaurants;
 import com.wristcode.deliwala.R;
 import com.wristcode.deliwala.adapter.CategoryAdapter;
-import com.wristcode.deliwala.adapter.OffersAdapter;
+import com.wristcode.deliwala.adapter.RestaurantsAdapter;
 import com.wristcode.deliwala.extra.IConstants;
+import com.wristcode.deliwala.sqlite.ExampleDBHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class HomeFragment extends Fragment implements IConstants, View.OnFocusChangeListener {
@@ -51,9 +55,10 @@ public class HomeFragment extends Fragment implements IConstants, View.OnFocusCh
     RecyclerView menurecycler, offerrecycler;
     private List<Category> categoriesList;
     CategoryAdapter adapter;
-    OffersAdapter adapter1;
+    RestaurantsAdapter adapter1;
     LinearLayoutManager HorizontalLayout;
     SharedPreferences pref;
+    ExampleDBHelper dh;
     private String mParam1;
     private String mParam2;
 
@@ -90,6 +95,8 @@ public class HomeFragment extends Fragment implements IConstants, View.OnFocusCh
         SharedPreferences.Editor editor = pref.edit();
         editor.putString("fg", "0");
         editor.apply();
+        dh = new ExampleDBHelper(getActivity());
+        //exportDB();
         menurecycler = v.findViewById(R.id.menurecycler);
         categoriesList = new ArrayList<>();
         prepareAlbums();
@@ -107,6 +114,27 @@ public class HomeFragment extends Fragment implements IConstants, View.OnFocusCh
         {
             Intent i = new Intent(getActivity(), HotelListActivity.class);
             startActivity(i);
+        }
+    }
+
+    public void exportDB() {
+        String SAMPLE_DB_NAME = dh.getDatabaseName();
+        File sd = Environment.getExternalStorageDirectory();
+        File data = Environment.getDataDirectory();
+        FileChannel source = null;
+        FileChannel destination = null;
+        String currentDBPath = "/data/" + getActivity().getPackageName() + "/databases/" + SAMPLE_DB_NAME;
+        String backupDBPath = SAMPLE_DB_NAME;
+        File currentDB = new File(data, currentDBPath);
+        File backupDB = new File(sd, backupDBPath);
+        try {
+            source = new FileInputStream(currentDB).getChannel();
+            destination = new FileOutputStream(backupDB).getChannel();
+            destination.transferFrom(source, 0, source.size());
+            source.close();
+            destination.close();
+        } catch (IOException e) {
+            Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -292,7 +320,7 @@ public class HomeFragment extends Fragment implements IConstants, View.OnFocusCh
                         resData.resimg = json_data.getString("iconImage");
                         data.add(resData);
                     }
-                    adapter1 = new OffersAdapter(getActivity(), data);
+                    adapter1 = new RestaurantsAdapter(getActivity(), data);
                     offerrecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
                     offerrecycler.setNestedScrollingEnabled(false);
                     offerrecycler.setFocusable(false);

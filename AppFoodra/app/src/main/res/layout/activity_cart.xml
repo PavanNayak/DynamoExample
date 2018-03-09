@@ -24,7 +24,8 @@
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/back" />
+                    android:src="@drawable/back"
+                    android:onClick="backButton"/>
 
                 <TextView
                     android:id="@+id/txttitle"

@@ -1,6 +1,7 @@
 package com.wristcode.deliwala;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,8 +11,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.wristcode.deliwala.Pojo.Cart;
 import com.wristcode.deliwala.Pojo.Items;
 import com.wristcode.deliwala.adapter.CartAdapter;
+import com.wristcode.deliwala.sqlite.ExampleDBHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +27,9 @@ public class CartActivity extends AppCompatActivity
     private List<Items> categoriesList;
     TextView txttitle, txtsubtotal, valsubtotal, txtdelivery, valdelivery, txtdeltip, valdeltip, txttotal, valtotal;
     Button placeorder;
+    ExampleDBHelper dh;
+    List<Cart> data = new ArrayList<>();
+    int grandTotal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -52,9 +58,28 @@ public class CartActivity extends AppCompatActivity
         txttotal.setTypeface(font);
         valtotal.setTypeface(font1);
         placeorder.setTypeface(font1);
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerCart);
-        categoriesList = new ArrayList<>();
-        prepareAlbums();
+        recyclerView = findViewById(R.id.recyclerCart);
+        dh = new ExampleDBHelper(getApplicationContext());
+
+        Cursor c = dh.getAllItems();
+        while (c.moveToNext()) {
+            Cart fishData = new Cart();
+            fishData.name = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_NAME));
+            fishData.qty = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_QUANTITY));
+            fishData.price = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_PRICE));
+            fishData.id = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_ID));
+            data.add(fishData);
+        }
+
+        valsubtotal.setText("₹ "+dh.gettotalprice());
+        grandTotal = (dh.gettotalprice() + 10 + 5);
+        valtotal.setText("₹ "+ grandTotal);
+
+        adapter = new CartAdapter(CartActivity.this, data);
+        HorizontalLayout = new LinearLayoutManager(CartActivity.this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(HorizontalLayout);
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
 
         placeorder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,31 +87,21 @@ public class CartActivity extends AppCompatActivity
             {
                 Intent i = new Intent(CartActivity.this, PaymentActivity.class);
                 startActivity(i);
+                finish();
             }
         });
     }
 
-    private void prepareAlbums()
-    {
-        int[] covers = new int[]
-                {
-                        R.drawable.chickenb,
-                        R.drawable.muttonb,
-                        R.drawable.eggb,
-                        R.drawable.chickenb
-                };
+    public void backButton(View v) {
+        Intent i = new Intent(CartActivity.this, HotelActivity.class);
+        startActivity(i);
+        finish();
+    }
 
-        Items a = new Items("1", "Chicken Biriyani", "₹ 150", "", covers[0]);
-        categoriesList.add(a);
-        a = new Items("2", "Mutton Biriyani", "₹170", "", covers[1]);
-        categoriesList.add(a);
-        a = new Items("3", "Egg Biriyani", "₹100", "", covers[2]);
-        categoriesList.add(a);
-
-        adapter = new CartAdapter(CartActivity.this, categoriesList);
-        HorizontalLayout = new LinearLayoutManager(CartActivity.this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(HorizontalLayout);
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(CartActivity.this, HotelActivity.class);
+        startActivity(i);
+        finish();
     }
 }

@@ -85,5 +85,6 @@ public class HotelActivity extends AppCompatActivity
     public void onClickCart(View v) {
         Intent i = new Intent(HotelActivity.this, CartActivity.class);
         startActivity(i);
+        finish();
     }
 }

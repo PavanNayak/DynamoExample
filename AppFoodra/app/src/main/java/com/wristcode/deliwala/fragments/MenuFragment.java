@@ -13,9 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.wristcode.deliwala.LoginActivity;
 import com.wristcode.deliwala.R;
 import com.wristcode.deliwala.sqlite.ExampleDBHelper;
 
@@ -37,7 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.wristcode.deliwala.SelectLocationActivity.READ_TIMEOUT;
-import static com.wristcode.deliwala.adapter.OffersAdapter.CONNECTION_TIMEOUT;
+import static com.wristcode.deliwala.adapter.RestaurantsAdapter.CONNECTION_TIMEOUT;
 
 public class MenuFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
@@ -78,8 +76,9 @@ public class MenuFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_menu, container, false);
 
-        strMenuTitle=new ArrayList<>();
-        strJson=new ArrayList<>();
+        cart_badge = v.findViewById(R.id.cart_badge);
+        strMenuTitle = new ArrayList<>();
+        strJson = new ArrayList<>();
 
         new AsyncGetData().execute("2");
         viewPager = v.findViewById(R.id.simpleViewPager);
@@ -142,6 +141,16 @@ public class MenuFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void setCart(int item)
+    {
+        //cart_badge.setText(item);
+    }
+
+    public void setPrice(int total)
+    {
+        //txtitemtotal.setText("₹" + String.valueOf(total));
     }
 
 

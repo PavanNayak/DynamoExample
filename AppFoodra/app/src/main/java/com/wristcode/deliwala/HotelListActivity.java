@@ -17,9 +17,8 @@ import android.widget.Toast;
 import com.wristcode.deliwala.Pojo.Hotels;
 import com.wristcode.deliwala.Pojo.Restaurants;
 import com.wristcode.deliwala.adapter.HotelAdapter;
-import com.wristcode.deliwala.adapter.OffersAdapter;
+import com.wristcode.deliwala.adapter.RestaurantsAdapter;
 import com.wristcode.deliwala.extra.IConstants;
-import com.wristcode.deliwala.fragments.HomeFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,7 +40,7 @@ public class HotelListActivity extends AppCompatActivity implements IConstants {
     EditText EditSearch;
     HotelAdapter adapter;
     private List<Hotels> categoriesList;
-    OffersAdapter adapter1;
+    RestaurantsAdapter adapter1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -223,7 +222,7 @@ public class HotelListActivity extends AppCompatActivity implements IConstants {
                         resData.resimg = json_data.getString("iconImage");
                         data.add(resData);
                     }
-                    adapter1 = new OffersAdapter(HotelListActivity.this, data);
+                    adapter1 = new RestaurantsAdapter(HotelListActivity.this, data);
                     recyclerView.setLayoutManager(new LinearLayoutManager(HotelListActivity.this));
                     recyclerView.setNestedScrollingEnabled(false);
                     recyclerView.setFocusable(false);

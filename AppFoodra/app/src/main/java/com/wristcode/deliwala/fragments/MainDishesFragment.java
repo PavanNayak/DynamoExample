@@ -32,6 +32,7 @@ public class MainDishesFragment extends Fragment
     RecyclerView recyclerMenu;
     private List<Items> categoriesList;
     ItemsAdapter adapter;
+    MenuFragment frag = new MenuFragment();
     String jsonString;
     TextView cart_badge;
     ExampleDBHelper dh;
@@ -57,7 +58,7 @@ public class MainDishesFragment extends Fragment
         {
             JSONObject jobject = new JSONObject(jsonString);
             Items data = new Items();
-            Toast.makeText(getActivity(), String.valueOf(jobject.getString("id")), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(), String.valueOf(jobject.getString("id")), Toast.LENGTH_SHORT).show();
             data.id = jobject.getString("id");
             data.name=jobject.getString("itemName");
             data.descp=jobject.getString("itemShortDescription");
@@ -70,22 +71,12 @@ public class MainDishesFragment extends Fragment
         }
 
         recyclerMenu = v.findViewById(R.id.recyclerMenu);
-        adapter = new ItemsAdapter(getActivity(), categoriesList, MainDishesFragment.this);
+        adapter = new ItemsAdapter(getActivity(), categoriesList, frag);
         recyclerMenu.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerMenu.setNestedScrollingEnabled(false);
         recyclerMenu.setFocusable(false);
         recyclerMenu.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         return v;
-    }
-
-    public void setCart(int item)
-    {
-        //cart_badge.setText(String.valueOf(item));
-    }
-
-    public void setPrice(int total)
-    {
-        //txtitemtotal.setText("₹" + String.valueOf(total));
     }
 }

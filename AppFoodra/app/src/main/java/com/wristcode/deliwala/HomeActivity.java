@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -14,7 +13,7 @@ import android.widget.TextView;
 import com.wristcode.deliwala.Pojo.Category;
 import com.wristcode.deliwala.Pojo.Restaurants;
 import com.wristcode.deliwala.adapter.CategoryAdapter;
-import com.wristcode.deliwala.adapter.OffersAdapter;
+import com.wristcode.deliwala.adapter.RestaurantsAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +29,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private List<Category> categoriesList;
     private List<Restaurants> categoriesList1;
     CategoryAdapter adapter;
-    OffersAdapter adapter1;
+    RestaurantsAdapter adapter1;
     LinearLayoutManager HorizontalLayout;
 
     @Override
@@ -111,7 +110,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 //        a = new Restaurants("Spice n Ice","Chinese, Italian, Arabian",covers[0],"4.1 km","10 AM - 12 AM");
 //        categoriesList1.add(a);
 //
-//        adapter1 = new OffersAdapter(HomeActivity.this, categoriesList1);
+//        adapter1 = new RestaurantsAdapter(HomeActivity.this, categoriesList1);
 //        offerrecycler.setFocusable(false);
 //        offerrecycler.setAdapter(adapter1);
 //        offerrecycler.setLayoutManager(new LinearLayoutManager(this));

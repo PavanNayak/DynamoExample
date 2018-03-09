@@ -19,7 +19,7 @@ import com.wristcode.deliwala.R;
 
 import java.util.List;
 
-public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHolder> {
+public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.MyViewHolder> {
     public static final String mypreference = "mypref";
     public String cart_id = "-1";
     public static final String product_id = "product_id";
@@ -46,7 +46,7 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
         }
     }
 
-    public OffersAdapter(Context mContext, List<Restaurants> moviesList) {
+    public RestaurantsAdapter(Context mContext, List<Restaurants> moviesList) {
         this.mContext = mContext;
         this.moviesList = moviesList;
     }

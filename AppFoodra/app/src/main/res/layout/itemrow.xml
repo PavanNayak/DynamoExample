@@ -28,9 +28,9 @@
 
     <TextView
         android:id="@+id/txtid"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:visibility="visible" />
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/txtresid"
