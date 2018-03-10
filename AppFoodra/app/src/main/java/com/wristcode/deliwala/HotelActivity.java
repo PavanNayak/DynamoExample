@@ -87,4 +87,11 @@ public class HotelActivity extends AppCompatActivity
         startActivity(i);
         finish();
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(HotelActivity.this, NavDrawer.class);
+        startActivity(i);
+        finish();
+    }
 }

@@ -10,10 +10,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatRadioButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,7 +53,7 @@ public class PaymentActivity extends AppCompatActivity implements IConstants
     private List<Payment> paymentList;
     PaymentAdapter adapter;
     LinearLayoutManager HorizontalLayout;
-    TextView txttotal, valuetotal, txtpromo;
+    TextView txttotal, valuetotal, txtpaytype, txtordertype, txtpromo;
     EditText valuepromo;
     Button pay, applypromo;
     ExampleDBHelper dh;
@@ -58,23 +61,33 @@ public class PaymentActivity extends AppCompatActivity implements IConstants
     List<String> arrayId;
     List<String> arrayPrice;
     List<String> arrayQty;
+    AppCompatRadioButton rdelivery, rpickup;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
-        txttotal = (TextView) findViewById(R.id.txttotal);
-        valuetotal = (TextView) findViewById(R.id.valuetotal);
-        txtpromo = (TextView) findViewById(R.id.txtpromo);
-        valuepromo = (EditText) findViewById(R.id.valuepromo);
-        applypromo = (Button) findViewById(R.id.applypromo);
-        pay = (Button) findViewById(R.id.pay);
+        txttotal = findViewById(R.id.txttotal);
+        valuetotal = findViewById(R.id.valuetotal);
+        txtpaytype = findViewById(R.id.txtpaytype);
+        txtordertype = findViewById(R.id.txtordertype);
+        txtpromo = findViewById(R.id.txtpromo);
+        valuepromo = findViewById(R.id.valuepromo);
+        applypromo = findViewById(R.id.applypromo);
+        pay = findViewById(R.id.pay);
+        rdelivery = findViewById(R.id.radioDelivery);
+        rpickup = findViewById(R.id.radioPickup);
         pref1 = PreferenceManager.getDefaultSharedPreferences(PaymentActivity.this);
         Typeface font1 = Typeface.createFromAsset(getAssets(),"GT-Walsheim-Medium.ttf");
         Typeface font2 = Typeface.createFromAsset(getAssets(),"GT-Walsheim-Regular.ttf");
         txttotal.setTypeface(font1);
         valuetotal.setTypeface(font2);
+        txtpaytype.setTypeface(font1);
+        txtordertype.setTypeface(font1);
         txtpromo.setTypeface(font1);
+        rdelivery.setTypeface(font2);
+        rpickup.setTypeface(font2);
         valuepromo.setTypeface(font2);
         applypromo.setTypeface(font2);
         pay.setTypeface(font2);
@@ -83,11 +96,15 @@ public class PaymentActivity extends AppCompatActivity implements IConstants
         arrayPrice = new ArrayList<>();
         arrayQty = new ArrayList<>();
 
+        SharedPreferences.Editor editor = pref1.edit();
+        editor.putString("OrderType", "Delivery");
+        editor.apply();
+
         Cursor c = dh.getAllItems();
         while (c.moveToNext())
         {
             arrayQty.add(c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_QUANTITY)));
-            arrayPrice.add(c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_PRICE)));
+            arrayPrice.add("");
             arrayId.add(c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_ID)));
         }
 
@@ -96,19 +113,40 @@ public class PaymentActivity extends AppCompatActivity implements IConstants
         paymentList = new ArrayList<>();
         prepareAlbums();
 
-        pay.setOnClickListener(new View.OnClickListener() {
+        rdelivery.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    SharedPreferences.Editor editor = pref1.edit();
+                    editor.putString("OrderType", "Delivery");
+                    editor.apply();
+                }
+            }
+        });
+
+        rpickup.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    SharedPreferences.Editor editor = pref1.edit();
+                    editor.putString("OrderType", "Pickup");
+                    editor.apply();
+                }
+            }
+        });
+
+        pay.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v)
             {
-                new AsyncOrderDetails().execute(pref1.getString("Id", "").toString(), "2", "17", "Delivery", "COD");
-                Intent i = new Intent(PaymentActivity.this, OrderConfirmActivity.class);
-                startActivity(i);
-                finish();
+                new AsyncOrderDetails().execute(pref1.getString("Id", "").toString(), "2", pref1.getString("AddressId", "").toString(), pref1.getString("OrderType", "").toString(), pref1.getString("PaymentType", "").toString());
             }
         });
     }
 
-    private class AsyncOrderDetails extends AsyncTask<String, String, String> {
+    private class AsyncOrderDetails extends AsyncTask<String, String, String>
+    {
         ProgressDialog pdLoading = new ProgressDialog(PaymentActivity.this);
         HttpURLConnection conn;
         URL url = null;
@@ -147,12 +185,11 @@ public class PaymentActivity extends AppCompatActivity implements IConstants
                         .appendQueryParameter("addressId", params[2])
                         .appendQueryParameter("orderType", params[3])
                         .appendQueryParameter("paymentType", params[4]);
-                for(int i=0;i<arrayId.size();i++)
-                    builder = builder.appendQueryParameter("items[0][productId]",arrayId.get(i).toString());
-                for(int i=0;i<arrayPrice.size();i++)
-                    builder = builder.appendQueryParameter("items[0][priceVariation]",arrayPrice.get(i).toString());
-                for(int i=0;i<arrayQty.size();i++)
-                    builder = builder.appendQueryParameter("items[0][quantity]",arrayQty.get(i).toString());
+                for(int i=0;i<arrayId.size();i++) {
+                    builder = builder.appendQueryParameter("items[" + i + "][productId]", arrayId.get(i).toString())
+                      .appendQueryParameter("items[" + i + "][priceVariation]", arrayPrice.get(i).toString())
+                      .appendQueryParameter("items[" + i + "][quantity]", arrayQty.get(i).toString());
+                }
                 String query = builder.build().getEncodedQuery();
 
                 OutputStream os = conn.getOutputStream();
@@ -194,12 +231,13 @@ public class PaymentActivity extends AppCompatActivity implements IConstants
                 JSONObject jsonObject = new JSONObject(result);
                 if (jsonObject.getString("status").equals("true"))
                 {
-                    Intent i = new Intent(PaymentActivity.this, TrackActivity.class);
+                    Intent i = new Intent(PaymentActivity.this, OrderConfirmActivity.class);
                     startActivity(i);
-                    finish();
                 }
 
-            } catch (JSONException e) {
+            }
+            catch (JSONException e)
+            {
                 Toast.makeText(PaymentActivity.this, "OOPS! Something went wrong. Retry", Toast.LENGTH_LONG).show();
             }
         }
@@ -219,10 +257,6 @@ public class PaymentActivity extends AppCompatActivity implements IConstants
         paymentList.add(a);
         a = new Payment("CARD", covers[1]);
         paymentList.add(a);
-        a = new Payment("PICKUP", covers[2]);
-        paymentList.add(a);
-//        a = new Payment("DINE IN", covers[3]);
-//        paymentList.add(a);
 
         adapter = new PaymentAdapter(PaymentActivity.this, paymentList);
         HorizontalLayout = new LinearLayoutManager(PaymentActivity.this, LinearLayoutManager.HORIZONTAL, false);

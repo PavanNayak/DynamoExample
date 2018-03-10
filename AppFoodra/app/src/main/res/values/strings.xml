@@ -38,11 +38,13 @@
 
         <item>Home</item>
 
-        <item>My Order</item>
+        <item>My Orders</item>
+
+        <item>My Cart</item>
 
         <item>Notifications</item>
 
-        <item>Settings</item>
+        <item>Profile</item>
 
         <item>Logout</item>
 

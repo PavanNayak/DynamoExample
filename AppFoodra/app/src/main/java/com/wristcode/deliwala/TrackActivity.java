@@ -401,7 +401,7 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(TrackActivity.this, TrackActivity.class);
+        Intent i = new Intent(TrackActivity.this, NavDrawer.class);
         startActivity(i);
         finish();
     }

@@ -5,8 +5,10 @@ package com.wristcode.deliwala.adapter;
  */
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +17,10 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.wristcode.deliwala.PaymentActivity;
 import com.wristcode.deliwala.Pojo.Payment;
 import com.wristcode.deliwala.R;
 
@@ -34,6 +38,7 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.MyViewHo
     private List<Payment> moviesList;
     private Context mContext;
     private int lastSelectedPosition = -1;
+    SharedPreferences pref;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView payname;
@@ -47,12 +52,25 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.MyViewHo
             relative = view.findViewById(R.id.relative);
             payimg = view.findViewById(R.id.payimg);
             radiobutton = view.findViewById(R.id.radiobutton);
+            pref = PreferenceManager.getDefaultSharedPreferences(mContext);
 
             radiobutton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v)
                 {
                     lastSelectedPosition = getAdapterPosition();
+                    if(lastSelectedPosition == 1)
+                    {
+                        SharedPreferences.Editor editor = pref.edit();
+                        editor.putString("PaymentType", "CASH");
+                        editor.apply();
+                    }
+                    else
+                    {
+                        SharedPreferences.Editor editor = pref.edit();
+                        editor.putString("PaymentType", "COD");
+                        editor.apply();
+                    }
                     payimg.setColorFilter(Color.parseColor("#DC143C"));
                     payname.setTextColor(Color.parseColor("#DC143C"));
                     notifyDataSetChanged();

@@ -391,6 +391,11 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
                 JSONObject jsonObject = new JSONObject(result);
                 if (jsonObject.getString("status").equals("true"))
                 {
+                    SharedPreferences p1 = PreferenceManager.getDefaultSharedPreferences(SelectLocationActivity.this);
+                    SharedPreferences.Editor editor1 = p1.edit();
+                    editor1.putString("AddressId", jsonObject.getString("addressId").toString());
+                    editor1.apply();
+
                     Intent i = new Intent(SelectLocationActivity.this, NavDrawer.class);
                     startActivity(i);
                     finish();
@@ -403,33 +408,37 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
     }
 
     @Override
-    public void onClick(View v) {
-        final View view = inflater.inflate(R.layout.activity_location_spinner, null);
-        houseno = view.findViewById(R.id.houseno);
-        streetname = view.findViewById(R.id.streetname);
-        final BottomSheetDialog dialog = new BottomSheetDialog(SelectLocationActivity.this);
+    public void onClick(View v)
+    {
+        Intent i = new Intent(SelectLocationActivity.this, LocationSelectActivity.class);
+        startActivity(i);
 
-        dialog.setContentView(view);
-        dialog.setOnShowListener(new DialogInterface.OnShowListener()
-        {
-            @Override
-            public void onShow(DialogInterface dialog)
-            {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                {
-                    SelectLocationActivity.this.getWindow().setStatusBarColor(SelectLocationActivity.this.getResources().getColor(R.color.colorPrimary));
-                }
-            }
-        });
-        dialog.show();
-        spinner = view.findViewById(R.id.spinner1);
-        List<String> categories = new ArrayList<>();
-        categories.add("Udupi");
-        categories.add("Manipal");
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(dataAdapter);
-        spinner.setOnItemSelectedListener(this);
+//        final View view = inflater.inflate(R.layout.activity_location_spinner, null);
+//        houseno = view.findViewById(R.id.houseno);
+//        streetname = view.findViewById(R.id.streetname);
+//        final BottomSheetDialog dialog = new BottomSheetDialog(SelectLocationActivity.this);
+//
+//        dialog.setContentView(view);
+//        dialog.setOnShowListener(new DialogInterface.OnShowListener()
+//        {
+//            @Override
+//            public void onShow(DialogInterface dialog)
+//            {
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+//                {
+//                    SelectLocationActivity.this.getWindow().setStatusBarColor(SelectLocationActivity.this.getResources().getColor(R.color.colorPrimary));
+//                }
+//            }
+//        });
+//        dialog.show();
+//        spinner = view.findViewById(R.id.spinner1);
+//        List<String> categories = new ArrayList<>();
+//        categories.add("Udupi");
+//        categories.add("Manipal");
+//        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories);
+//        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinner.setAdapter(dataAdapter);
+//        spinner.setOnItemSelectedListener(this);
     }
 
     @Override

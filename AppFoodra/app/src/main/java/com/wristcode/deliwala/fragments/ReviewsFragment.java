@@ -1,5 +1,6 @@
 package com.wristcode.deliwala.fragments;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.wristcode.deliwala.CartActivity;
+import com.wristcode.deliwala.HotelActivity;
+import com.wristcode.deliwala.NavDrawer;
 import com.wristcode.deliwala.Pojo.Reviews;
 import com.wristcode.deliwala.R;
 import com.wristcode.deliwala.adapter.ReviewsAdapter;

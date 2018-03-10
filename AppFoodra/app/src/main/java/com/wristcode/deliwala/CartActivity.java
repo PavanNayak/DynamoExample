@@ -19,8 +19,7 @@ import com.wristcode.deliwala.sqlite.ExampleDBHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CartActivity extends AppCompatActivity
-{
+public class CartActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     LinearLayoutManager HorizontalLayout;
     CartAdapter adapter;
@@ -32,8 +31,7 @@ public class CartActivity extends AppCompatActivity
     int grandTotal;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
         txttitle = (TextView) findViewById(R.id.txttitle);
@@ -58,33 +56,37 @@ public class CartActivity extends AppCompatActivity
         txttotal.setTypeface(font);
         valtotal.setTypeface(font1);
         placeorder.setTypeface(font1);
-        recyclerView = findViewById(R.id.recyclerCart);
         dh = new ExampleDBHelper(getApplicationContext());
 
-        Cursor c = dh.getAllItems();
-        while (c.moveToNext()) {
-            Cart fishData = new Cart();
-            fishData.name = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_NAME));
-            fishData.qty = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_QUANTITY));
-            fishData.price = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_PRICE));
-            fishData.id = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_ID));
-            data.add(fishData);
+        if (dh.gettotalprice() <= 0) {
+            setContentView(R.layout.activity_empty_cart);
+        } else {
+
+            Cursor c = dh.getAllItems();
+            while (c.moveToNext()) {
+                Cart fishData = new Cart();
+                fishData.name = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_NAME));
+                fishData.qty = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_QUANTITY));
+                fishData.price = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_PRICE));
+                fishData.id = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_ID));
+                data.add(fishData);
+            }
+
+            valsubtotal.setText("₹ " + dh.gettotalprice());
+            grandTotal = (dh.gettotalprice() + 10 + 5);
+            valtotal.setText("₹ " + grandTotal);
+
+            recyclerView = findViewById(R.id.recyclerCart);
+            adapter = new CartAdapter(CartActivity.this, data);
+            HorizontalLayout = new LinearLayoutManager(CartActivity.this, LinearLayoutManager.HORIZONTAL, false);
+            recyclerView.setLayoutManager(HorizontalLayout);
+            recyclerView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
         }
-
-        valsubtotal.setText("₹ "+dh.gettotalprice());
-        grandTotal = (dh.gettotalprice() + 10 + 5);
-        valtotal.setText("₹ "+ grandTotal);
-
-        adapter = new CartAdapter(CartActivity.this, data);
-        HorizontalLayout = new LinearLayoutManager(CartActivity.this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(HorizontalLayout);
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
 
         placeorder.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 Intent i = new Intent(CartActivity.this, PaymentActivity.class);
                 startActivity(i);
                 finish();
