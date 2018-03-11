@@ -92,9 +92,7 @@ public class MenuFragment extends Fragment {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager());
 
         for(int i=0; i<strMenuTitle.size(); i++)
-
         adapter.addFragment(new MainDishesFragment(strJson.get(i)), strMenuTitle.get(i));
-
         viewPager.setAdapter(adapter);
     }
 

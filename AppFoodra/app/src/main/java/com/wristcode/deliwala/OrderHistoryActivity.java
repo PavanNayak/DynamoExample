@@ -55,7 +55,9 @@ public class OrderHistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order_history);
         recyclerView = (RecyclerView) findViewById(R.id.orderRecycler);
         SharedPreferences preferences1 = PreferenceManager.getDefaultSharedPreferences(OrderHistoryActivity.this);
-        new AsyncOrderHistory().execute(preferences1.getString("apiKey", "").toString());
+
+        Toast.makeText(this,preferences1.getString("Id",""), Toast.LENGTH_SHORT).show();
+        new AsyncOrderHistory().execute(preferences1.getString("Id", "").toString());
     }
 
     private class AsyncOrderHistory extends AsyncTask<String, String, String> {
@@ -125,6 +127,8 @@ public class OrderHistoryActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result)
         {
+
+            Toast.makeText(OrderHistoryActivity.this, result, Toast.LENGTH_SHORT).show();
             pdLoading.dismiss();
             List<OrderHistory> data = new ArrayList<>();
             List<OrderHistoryItems> data1 = new ArrayList<>();
@@ -157,7 +161,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
                                 OrderHistoryItems fishData1 = new OrderHistoryItems();
                                 fishData1.ohItemname = json_data1.getString("itemName");
                                 fishData1.ohItemqty = json_data1.getString("quantity");
-                                fishData1.ohItemprice = json_data1.getString("actualamount");
+                                fishData1.ohItemprice = json_data1.getString("actualAmount");
                                 data1.add(fishData1);
                             }
 
