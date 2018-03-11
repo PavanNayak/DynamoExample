@@ -296,7 +296,6 @@ public class HomeFragment extends Fragment implements IConstants, View.OnFocusCh
 
         @Override
         protected void onPostExecute(String result) {
-            //Toast.makeText(getActivity(),res, Toast.LENGTH_SHORT).show();
             pdLoading.dismiss();
             List<Restaurants> data = new ArrayList<>();
             try {

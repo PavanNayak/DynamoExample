@@ -144,6 +144,17 @@
             android:layout_margin="5dp"
             android:gravity="center"
             android:text="Your delivery is pending!!!" />
+
+        <Button
+            android:id="@+id/btnTrack"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="TRACK YOUR ORDER"
+            android:layout_marginTop="10dp"
+            android:elevation="8dp"
+            android:layout_gravity="center"
+            android:textColor="@android:color/white"
+            android:background="@color/colorPrimary"/>
     </LinearLayout>
 
 

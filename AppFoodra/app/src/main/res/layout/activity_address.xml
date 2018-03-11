@@ -7,33 +7,31 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize" />
+        android:background="@color/colorPrimary">
 
-    <LinearLayout
-        android:id="@+id/toolbarlayout"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_gravity="center_vertical"
-            android:layout_margin="10dp"
-            android:onClick="backButton"
-            android:src="@drawable/back" />
-
-        <TextView
-            android:id="@+id/titleText"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_margin="10dp"
-            android:text="Add Address"
-            android:textColor="@android:color/white"
-            android:textSize="20sp" />
-    </LinearLayout>
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/back"
+                android:onClick="backButton"/>
+
+            <TextView
+                android:id="@+id/titletext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:text="ADD ADDRESS"
+                android:textColor="#FFFFFF" />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.Toolbar>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -78,6 +76,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="CHANGE"
+                    android:layout_gravity="center"
                     android:textColor="@color/colorPrimary" />
             </LinearLayout>
 
@@ -141,6 +140,7 @@
                         android:padding="10dp">
 
                         <ImageView
+                            android:id="@+id/imghome"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_gravity="center"
@@ -168,6 +168,7 @@
                         android:padding="10dp">
 
                         <ImageView
+                            android:id="@+id/imgwork"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_gravity="center"
@@ -195,6 +196,7 @@
                         android:padding="10dp">
 
                         <ImageView
+                            android:id="@+id/imgothers"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_gravity="center"
@@ -236,16 +238,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+
 
     <Button
         android:id="@+id/saveAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:background="@color/colorPrimary"
         android:text="SAVE ADDRESS"
         android:textColor="#FFF" />
+
+        </LinearLayout>
+    </ScrollView>
 </RelativeLayout>

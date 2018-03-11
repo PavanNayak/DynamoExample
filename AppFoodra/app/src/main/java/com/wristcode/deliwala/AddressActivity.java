@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,6 +15,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +52,9 @@ public class AddressActivity extends AppCompatActivity
     TextView txtdelivery, txtfulladdress, txtaddress, txtchange, txttagaddress, txthome, txtwork, txtothers, txtname, txtmobileno;
     EditText txtflatno, txtlandmark;
     Button saveAddress;
+    LinearLayout linearhome, linearwork, linearothers;
+    SharedPreferences pref1;
+    ImageView imghome, imgwork, imgothers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -56,6 +62,7 @@ public class AddressActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_address);
+        pref1 = PreferenceManager.getDefaultSharedPreferences(AddressActivity.this);
         txtdelivery = (TextView) findViewById(R.id.txtdelivery);
         txtfulladdress = (TextView) findViewById(R.id.txtfulladdress);
         txtaddress = (TextView) findViewById(R.id.txtaddress);
@@ -66,10 +73,69 @@ public class AddressActivity extends AppCompatActivity
         txthome = (TextView) findViewById(R.id.txthome);
         txtwork = (TextView) findViewById(R.id.txtwork);
         txtothers = (TextView) findViewById(R.id.txtothers);
+        imghome = (ImageView) findViewById(R.id.imghome);
+        imgwork = (ImageView) findViewById(R.id.imgwork);
+        imgothers = (ImageView) findViewById(R.id.imgothers);
         txtname = (TextView) findViewById(R.id.txtname);
         txtmobileno = (TextView) findViewById(R.id.txtmobileno);
         saveAddress = (Button) findViewById(R.id.saveAddress);
-        SharedPreferences preferences1 = PreferenceManager.getDefaultSharedPreferences(AddressActivity.this);
+        linearhome = (LinearLayout) findViewById(R.id.linearhome);
+        linearwork = (LinearLayout) findViewById(R.id.linearwork);
+        linearothers = (LinearLayout) findViewById(R.id.linearothers);
+
+        txtaddress.setText(pref1.getString("Address", "").toString());
+        txtflatno.setText(pref1.getString("HouseNumber", "").toString());
+        txtlandmark.setText(pref1.getString("Landmark", "").toString());
+        txtname.setText(pref1.getString("Name", "").toString());
+        txtmobileno.setText(pref1.getString("PhoneNo", "").toString());
+
+        linearhome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                imghome.setColorFilter(Color.parseColor("#DC143C"));
+                txthome.setTextColor(Color.parseColor("#DC143C"));
+                imgwork.setColorFilter(Color.parseColor("#C0C0C0"));
+                txtwork.setTextColor(Color.parseColor("#C0C0C0"));
+                imgothers.setColorFilter(Color.parseColor("#C0C0C0"));
+                txtothers.setTextColor(Color.parseColor("#C0C0C0"));
+            }
+        });
+
+        linearwork.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                imghome.setColorFilter(Color.parseColor("#C0C0C0"));
+                txthome.setTextColor(Color.parseColor("#C0C0C0"));
+                imgwork.setColorFilter(Color.parseColor("#DC143C"));
+                txtwork.setTextColor(Color.parseColor("#DC143C"));
+                imgothers.setColorFilter(Color.parseColor("#C0C0C0"));
+                txtothers.setTextColor(Color.parseColor("#C0C0C0"));
+            }
+        });
+
+        linearothers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                imghome.setColorFilter(Color.parseColor("#C0C0C0"));
+                txthome.setTextColor(Color.parseColor("#C0C0C0"));
+                imgwork.setColorFilter(Color.parseColor("#C0C0C0"));
+                txtwork.setTextColor(Color.parseColor("#C0C0C0"));
+                imgothers.setColorFilter(Color.parseColor("#DC143C"));
+                txtothers.setTextColor(Color.parseColor("#DC143C"));
+            }
+        });
+
+        txtchange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                Intent i = new Intent(AddressActivity.this, LocationSelectActivity.class);
+                startActivity(i);
+            }
+        });
         //new AsyncAddress().execute(preferences1.getString("Id", "").toString());
 
 //        txtchange.setOnClickListener(new View.OnClickListener() {

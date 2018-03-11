@@ -2,6 +2,7 @@ package com.wristcode.deliwala.adapter;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -25,6 +27,7 @@ import com.wristcode.deliwala.OrderHistoryActivity;
 import com.wristcode.deliwala.Pojo.OrderHistoryItems;
 import com.wristcode.deliwala.R;
 import com.wristcode.deliwala.Pojo.OrderHistory;
+import com.wristcode.deliwala.TrackActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,6 +64,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         public TextView txtorderid, txtorderdate, txtresname, txtorderitems, txtpaytype, valpaytype, txtgrandtotal, valgrandtotal, txtstatus;
         ImageView imgres;
         RecyclerView recyclerView1;
+        Button btnTrack;
 
         public MyViewHolder(View view)
         {
@@ -77,6 +81,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             valgrandtotal = (TextView) view.findViewById(R.id.valgrandtotal);
             txtstatus = (TextView) view.findViewById(R.id.txtstatus);
             imgres = (ImageView) view.findViewById(R.id.imgres);
+            btnTrack = (Button) view.findViewById(R.id.btnTrack);
             recyclerView1 = (RecyclerView) view.findViewById(R.id.itemsRecycler);
         }
     }
@@ -131,6 +136,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         holder.txtgrandtotal.setTypeface(font1);
         holder.valgrandtotal.setTypeface(font2);
         holder.txtstatus.setTypeface(font1);
+        holder.btnTrack.setTypeface(font2);
 
         JSONArray jArray1 = null;
         moviesList1 = new ArrayList<>();
@@ -154,6 +160,15 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         holder.recyclerView1.setLayoutManager(new LinearLayoutManager(mContext));
         holder.recyclerView1.setAdapter(mAdapter1);
         mAdapter1.notifyDataSetChanged();
+
+        holder.btnTrack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                Intent i = new Intent(mContext, TrackActivity.class);
+                mContext.startActivity(i);
+            }
+        });
     }
 
     @Override
