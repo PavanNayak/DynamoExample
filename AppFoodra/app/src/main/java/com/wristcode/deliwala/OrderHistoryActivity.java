@@ -55,7 +55,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order_history);
         recyclerView = (RecyclerView) findViewById(R.id.orderRecycler);
         SharedPreferences preferences1 = PreferenceManager.getDefaultSharedPreferences(OrderHistoryActivity.this);
-        new AsyncOrderHistory().execute(preferences1.getString("apiKey", "").toString());
+        new AsyncOrderHistory().execute(preferences1.getString("Id", "").toString());
     }
 
     private class AsyncOrderHistory extends AsyncTask<String, String, String> {
@@ -127,7 +127,6 @@ public class OrderHistoryActivity extends AppCompatActivity {
         {
             pdLoading.dismiss();
             List<OrderHistory> data = new ArrayList<>();
-            List<OrderHistoryItems> data1 = new ArrayList<>();
             try
             {
                 JSONObject jsonObject = new JSONObject(result);
@@ -149,17 +148,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
                             fishData.oTotal = json_data.getString("actualAmount");
                             fishData.oPayType = json_data.getString("paymentType");
                             fishData.oStatus = json_data.getString("orderStatus");
-
-                            JSONArray jArray1 = json_data.getJSONArray("customerOrderItems");
-                            for (int j = 0; j < jArray1.length(); j++)
-                            {
-                                JSONObject json_data1 = jArray1.getJSONObject(j);
-                                OrderHistoryItems fishData1 = new OrderHistoryItems();
-                                fishData1.ohItemname = json_data1.getString("itemName");
-                                fishData1.ohItemqty = json_data1.getString("quantity");
-                                fishData1.ohItemprice = json_data1.getString("actualamount");
-                                data1.add(fishData1);
-                            }
+                            fishData.oItems = json_data.getJSONArray("customerOrderItems").toString();
 
                             JSONObject jObject = json_data.getJSONObject("restaurant");
                             fishData.oResName = jObject.getString("restaurantName");
@@ -169,7 +158,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
                     }
                 }
 
-                mAdapter = new OrderHistoryAdapter(OrderHistoryActivity.this, data, data1);
+                mAdapter = new OrderHistoryAdapter(OrderHistoryActivity.this, data);
                 recyclerView.setLayoutManager(new LinearLayoutManager(OrderHistoryActivity.this));
                 recyclerView.setAdapter(mAdapter);
                 mAdapter.notifyDataSetChanged();

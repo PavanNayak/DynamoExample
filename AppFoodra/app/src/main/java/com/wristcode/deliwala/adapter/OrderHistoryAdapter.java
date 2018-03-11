@@ -58,7 +58,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 
     public class MyViewHolder extends RecyclerView.ViewHolder
     {
-        public TextView txtorderid, txtorderdate, txtresname, txtpaytype, valpaytype, txtgrandtotal, valgrandtotal, txtstatus;
+        public TextView txtorderid, txtorderdate, txtresname, txtorderitems, txtpaytype, valpaytype, txtgrandtotal, valgrandtotal, txtstatus;
         ImageView imgres;
         RecyclerView recyclerView1;
 
@@ -70,6 +70,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             txtorderid = (TextView) view.findViewById(R.id.txtorderid);
             txtorderdate = (TextView) view.findViewById(R.id.txtorderdate);
             txtresname = (TextView) view.findViewById(R.id.txtresname);
+            txtorderitems = (TextView) view.findViewById(R.id.txtorderitems);
             txtpaytype = (TextView) view.findViewById(R.id.txtpaytype);
             valpaytype = (TextView) view.findViewById(R.id.valpaytype);
             txtgrandtotal = (TextView) view.findViewById(R.id.txtgrandtotal);
@@ -80,11 +81,10 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         }
     }
 
-    public OrderHistoryAdapter(Context mContext, List<OrderHistory> moviesList, List<OrderHistoryItems> moviesList1)
+    public OrderHistoryAdapter(Context mContext, List<OrderHistory> moviesList)
     {
         this.mContext = mContext;
         this.moviesList = moviesList;
-        this.moviesList1 = moviesList1;
     }
 
     @Override
@@ -98,13 +98,21 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     public void onBindViewHolder(MyViewHolder holder, int position)
     {
         OrderHistory movie = moviesList.get(position);
-        Toast.makeText(mContext, movie.getoResName(), Toast.LENGTH_SHORT).show();
         holder.txtorderid.setText("Order ID: #" +movie.getoId());
         holder.txtorderdate.setText("Date: " + movie.getoDate());
         holder.txtresname.setText(movie.getoResName());
         holder.valpaytype.setText(movie.getoPayType());
         holder.valgrandtotal.setText("₹ "+ movie.getoTotal());
         holder.txtstatus.setText(movie.getoStatus());
+
+        if (movie.getoStatus().toString().equals("received"))
+        {
+            holder.txtstatus.setText("Your order has been received!!!");
+        }
+        else if (movie.getoStatus().toString().equals("dispatched"))
+        {
+            holder.txtstatus.setText("Your order has been dispatched!!!");
+        }
 
         Glide.with(mContext).load("http://appfoodra.com/uploads/restaurant/icons/"+movie.getoResImage())
                 .placeholder(R.mipmap.ic_launcher)
@@ -117,11 +125,30 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         holder.txtorderid.setTypeface(font1);
         holder.txtorderdate.setTypeface(font1);
         holder.txtresname.setTypeface(font1);
+        holder.txtorderitems.setTypeface(font1);
         holder.txtpaytype.setTypeface(font1);
         holder.valpaytype.setTypeface(font2);
         holder.txtgrandtotal.setTypeface(font1);
         holder.valgrandtotal.setTypeface(font2);
         holder.txtstatus.setTypeface(font1);
+
+        JSONArray jArray1 = null;
+        moviesList1 = new ArrayList<>();
+        try
+        {
+            jArray1 = new JSONArray(movie.getoItems());
+            for (int j = 0; j < jArray1.length(); j++)
+            {
+                JSONObject json_data1 = jArray1.getJSONObject(j);
+                OrderHistoryItems fishData1 = new OrderHistoryItems();
+                fishData1.ohItemname = json_data1.getString("itemName");
+                fishData1.ohItemqty = json_data1.getString("quantity");
+                fishData1.ohItemprice = json_data1.getString("actualAmount");
+                moviesList1.add(fishData1);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         mAdapter1 = new OrderHistoryItemAdapter(mContext, moviesList1);
         holder.recyclerView1.setLayoutManager(new LinearLayoutManager(mContext));
