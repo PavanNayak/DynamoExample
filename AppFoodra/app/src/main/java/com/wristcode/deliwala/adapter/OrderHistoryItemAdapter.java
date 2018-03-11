@@ -58,10 +58,9 @@ public class OrderHistoryItemAdapter extends RecyclerView.Adapter<OrderHistoryIt
     public void onBindViewHolder(MyViewHolder holder, int position)
     {
         OrderHistoryItems movie = moviesList.get(position);
-        Toast.makeText(mContext, movie.getOhItemname(), Toast.LENGTH_SHORT).show();
         holder.itemname.setText(movie.getOhItemname());
-        holder.itemprice.setText(movie.getOhItemprice());
-        holder.itemqty.setText(movie.getOhItemqty());
+        holder.itemprice.setText("₹ "+movie.getOhItemprice());
+        holder.itemqty.setText("X"+movie.getOhItemqty());
 
         Typeface font1 = Typeface.createFromAsset(mContext.getAssets(), "GT-Walsheim-Regular.ttf");
 

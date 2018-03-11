@@ -87,7 +87,7 @@ public class CartActivity extends AppCompatActivity {
         placeorder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(CartActivity.this, PaymentActivity.class);
+                Intent i = new Intent(CartActivity.this, AddAddressActivity.class);
                 startActivity(i);
                 finish();
             }

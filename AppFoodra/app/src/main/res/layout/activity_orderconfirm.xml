@@ -53,6 +53,6 @@
         android:background="@color/colorPrimary"
         android:textColor="@android:color/white"
         android:elevation="8dp"
-        android:text="TRACK YOUR ORDER"/>
+        android:text="CHECK YOUR ORDER"/>
 
 </RelativeLayout>

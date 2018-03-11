@@ -36,7 +36,7 @@ public class OrderConfirmActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                Intent i = new Intent(OrderConfirmActivity.this, TrackActivity.class);
+                Intent i = new Intent(OrderConfirmActivity.this, OrderHistoryActivity.class);
                 startActivity(i);
             }
         });

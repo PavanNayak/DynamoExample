@@ -67,6 +67,16 @@
             android:windowSoftInputMode="adjustPan" />
 
         <activity
+            android:name="com.wristcode.deliwala.AddAddressActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name="com.wristcode.deliwala.AddressActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
             android:name="com.wristcode.deliwala.OrderConfirmActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
