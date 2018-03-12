@@ -45,6 +45,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
     public static final int CONNECTION_TIMEOUT = 10000;
     public static final int READ_TIMEOUT = 15000;
 
+    List<OrderHistoryItems> data1;
     RecyclerView recyclerView;
     OrderHistoryAdapter mAdapter;
 
@@ -55,11 +56,10 @@ public class OrderHistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order_history);
         recyclerView = (RecyclerView) findViewById(R.id.orderRecycler);
         SharedPreferences preferences1 = PreferenceManager.getDefaultSharedPreferences(OrderHistoryActivity.this);
-<<<<<<< HEAD
+
 
         Toast.makeText(this,preferences1.getString("Id",""), Toast.LENGTH_SHORT).show();
-=======
->>>>>>> 9849c924667ce964a0128d6609fb72f131902830
+
         new AsyncOrderHistory().execute(preferences1.getString("Id", "").toString());
     }
 
@@ -134,6 +134,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
             Toast.makeText(OrderHistoryActivity.this, result, Toast.LENGTH_SHORT).show();
             pdLoading.dismiss();
             List<OrderHistory> data = new ArrayList<>();
+            List<OrderHistoryItems> data1 = new ArrayList<>();
             try
             {
                 JSONObject jsonObject = new JSONObject(result);
@@ -155,7 +156,6 @@ public class OrderHistoryActivity extends AppCompatActivity {
                             fishData.oTotal = json_data.getString("actualAmount");
                             fishData.oPayType = json_data.getString("paymentType");
                             fishData.oStatus = json_data.getString("orderStatus");
-<<<<<<< HEAD
 
                             JSONArray jArray1 = json_data.getJSONArray("customerOrderItems");
                             for (int j = 0; j < jArray1.length(); j++)
@@ -167,9 +167,9 @@ public class OrderHistoryActivity extends AppCompatActivity {
                                 fishData1.ohItemprice = json_data1.getString("actualAmount");
                                 data1.add(fishData1);
                             }
-=======
+
                             fishData.oItems = json_data.getJSONArray("customerOrderItems").toString();
->>>>>>> 9849c924667ce964a0128d6609fb72f131902830
+
 
                             JSONObject jObject = json_data.getJSONObject("restaurant");
                             fishData.oResName = jObject.getString("restaurantName");

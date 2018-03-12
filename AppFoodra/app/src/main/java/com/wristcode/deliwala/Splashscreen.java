@@ -6,10 +6,13 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.google.firebase.iid.FirebaseInstanceId;
 
 public class Splashscreen extends AppCompatActivity {
     Animation animSlideDown;
@@ -28,6 +31,13 @@ public class Splashscreen extends AppCompatActivity {
             public void run()
             {
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(Splashscreen.this);
+                String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+               // Toast.makeText(Splashscreen.this,refreshedToken, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(Splashscreen.this,preferences.getString("regId","").toString(), Toast.LENGTH_SHORT).show();
+                SharedPreferences.Editor editor1 = preferences.edit();
+                editor1.putString("tokenId",refreshedToken );
+                editor1.apply();
+                Log.d("tokenId",refreshedToken);
                 if(preferences.getString("flag", "").toString().equals("1"))
                 {
                     Intent i = new Intent(Splashscreen.this, NavDrawer.class);

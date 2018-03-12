@@ -74,7 +74,7 @@ public class OTPActivity extends AppCompatActivity implements IConstants {
                 {
                     if (pref.getString("UserType", "").toString().equals("new"))
                     {
-                        new AsyncRegister().execute(pref.getString("Name", "").toString(), pref.getString("Email", "").toString(), pref.getString("PhoneNo", "").toString(), pref.getString("Profile", "").toString());
+                        new AsyncRegister().execute(pref.getString("Name", "").toString(), pref.getString("Email", "").toString(), pref.getString("PhoneNo", "").toString(), pref.getString("Profile", "").toString(),pref.getString("tokenId",""));
                     }
                     else
                     {
@@ -132,7 +132,8 @@ public class OTPActivity extends AppCompatActivity implements IConstants {
                         .appendQueryParameter("username", params[0])
                         .appendQueryParameter("email", params[1])
                         .appendQueryParameter("mobileNumber", params[2])
-                        .appendQueryParameter("path", params[3]);
+                        .appendQueryParameter("path", params[3])
+                        .appendQueryParameter("tokenId", params[4]);
                 String query = builder.build().getEncodedQuery();
 
                 OutputStream os = conn.getOutputStream();

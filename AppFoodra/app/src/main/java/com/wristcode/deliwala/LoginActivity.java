@@ -198,7 +198,8 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
                 conn.setDoInput(true);
                 conn.setDoOutput(true);
 
-                Uri.Builder builder = new Uri.Builder().appendQueryParameter("mobileNumber", params[0]);
+                Uri.Builder builder = new Uri.Builder().appendQueryParameter("mobileNumber", params[0])
+                .appendQueryParameter("tokenId", params[1]);
                 String query = builder.build().getEncodedQuery();
 
                 OutputStream os = conn.getOutputStream();
@@ -234,6 +235,7 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
         @Override
         protected void onPostExecute(String result) {
             pdLoading.dismiss();
+            Toast.makeText(LoginActivity.this,result, Toast.LENGTH_SHORT).show();
             try {
                 JSONObject jsonObject = new JSONObject(result);
                 if (jsonObject.getString("status").equals("true"))
@@ -275,8 +277,8 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
         if (valuephone.getText().toString().matches("")) {
             Toast.makeText(LoginActivity.this, "You must enter your mobile number!!!", Toast.LENGTH_SHORT).show();
         } else {
-
-            new AsyncPreRegister().execute(valuephone.getText().toString().trim());
+            SharedPreferences pref2 = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+            new AsyncPreRegister().execute(valuephone.getText().toString().trim(),pref2.getString("tokenId",""));
         }
     }
 }

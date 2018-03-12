@@ -126,14 +126,14 @@
 
             <ImageView android:layout_height="30dp" android:layout_width="30dp" android:src="@mipmap/ic_launcher" android:layout_gravity="center"/>
 
-            <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/txthome"  android:text="Home" android:textAlignment="center" android:layout_marginTop="10dp"/>
+            <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/txthome1"  android:text="Home" android:textAlignment="center" android:layout_marginTop="10dp"/>
 
         </LinearLayout>
             -<LinearLayout android:layout_height="wrap_content" android:layout_width="wrap_content" android:orientation="vertical" android:onClick="onCLickHome" android:padding="10dp" android:gravity="center" android:layout_gravity="center" android:layout_weight="1">
 
             <ImageView android:layout_height="30dp" android:layout_width="30dp" android:src="@mipmap/ic_launcher" android:layout_gravity="center"/>
 
-            <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/txthome"  android:text="Home" android:textAlignment="center" android:layout_marginTop="10dp"/>
+            <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/txthome2"  android:text="Home" android:textAlignment="center" android:layout_marginTop="10dp"/>
 
         </LinearLayout>
 
