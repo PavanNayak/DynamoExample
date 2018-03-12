@@ -56,10 +56,13 @@ public class OrderHistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order_history);
         recyclerView = (RecyclerView) findViewById(R.id.orderRecycler);
         SharedPreferences preferences1 = PreferenceManager.getDefaultSharedPreferences(OrderHistoryActivity.this);
+<<<<<<< HEAD
 
 
         Toast.makeText(this,preferences1.getString("Id",""), Toast.LENGTH_SHORT).show();
 
+=======
+>>>>>>> 41e8fc42e5e1231cceb92041cccb803948550ec7
         new AsyncOrderHistory().execute(preferences1.getString("Id", "").toString());
     }
 
@@ -130,8 +133,6 @@ public class OrderHistoryActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result)
         {
-
-            Toast.makeText(OrderHistoryActivity.this, result, Toast.LENGTH_SHORT).show();
             pdLoading.dismiss();
             List<OrderHistory> data = new ArrayList<>();
             List<OrderHistoryItems> data1 = new ArrayList<>();
@@ -156,6 +157,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
                             fishData.oTotal = json_data.getString("actualAmount");
                             fishData.oPayType = json_data.getString("paymentType");
                             fishData.oStatus = json_data.getString("orderStatus");
+<<<<<<< HEAD
 
                             JSONArray jArray1 = json_data.getJSONArray("customerOrderItems");
                             for (int j = 0; j < jArray1.length(); j++)
@@ -170,6 +172,9 @@ public class OrderHistoryActivity extends AppCompatActivity {
 
                             fishData.oItems = json_data.getJSONArray("customerOrderItems").toString();
 
+=======
+                            fishData.oItems = json_data.getJSONArray("customerOrderItems").toString();
+>>>>>>> 41e8fc42e5e1231cceb92041cccb803948550ec7
 
                             JSONObject jObject = json_data.getJSONObject("restaurant");
                             fishData.oResName = jObject.getString("restaurantName");

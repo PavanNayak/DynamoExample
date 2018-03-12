@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -47,7 +48,7 @@ public class AddAddressActivity extends AppCompatActivity
 
     RecyclerView recyclerView;
     AddressAdapter mAdapter;
-    TextView txttitleadd;
+    TextView titletext, txttitleadd;
     Button addAddress;
 
     @Override
@@ -55,9 +56,15 @@ public class AddAddressActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_add_address);
+        titletext = (TextView) findViewById(R.id.titletext);
         txttitleadd = (TextView) findViewById(R.id.txttitleadd);
         addAddress = (Button) findViewById(R.id.addAddress);
         recyclerView = (RecyclerView) findViewById(R.id.addressRecycler);
+        Typeface font = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Medium.ttf");
+        Typeface font1 = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Regular.ttf");
+        titletext.setTypeface(font);
+        txttitleadd.setTypeface(font);
+        addAddress.setTypeface(font1);
         SharedPreferences preferences1 = PreferenceManager.getDefaultSharedPreferences(AddAddressActivity.this);
         new AsyncAddress().execute(preferences1.getString("Id", "").toString());
 
