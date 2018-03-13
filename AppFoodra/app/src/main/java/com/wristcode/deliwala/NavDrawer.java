@@ -160,6 +160,7 @@ public class NavDrawer extends AppCompatActivity implements DuoMenuView.OnMenuCl
                         Toast.makeText(getApplicationContext(), "Logged Out", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(NavDrawer.this, LoginActivity.class);
                         startActivity(i);
+                        finish();
                     }
                 });
                 break;

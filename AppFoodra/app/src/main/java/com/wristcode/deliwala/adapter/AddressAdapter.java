@@ -61,6 +61,8 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
                 public void onClick(View v)
                 {
                     Intent i = new Intent(mContext, AddressActivity.class);
+                    i.putExtra("MESSAGE", "");
+                    i.putExtra("FLAG", "1");
                     mContext.startActivity(i);
                 }
             });

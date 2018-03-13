@@ -1,5 +1,6 @@
 package com.wristcode.deliwala.adapter;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -15,15 +16,18 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.wristcode.deliwala.OrderHistoryActivity;
+import com.wristcode.deliwala.OrderListActivity;
 import com.wristcode.deliwala.Pojo.OrderHistoryItems;
 import com.wristcode.deliwala.R;
 import com.wristcode.deliwala.Pojo.OrderHistory;
@@ -55,16 +59,12 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     public static final int CONNECTION_TIMEOUT = 10000;
     public static final int READ_TIMEOUT = 15000;
     private List<OrderHistory> moviesList;
-    private List<OrderHistoryItems> moviesList1;
     private Context mContext;
-    OrderHistoryItemAdapter mAdapter1;
 
     public class MyViewHolder extends RecyclerView.ViewHolder
     {
-        public TextView txtorderid, txtorderdate, txtresname, txtorderitems, txtpaytype, valpaytype, txtgrandtotal, valgrandtotal, txtstatus;
+        public TextView txtorderid, txtorderdate, txtresid, txtresname, valpaytype, valgrandtotal, txtdetails, txtstatus;
         ImageView imgres;
-        RecyclerView recyclerView1;
-        Button btnTrack;
 
         public MyViewHolder(View view)
         {
@@ -73,16 +73,13 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             subCatList = new OrderHistoryActivity();
             txtorderid = (TextView) view.findViewById(R.id.txtorderid);
             txtorderdate = (TextView) view.findViewById(R.id.txtorderdate);
+            txtresid = (TextView) view.findViewById(R.id.txtresid);
             txtresname = (TextView) view.findViewById(R.id.txtresname);
-            txtorderitems = (TextView) view.findViewById(R.id.txtorderitems);
-            txtpaytype = (TextView) view.findViewById(R.id.txtpaytype);
             valpaytype = (TextView) view.findViewById(R.id.valpaytype);
-            txtgrandtotal = (TextView) view.findViewById(R.id.txtgrandtotal);
             valgrandtotal = (TextView) view.findViewById(R.id.valgrandtotal);
             txtstatus = (TextView) view.findViewById(R.id.txtstatus);
+            txtdetails = (TextView) view.findViewById(R.id.txtdetails);
             imgres = (ImageView) view.findViewById(R.id.imgres);
-            btnTrack = (Button) view.findViewById(R.id.btnTrack);
-            recyclerView1 = (RecyclerView) view.findViewById(R.id.itemsRecycler);
         }
     }
 
@@ -95,16 +92,17 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.order_history_row, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.order_history_row1, parent, false);
         return new MyViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position)
+    public void onBindViewHolder(final MyViewHolder holder, int position)
     {
-        OrderHistory movie = moviesList.get(position);
+        final OrderHistory movie = moviesList.get(position);
         holder.txtorderid.setText("Order ID: #" +movie.getoId());
         holder.txtorderdate.setText("Date: " + movie.getoDate());
+        holder.txtresid.setText(movie.getoResId());
         holder.txtresname.setText(movie.getoResName());
         holder.valpaytype.setText(movie.getoPayType());
         holder.valgrandtotal.setText("₹ "+ movie.getoTotal());
@@ -118,54 +116,45 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         {
             holder.txtstatus.setText("Your order has been dispatched!!!");
         }
+        else if (movie.getoStatus().toString().equals("delivered"))
+        {
+            holder.txtstatus.setText("Your order has been delivered!!!");
+        }
+        else if (movie.getoStatus().toString().equals("proceesing"))
+        {
+            holder.txtstatus.setText("Your order is in process!!!");
+        }
 
         Glide.with(mContext).load("http://appfoodra.com/uploads/restaurant/icons/"+movie.getoResImage())
                 .placeholder(R.mipmap.ic_launcher)
                 .error(R.mipmap.ic_launcher)
                 .into(holder.imgres);
 
+        Typeface font = Typeface.createFromAsset(mContext.getAssets(), "GT-Walsheim-Bold.ttf");
         Typeface font1 = Typeface.createFromAsset(mContext.getAssets(), "GT-Walsheim-Medium.ttf");
         Typeface font2 = Typeface.createFromAsset(mContext.getAssets(), "GT-Walsheim-Regular.ttf");
 
         holder.txtorderid.setTypeface(font1);
         holder.txtorderdate.setTypeface(font1);
-        holder.txtresname.setTypeface(font1);
-        holder.txtorderitems.setTypeface(font1);
-        holder.txtpaytype.setTypeface(font1);
+        holder.txtresname.setTypeface(font);
         holder.valpaytype.setTypeface(font2);
-        holder.txtgrandtotal.setTypeface(font1);
         holder.valgrandtotal.setTypeface(font2);
         holder.txtstatus.setTypeface(font1);
-        holder.btnTrack.setTypeface(font2);
+        holder.txtdetails.setTypeface(font1);
 
-        JSONArray jArray1 = null;
-        moviesList1 = new ArrayList<>();
-        try
-        {
-            jArray1 = new JSONArray(movie.getoItems());
-            for (int j = 0; j < jArray1.length(); j++)
-            {
-                JSONObject json_data1 = jArray1.getJSONObject(j);
-                OrderHistoryItems fishData1 = new OrderHistoryItems();
-                fishData1.ohItemname = json_data1.getString("itemName");
-                fishData1.ohItemqty = json_data1.getString("quantity");
-                fishData1.ohItemprice = json_data1.getString("actualAmount");
-                moviesList1.add(fishData1);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        mAdapter1 = new OrderHistoryItemAdapter(mContext, moviesList1);
-        holder.recyclerView1.setLayoutManager(new LinearLayoutManager(mContext));
-        holder.recyclerView1.setAdapter(mAdapter1);
-        mAdapter1.notifyDataSetChanged();
-
-        holder.btnTrack.setOnClickListener(new View.OnClickListener() {
+        holder.txtdetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
-                Intent i = new Intent(mContext, TrackActivity.class);
+                Intent i = new Intent(mContext, OrderListActivity.class);
+                i.putExtra("orderid", holder.txtorderid.getText().toString());
+                i.putExtra("date", holder.txtorderdate.getText().toString());
+                i.putExtra("resid", holder.txtresid.getText().toString());
+                i.putExtra("resname", holder.txtresname.getText().toString());
+                i.putExtra("items", movie.getoItems().toString());
+                i.putExtra("paymenttype", holder.valpaytype.getText().toString());
+                i.putExtra("grandtotal", holder.valgrandtotal.getText().toString());
+                i.putExtra("status", holder.txtstatus.getText().toString());
                 mContext.startActivity(i);
             }
         });
