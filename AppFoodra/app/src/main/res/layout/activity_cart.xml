@@ -101,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="5dp"
-                android:text="₹ 10.00"
+                android:text="₹ 0.00"
                 android:textAlignment="textEnd"
                 tools:ignore="RtlCompat" />
 
@@ -111,6 +111,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <TextView

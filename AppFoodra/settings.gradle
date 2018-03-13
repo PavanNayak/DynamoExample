@@ -1,1 +1,1 @@
-include ':app', ':duo-navigation-drawer'
+include ':app', ':duo-navigation-drawer', ':navigationtabbar', ':spacelib'
