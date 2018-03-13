@@ -72,6 +72,11 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
+            android:name="com.wristcode.deliwala.LocationSelectActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
             android:name="com.wristcode.deliwala.AddressActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -83,6 +88,11 @@
 
         <activity
             android:name="com.wristcode.deliwala.OrderHistoryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name="com.wristcode.deliwala.OrderListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 

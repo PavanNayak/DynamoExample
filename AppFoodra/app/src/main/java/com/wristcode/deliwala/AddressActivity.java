@@ -1,5 +1,6 @@
 package com.wristcode.deliwala;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -83,11 +84,19 @@ public class AddressActivity extends AppCompatActivity
         linearwork = (LinearLayout) findViewById(R.id.linearwork);
         linearothers = (LinearLayout) findViewById(R.id.linearothers);
 
-        txtaddress.setText(pref1.getString("Address", "").toString());
         txtflatno.setText(pref1.getString("HouseNumber", "").toString());
         txtlandmark.setText(pref1.getString("Landmark", "").toString());
         txtname.setText(pref1.getString("Name", "").toString());
         txtmobileno.setText(pref1.getString("PhoneNo", "").toString());
+
+        if(getIntent().getStringExtra("FLAG").toString().equals("1"))
+        {
+            txtaddress.setText(pref1.getString("Address", "").toString());
+        }
+        else
+        {
+            txtaddress.setText(getIntent().getStringExtra("MESSAGE").toString());
+        }
 
         linearhome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,7 +137,8 @@ public class AddressActivity extends AppCompatActivity
             }
         });
 
-        txtchange.setOnClickListener(new View.OnClickListener() {
+        txtchange.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v)
             {
@@ -137,16 +147,6 @@ public class AddressActivity extends AppCompatActivity
             }
         });
         //new AsyncAddress().execute(preferences1.getString("Id", "").toString());
-
-//        txtchange.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v)
-//            {
-//                Intent i = new Intent(AddressActivity.this, LocationSelectActivity.class);
-//                startActivity(i);
-//                finish();
-//            }
-//        });
 
         saveAddress.setOnClickListener(new View.OnClickListener()
         {

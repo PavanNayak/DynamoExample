@@ -32,8 +32,6 @@ public class Splashscreen extends AppCompatActivity {
             {
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(Splashscreen.this);
                 String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-               // Toast.makeText(Splashscreen.this,refreshedToken, Toast.LENGTH_SHORT).show();
-                //Toast.makeText(Splashscreen.this,preferences.getString("regId","").toString(), Toast.LENGTH_SHORT).show();
                 SharedPreferences.Editor editor1 = preferences.edit();
                 editor1.putString("tokenId",refreshedToken );
                 editor1.apply();
