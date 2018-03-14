@@ -308,6 +308,10 @@ public class HomeFragment extends Fragment implements IConstants, View.OnFocusCh
                         Restaurants resData = new Restaurants();
                         resData.resid = json_data.getString("id");
                         resData.resname = json_data.getString("restaurantName");
+                        if(json_data.has("description"))
+                        resData.resdescp = json_data.getString("description");
+                        else
+                            resData.resdescp = "No Description";
                         resData.resadd = json_data.getString("restaurantAddress");
                         resData.reslat = json_data.getString("restaurantLat");
                         resData.reslong = json_data.getString("restaurantLong");

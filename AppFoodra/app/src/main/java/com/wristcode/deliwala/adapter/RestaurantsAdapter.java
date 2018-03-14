@@ -59,7 +59,7 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Restaurants movie = moviesList.get(position);
+        final Restaurants movie = moviesList.get(position);
         holder.txtname.setText(movie.getResname());
         holder.txtdesc.setText("Chinese, Arabian, Italian");
         holder.txttime.setText("10AM - 10PM");
@@ -85,6 +85,13 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.
             public void onClick(View view)
             {
                 Intent i = new Intent(mContext, HotelActivity.class);
+                i.putExtra("id",movie.getResid());
+                i.putExtra("address",movie.getResadd());
+                i.putExtra("isOpen",movie.getResisopen());
+                i.putExtra("descp",movie.getResdescp());
+                i.putExtra("img",movie.getResimg());
+                i.putExtra("pop",movie.getRespop());
+                i.putExtra("name",movie.getResname());
                 mContext.startActivity(i);
             }
         });
