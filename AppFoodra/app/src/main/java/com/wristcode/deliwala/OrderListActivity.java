@@ -2,6 +2,7 @@ package com.wristcode.deliwala;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
@@ -237,5 +238,18 @@ public class OrderListActivity extends AppCompatActivity implements IConstants
                 Toast.makeText(OrderListActivity.this, e.toString(), Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    public void backButton(View v) {
+        Intent i = new Intent(OrderListActivity.this, OrderHistoryActivity.class);
+        startActivity(i);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(OrderListActivity.this, OrderHistoryActivity.class);
+        startActivity(i);
+        finish();
     }
 }

@@ -49,9 +49,9 @@ import java.net.URL;
  */
 
 public class LoginActivity extends AppCompatActivity implements IConstants, GoogleApiClient.OnConnectionFailedListener {
-    int flag=0;
-    TextView txtwelcome, txtsignin, txtphone;
-    EditText valuephone;
+    int flag = 0;
+    TextView txtwelcome, txtsignin, txtphone, txtusername, txtemail;;
+    EditText valuephone, valueusername, valueemail;;
     Button verifyButton;
     private GoogleSignInOptions gso;
     private GoogleApiClient mGoogleApiClient;
@@ -59,21 +59,20 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
     SharedPreferences pref;
     private int REQUEST_CODE = 1;
 
-    TextView txtusername,txtemail;
-    EditText valueusername,valueemail;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         txtusername = findViewById(R.id.txtusername);
-        txtemail = findViewById(R.id.txtemail);
         valueusername = findViewById(R.id.valueusername);
+        txtemail = findViewById(R.id.txtemail);
         valueemail = findViewById(R.id.valueemail);
         txtwelcome = findViewById(R.id.txtwelcome);
         txtsignin = findViewById(R.id.txtsignin);
         txtphone = findViewById(R.id.txtphone);
         valuephone = findViewById(R.id.valuephone);
         verifyButton = findViewById(R.id.verifyButton);
+        pref = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
         Typeface font = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Bold.ttf");
         Typeface font1 = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Regular.ttf");
         txtwelcome.setTypeface(font);
@@ -85,6 +84,9 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
         txtemail.setTypeface(font1);
         valueemail.setTypeface(font1);
         valueusername.setTypeface(font1);
+
+        valueusername.setText(pref.getString("Name", "").toString());
+        valueemail.setText(pref.getString("Email", "").toString());
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -124,9 +126,10 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
             editor1.apply();
 
         }
-        else {
-            flag=1;
-            Toast.makeText(this, "Sorry, We could not fetch your email id.", Toast.LENGTH_SHORT).show();
+        else
+        {
+            flag = 1;
+            Toast.makeText(this, "Sorry, We could not fetch your Name & Email Id!!!", Toast.LENGTH_SHORT).show();
             txtusername.setVisibility(View.VISIBLE);
             txtemail.setVisibility(View.VISIBLE);
             valueusername.setVisibility(View.VISIBLE);
@@ -198,8 +201,9 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
                 conn.setDoInput(true);
                 conn.setDoOutput(true);
 
-                Uri.Builder builder = new Uri.Builder().appendQueryParameter("mobileNumber", params[0])
-                .appendQueryParameter("tokenId", params[1]);
+                Uri.Builder builder = new Uri.Builder()
+                        .appendQueryParameter("mobileNumber", params[0])
+                        .appendQueryParameter("tokenId", params[1]);
                 String query = builder.build().getEncodedQuery();
 
                 OutputStream os = conn.getOutputStream();
@@ -235,7 +239,6 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
         @Override
         protected void onPostExecute(String result) {
             pdLoading.dismiss();
-            Toast.makeText(LoginActivity.this,result, Toast.LENGTH_SHORT).show();
             try {
                 JSONObject jsonObject = new JSONObject(result);
                 if (jsonObject.getString("status").equals("true"))
@@ -249,20 +252,21 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
                     if (jsonObject1.has("apiKey"))
                     {
                         editor1.putString("Id", jsonObject1.getString("apiKey").toString());
-                    } else {
+                    }
+                    else
+                    {
                         editor1.putString("Id", "");
                     }
                     editor1.putString("PhoneNo", valuephone.getText().toString().trim());
                     editor1.apply();
 
-
-                    if(flag==1){
+                    if(flag == 1)
+                    {
                         SharedPreferences pref2 = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
                         SharedPreferences.Editor editor2 = pref2.edit();
                         editor2.putString("Name", valueusername.getText().toString());
                         editor2.putString("Email", valueemail.getText().toString());
                         editor2.apply();
-
                     }
                     Intent i = new Intent(LoginActivity.this, OTPActivity.class);
                     startActivity(i);

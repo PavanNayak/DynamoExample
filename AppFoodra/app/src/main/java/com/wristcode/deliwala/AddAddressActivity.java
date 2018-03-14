@@ -48,7 +48,7 @@ public class AddAddressActivity extends AppCompatActivity
 
     RecyclerView recyclerView;
     AddressAdapter mAdapter;
-    TextView titletext, txttitleadd;
+    TextView titletext, txttitleadd, txtaddaddress;
     Button addAddress;
 
     @Override
@@ -58,6 +58,7 @@ public class AddAddressActivity extends AppCompatActivity
         setContentView(R.layout.activity_add_address);
         titletext = (TextView) findViewById(R.id.titletext);
         txttitleadd = (TextView) findViewById(R.id.txttitleadd);
+        txtaddaddress = (TextView) findViewById(R.id.txtaddaddress);
         addAddress = (Button) findViewById(R.id.addAddress);
         recyclerView = (RecyclerView) findViewById(R.id.addressRecycler);
         Typeface font = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Medium.ttf");
@@ -67,6 +68,21 @@ public class AddAddressActivity extends AppCompatActivity
         addAddress.setTypeface(font1);
         SharedPreferences preferences1 = PreferenceManager.getDefaultSharedPreferences(AddAddressActivity.this);
         new AsyncAddress().execute(preferences1.getString("Id", "").toString());
+
+        txtaddaddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(AddAddressActivity.this);
+                SharedPreferences.Editor editor1 = pref1.edit();
+                editor1.putString("AddressFlag", "0");
+                editor1.apply();
+
+                Intent i = new Intent(AddAddressActivity.this, AddressActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });
 
         addAddress.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,6 +197,7 @@ public class AddAddressActivity extends AppCompatActivity
 
                 mAdapter = new AddressAdapter(AddAddressActivity.this, data);
                 recyclerView.setLayoutManager(new LinearLayoutManager(AddAddressActivity.this));
+                recyclerView.setNestedScrollingEnabled(false);
                 recyclerView.setAdapter(mAdapter);
                 mAdapter.notifyDataSetChanged();
 

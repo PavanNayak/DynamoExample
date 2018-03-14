@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.wristcode.deliwala.Pojo.Cart;
@@ -24,7 +25,8 @@ public class CartActivity extends AppCompatActivity {
     LinearLayoutManager HorizontalLayout;
     CartAdapter adapter;
     private List<Items> categoriesList;
-    TextView txttitle, txtsubtotal, valsubtotal, txtdelivery, valdelivery, txtdeltip, valdeltip, txttotal, valtotal;
+    TextView txtresname, txttitle, txtsubtotal, valsubtotal, txtdelivery, valdelivery, txttotal, valtotal;
+    EditText txtinstruction;
     Button placeorder;
     ExampleDBHelper dh;
     List<Cart> data = new ArrayList<>();
@@ -35,26 +37,26 @@ public class CartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
         txttitle = (TextView) findViewById(R.id.txttitle);
+        txtresname  = (TextView) findViewById(R.id.txtresname);
         txtsubtotal = (TextView) findViewById(R.id.txtsubtotal);
         valsubtotal = (TextView) findViewById(R.id.valsubtotal);
         txtdelivery = (TextView) findViewById(R.id.txtdelivery);
         valdelivery = (TextView) findViewById(R.id.valdelivery);
-        txtdeltip = (TextView) findViewById(R.id.txtdeltip);
-        valdeltip = (TextView) findViewById(R.id.valdeltip);
         txttotal = (TextView) findViewById(R.id.txttotal);
         valtotal = (TextView) findViewById(R.id.valtotal);
+        txtinstruction = (EditText) findViewById(R.id.txtinstruction);
         placeorder = (Button) findViewById(R.id.placeorder);
         Typeface font = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Medium.ttf");
         Typeface font1 = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Regular.ttf");
         txttitle.setTypeface(font);
+        txtresname.setTypeface(font);
         txtsubtotal.setTypeface(font);
         valsubtotal.setTypeface(font1);
         txtdelivery.setTypeface(font);
         valdelivery.setTypeface(font1);
-        txtdeltip.setTypeface(font);
-        valdeltip.setTypeface(font1);
         txttotal.setTypeface(font);
         valtotal.setTypeface(font1);
+        txtinstruction.setTypeface(font1);
         placeorder.setTypeface(font1);
         dh = new ExampleDBHelper(getApplicationContext());
 

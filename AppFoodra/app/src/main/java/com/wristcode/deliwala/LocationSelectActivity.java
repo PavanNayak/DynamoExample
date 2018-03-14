@@ -372,17 +372,11 @@ public class LocationSelectActivity extends AppCompatActivity implements TextWat
                     intent.putExtra("LONGI", String.valueOf(longitude));
                     intent.putExtra("FLAG", "2");
                     startActivity(intent);
-                    //setResult(2, intent);
-                    finish();//finishing activity
-
-
-                    //  finish();
-
+                    finish();
                     break;
             }
         }
     }
-
 
     public String getAddressFromLatLng(double lat, double lng) {
         Geocoder geocoder = new Geocoder(LocationSelectActivity.this, Locale.getDefault());
@@ -398,19 +392,14 @@ public class LocationSelectActivity extends AppCompatActivity implements TextWat
             add = add + "\n" + obj.getLocality();
             add = add + "\n" + obj.getSubThoroughfare();
 
-
             items = obj.getLocality() + " " + obj.getAdminArea() + " " + obj.getCountryName();
             Log.v("IGA", "Address" + add);
-            // Toast.makeText(this, "Address=>" + add,
-            // Toast.LENGTH_SHORT).show();
-
-            // TennisAppActivity.showDialog(add);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-
         return items;
     }
 

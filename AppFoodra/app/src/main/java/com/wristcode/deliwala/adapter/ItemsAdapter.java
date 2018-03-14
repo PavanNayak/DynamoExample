@@ -29,7 +29,7 @@ import java.util.List;
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder> {
     private List<Items> moviesList;
     private Context mContext;
-    MenuFragment fragment = new MenuFragment();
+    MenuFragment fragment;
     ExampleDBHelper dbHelper;
     SharedPreferences pref;
     String subname, imgpath;
@@ -58,6 +58,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
             txtimg = view.findViewById(R.id.txtimg);
             relative = view.findViewById(R.id.relative);
             image = view.findViewById(R.id.image);
+            fragment = new MenuFragment();
             dbHelper = new ExampleDBHelper(mContext);
             pref = PreferenceManager.getDefaultSharedPreferences(mContext);
         }
@@ -178,11 +179,12 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
 
     public void passval(int val)
     {
-        //fragment.setCart(val);
+        fragment.setCart(val);
     }
 
-    public void passval1(int val) {
-        //fragment.setCart(val);
+    public void passval1(int val)
+    {
+        fragment.setCart(val);
     }
 
     public void passprice(int val) {

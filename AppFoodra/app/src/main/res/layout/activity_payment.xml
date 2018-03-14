@@ -94,45 +94,6 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/txtordertype"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="ORDER TYPE" />
-
-            <LinearLayout
-                android:id="@+id/radiogroup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <RadioGroup
-                    android:id="@+id/radioOrder"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <android.support.v7.widget.AppCompatRadioButton
-                        android:id="@+id/radioDelivery"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:padding="10dp"
-                        android:text="Delivery"
-                        app:buttonTint="@color/colorPrimary" />
-
-                    <android.support.v7.widget.AppCompatRadioButton
-                        android:id="@+id/radioPickup"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:text="Pickup"
-                        android:visibility="visible"
-                        app:buttonTint="@color/colorPrimary" />
-
-                </RadioGroup>
-
-            </LinearLayout>
-
-            <TextView
                 android:id="@+id/txtpromo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -164,17 +125,17 @@
                     android:textColor="#fff" />
 
             </LinearLayout>
-
-            <Button
-                android:id="@+id/pay"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_margin="10dp"
-                android:background="@color/colorPrimary"
-                android:elevation="8dp"
-                android:text="COMPLETE PAYMENT"
-                android:textColor="#fff" />
         </LinearLayout>
     </ScrollView>
+
+    <Button
+        android:id="@+id/pay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:background="@color/colorPrimary"
+        android:elevation="8dp"
+        android:text="COMPLETE PAYMENT"
+        android:textColor="#fff" />
 </RelativeLayout>

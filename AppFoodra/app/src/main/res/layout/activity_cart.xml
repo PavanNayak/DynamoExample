@@ -40,6 +40,16 @@
 
         </android.support.v7.widget.Toolbar>
 
+        <TextView
+            android:id="@+id/txtresname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:text="SPICE N ICE"
+            android:textStyle="bold"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -101,12 +111,18 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="5dp"
+<<<<<<< HEAD
+                android:text="₹ 0"
+=======
                 android:text="₹ 0.00"
+>>>>>>> e08ceb387f3f24e9a95a6e540cf3197ac7525378
                 android:textAlignment="textEnd"
                 tools:ignore="RtlCompat" />
 
         </LinearLayout>
 
+<<<<<<< HEAD
+=======
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -133,6 +149,7 @@
                 tools:ignore="RtlCompat" />
         </LinearLayout>
 
+>>>>>>> e08ceb387f3f24e9a95a6e540cf3197ac7525378
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -164,6 +181,20 @@
                 android:textAlignment="textEnd"
                 tools:ignore="RtlCompat" />
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:alpha="0.5"
+            android:background="#C0C0C0" />
+
+        <EditText
+            android:id="@+id/txtinstruction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:hint="Any Instructions? Please let us know"/>
 
     </LinearLayout>
 

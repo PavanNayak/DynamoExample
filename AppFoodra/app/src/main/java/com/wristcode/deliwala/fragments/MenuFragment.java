@@ -1,9 +1,11 @@
 package com.wristcode.deliwala.fragments;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,9 +14,13 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.wristcode.deliwala.CartActivity;
+import com.wristcode.deliwala.HotelActivity;
 import com.wristcode.deliwala.R;
+import com.wristcode.deliwala.adapter.ItemsAdapter;
 import com.wristcode.deliwala.sqlite.ExampleDBHelper;
 
 import org.json.JSONArray;
@@ -48,35 +54,31 @@ public class MenuFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    TextView cart_badge;
+    private FloatingActionButton fab;
+    TextView cartbadge;
     ExampleDBHelper dh;
+    private FrameLayout layoutInner;
 
-    public MenuFragment() {
-    }
+    public MenuFragment() {}
 
-    public static MenuFragment newInstance(String param1, String param2) {
+    public static MenuFragment newInstance() {
         MenuFragment fragment = new MenuFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_menu, container, false);
-
-        cart_badge = v.findViewById(R.id.cart_badge);
+        layoutInner = (FrameLayout) v.findViewById(R.id.layoutInner);
+        fab = (FloatingActionButton) v.findViewById(R.id.fab);
+        cartbadge = (TextView) v.findViewById(R.id.cartbadge);
+        dh = new ExampleDBHelper(getActivity());
         strMenuTitle = new ArrayList<>();
         strJson = new ArrayList<>();
 
@@ -85,6 +87,25 @@ public class MenuFragment extends Fragment {
 
         tabLayout = v.findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(viewPager);
+
+        if (dh.gettotalqty() > 0 || dh.gettotalprice() > 0)
+        {
+            layoutInner.setVisibility(View.VISIBLE);
+            cartbadge.setText(String.valueOf(dh.gettotalqty()));
+
+        } else {
+            layoutInner.setVisibility(View.INVISIBLE);
+        }
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                Intent i = new Intent(getActivity(), CartActivity.class);
+                startActivity(i);
+                getActivity().finish();
+            }
+        });
         return v;
     }
 
@@ -143,7 +164,7 @@ public class MenuFragment extends Fragment {
 
     public void setCart(int item)
     {
-        //cart_badge.setText(item);
+        cartbadge.setText(String.valueOf(item));
     }
 
     public void setPrice(int total)

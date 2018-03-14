@@ -60,6 +60,11 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
                 @Override
                 public void onClick(View v)
                 {
+                    SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(mContext);
+                    SharedPreferences.Editor editor1 = pref1.edit();
+                    editor1.putString("AddressFlag", "1");
+                    editor1.apply();
+
                     Intent i = new Intent(mContext, AddressActivity.class);
                     i.putExtra("MESSAGE", "");
                     i.putExtra("FLAG", "1");
@@ -72,7 +77,6 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
                 public void onClick(View v)
                 {
                     lastSelectedPosition = getAdapterPosition();
-
                     SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(mContext);
                     SharedPreferences.Editor editor1 = pref1.edit();
                     editor1.putString("AddressId", txtid.getText().toString());
@@ -80,7 +84,6 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
                     editor1.putString("Latitude", txtlat.getText().toString());
                     editor1.putString("Longitiude", txtlong.getText().toString());
                     editor1.apply();
-
                     notifyDataSetChanged();
                 }
             });

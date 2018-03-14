@@ -18,8 +18,8 @@
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/back"
-                android:onClick="backButton"/>
+                android:onClick="backButton"
+                android:src="@drawable/back" />
 
             <TextView
                 android:id="@+id/titletext"
@@ -34,33 +34,54 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <TextView
-        android:id="@+id/txttitleadd"
+    <ScrollView
+        android:id="@+id/scrolladd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="Where do you want it to be delivered?"
-        android:layout_below="@+id/toolbar"/>
+        android:layout_below="@+id/toolbar">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/addressRecycler"
-        android:layout_below="@+id/txttitleadd"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        <LinearLayout
+            android:id="@+id/linearaddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    </android.support.v7.widget.RecyclerView>
+            <TextView
+                android:id="@+id/txttitleadd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Where do you want it to be delivered?" />
 
-    <Button
-        android:id="@+id/addAddress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="10dp"
-        android:background="@color/colorPrimary"
-        android:elevation="8dp"
-        android:text="NEXT"
-        android:textColor="#fff" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/addressRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/txtaddaddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:paddingLeft="10dp"
+                android:text="+ Add Address"
+                android:textColor="@color/colorPrimary" />
+
+            <Button
+                android:id="@+id/addAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@color/colorPrimary"
+                android:elevation="8dp"
+                android:text="NEXT"
+                android:textColor="#fff" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>

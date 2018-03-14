@@ -34,6 +34,7 @@ public class OverviewFragment extends Fragment
 
     public OverviewFragment() {}
 
+<<<<<<< HEAD
     @SuppressLint("ValidFragment")
     public OverviewFragment(String id,String name,String descp,String img,String isOpen,String pop,String address) {
 
@@ -51,11 +52,10 @@ public class OverviewFragment extends Fragment
 
     public static OverviewFragment newInstance(String param1, String param2)
     {
+=======
+    public static OverviewFragment newInstance() {
+>>>>>>> e3265697dd49481084099900bd5326d8163b2711
         OverviewFragment fragment = new OverviewFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -63,11 +63,6 @@ public class OverviewFragment extends Fragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null)
-        {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
