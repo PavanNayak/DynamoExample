@@ -50,7 +50,7 @@ import java.util.List;
 
 public class OrderListActivity extends AppCompatActivity implements IConstants
 {
-    TextView txtorderid, txtorderdate, txtresname, txtorderitems, txtpaytype, valpaytype, txtgrandtotal, valgrandtotal, txtstatus;
+    TextView txtorderid, txtorderdate, txtresname, txtorderitems, txtpaytype, valpaytype, txtgrandtotal, valgrandtotal, txtstatus, valstatus;
     RecyclerView itemsRecycler;
     Button btnTrack;
     private List<OrderHistoryItems> moviesList1;
@@ -72,6 +72,7 @@ public class OrderListActivity extends AppCompatActivity implements IConstants
         txtgrandtotal = (TextView) findViewById(R.id.txtgrandtotal);
         valgrandtotal = (TextView) findViewById(R.id.valgrandtotal);
         txtstatus = (TextView) findViewById(R.id.txtstatus);
+        valstatus = (TextView) findViewById(R.id.valstatus);
         itemsRecycler = (RecyclerView) findViewById(R.id.itemsRecycler);
         btnTrack = (Button) findViewById(R.id.btnTrack);
         preferences = PreferenceManager.getDefaultSharedPreferences(OrderListActivity.this);
@@ -88,6 +89,7 @@ public class OrderListActivity extends AppCompatActivity implements IConstants
         txtgrandtotal.setTypeface(font1);
         valgrandtotal.setTypeface(font2);
         txtstatus.setTypeface(font1);
+        valstatus.setTypeface(font2);
         btnTrack.setTypeface(font2);
 
         txtorderid.setText(getIntent().getStringExtra("orderid").toString());
@@ -95,7 +97,7 @@ public class OrderListActivity extends AppCompatActivity implements IConstants
         txtresname.setText(getIntent().getStringExtra("resname").toString());
         valpaytype.setText(getIntent().getStringExtra("paymenttype").toString());
         valgrandtotal.setText(getIntent().getStringExtra("grandtotal").toString());
-        txtstatus.setText(getIntent().getStringExtra("status").toString());
+        valstatus.setText(getIntent().getStringExtra("status").toString());
 
         JSONArray jArray1 = null;
         moviesList1 = new ArrayList<>();
@@ -120,7 +122,7 @@ public class OrderListActivity extends AppCompatActivity implements IConstants
         itemsRecycler.setAdapter(mAdapter1);
         mAdapter1.notifyDataSetChanged();
 
-        if(txtstatus.getText().toString().equals("Your order has been delivered!!!"))
+        if(valstatus.getText().toString().equals("Delivered"))
         {
             LayoutInflater inflater = LayoutInflater.from(OrderListActivity.this);
             View alertLayout = inflater.inflate(R.layout.rating_dialog, null);
@@ -231,7 +233,7 @@ public class OrderListActivity extends AppCompatActivity implements IConstants
                 JSONObject jsonObject = new JSONObject(result);
                 if (jsonObject.getString("status").equals("true"))
                 {
-                    Toast.makeText(OrderListActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(OrderListActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
                 }
 
             } catch (JSONException e) {

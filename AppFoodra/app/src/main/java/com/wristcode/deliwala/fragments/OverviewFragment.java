@@ -12,10 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.wristcode.deliwala.HotelActivity;
 import com.wristcode.deliwala.R;
 
 public class OverviewFragment extends Fragment
@@ -34,10 +31,9 @@ public class OverviewFragment extends Fragment
 
     public OverviewFragment() {}
 
-<<<<<<< HEAD
     @SuppressLint("ValidFragment")
-    public OverviewFragment(String id,String name,String descp,String img,String isOpen,String pop,String address) {
-
+    public OverviewFragment(String id, String name, String descp, String img, String isOpen, String pop, String address)
+    {
         this.id=id;
         this.name=name;
         this.descp=descp;
@@ -47,14 +43,7 @@ public class OverviewFragment extends Fragment
         this.address=address;
     }
 
-
-
-
-    public static OverviewFragment newInstance(String param1, String param2)
-    {
-=======
     public static OverviewFragment newInstance() {
->>>>>>> e3265697dd49481084099900bd5326d8163b2711
         OverviewFragment fragment = new OverviewFragment();
         return fragment;
     }
