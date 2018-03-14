@@ -8,11 +8,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-<<<<<<< HEAD
 import android.view.Gravity;
-=======
 import android.util.Log;
->>>>>>> e08ceb387f3f24e9a95a6e540cf3197ac7525378
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -101,14 +98,11 @@ public class HotelActivity extends AppCompatActivity
         mBottomNavigationView.setSelectedItemId(R.id.menu);
         mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
         {
-<<<<<<< HEAD
             @Override
             public boolean onNavigationItemSelected(MenuItem item)
-=======
             Menu menu = bottomNavigationView.getMenu();
             selectFragment(menu.getItem(1));
             bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
->>>>>>> e08ceb387f3f24e9a95a6e540cf3197ac7525378
             {
                 Fragment selectedFragment = null;
                 switch (item.getItemId())
