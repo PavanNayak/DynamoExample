@@ -84,18 +84,21 @@ public class AddressActivity extends AppCompatActivity
         linearwork = (LinearLayout) findViewById(R.id.linearwork);
         linearothers = (LinearLayout) findViewById(R.id.linearothers);
 
-        txtflatno.setText(pref1.getString("HouseNumber", "").toString());
-        txtlandmark.setText(pref1.getString("Landmark", "").toString());
-        txtname.setText(pref1.getString("Name", "").toString());
-        txtmobileno.setText(pref1.getString("PhoneNo", "").toString());
+        if (pref1.getString("AddressFlag", "").toString().equals("1"))
+        {
+            txtflatno.setText(pref1.getString("HouseNumber", "").toString());
+            txtlandmark.setText(pref1.getString("Landmark", "").toString());
+            txtname.setText(pref1.getString("Name", "").toString());
+            txtmobileno.setText(pref1.getString("PhoneNo", "").toString());
 
-        if(getIntent().getStringExtra("FLAG").toString().equals("1"))
-        {
-            txtaddress.setText(pref1.getString("Address", "").toString());
-        }
-        else
-        {
-            txtaddress.setText(getIntent().getStringExtra("MESSAGE").toString());
+            if(getIntent().getStringExtra("FLAG").toString().equals("1"))
+            {
+                txtaddress.setText(pref1.getString("Address", "").toString());
+            }
+            else
+            {
+                txtaddress.setText(getIntent().getStringExtra("MESSAGE").toString());
+            }
         }
 
         linearhome.setOnClickListener(new View.OnClickListener() {

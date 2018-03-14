@@ -13,7 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatRadioButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -21,7 +20,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.wristcode.deliwala.Pojo.Cart;
 import com.wristcode.deliwala.Pojo.Payment;
 import com.wristcode.deliwala.adapter.PaymentAdapter;
 import com.wristcode.deliwala.extra.IConstants;
@@ -53,7 +51,7 @@ public class PaymentActivity extends AppCompatActivity implements IConstants
     private List<Payment> paymentList;
     PaymentAdapter adapter;
     LinearLayoutManager HorizontalLayout;
-    TextView txttotal, valuetotal, txtpaytype, txtordertype, txtpromo;
+    TextView txttotal, valuetotal, txtpaytype, txtpromo;
     EditText valuepromo;
     Button pay, applypromo;
     ExampleDBHelper dh;
@@ -61,7 +59,6 @@ public class PaymentActivity extends AppCompatActivity implements IConstants
     List<String> arrayId;
     List<String> arrayPrice;
     List<String> arrayQty;
-    AppCompatRadioButton rdelivery, rpickup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -71,23 +68,17 @@ public class PaymentActivity extends AppCompatActivity implements IConstants
         txttotal = findViewById(R.id.txttotal);
         valuetotal = findViewById(R.id.valuetotal);
         txtpaytype = findViewById(R.id.txtpaytype);
-        txtordertype = findViewById(R.id.txtordertype);
         txtpromo = findViewById(R.id.txtpromo);
         valuepromo = findViewById(R.id.valuepromo);
         applypromo = findViewById(R.id.applypromo);
         pay = findViewById(R.id.pay);
-        rdelivery = findViewById(R.id.radioDelivery);
-        rpickup = findViewById(R.id.radioPickup);
         pref1 = PreferenceManager.getDefaultSharedPreferences(PaymentActivity.this);
         Typeface font1 = Typeface.createFromAsset(getAssets(),"GT-Walsheim-Medium.ttf");
         Typeface font2 = Typeface.createFromAsset(getAssets(),"GT-Walsheim-Regular.ttf");
         txttotal.setTypeface(font1);
         valuetotal.setTypeface(font2);
         txtpaytype.setTypeface(font1);
-        txtordertype.setTypeface(font1);
         txtpromo.setTypeface(font1);
-        rdelivery.setTypeface(font2);
-        rpickup.setTypeface(font2);
         valuepromo.setTypeface(font2);
         applypromo.setTypeface(font2);
         pay.setTypeface(font2);
@@ -95,10 +86,6 @@ public class PaymentActivity extends AppCompatActivity implements IConstants
         arrayId = new ArrayList<>();
         arrayPrice = new ArrayList<>();
         arrayQty = new ArrayList<>();
-
-        SharedPreferences.Editor editor = pref1.edit();
-        editor.putString("OrderType", "Delivery");
-        editor.apply();
 
         Cursor c = dh.getAllItems();
         while (c.moveToNext())
@@ -113,34 +100,12 @@ public class PaymentActivity extends AppCompatActivity implements IConstants
         paymentList = new ArrayList<>();
         prepareAlbums();
 
-        rdelivery.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    SharedPreferences.Editor editor = pref1.edit();
-                    editor.putString("OrderType", "Delivery");
-                    editor.apply();
-                }
-            }
-        });
-
-        rpickup.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    SharedPreferences.Editor editor = pref1.edit();
-                    editor.putString("OrderType", "Pickup");
-                    editor.apply();
-                }
-            }
-        });
-
         pay.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                new AsyncOrderDetails().execute(pref1.getString("Id", "").toString(), "2", pref1.getString("AddressId", "").toString(), pref1.getString("OrderType", "").toString(), pref1.getString("PaymentType", "").toString());
+                new AsyncOrderDetails().execute(pref1.getString("Id", "").toString(), "2", pref1.getString("AddressId", "").toString(), "Delivery", pref1.getString("PaymentType", "").toString());
             }
         });
     }
@@ -249,8 +214,6 @@ public class PaymentActivity extends AppCompatActivity implements IConstants
                 {
                         R.drawable.cash,
                         R.drawable.card,
-                        R.drawable.pickup,
-                        R.drawable.dinein,
                 };
 
         Payment a = new Payment("CASH ON DELIVERY", covers[0]);

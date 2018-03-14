@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.wristcode.deliwala.sqlite.ExampleDBHelper;
+
 /**
  * Created by Ajay Jagadish on 26-Feb-18.
  */
@@ -16,6 +18,7 @@ public class OrderConfirmActivity extends AppCompatActivity
 {
     TextView txtorder, txtorder1;
     Button trackorder;
+    ExampleDBHelper dh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -25,6 +28,7 @@ public class OrderConfirmActivity extends AppCompatActivity
         txtorder = (TextView) findViewById(R.id.txtorder);
         txtorder1 = (TextView) findViewById(R.id.txtorder1);
         trackorder = (Button) findViewById(R.id.trackorder);
+        dh = new ExampleDBHelper(OrderConfirmActivity.this);
         Typeface font1 = Typeface.createFromAsset(getAssets(),"GT-Walsheim-Medium.ttf");
         Typeface font2 = Typeface.createFromAsset(getAssets(),"GT-Walsheim-Regular.ttf");
         txtorder.setTypeface(font1);
@@ -36,6 +40,7 @@ public class OrderConfirmActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
+                dh.deleteAllData();
                 Intent i = new Intent(OrderConfirmActivity.this, OrderHistoryActivity.class);
                 startActivity(i);
             }
@@ -43,7 +48,8 @@ public class OrderConfirmActivity extends AppCompatActivity
     }
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed()
+    {
         Intent i = new Intent(OrderConfirmActivity.this, OrderConfirmActivity.class);
         startActivity(i);
         finish();

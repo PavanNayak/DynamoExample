@@ -92,6 +92,7 @@ public class HomeFragment extends Fragment implements IConstants, View.OnFocusCh
         text1.setTypeface(font1);
         text2.setTypeface(font2);
         pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        text1.setText("Good Afternoon, "+pref.getString("Name","").toString());
         dh = new ExampleDBHelper(getActivity());
         //exportDB();
         menurecycler = v.findViewById(R.id.menurecycler);

@@ -57,7 +57,13 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name="com.wristcode.deliwala.HomeActivity" />
         <activity android:name="com.wristcode.deliwala.ItemActivity" />
-        <activity android:name="com.wristcode.deliwala.CartActivity" />
+
+        <activity
+            android:name="com.wristcode.deliwala.CartActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
+
         <activity android:name="com.wristcode.deliwala.HotelListActivity" />
 
         <activity
@@ -89,11 +95,13 @@
         <activity
             android:name="com.wristcode.deliwala.OrderHistoryActivity"
             android:screenOrientation="portrait"
+            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name="com.wristcode.deliwala.OrderListActivity"
             android:screenOrientation="portrait"
+            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <meta-data

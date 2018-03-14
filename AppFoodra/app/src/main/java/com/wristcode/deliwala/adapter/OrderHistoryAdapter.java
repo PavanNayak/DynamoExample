@@ -64,7 +64,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     public class MyViewHolder extends RecyclerView.ViewHolder
     {
         public TextView txtorderid, txtorderdate, txtresid, txtresname, valpaytype, valgrandtotal, txtdetails, txtstatus;
-        ImageView imgres;
+        ImageView imgres, imgnext;
 
         public MyViewHolder(View view)
         {
@@ -80,6 +80,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             txtstatus = (TextView) view.findViewById(R.id.txtstatus);
             txtdetails = (TextView) view.findViewById(R.id.txtdetails);
             imgres = (ImageView) view.findViewById(R.id.imgres);
+            imgnext = (ImageView) view.findViewById(R.id.imgnext);
         }
     }
 
@@ -142,7 +143,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         holder.txtstatus.setTypeface(font1);
         holder.txtdetails.setTypeface(font1);
 
-        holder.txtdetails.setOnClickListener(new View.OnClickListener() {
+        holder.imgnext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {

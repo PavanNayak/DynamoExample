@@ -36,35 +36,6 @@
                 android:layout_gravity="center"
                 android:textSize="20sp"/>
 
-            <FrameLayout
-                style="?attr/actionButtonStyle"
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clipToPadding="false"
-                android:focusable="true">
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:padding="10dp"
-                    android:onClick="onClickCart"
-                    android:layout_gravity="center"
-                    android:src="@drawable/cart"/>
-                <TextView
-                    android:id="@+id/cart_badge"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:layout_gravity="right|end|top"
-                    android:layout_marginEnd="2dp"
-                    android:layout_marginRight="-5dp"
-                    android:layout_marginTop="7dp"
-                    android:background="@drawable/badge_background"
-                    android:gravity="center"
-                    android:textColor="@color/colorPrimary"
-                    android:text="0"
-                    android:textSize="10sp"/>
-            </FrameLayout>
         </LinearLayout>
     </android.support.v7.widget.Toolbar>
 
@@ -95,4 +66,39 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/layoutInner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:visibility="invisible">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@drawable/cart"
+            app:backgroundTint="@color/colorPrimary"/>
+
+        <TextView
+            android:id="@+id/cartbadge"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_gravity="end|top"
+            android:layout_marginEnd="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="25dp"
+            android:elevation="8dp"
+            android:background="@drawable/badge_background"
+            android:gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:text="0"
+            android:textSize="10sp"/>
+
+    </FrameLayout>
 </RelativeLayout>

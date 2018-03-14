@@ -56,6 +56,7 @@ public class OTPActivity extends AppCompatActivity implements IConstants {
         btn_verify = (Button) findViewById(R.id.btn_verify);
         pref = PreferenceManager.getDefaultSharedPreferences(OTPActivity.this);
         inputotp = pref.getString("Otp", "").toString();
+        tvsubtitle.setText("Sit back and relax, we'll verify your mobile number "+ pref.getString("PhoneNo", "").toString());
 
         Typeface font = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Bold.ttf");
         Typeface font1 = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Medium.ttf");

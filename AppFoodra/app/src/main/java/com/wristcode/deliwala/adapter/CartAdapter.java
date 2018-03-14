@@ -1,9 +1,5 @@
 package com.wristcode.deliwala.adapter;
 
-/**
- * Created by nayak on 02-08-2017.
- */
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,10 +16,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.wristcode.deliwala.CartActivity;
+import com.wristcode.deliwala.HotelActivity;
 import com.wristcode.deliwala.Pojo.Cart;
-import com.wristcode.deliwala.Pojo.Items;
 import com.wristcode.deliwala.R;
 import com.wristcode.deliwala.sqlite.ExampleDBHelper;
 
@@ -45,8 +40,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView txtid, txtresid, txtname, txtqty, txtprice, txtplus, txtminus;
         RelativeLayout relative;
-        ImageView image;
-        ImageView thumbnail;
+        ImageView image, delete;
         String subname, subname1, imgtype, imgtype1;
         int subresid, subresid1, subqty, subqty1, subprice, subprice1, subitemprice, subitemprice1, qty, qty1, price, price1, TOTAL = 0, RATE = 0;
 
@@ -63,51 +57,54 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
             txtminus.setOnClickListener(this);
             relative = (RelativeLayout) view.findViewById(R.id.relative);
             image = (ImageView) view.findViewById(R.id.image);
+            delete = (ImageView) view.findViewById(R.id.delete);
+            delete.setOnClickListener(this);
             dh = new ExampleDBHelper(mContext);
         }
 
         @Override
-        public void onClick(View v) {
+        public void onClick(View v)
+        {
             switch (v.getId())
             {
-//                case R.id.delete:
-//                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
-//                    alertDialog.setTitle("Confirm Delete");
-//                    alertDialog.setMessage("Are you sure you want to delete this item from cart?");
-//                    alertDialog.setIcon(R.drawable.delete);
-//                    alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener()
-//                    {
-//                        public void onClick(DialogInterface dialog, int which)
-//                        {
-//                            dh.deleteItem(Integer.parseInt(txtid.getText().toString()));
-//                            if (dh.getProfilesCount() > 0)
-//                            {
-//                                Intent i = new Intent(mContext, CartActivity.class);
-//                                mContext.startActivity(i);
-//                            }
-//                            else
-//                            {
-////                                Intent i = new Intent(mContext, SubCategoriesActivity.class);
-////                                mContext.startActivity(i);
-//                            }
-//                        }
-//                    });
-//
-//                    alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener()
-//                    {
-//                        public void onClick(DialogInterface dialog, int which)
-//                        {
-//                            dialog.cancel();
-//                        }
-//                    });
-//
-//                    AlertDialog alert = alertDialog.create();
-//                    alert.show();
-//                    Button nbutton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
-//                    nbutton.setTextColor(Color.rgb(103, 52, 185));
-//                    Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-//                    pbutton.setTextColor(Color.rgb(103, 52, 185));
-//                    break;
+                case R.id.delete:
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
+                    alertDialog.setTitle("Confirm Delete");
+                    alertDialog.setMessage("Are you sure you want to delete this item from cart?");
+                    alertDialog.setIcon(R.drawable.delete);
+                    alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener()
+                    {
+                        public void onClick(DialogInterface dialog, int which)
+                        {
+                            dh.deleteItem(Integer.parseInt(txtid.getText().toString()));
+                            if (dh.getProfilesCount() > 0)
+                            {
+                                Intent i = new Intent(mContext, CartActivity.class);
+                                mContext.startActivity(i);
+                            }
+                            else
+                            {
+                                Intent i = new Intent(mContext, HotelActivity.class);
+                                mContext.startActivity(i);
+                            }
+                        }
+                    });
+
+                    alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener()
+                    {
+                        public void onClick(DialogInterface dialog, int which)
+                        {
+                            dialog.cancel();
+                        }
+                    });
+
+                    AlertDialog alert = alertDialog.create();
+                    alert.show();
+                    Button nbutton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
+                    nbutton.setTextColor(Color.rgb(103, 52, 185));
+                    Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+                    pbutton.setTextColor(Color.rgb(103, 52, 185));
+                    break;
 
                 case R.id.txtplus:
                     int i = Integer.parseInt(txtqty.getText().toString());

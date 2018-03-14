@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/relative"
-    android:layout_width="wrap_content"
+    android:layout_width="250dp"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     android:background="@android:color/white"
@@ -36,8 +36,6 @@
         android:id="@+id/txtname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/image"
         android:paddingLeft="10dp"
@@ -46,26 +44,35 @@
         android:textSize="15sp"
         android:textStyle="bold" />
 
+    <TextView
+        android:id="@+id/txtrupees"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="₹"
+        android:layout_alignLeft="@+id/txtname"
+        android:layout_below="@+id/txtname"/>
 
     <TextView
         android:id="@+id/txtprice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txtname"
+        android:layout_alignLeft="@+id/txtrupees"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/txtname"
         android:layout_marginTop="5dp"
-        android:paddingLeft="10dp"
+        android:layout_marginLeft="10dp"
         android:text="TextView" />
 
     <LinearLayout
+        android:id="@+id/linearadd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/txtname"
         android:layout_below="@+id/txtprice"
         android:layout_margin="10dp"
-        android:gravity="center"
+        android:gravity="left"
         android:orientation="horizontal"
         android:padding="5dp">
 
@@ -99,4 +106,15 @@
             android:text="+"
             android:textColor="#fff" />
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/delete"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignRight="@+id/txtname"
+        android:src="@drawable/delete" />
 </RelativeLayout>
