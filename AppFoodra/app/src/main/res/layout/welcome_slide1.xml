@@ -12,10 +12,10 @@
         android:background="@color/colorPrimary">
 
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:layout_centerInParent="true"
-            android:src="@drawable/map"/>
+            android:src="@drawable/img1"/>
     </RelativeLayout>
 
     <TextView

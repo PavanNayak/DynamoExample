@@ -73,11 +73,9 @@ public class CartActivity extends AppCompatActivity {
                 fishData.id = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_ID));
                 data.add(fishData);
             }
-
             valsubtotal.setText("₹ " + dh.gettotalprice());
             grandTotal = (dh.gettotalprice());
             valtotal.setText("₹ " + grandTotal);
-
             recyclerView = findViewById(R.id.recyclerCart);
             adapter = new CartAdapter(CartActivity.this, data);
             HorizontalLayout = new LinearLayoutManager(CartActivity.this, LinearLayoutManager.HORIZONTAL, false);
@@ -85,7 +83,6 @@ public class CartActivity extends AppCompatActivity {
             recyclerView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
         }
-
         placeorder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
