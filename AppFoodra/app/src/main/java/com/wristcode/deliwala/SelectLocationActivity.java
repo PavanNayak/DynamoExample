@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,6 +65,7 @@ import java.util.Locale;
 
 public class SelectLocationActivity extends AppCompatActivity implements GPSTracker.UpdateLocationListener, OnMapReadyCallback, View.OnClickListener, AdapterView.OnItemSelectedListener {
     private Bundle mBundle;
+    LinearLayout linearmanual;
     private GoogleMap mGoogleMap;
     private GPSTracker gpsTracker;
     private Marker locationMarker;
@@ -86,6 +88,7 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
         setContentView(R.layout.activity_selectlocation);
         init();
 
+        linearmanual=(LinearLayout)findViewById(R.id.linearmanual);
         inflater = LayoutInflater.from(SelectLocationActivity.this);
         txtmanually = (TextView) findViewById(R.id.txtmanually);
         txtmanually.setOnClickListener(this);
@@ -250,6 +253,17 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
                     strReturnedAddress.append(returnedAddress.getAddressLine(i)).append(",");
                 }
                 strAdd = addresses.get(0).getAddressLine(0).toString().trim();
+                Toast.makeText(context,"Service available", Toast.LENGTH_SHORT).show();
+                if(!(addresses.get(0).getPostalCode().equals("576101")||addresses.get(0).getPostalCode().equals("576102")||addresses.get(0).getPostalCode().equals("576103")||addresses.get(0).getPostalCode().equals("576104")||addresses.get(0).getPostalCode().equals("576105"))){
+                    linearmanual.setVisibility(View.VISIBLE);
+
+                }
+                else
+                {
+                    Intent i =new Intent(SelectLocationActivity.this,NavDrawer.class);
+                    startActivity(i);
+                    finish();
+                }
                 Log.e("My Current address", "" + strReturnedAddress.toString());
             } else {
                 Log.e("My Current address", "No Address returned!");
@@ -259,6 +273,13 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
             Log.e("My Current  address", "Cannot get Address!");
         }
         return strAdd;
+    }
+
+
+    public void Proceed(View v){
+        Intent i =new Intent(SelectLocationActivity.this,NavDrawer.class);
+        startActivity(i);
+        finish();
     }
 
     @Override

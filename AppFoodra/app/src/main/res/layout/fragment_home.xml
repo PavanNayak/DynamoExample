@@ -5,11 +5,26 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/search">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+
     <RelativeLayout
         android:id="@+id/img"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="#A9A9A9" />
+        android:layout_height="200dp" />
+            <ImageView
+                android:layout_width="match_parent"
+                android:src="@drawable/pic"
+                android:scaleType="fitXY"
+                android:layout_height="200dp" />
 
     <TextView
         android:id="@+id/text1"
@@ -104,6 +119,10 @@
             </android.support.v7.widget.RecyclerView>
 
         </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+        </RelativeLayout>
+
     </android.support.v4.widget.NestedScrollView>
 
 </RelativeLayout>

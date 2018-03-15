@@ -10,11 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-<<<<<<< HEAD
-import android.view.Gravity;
-=======
 import android.util.Log;
->>>>>>> e08ceb387f3f24e9a95a6e540cf3197ac7525378
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,7 +27,6 @@ import com.wristcode.deliwala.fragments.ReviewsFragment;
 
 public class HotelActivity extends AppCompatActivity
 {
-<<<<<<< HEAD
     private OverviewFragment fragment1;
     private MenuFragment fragment2;
     private ReviewsFragment fragment3;
@@ -39,10 +34,6 @@ public class HotelActivity extends AppCompatActivity
     private FragmentManager fragmentManager;
     SharedPreferences preferences;
     public  String id,name,descp,img,isOpen,pop,address;
-=======
-    private BottomNavigationView mBottomNavigationView;
-
->>>>>>> e3265697dd49481084099900bd5326d8163b2711
     private SpaceNavigationView spaceNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -131,33 +122,19 @@ public class HotelActivity extends AppCompatActivity
 
     private void setupNavigationView()
     {
-        mBottomNavigationView = findViewById(R.id.navigation);
-        mBottomNavigationView.setSelectedItemId(R.id.menu);
-        mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
+        if (bottomNavigationView != null)
         {
-<<<<<<< HEAD
-            @Override
-            public boolean onNavigationItemSelected(MenuItem item)
-=======
             Menu menu = bottomNavigationView.getMenu();
             selectFragment(menu.getItem(1));
             bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
->>>>>>> e08ceb387f3f24e9a95a6e540cf3197ac7525378
             {
-                Fragment selectedFragment = null;
-                switch (item.getItemId())
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item)
                 {
-                    case R.id.overview:
-                        selectedFragment = OverviewFragment.newInstance();
-                        break;
-                    case R.id.menu:
-                        selectedFragment = MenuFragment.newInstance();
-                        break;
-                    case R.id.reviews:
-                        selectedFragment = ReviewsFragment.newInstance();
-                        break;
+                    selectFragment(item);
+                    return false;
                 }
-<<<<<<< HEAD
             });
         }
     }
@@ -205,19 +182,14 @@ public class HotelActivity extends AppCompatActivity
 
 
 
-=======
-
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.content, selectedFragment);
-                transaction.commit();
-                return true;
->>>>>>> e3265697dd49481084099900bd5326d8163b2711
             }
-        });
+        }
+    }
 
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.content, MenuFragment.newInstance());
-        transaction.commit();
+    public void onClickCart(View v) {
+        Intent i = new Intent(HotelActivity.this, CartActivity.class);
+        startActivity(i);
+        finish();
     }
 
     @Override

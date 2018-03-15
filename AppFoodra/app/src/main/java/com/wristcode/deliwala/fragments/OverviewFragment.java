@@ -34,7 +34,6 @@ public class OverviewFragment extends Fragment
 
     public OverviewFragment() {}
 
-<<<<<<< HEAD
     @SuppressLint("ValidFragment")
     public OverviewFragment(String id,String name,String descp,String img,String isOpen,String pop,String address) {
 
@@ -50,11 +49,8 @@ public class OverviewFragment extends Fragment
 
 
 
-    public static OverviewFragment newInstance(String param1, String param2)
-    {
-=======
     public static OverviewFragment newInstance() {
->>>>>>> e3265697dd49481084099900bd5326d8163b2711
+
         OverviewFragment fragment = new OverviewFragment();
         return fragment;
     }
