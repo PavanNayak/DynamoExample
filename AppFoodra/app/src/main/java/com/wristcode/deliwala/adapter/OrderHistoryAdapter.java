@@ -111,19 +111,19 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
 
         if (movie.getoStatus().toString().equals("received"))
         {
-            holder.txtstatus.setText("Your order has been received!!!");
+            holder.txtstatus.setText("Received");
         }
         else if (movie.getoStatus().toString().equals("dispatched"))
         {
-            holder.txtstatus.setText("Your order has been dispatched!!!");
+            holder.txtstatus.setText("Dispatched");
         }
         else if (movie.getoStatus().toString().equals("delivered"))
         {
-            holder.txtstatus.setText("Your order has been delivered!!!");
+            holder.txtstatus.setText("Delivered");
         }
         else if (movie.getoStatus().toString().equals("proceesing"))
         {
-            holder.txtstatus.setText("Your order is in process!!!");
+            holder.txtstatus.setText("Processing");
         }
 
         Glide.with(mContext).load("http://appfoodra.com/uploads/restaurant/icons/"+movie.getoResImage())

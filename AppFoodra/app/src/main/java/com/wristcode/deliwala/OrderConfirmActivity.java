@@ -50,8 +50,6 @@ public class OrderConfirmActivity extends AppCompatActivity
     @Override
     public void onBackPressed()
     {
-        Intent i = new Intent(OrderConfirmActivity.this, OrderConfirmActivity.class);
-        startActivity(i);
-        finish();
+
     }
 }

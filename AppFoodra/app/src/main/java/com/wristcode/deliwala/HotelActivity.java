@@ -179,6 +179,7 @@ public class HotelActivity extends AppCompatActivity
 
                 ft.replace(R.id.content, fragment);
                 ft.commit();
+<<<<<<< HEAD
 
 
 
@@ -190,6 +191,10 @@ public class HotelActivity extends AppCompatActivity
         Intent i = new Intent(HotelActivity.this, CartActivity.class);
         startActivity(i);
         finish();
+=======
+            }
+        }
+>>>>>>> d2c0aee1a5f8a23224335f563b5c37b3c45333ba
     }
 
     @Override
