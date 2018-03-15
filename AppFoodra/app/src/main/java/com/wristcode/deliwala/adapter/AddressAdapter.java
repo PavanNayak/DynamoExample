@@ -128,6 +128,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
         holder.txtname.setTypeface(font1);
         holder.txtaddress.setTypeface(font2);
         holder.txtedit.setTypeface(font2);
+        holder.txtdelete.setTypeface(font2);
 
         holder.raddress.setChecked(lastSelectedPosition == position);
 
