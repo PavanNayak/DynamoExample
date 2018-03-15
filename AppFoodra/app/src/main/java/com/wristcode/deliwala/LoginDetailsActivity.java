@@ -234,7 +234,6 @@ public class LoginDetailsActivity extends AppCompatActivity implements IConstant
                     SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(LoginDetailsActivity.this);
                     SharedPreferences.Editor editor1 = pref1.edit();
                     editor1.putString("Id", jsonObject1.getString("apiKey").toString());
-                    editor1.putString("flag", "1");
                     editor1.apply();
 
                     Intent i = new Intent(LoginDetailsActivity.this, SelectLocationActivity.class);

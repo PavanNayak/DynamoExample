@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,6 +63,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
     {
         public TextView txtid, txtname, txtaddress, txtlat, txtlong, txtedit, txtdelete;
         RadioButton raddress;
+        ImageView imgadd;
 
         public MyViewHolder(View view)
         {
@@ -76,6 +78,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
             txtedit = (TextView) view.findViewById(R.id.txtedit);
             txtdelete = (TextView) view.findViewById(R.id.txtdelete);
             raddress = (RadioButton) view.findViewById(R.id.raddress);
+            imgadd = (ImageView) view.findViewById(R.id.imgadd);
             pref = PreferenceManager.getDefaultSharedPreferences(mContext);
 
             raddress.setOnClickListener(new View.OnClickListener() {

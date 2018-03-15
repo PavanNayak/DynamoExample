@@ -121,7 +121,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         {
             holder.txtstatus.setText("Delivered");
         }
-        else if (movie.getoStatus().toString().equals("proceesing"))
+        else if (movie.getoStatus().toString().equals("processing"))
         {
             holder.txtstatus.setText("Processing");
         }

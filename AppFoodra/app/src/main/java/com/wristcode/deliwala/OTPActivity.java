@@ -72,6 +72,11 @@ public class OTPActivity extends AppCompatActivity implements IConstants {
             public void onClick(View v) {
                 if (inputotp.equals(valueotp.getText().toString()))
                 {
+                    SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(OTPActivity.this);
+                    SharedPreferences.Editor editor1 = pref1.edit();
+                    editor1.putString("flag", "1");
+                    editor1.apply();
+
                     if (pref.getString("UserType", "").toString().equals("new"))
                     {
                         Intent i = new Intent(OTPActivity.this, LoginDetailsActivity.class);
