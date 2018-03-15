@@ -94,14 +94,14 @@ public class CartActivity extends AppCompatActivity {
     }
 
     public void backButton(View v) {
-        Intent i = new Intent(CartActivity.this, HotelActivity.class);
+        Intent i = new Intent(CartActivity.this, NavDrawer.class);
         startActivity(i);
         finish();
     }
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(CartActivity.this, HotelActivity.class);
+        Intent i = new Intent(CartActivity.this, NavDrawer.class);
         startActivity(i);
         finish();
     }

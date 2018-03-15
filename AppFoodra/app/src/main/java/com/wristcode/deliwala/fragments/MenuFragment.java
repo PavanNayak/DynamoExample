@@ -90,11 +90,11 @@ public class MenuFragment extends Fragment {
 
         if (dh.gettotalqty() > 0 || dh.gettotalprice() > 0)
         {
-            layoutInner.setVisibility(View.VISIBLE);
+            //layoutInner.setVisibility(View.VISIBLE);
             cartbadge.setText(String.valueOf(dh.gettotalqty()));
 
         } else {
-            layoutInner.setVisibility(View.INVISIBLE);
+            //layoutInner.setVisibility(View.INVISIBLE);
         }
 
         fab.setOnClickListener(new View.OnClickListener() {
