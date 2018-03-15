@@ -43,15 +43,10 @@ public class OverviewFragment extends Fragment
         this.address=address;
     }
 
-<<<<<<< HEAD
 
 
 
     public static OverviewFragment newInstance() {
-
-=======
-    public static OverviewFragment newInstance() {
->>>>>>> d2c0aee1a5f8a23224335f563b5c37b3c45333ba
         OverviewFragment fragment = new OverviewFragment();
         return fragment;
     }

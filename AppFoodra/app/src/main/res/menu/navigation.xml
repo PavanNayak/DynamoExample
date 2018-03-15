@@ -7,11 +7,7 @@
 
     <item
         android:id="@+id/menu"
-<<<<<<< HEAD
-
-=======
         android:icon="@drawable/logo"
->>>>>>> d2c0aee1a5f8a23224335f563b5c37b3c45333ba
         android:title="MENU" />
 
     <item
