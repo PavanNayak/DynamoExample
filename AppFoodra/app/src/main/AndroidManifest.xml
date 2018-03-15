@@ -80,6 +80,7 @@
         <activity
             android:name="com.wristcode.deliwala.AddAddressActivity"
             android:screenOrientation="portrait"
+            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity

@@ -1,9 +1,12 @@
 package com.wristcode.deliwala.adapter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,14 +14,30 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.wristcode.deliwala.AddAddressActivity;
 import com.wristcode.deliwala.AddressActivity;
 import com.wristcode.deliwala.LoginActivity;
+import com.wristcode.deliwala.NavDrawer;
 import com.wristcode.deliwala.PaymentActivity;
 import com.wristcode.deliwala.Pojo.Address;
 import com.wristcode.deliwala.R;
+import com.wristcode.deliwala.SelectLocationActivity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,10 +56,11 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
     private List<Address> moviesList;
     private Context mContext;
     private int lastSelectedPosition = -1;
+    SharedPreferences pref;
 
     public class MyViewHolder extends RecyclerView.ViewHolder
     {
-        public TextView txtid, txtname, txtaddress, txtlat, txtlong, txtedit;
+        public TextView txtid, txtname, txtaddress, txtlat, txtlong, txtedit, txtdelete;
         RadioButton raddress;
 
         public MyViewHolder(View view)
@@ -54,23 +74,9 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
             txtlat = (TextView) view.findViewById(R.id.txtlat);
             txtlong = (TextView) view.findViewById(R.id.txtlong);
             txtedit = (TextView) view.findViewById(R.id.txtedit);
+            txtdelete = (TextView) view.findViewById(R.id.txtdelete);
             raddress = (RadioButton) view.findViewById(R.id.raddress);
-
-            txtedit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v)
-                {
-                    SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(mContext);
-                    SharedPreferences.Editor editor1 = pref1.edit();
-                    editor1.putString("AddressFlag", "1");
-                    editor1.apply();
-
-                    Intent i = new Intent(mContext, AddressActivity.class);
-                    i.putExtra("MESSAGE", "");
-                    i.putExtra("FLAG", "1");
-                    mContext.startActivity(i);
-                }
-            });
+            pref = PreferenceManager.getDefaultSharedPreferences(mContext);
 
             raddress.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -104,7 +110,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position)
+    public void onBindViewHolder(final MyViewHolder holder, int position)
     {
         Address movie = moviesList.get(position);
         holder.txtid.setText(movie.getUserid());
@@ -118,8 +124,33 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
 
         holder.txtname.setTypeface(font1);
         holder.txtaddress.setTypeface(font2);
+        holder.txtedit.setTypeface(font2);
 
         holder.raddress.setChecked(lastSelectedPosition == position);
+
+        holder.txtedit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(mContext);
+                SharedPreferences.Editor editor1 = pref1.edit();
+                editor1.putString("AddressFlag", "1");
+                editor1.apply();
+
+                Intent i = new Intent(mContext, AddressActivity.class);
+                i.putExtra("MESSAGE", "");
+                i.putExtra("FLAG", "1");
+                mContext.startActivity(i);
+            }
+        });
+
+        holder.txtdelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                new AsyncRemoveAddress().execute(pref.getString("Id","").toString(), holder.txtid.getText().toString());
+            }
+        });
     }
 
     @Override
@@ -127,5 +158,89 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
         return moviesList.size();
     }
 
+    private class AsyncRemoveAddress extends AsyncTask<String, String, String> {
+        ProgressDialog pdLoading = new ProgressDialog(mContext);
+        HttpURLConnection conn;
+        URL url = null;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            pdLoading.setMessage("\tPlease Wait...");
+            pdLoading.setCancelable(false);
+            pdLoading.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try
+            {
+                url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/customer/address/remove");
+            }
+            catch (MalformedURLException e)
+            {
+                e.printStackTrace();
+                return "exception";
+            }
+            try {
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(READ_TIMEOUT);
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                Uri.Builder builder = new Uri.Builder()
+                        .appendQueryParameter("apiKey", params[0])
+                        .appendQueryParameter("addressId", params[1]);
+                String query = builder.build().getEncodedQuery();
+
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(query);
+                writer.flush();
+                writer.close();
+                os.close();
+                conn.connect();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+                return "exception";
+            }
+            try {
+                InputStream input = conn.getInputStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                StringBuilder result = new StringBuilder();
+                String line;
+
+                while ((line = reader.readLine()) != null) {
+                    result.append(line);
+                }
+                return (result.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "exception";
+            } finally {
+                conn.disconnect();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            pdLoading.dismiss();
+            try
+            {
+                JSONObject jsonObject = new JSONObject(result);
+                if (jsonObject.getString("status").equals("true"))
+                {
+                    notifyDataSetChanged();
+                }
+
+            } catch (JSONException e) {
+                Toast.makeText(mContext, "OOPS! Something went wrong. Retry", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
 
 }
