@@ -179,12 +179,12 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
 
     public void passval(int val)
     {
-        fragment.setCart(val);
+        //fragment.setCart(val);
     }
 
     public void passval1(int val)
     {
-        fragment.setCart(val);
+        //fragment.setCart(val);
     }
 
     public void passprice(int val) {

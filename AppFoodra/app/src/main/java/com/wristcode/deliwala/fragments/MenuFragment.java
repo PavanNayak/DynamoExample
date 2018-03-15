@@ -164,7 +164,7 @@ public class MenuFragment extends Fragment {
 
     public void setCart(int item)
     {
-        cartbadge.setText(String.valueOf(item));
+        //cartbadge.setText(String.valueOf(item));
     }
 
     public void setPrice(int total)
