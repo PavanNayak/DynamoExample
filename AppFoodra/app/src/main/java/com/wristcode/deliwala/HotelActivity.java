@@ -179,9 +179,21 @@ public class HotelActivity extends AppCompatActivity
 
                 ft.replace(R.id.content, fragment);
                 ft.commit();
+
+
+
+
             }
         }
     }
+
+    public void onClickCart(View v) {
+        Intent i = new Intent(HotelActivity.this, CartActivity.class);
+        startActivity(i);
+        finish();
+
+            }
+
 
     @Override
     public void onBackPressed() {
