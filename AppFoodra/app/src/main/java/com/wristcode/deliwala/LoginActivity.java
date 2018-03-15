@@ -20,14 +20,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.toolbox.ImageLoader;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.wristcode.deliwala.extra.CustomVolleyRequest;
 import com.wristcode.deliwala.extra.IConstants;
 
 import org.json.JSONException;
@@ -48,14 +40,10 @@ import java.net.URL;
  * Created by Ajay Jagadish on 20-Feb-18.
  */
 
-public class LoginActivity extends AppCompatActivity implements IConstants, GoogleApiClient.OnConnectionFailedListener {
-    int flag = 0;
-    TextView txtwelcome, txtsignin, txtphone, txtusername, txtemail;;
-    EditText valuephone, valueusername, valueemail;;
+public class LoginActivity extends AppCompatActivity implements IConstants {
+    TextView txtwelcome, txtsignin, txtphone;
+    EditText valuephone;
     Button verifyButton;
-    private GoogleSignInOptions gso;
-    private GoogleApiClient mGoogleApiClient;
-    private ImageLoader imageLoader;
     SharedPreferences pref;
     private int REQUEST_CODE = 1;
 
@@ -63,10 +51,6 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        txtusername = findViewById(R.id.txtusername);
-        valueusername = findViewById(R.id.valueusername);
-        txtemail = findViewById(R.id.txtemail);
-        valueemail = findViewById(R.id.valueemail);
         txtwelcome = findViewById(R.id.txtwelcome);
         txtsignin = findViewById(R.id.txtsignin);
         txtphone = findViewById(R.id.txtphone);
@@ -80,94 +64,36 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
         txtphone.setTypeface(font1);
         valuephone.setTypeface(font1);
         verifyButton.setTypeface(font1);
-        txtusername.setTypeface(font1);
-        txtemail.setTypeface(font1);
-        valueemail.setTypeface(font1);
-        valueusername.setTypeface(font1);
-
-        valueusername.setText(pref.getString("Name", "").toString());
-        valueemail.setText(pref.getString("Email", "").toString());
-
-        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(LoginActivity.this, this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
 
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECEIVE_SMS) == PackageManager.PERMISSION_GRANTED) {}
         else
         {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.RECEIVE_SMS}, REQUEST_CODE);
         }
-
-        signIn();
     }
-
-    private static final int RC_SIGN_IN = 9001;
-
-    private void signIn()
-    {
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_SIGN_IN && resultCode == LoginActivity.RESULT_OK)
-        {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleSignInResult(result);
-
-            SharedPreferences preferences1 = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
-            SharedPreferences.Editor editor1 = preferences1.edit();
-            editor1.putString("flag", "1");
-            editor1.apply();
-
-        }
-        else
-        {
-            flag = 1;
-            Toast.makeText(this, "Sorry, We could not fetch your Name & Email Id!!!", Toast.LENGTH_SHORT).show();
-            txtusername.setVisibility(View.VISIBLE);
-            txtemail.setVisibility(View.VISIBLE);
-            valueusername.setVisibility(View.VISIBLE);
-            valueemail.setVisibility(View.VISIBLE);
-
-            SharedPreferences preferences1 = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
-            SharedPreferences.Editor editor1 = preferences1.edit();
-            editor1.putString("flag", "1");
-            editor1.apply();
-
-        }
-    }
-
-    private void handleSignInResult(GoogleSignInResult result) {
-        if (result.isSuccess()) {
-            GoogleSignInAccount acct = result.getSignInAccount();
-            imageLoader = CustomVolleyRequest.getInstance(this.getApplicationContext()).getImageLoader();
-            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
-            SharedPreferences.Editor editor = pref.edit();
-            editor.putString("Name", acct.getDisplayName());
-            editor.putString("Email", acct.getEmail());
-            editor.putString("Profile", acct.getPhotoUrl().toString());
-            editor.apply();
-        } else {
-            Toast.makeText(this, "Login Failed", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {}
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            } else {
+        if (requestCode == REQUEST_CODE)
+        {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            {}
+            else
+            {
                 //Toast.makeText(this, "You denied the permission", Toast.LENGTH_LONG).show();
             }
+        }
+    }
+
+    public void verifyButton(View v)
+    {
+        if (valuephone.getText().toString().matches(""))
+        {
+            Toast.makeText(LoginActivity.this, "You must enter your mobile number!!!", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            new AsyncPreRegister().execute(valuephone.getText().toString().trim(), pref.getString("tokenId","").toString());
         }
     }
 
@@ -260,29 +186,12 @@ public class LoginActivity extends AppCompatActivity implements IConstants, Goog
                     editor1.putString("PhoneNo", valuephone.getText().toString().trim());
                     editor1.apply();
 
-                    if(flag == 1)
-                    {
-                        SharedPreferences pref2 = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
-                        SharedPreferences.Editor editor2 = pref2.edit();
-                        editor2.putString("Name", valueusername.getText().toString());
-                        editor2.putString("Email", valueemail.getText().toString());
-                        editor2.apply();
-                    }
                     Intent i = new Intent(LoginActivity.this, OTPActivity.class);
                     startActivity(i);
                 }
             } catch (JSONException e) {
                 Toast.makeText(LoginActivity.this, e.toString(), Toast.LENGTH_LONG).show();
             }
-        }
-    }
-
-    public void verifyButton(View v) {
-        if (valuephone.getText().toString().matches("")) {
-            Toast.makeText(LoginActivity.this, "You must enter your mobile number!!!", Toast.LENGTH_SHORT).show();
-        } else {
-            SharedPreferences pref2 = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
-            new AsyncPreRegister().execute(valuephone.getText().toString().trim(),pref2.getString("tokenId",""));
         }
     }
 }

@@ -33,9 +33,10 @@ public class Splashscreen extends AppCompatActivity {
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(Splashscreen.this);
                 String refreshedToken = FirebaseInstanceId.getInstance().getToken();
                 SharedPreferences.Editor editor1 = preferences.edit();
-                editor1.putString("tokenId",refreshedToken );
+                editor1.putString("tokenId",refreshedToken);
                 editor1.apply();
                 Log.d("tokenId",refreshedToken);
+
                 if(preferences.getString("flag", "").toString().equals("1"))
                 {
                     Intent i = new Intent(Splashscreen.this, NavDrawer.class);
@@ -48,7 +49,6 @@ public class Splashscreen extends AppCompatActivity {
                     startActivity(i);
                     finish();
                 }
-
             }
         }, 3000);
     }

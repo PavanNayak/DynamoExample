@@ -47,7 +47,6 @@ public class OTPActivity extends AppCompatActivity implements IConstants {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_otp);
-
         tvtitle = (TextView) findViewById(R.id.tvtitle);
         tvsubtitle = (TextView) findViewById(R.id.tvsubtitle);
         tvotp = (TextView) findViewById(R.id.txtotp);
@@ -75,7 +74,9 @@ public class OTPActivity extends AppCompatActivity implements IConstants {
                 {
                     if (pref.getString("UserType", "").toString().equals("new"))
                     {
-                        new AsyncRegister().execute(pref.getString("Name", "").toString(), pref.getString("Email", "").toString(), pref.getString("PhoneNo", "").toString(), pref.getString("Profile", "").toString(),pref.getString("tokenId",""));
+                        Intent i = new Intent(OTPActivity.this, LoginDetailsActivity.class);
+                        startActivity(i);
+                        finish();
                     }
                     else
                     {
@@ -97,99 +98,6 @@ public class OTPActivity extends AppCompatActivity implements IConstants {
                 new AsyncResendOtp().execute(pref.getString("PhoneNo", "").toString());
             }
         });
-    }
-
-    private class AsyncRegister extends AsyncTask<String, String, String> {
-        ProgressDialog pdLoading = new ProgressDialog(OTPActivity.this);
-        HttpURLConnection conn;
-        URL url = null;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            pdLoading.setMessage("\tLoading...");
-            pdLoading.setCancelable(false);
-            pdLoading.show();
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            try {
-                url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/customer/register");
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-                return "exception";
-            }
-            try {
-                conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(READ_TIMEOUT);
-                conn.setConnectTimeout(CONNECTION_TIMEOUT);
-                conn.setRequestMethod("POST");
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-
-                Uri.Builder builder = new Uri.Builder()
-                        .appendQueryParameter("username", params[0])
-                        .appendQueryParameter("email", params[1])
-                        .appendQueryParameter("mobileNumber", params[2])
-                        .appendQueryParameter("path", params[3])
-                        .appendQueryParameter("tokenId", params[4]);
-                String query = builder.build().getEncodedQuery();
-
-                OutputStream os = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-                writer.write(query);
-                writer.flush();
-                writer.close();
-                os.close();
-                conn.connect();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-                return "exception";
-            }
-
-            try {
-                InputStream input = conn.getInputStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-                StringBuilder result = new StringBuilder();
-                String line;
-
-                while ((line = reader.readLine()) != null) {
-                    result.append(line);
-                }
-                return (result.toString());
-            } catch (IOException e) {
-                e.printStackTrace();
-                return "exception";
-            } finally {
-                conn.disconnect();
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            pdLoading.dismiss();
-            Toast.makeText(OTPActivity.this,result, Toast.LENGTH_SHORT).show();
-            try {
-                JSONObject jsonObject = new JSONObject(result);
-                if (jsonObject.getString("status").equals("true"))
-                {
-                    JSONObject jsonObject1 = jsonObject.getJSONObject("data");
-
-                    SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(OTPActivity.this);
-                    SharedPreferences.Editor editor1 = pref1.edit();
-                    editor1.putString("Id", jsonObject1.getString("apiKey").toString());
-                    editor1.apply();
-
-                    Intent i = new Intent(OTPActivity.this, SelectLocationActivity.class);
-                    startActivity(i);
-                    finish();
-                }
-            } catch (JSONException e) {
-                Toast.makeText(OTPActivity.this, e.toString(), Toast.LENGTH_LONG).show();
-            }
-        }
     }
 
     private class AsyncResendOtp extends AsyncTask<String, String, String> {
