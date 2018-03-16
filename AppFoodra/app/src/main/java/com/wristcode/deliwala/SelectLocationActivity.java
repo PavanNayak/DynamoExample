@@ -253,7 +253,7 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
                     strReturnedAddress.append(returnedAddress.getAddressLine(i)).append(",");
                 }
                 strAdd = addresses.get(0).getAddressLine(0).toString().trim();
-                Toast.makeText(context,"Service available", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context,"Service available", Toast.LENGTH_SHORT).show();
                 if(!(addresses.get(0).getPostalCode().equals("576101")||addresses.get(0).getPostalCode().equals("576102")||addresses.get(0).getPostalCode().equals("576103")||addresses.get(0).getPostalCode().equals("576104")||addresses.get(0).getPostalCode().equals("576105")))
                 {
                     linearmanual.setVisibility(View.VISIBLE);

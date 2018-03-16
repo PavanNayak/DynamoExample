@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.wristcode.deliwala.CartActivity;
 import com.wristcode.deliwala.HotelActivity;
@@ -164,7 +165,8 @@ public class MenuFragment extends Fragment {
 
     public void setCart(int item)
     {
-        //cartbadge.setText(String.valueOf(item));
+        //Toast.makeText(getActivity(), "Item: "+String.valueOf(item), Toast.LENGTH_SHORT).show();
+//        cartbadge.setText(String.valueOf(item));
     }
 
     public void setPrice(int total)
