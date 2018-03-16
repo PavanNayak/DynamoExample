@@ -3,15 +3,17 @@
 
     <item
         android:id="@+id/overview"
+        android:icon="@drawable/imghotel"
         android:title="OVERVIEW" />
 
     <item
         android:id="@+id/menu"
-        android:icon="@drawable/logo"
+        android:icon="@drawable/imgmenu"
         android:title="MENU" />
 
     <item
         android:id="@+id/reviews"
+        android:icon="@drawable/imgreview"
         android:title="REVIEWS" />
 
 </menu>
