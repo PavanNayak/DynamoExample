@@ -23,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -65,7 +66,8 @@ import java.util.Locale;
 
 public class SelectLocationActivity extends AppCompatActivity implements GPSTracker.UpdateLocationListener, OnMapReadyCallback, View.OnClickListener, AdapterView.OnItemSelectedListener {
     private Bundle mBundle;
-    LinearLayout linearmanual;
+    LinearLayout linearmanual, linear1;
+    Button btnproceed;
     private GoogleMap mGoogleMap;
     private GPSTracker gpsTracker;
     private Marker locationMarker;
@@ -88,7 +90,9 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
         setContentView(R.layout.activity_selectlocation);
         init();
 
-        linearmanual=(LinearLayout)findViewById(R.id.linearmanual);
+//        linearmanual=(LinearLayout)findViewById(R.id.linearmanual);
+//        linear1 = (LinearLayout) findViewById(R.id.linear1);
+//        btnproceed = (Button) findViewById(R.id.btnproceed);
         inflater = LayoutInflater.from(SelectLocationActivity.this);
         txtmanually = (TextView) findViewById(R.id.txtmanually);
         txtmanually.setOnClickListener(this);
@@ -254,17 +258,16 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
                 }
                 strAdd = addresses.get(0).getAddressLine(0).toString().trim();
                 //Toast.makeText(context,"Service available", Toast.LENGTH_SHORT).show();
-                if(!(addresses.get(0).getPostalCode().equals("576101")||addresses.get(0).getPostalCode().equals("576102")||addresses.get(0).getPostalCode().equals("576103")||addresses.get(0).getPostalCode().equals("576104")||addresses.get(0).getPostalCode().equals("576105")))
-                {
-                    linearmanual.setVisibility(View.VISIBLE);
-
-                }
-                else
-                {
-                    Intent i =new Intent(SelectLocationActivity.this,NavDrawer.class);
-                    startActivity(i);
-                    finish();
-                }
+//                if(!(addresses.get(0).getPostalCode().equals("576101")||addresses.get(0).getPostalCode().equals("576102")||addresses.get(0).getPostalCode().equals("576103")||addresses.get(0).getPostalCode().equals("576104")||addresses.get(0).getPostalCode().equals("576105")))
+//                {
+//                    linearmanual.setVisibility(View.VISIBLE);
+//                    btnproceed.setVisibility(View.VISIBLE);
+//                }
+//                else
+//                {
+//                    mMapView.setVisibility(View.VISIBLE);
+//                    linear1.setVisibility(View.VISIBLE);
+//                }
                 Log.e("My Current address", "" + strReturnedAddress.toString());
             } else {
                 Log.e("My Current address", "No Address returned!");
@@ -407,7 +410,7 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
         @Override
         protected void onPostExecute(String result) {
             pdLoading.dismiss();
-            //Toast.makeText(SelectLocationActivity.this, result, Toast.LENGTH_SHORT).show();
+            Toast.makeText(SelectLocationActivity.this, result, Toast.LENGTH_SHORT).show();
             try
             {
                 JSONObject jsonObject = new JSONObject(result);

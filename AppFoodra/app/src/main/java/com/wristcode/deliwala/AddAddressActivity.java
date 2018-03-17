@@ -50,6 +50,7 @@ public class AddAddressActivity extends AppCompatActivity
     AddressAdapter mAdapter;
     TextView titletext, txttitleadd, txtaddaddress;
     Button addAddress;
+    SharedPreferences preferences1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +67,7 @@ public class AddAddressActivity extends AppCompatActivity
         titletext.setTypeface(font);
         txttitleadd.setTypeface(font);
         addAddress.setTypeface(font1);
-        SharedPreferences preferences1 = PreferenceManager.getDefaultSharedPreferences(AddAddressActivity.this);
+        preferences1 = PreferenceManager.getDefaultSharedPreferences(AddAddressActivity.this);
         new AsyncAddress().execute(preferences1.getString("Id", "").toString());
 
         txtaddaddress.setOnClickListener(new View.OnClickListener() {
@@ -88,9 +89,15 @@ public class AddAddressActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                Intent i = new Intent(AddAddressActivity.this, PaymentActivity.class);
-                startActivity(i);
-                finish();
+                if(preferences1.getString("Position","").toString().equals("-1"))
+                {
+                    Toast.makeText(AddAddressActivity.this, "Please select an address..", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Intent i = new Intent(AddAddressActivity.this, PaymentActivity.class);
+                    startActivity(i);
+                    finish();
+                }
             }
         });
     }

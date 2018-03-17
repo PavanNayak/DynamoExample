@@ -132,6 +132,11 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
 
         holder.raddress.setChecked(lastSelectedPosition == position);
 
+        SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(mContext);
+        SharedPreferences.Editor editor1 = pref1.edit();
+        editor1.putString("Position", String.valueOf(lastSelectedPosition));
+        editor1.apply();
+
         holder.txtedit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
