@@ -147,7 +147,6 @@ public class HotelActivity extends AppCompatActivity
         switch (item.getItemId())
         {
             case R.id.overview:
-
                 pushFragment(new OverviewFragment());
                 break;
             case R.id.menu:

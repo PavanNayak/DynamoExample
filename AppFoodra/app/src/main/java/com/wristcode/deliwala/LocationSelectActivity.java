@@ -71,6 +71,16 @@ public class LocationSelectActivity extends AppCompatActivity implements TextWat
         finish();
     }
 
+    public void currentLocation(View v)
+    {
+        Intent intent = new Intent();
+        intent.putExtra("MESSAGE", "");
+        intent.putExtra("LAT", "1");
+        intent.putExtra("LONGI", "1");
+        setResult(2, intent);
+        finish();
+    }
+
     @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
@@ -355,8 +365,8 @@ public class LocationSelectActivity extends AppCompatActivity implements TextWat
                         //Toast.makeText(LocationSelectActivity.this,to1.toString(), Toast.LENGTH_SHORT).show();
                         SharedPreferences preferences1 = PreferenceManager.getDefaultSharedPreferences(LocationSelectActivity.this);
                         SharedPreferences.Editor editor1 = preferences1.edit();
-                        editor1.putString("mylatitude", String.valueOf(latitude));
-                        editor1.putString("mylongitude", String.valueOf(longitude));
+                        editor1.putString("Latitude", String.valueOf(latitude));
+                        editor1.putString("Longitiude", String.valueOf(longitude));
                         editor1.apply();
 //                    }
 
@@ -370,8 +380,7 @@ public class LocationSelectActivity extends AppCompatActivity implements TextWat
                     intent.putExtra("MESSAGE", lol);
                     intent.putExtra("LAT", String.valueOf(latitude));
                     intent.putExtra("LONGI", String.valueOf(longitude));
-                    intent.putExtra("FLAG", "2");
-                    startActivity(intent);
+                    setResult(2, intent);
                     finish();
                     break;
             }

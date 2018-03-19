@@ -1,8 +1,10 @@
 package com.wristcode.deliwala;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Typeface;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,6 +33,7 @@ public class CartActivity extends AppCompatActivity {
     ExampleDBHelper dh;
     List<Cart> data = new ArrayList<>();
     int grandTotal;
+    SharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,7 @@ public class CartActivity extends AppCompatActivity {
         valtotal = (TextView) findViewById(R.id.valtotal);
         txtinstruction = (EditText) findViewById(R.id.txtinstruction);
         placeorder = (Button) findViewById(R.id.placeorder);
+        pref = PreferenceManager.getDefaultSharedPreferences(CartActivity.this);
         Typeface font = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Medium.ttf");
         Typeface font1 = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Regular.ttf");
         txttitle.setTypeface(font);
@@ -58,6 +62,8 @@ public class CartActivity extends AppCompatActivity {
         valtotal.setTypeface(font1);
         txtinstruction.setTypeface(font1);
         placeorder.setTypeface(font1);
+
+        txtresname.setText(pref.getString("name", "").toString());
         dh = new ExampleDBHelper(getApplicationContext());
 
         if (dh.gettotalprice() <= 0) {

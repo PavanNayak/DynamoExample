@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.wristcode.deliwala.AddAddressActivity;
 import com.wristcode.deliwala.AddressActivity;
+import com.wristcode.deliwala.CartActivity;
 import com.wristcode.deliwala.LoginActivity;
 import com.wristcode.deliwala.NavDrawer;
 import com.wristcode.deliwala.PaymentActivity;
@@ -243,7 +244,8 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
                 JSONObject jsonObject = new JSONObject(result);
                 if (jsonObject.getString("status").equals("true"))
                 {
-                    notifyDataSetChanged();
+                    Intent i = new Intent(mContext, AddAddressActivity.class);
+                    mContext.startActivity(i);
                 }
 
             } catch (JSONException e) {
