@@ -90,9 +90,9 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
         setContentView(R.layout.activity_selectlocation);
         init();
 
-//        linearmanual=(LinearLayout)findViewById(R.id.linearmanual);
-//        linear1 = (LinearLayout) findViewById(R.id.linear1);
-//        btnproceed = (Button) findViewById(R.id.btnproceed);
+        linearmanual=(LinearLayout)findViewById(R.id.linearmanual);
+        linear1 = (LinearLayout) findViewById(R.id.linear1);
+        btnproceed = (Button) findViewById(R.id.btnproceed);
         inflater = LayoutInflater.from(SelectLocationActivity.this);
         txtmanually = (TextView) findViewById(R.id.txtmanually);
         txtmanually.setOnClickListener(this);
@@ -258,16 +258,32 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
                 }
                 strAdd = addresses.get(0).getAddressLine(0).toString().trim();
                 //Toast.makeText(context,"Service available", Toast.LENGTH_SHORT).show();
-//                if(!(addresses.get(0).getPostalCode().equals("576101")||addresses.get(0).getPostalCode().equals("576102")||addresses.get(0).getPostalCode().equals("576103")||addresses.get(0).getPostalCode().equals("576104")||addresses.get(0).getPostalCode().equals("576105")))
-//                {
-//                    linearmanual.setVisibility(View.VISIBLE);
-//                    btnproceed.setVisibility(View.VISIBLE);
-//                }
-//                else
-//                {
-//                    mMapView.setVisibility(View.VISIBLE);
-//                    linear1.setVisibility(View.VISIBLE);
-//                }
+                if(!(addresses.get(0).getPostalCode().equals("576101")||addresses.get(0).getPostalCode().equals("576102")||addresses.get(0).getPostalCode().equals("576103")||addresses.get(0).getPostalCode().equals("576104")||addresses.get(0).getPostalCode().equals("576105")))
+                {
+                    linearmanual.setVisibility(View.VISIBLE);
+                    btnproceed.setVisibility(View.VISIBLE);
+
+
+                }
+                else
+                {
+
+
+                    String fulladdress = housenumber.getText().toString().trim() + ", " + landmark.getText().toString().trim() + ", " + mAddress.getText().toString().trim();
+                    SharedPreferences preferences1 = PreferenceManager.getDefaultSharedPreferences(SelectLocationActivity.this);
+                    SharedPreferences.Editor editor1 = preferences1.edit();
+                    editor1.putString("HouseNumber", housenumber.getText().toString().trim());
+                    editor1.putString("Landmark", landmark.getText().toString().trim());
+                    editor1.putString("Address", fulladdress.toString());
+                    editor1.putString("Latitude", latitude.toString());
+                    editor1.putString("Longitiude", longitude.toString());
+                    editor1.apply();
+
+                    new AsyncAddAddress().execute(pref1.getString("Id", "").toString(), pref1.getString("Name", "").toString(), pref1.getString("Address", "").toString(), pref1.getString("Longitiude", "").toString(), pref1.getString("Latitude", "").toString());
+
+                    mMapView.setVisibility(View.GONE);
+                    linear1.setVisibility(View.GONE);
+                }
                 Log.e("My Current address", "" + strReturnedAddress.toString());
             } else {
                 Log.e("My Current address", "No Address returned!");
@@ -410,7 +426,7 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
         @Override
         protected void onPostExecute(String result) {
             pdLoading.dismiss();
-            Toast.makeText(SelectLocationActivity.this, result, Toast.LENGTH_SHORT).show();
+       //     Toast.makeText(SelectLocationActivity.this, result, Toast.LENGTH_SHORT).show();
             try
             {
                 JSONObject jsonObject = new JSONObject(result);

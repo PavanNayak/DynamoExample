@@ -34,6 +34,7 @@ public class HotelActivity extends AppCompatActivity
     private FragmentManager fragmentManager;
     SharedPreferences preferences;
     public  String id,name,descp,img,isOpen,pop,address;
+
     private SpaceNavigationView spaceNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -51,6 +52,7 @@ public class HotelActivity extends AppCompatActivity
         pop=getIntent().getStringExtra("pop").toString();
         address=getIntent().getStringExtra("address").toString();
 
+        //Toast.makeText(this,String.valueOf(id), Toast.LENGTH_SHORT).show();
 
         preferences = PreferenceManager.getDefaultSharedPreferences(HotelActivity.this);
         SharedPreferences.Editor editor1 = preferences.edit();
