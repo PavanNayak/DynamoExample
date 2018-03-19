@@ -2,9 +2,11 @@ package com.wristcode.deliwala.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -48,6 +50,7 @@ public class MenuFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    SharedPreferences preferences;
     List<String> strMenuTitle, strJson;
     private String mParam1;
     private String mParam2;
@@ -76,6 +79,10 @@ public class MenuFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_menu, container, false);
+
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
         layoutInner = (FrameLayout) v.findViewById(R.id.layoutInner);
         fab = (FloatingActionButton) v.findViewById(R.id.fab);
         cartbadge = (TextView) v.findViewById(R.id.cartbadge);
@@ -83,7 +90,8 @@ public class MenuFragment extends Fragment {
         strMenuTitle = new ArrayList<>();
         strJson = new ArrayList<>();
 
-        new AsyncGetData().execute("2");
+     //   Toast.makeText(getActivity(),preferences.getString("id","").toString(), Toast.LENGTH_SHORT).show();
+        new AsyncGetData().execute(preferences.getString("id","").toString());
         viewPager = v.findViewById(R.id.simpleViewPager);
 
         tabLayout = v.findViewById(R.id.tablayout);
@@ -250,6 +258,11 @@ public class MenuFragment extends Fragment {
                 {
                     JSONArray jsonArray = jsonObject.getJSONArray("data");
 
+
+                    if(jsonArray.length()==0){
+
+                        Toast.makeText(getActivity(), "No Items found!", Toast.LENGTH_SHORT).show();
+                    }
 
 
                     for(int i=0;i<jsonArray.length();i++){
