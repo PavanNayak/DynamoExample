@@ -44,7 +44,7 @@ public class HotelActivity extends AppCompatActivity
         setupNavigationView();
 
 
-        id=getIntent().getStringExtra("id").toString();
+        id = getIntent().getStringExtra("id").toString();
         name=getIntent().getStringExtra("name").toString();
         descp=getIntent().getStringExtra("descp").toString();
         img=getIntent().getStringExtra("img").toString();

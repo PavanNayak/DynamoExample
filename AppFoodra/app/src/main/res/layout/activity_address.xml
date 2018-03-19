@@ -225,7 +225,8 @@
                 android:background="#FFF"
                 android:elevation="4dp"
                 android:orientation="vertical"
-                android:padding="10dp">
+                android:padding="10dp"
+                android:visibility="gone">
 
 
                 <EditText
