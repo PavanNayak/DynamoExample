@@ -262,8 +262,6 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
                 {
                     linearmanual.setVisibility(View.VISIBLE);
                     btnproceed.setVisibility(View.VISIBLE);
-
-
                 }
                 else
                 {

@@ -179,10 +179,11 @@ public class AddAddressActivity extends AppCompatActivity
                     JSONArray jArray = jsonObject.getJSONArray("data");
                     if (jArray.length() == 0)
                     {
-                        //setContentView(R.layout.activity_order_history_empty);
+                        addAddress.setVisibility(View.GONE);
                     }
                     else
                     {
+                        addAddress.setVisibility(View.VISIBLE);
                         for (int i = 0; i < jArray.length(); i++)
                         {
                             JSONObject json_data = jArray.getJSONObject(i);
