@@ -53,6 +53,9 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.MyViewHo
             payimg = view.findViewById(R.id.payimg);
             radiobutton = view.findViewById(R.id.radiobutton);
             pref = PreferenceManager.getDefaultSharedPreferences(mContext);
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putString("PaymentType", "COD");
+            editor.apply();
 
             radiobutton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -62,7 +65,7 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.MyViewHo
                     if(lastSelectedPosition == 1)
                     {
                         SharedPreferences.Editor editor = pref.edit();
-                        editor.putString("PaymentType", "CASH");
+                        editor.putString("PaymentType", "CARD");
                         editor.apply();
                     }
                     else

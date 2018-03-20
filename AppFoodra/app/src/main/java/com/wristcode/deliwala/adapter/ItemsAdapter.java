@@ -77,7 +77,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
                 case R.id.txtadd:
                     int val1 = Integer.parseInt(txtresid.getText().toString());
                     Boolean val2 = dbHelper.checkresid(val1);
-                    Toast.makeText(mContext, "ResId: "+txtresid.getText().toString()+ " ID: "+val2.toString()+ " Flag: "+pref.getString("fg","").toString(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(mContext, "ResId: "+txtresid.getText().toString()+ " ID: "+val2.toString()+ " Flag: "+pref.getString("fg","").toString(), Toast.LENGTH_SHORT).show();
                     if ((val2.equals(true) && pref.getString("fg","").toString().equals("1")) || (val2.equals(false) && pref.getString("fg","").toString().equals("0")))
                     {
                         txtadd.setVisibility(View.GONE);
