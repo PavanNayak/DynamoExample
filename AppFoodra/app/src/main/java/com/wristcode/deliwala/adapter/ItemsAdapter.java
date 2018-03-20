@@ -66,6 +66,10 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.txtadd:
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7ad3d5185d785e339ed927ab54dd5475ca50d031
                     txtadd.setVisibility(View.GONE);
                     txtminus.setVisibility(View.VISIBLE);
                     txtplus.setVisibility(View.VISIBLE);

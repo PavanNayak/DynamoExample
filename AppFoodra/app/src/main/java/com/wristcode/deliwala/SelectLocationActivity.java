@@ -262,6 +262,14 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
                 {
                     linearmanual.setVisibility(View.VISIBLE);
                     btnproceed.setVisibility(View.VISIBLE);
+<<<<<<< HEAD
+=======
+
+                    Toast.makeText(context, "Service not available in your location!", Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(SelectLocationActivity.this, NavDrawer.class);
+                    startActivity(i);
+                    finish();
+>>>>>>> 7ad3d5185d785e339ed927ab54dd5475ca50d031
                 }
                 else
                 {
@@ -277,7 +285,10 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
                     editor1.putString("Longitiude", longitude.toString());
                     editor1.apply();
 
-                    new AsyncAddAddress().execute(pref1.getString("Id", "").toString(), pref1.getString("Name", "").toString(), pref1.getString("Address", "").toString(), pref1.getString("Longitiude", "").toString(), pref1.getString("Latitude", "").toString());
+                    Intent i = new Intent(SelectLocationActivity.this, NavDrawer.class);
+                    startActivity(i);
+                    finish();
+                 //   new AsyncAddAddress().execute(pref1.getString("Id", "").toString(), pref1.getString("Name", "").toString(), pref1.getString("Address", "").toString(), pref1.getString("Longitiude", "").toString(), pref1.getString("Latitude", "").toString());
 
                     mMapView.setVisibility(View.GONE);
                     linear1.setVisibility(View.GONE);
