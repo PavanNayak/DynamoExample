@@ -66,6 +66,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
+        android:textColor="@color/colorPrimary"
         android:paddingLeft="10dp"
         android:layout_below="@+id/txtdesc"
         android:layout_alignParentRight="true"
