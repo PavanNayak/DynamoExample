@@ -67,7 +67,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.txtadd:
-                    if(pref.getString("id",""))
 
                     txtadd.setVisibility(View.GONE);
                     txtminus.setVisibility(View.VISIBLE);
