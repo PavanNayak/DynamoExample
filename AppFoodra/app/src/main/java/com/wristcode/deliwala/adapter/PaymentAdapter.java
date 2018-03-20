@@ -37,7 +37,7 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.MyViewHo
     public static final int READ_TIMEOUT = 15000;
     private List<Payment> moviesList;
     private Context mContext;
-    private int lastSelectedPosition = -1;
+    private int lastSelectedPosition = 0;
     SharedPreferences pref;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

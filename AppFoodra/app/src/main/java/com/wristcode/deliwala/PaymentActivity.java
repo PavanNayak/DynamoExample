@@ -105,7 +105,7 @@ public class PaymentActivity extends AppCompatActivity implements IConstants
             @Override
             public void onClick(View v)
             {
-                new AsyncOrderDetails().execute(pref1.getString("Id", "").toString(), "2", pref1.getString("AddressId", "").toString(), "Delivery", pref1.getString("PaymentType", "").toString());
+                new AsyncOrderDetails().execute(pref1.getString("Id", "").toString(), pref1.getString("id","").toString(), pref1.getString("AddressId", "").toString(), "Delivery", pref1.getString("PaymentType", "").toString());
             }
         });
     }

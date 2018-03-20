@@ -308,17 +308,31 @@ public class HomeFragment extends Fragment implements IConstants, View.OnFocusCh
                         Restaurants resData = new Restaurants();
                         resData.resid = json_data.getString("id");
                         resData.resname = json_data.getString("restaurantName");
-                        if(json_data.has("description"))
-                        resData.resdescp = json_data.getString("description");
-                        else
+                        if(json_data.has("description")) {
+                            resData.resdescp = json_data.getString("description");
+                        }
+                        else {
                             resData.resdescp = "No Description";
-                        resData.resadd = json_data.getString("restaurantAddress");
+                        }
+                        if(json_data.has("restaurantAddress")) {
+                            resData.resadd = json_data.getString("restaurantAddress");
+                        }
+                        else
+                        {
+                            resData.resadd = "No Address";
+                        }
                         resData.reslat = json_data.getString("restaurantLat");
                         resData.reslong = json_data.getString("restaurantLong");
                         resData.resmob = json_data.getString("primaryMobile");
                         resData.resisopen = json_data.getString("isOpen");
                         resData.respop = json_data.getString("popularity");
-                        resData.resimg = json_data.getString("iconImage");
+                        if(json_data.has("iconImage")) {
+                            resData.resimg = json_data.getString("iconImage");
+                        }
+                        else
+                        {
+                            resData.resimg = " ";
+                        }
                         data.add(resData);
                     }
                     adapter1 = new RestaurantsAdapter(getActivity(), data);

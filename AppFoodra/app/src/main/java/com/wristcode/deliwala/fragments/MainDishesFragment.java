@@ -63,6 +63,11 @@ public class MainDishesFragment extends Fragment
             data.name=jobject.getString("itemName");
             data.descp=jobject.getString("itemShortDescription");
             data.price=jobject.getString("regularPrice");
+
+            JSONObject jobject1 = jobject.getJSONObject("restaurant");
+            data.resid = jobject1.getString("id");
+            data.resname = jobject1.getString("restaurantName");
+
             categoriesList.add(data);
         }
         catch (JSONException e)

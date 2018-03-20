@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -35,12 +36,14 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.
         RelativeLayout relativehotel;
         ImageView image;
         ImageView thumbnail;
+        RatingBar ratingBar;
 
         public MyViewHolder(View view) {
             super(view);
             txtname = view.findViewById(R.id.txtname);
             txtdesc = view.findViewById(R.id.txtdesc);
             txttime = view.findViewById(R.id.txttime);
+            ratingBar = view.findViewById(R.id.ratingBar);
             image = view.findViewById(R.id.image);
             relativehotel = view.findViewById(R.id.relativehotel);
         }
@@ -63,6 +66,7 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.
         holder.txtname.setText(movie.getResname());
         holder.txtdesc.setText("Chinese, Arabian, Italian");
         holder.txttime.setText("10AM - 10PM");
+        holder.ratingBar.setRating(Float.valueOf(movie.getRespop()));
 
         Typeface font = Typeface.createFromAsset(mContext.getAssets(), "GT-Walsheim-Bold.ttf");
         Typeface font1 = Typeface.createFromAsset(mContext.getAssets(), "GT-Walsheim-Medium.ttf");
@@ -73,11 +77,11 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.
         holder.txttime.setTypeface(font2);
 
         Glide.with(mContext).load("http://appfoodra.com/uploads/restaurant/icons/"+movie.getResimg())
-                .placeholder(R.mipmap.ic_launcher)
-                .error(R.mipmap.ic_launcher)
+                .placeholder(R.drawable.logo)
+                .error(R.drawable.logo)
                 .into(holder.image);
 
-        Glide.with(mContext).load("http://appfoodra.com/uploads/restaurant/icons/"+movie.getResimg()).into(holder.image);
+        //Glide.with(mContext).load("http://appfoodra.com/uploads/restaurant/icons/"+movie.getResimg()).into(holder.image);
 
         holder.relativehotel.setOnClickListener(new View.OnClickListener()
         {

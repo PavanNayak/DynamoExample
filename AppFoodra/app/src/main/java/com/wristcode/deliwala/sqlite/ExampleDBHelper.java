@@ -17,6 +17,7 @@ public class ExampleDBHelper extends SQLiteOpenHelper {
     public static final String SUBCAT_TABLE_NAME = "item";
     public static final String SUBCAT_COLUMN_ID = "item_id";
     public static final String SUBCAT_COLUMN_RESID = "res_id";
+    public static final String SUBCAT_COLUMN_RESNAME = "res_name";
     public static final String SUBCAT_COLUMN_NAME = "item_name";
     public static final String SUBCAT_COLUMN_QUANTITY = "item_qty";
     public static final String SUBCAT_COLUMN_PRICE = "item_price";
@@ -32,6 +33,7 @@ public class ExampleDBHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " + SUBCAT_TABLE_NAME + "(" +
                 SUBCAT_COLUMN_ID + " INTEGER PRIMARY KEY, " +
                 SUBCAT_COLUMN_RESID + " INTEGER, " +
+                SUBCAT_COLUMN_RESNAME + " TEXT, " +
                 SUBCAT_COLUMN_NAME + " TEXT, " +
                 SUBCAT_COLUMN_QUANTITY + " INTEGER, " +
                 SUBCAT_COLUMN_PRICE + " INTEGER, " +
@@ -46,7 +48,7 @@ public class ExampleDBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public String insertItem(int item_id, int res_id, String item_name, int item_qty, int item_price, int item_actualprice, String item_image) {
+    public String insertItem(int item_id, int res_id, String res_name, String item_name, int item_qty, int item_price, int item_actualprice, String item_image) {
         SQLiteDatabase db = this.getWritableDatabase();
         String Str_Return_Value = null;
         long query_ret;
@@ -54,6 +56,7 @@ public class ExampleDBHelper extends SQLiteOpenHelper {
             ContentValues values = new ContentValues();
             values.put(SUBCAT_COLUMN_ID, item_id);
             values.put(SUBCAT_COLUMN_RESID, res_id);
+            values.put(SUBCAT_COLUMN_RESNAME, res_name);
             values.put(SUBCAT_COLUMN_NAME, item_name);
             values.put(SUBCAT_COLUMN_QUANTITY, item_qty);
             values.put(SUBCAT_COLUMN_PRICE, item_price);
@@ -71,11 +74,12 @@ public class ExampleDBHelper extends SQLiteOpenHelper {
         return Str_Return_Value;
     }
 
-    public boolean updateItem(int item_id, int res_id, String item_name, int item_qty, int item_price, int item_actualprice, String item_image) {
+    public boolean updateItem(int item_id, int res_id, String res_name, String item_name, int item_qty, int item_price, int item_actualprice, String item_image) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(SUBCAT_COLUMN_ID, item_id);
         contentValues.put(SUBCAT_COLUMN_RESID, res_id);
+        contentValues.put(SUBCAT_COLUMN_RESNAME, res_name);
         contentValues.put(SUBCAT_COLUMN_NAME, item_name);
         contentValues.put(SUBCAT_COLUMN_QUANTITY, item_qty);
         contentValues.put(SUBCAT_COLUMN_PRICE, item_price);
@@ -151,6 +155,17 @@ public class ExampleDBHelper extends SQLiteOpenHelper {
     public boolean checksubid(int item_id) {
         SQLiteDatabase db = this.getReadableDatabase();
         final Cursor cursor = db.rawQuery("SELECT * FROM " + SUBCAT_TABLE_NAME + " WHERE " + SUBCAT_COLUMN_ID + "=" + item_id, null);
+        if (cursor.getCount() <= 0) {
+            cursor.close();
+            return false;
+        }
+        cursor.close();
+        return true;
+    }
+
+    public boolean checkresid(int res_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        final Cursor cursor = db.rawQuery("SELECT * FROM " + SUBCAT_TABLE_NAME + " WHERE " + SUBCAT_COLUMN_RESID + "=" + res_id, null);
         if (cursor.getCount() <= 0) {
             cursor.close();
             return false;

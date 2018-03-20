@@ -180,9 +180,6 @@ public class AddressActivity extends AppCompatActivity
                 editor1.apply();
 
                 new AsyncAddAddress().execute(pref1.getString("Id", "").toString(), pref1.getString("Name", "").toString(), pref1.getString("Address", "").toString(), pref1.getString("Longitiude", "").toString(), pref1.getString("Latitude", "").toString());
-                Intent i = new Intent(AddressActivity.this, AddAddressActivity.class);
-                startActivity(i);
-                finish();
             }
         });
     }
@@ -371,6 +368,7 @@ public class AddressActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(String result) {
             pdLoading.dismiss();
+            Toast.makeText(AddressActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
             try
             {
                 JSONObject jsonObject = new JSONObject(result);
@@ -380,6 +378,10 @@ public class AddressActivity extends AppCompatActivity
                     SharedPreferences.Editor editor1 = p1.edit();
                     editor1.putString("AddressId", jsonObject.getString("addressId").toString());
                     editor1.apply();
+
+                    Intent i = new Intent(AddressActivity.this, AddAddressActivity.class);
+                    startActivity(i);
+                    finish();
                 }
 
             } catch (JSONException e) {
