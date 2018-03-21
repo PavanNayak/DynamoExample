@@ -30,7 +30,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
     public static final String product_id = "product_id";
     public static final String qty = "qty";
     public int flag = 0;
-
     public static final int CONNECTION_TIMEOUT = 10000;
     public static final int READ_TIMEOUT = 15000;
     private List<Cart> moviesList;

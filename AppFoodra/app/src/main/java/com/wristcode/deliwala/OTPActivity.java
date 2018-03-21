@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,8 +17,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.wristcode.deliwala.Pojo.Address;
+import com.wristcode.deliwala.adapter.AddressAdapter;
 import com.wristcode.deliwala.extra.IConstants;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,6 +35,8 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Ajay Jagadish on 26-Feb-18.
@@ -85,9 +91,7 @@ public class OTPActivity extends AppCompatActivity implements IConstants {
                     }
                     else
                     {
-                        Intent i = new Intent(OTPActivity.this, SelectLocationActivity.class);
-                        startActivity(i);
-                        finish();
+                        new AsyncGetDetails().execute(pref.getString("Id", "").toString());
                     }
                 }
                 else
@@ -178,6 +182,102 @@ public class OTPActivity extends AppCompatActivity implements IConstants {
                 {
 //                    Intent i = new Intent(OTPActivity.this, SelectLocationActivity.class);
 //                    startActivity(i);
+                }
+            }
+            catch (JSONException e)
+            {
+                Toast.makeText(OTPActivity.this, e.toString(), Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private class AsyncGetDetails extends AsyncTask<String, String, String> {
+        ProgressDialog pdLoading = new ProgressDialog(OTPActivity.this);
+        HttpURLConnection conn;
+        URL url = null;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pdLoading.setMessage("\tLoading...");
+            pdLoading.setCancelable(false);
+            pdLoading.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/customer/get-profile");
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+                return "exception";
+            }
+            try {
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(READ_TIMEOUT);
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                Uri.Builder builder = new Uri.Builder()
+                        .appendQueryParameter("apiKey", params[0]);
+                String query = builder.build().getEncodedQuery();
+
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(query);
+                writer.flush();
+                writer.close();
+                os.close();
+                conn.connect();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+                return "exception";
+            }
+
+            try {
+                InputStream input = conn.getInputStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                StringBuilder result = new StringBuilder();
+                String line;
+
+                while ((line = reader.readLine()) != null) {
+                    result.append(line);
+                }
+                return (result.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "exception";
+            } finally {
+                conn.disconnect();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String result)
+        {
+            pdLoading.dismiss();
+            try
+            {
+                JSONObject jsonObject = new JSONObject(result);
+                if (jsonObject.getString("status").equals("true"))
+                {
+                    JSONArray jArray = jsonObject.getJSONArray("data");
+                    for (int i = 0; i < jArray.length(); i++)
+                    {
+                        JSONObject json_data = jArray.getJSONObject(i);
+                        SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(OTPActivity.this);
+                        SharedPreferences.Editor editor1 = pref1.edit();
+                        editor1.putString("Name", json_data.getString("username"));
+                        editor1.putString("Email", json_data.getString("email"));
+                        editor1.apply();
+
+                        Intent intent = new Intent(OTPActivity.this, SelectLocationActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
                 }
             }
             catch (JSONException e)
