@@ -32,6 +32,7 @@ public class CartActivity extends AppCompatActivity {
     Button placeorder;
     ExampleDBHelper dh;
     List<Cart> data = new ArrayList<>();
+
     int grandTotal;
     SharedPreferences pref;
 
@@ -110,5 +111,35 @@ public class CartActivity extends AppCompatActivity {
         Intent i = new Intent(CartActivity.this, NavDrawer.class);
         startActivity(i);
         finish();
+    }
+
+
+
+    public void updateCartDetails(){
+        List<Cart> dataplus = new ArrayList<>();
+
+        if (dh.gettotalprice() <= 0) {
+            setContentView(R.layout.activity_empty_cart);
+        } else {
+
+            Cursor c = dh.getAllItems();
+            while (c.moveToNext()) {
+                Cart fishData = new Cart();
+                fishData.name = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_NAME));
+                fishData.qty = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_QUANTITY));
+                fishData.price = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_PRICE));
+                fishData.id = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_ID));
+                dataplus.add(fishData);
+            }
+            valsubtotal.setText("₹ " + dh.gettotalprice());
+            grandTotal = (dh.gettotalprice());
+            valtotal.setText("₹ " + grandTotal);
+            recyclerView = findViewById(R.id.recyclerCart);
+            adapter = new CartAdapter(CartActivity.this, dataplus);
+            HorizontalLayout = new LinearLayoutManager(CartActivity.this, LinearLayoutManager.HORIZONTAL, false);
+            recyclerView.setLayoutManager(HorizontalLayout);
+            recyclerView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+        }
     }
 }

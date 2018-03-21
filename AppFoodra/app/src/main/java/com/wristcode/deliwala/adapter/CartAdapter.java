@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.wristcode.deliwala.CartActivity;
 import com.wristcode.deliwala.HotelActivity;
+import com.wristcode.deliwala.NavDrawer;
 import com.wristcode.deliwala.Pojo.Cart;
 import com.wristcode.deliwala.R;
 import com.wristcode.deliwala.sqlite.ExampleDBHelper;
@@ -84,7 +85,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
                             }
                             else
                             {
-                                Intent i = new Intent(mContext, HotelActivity.class);
+                                Intent i = new Intent(mContext, NavDrawer.class);
                                 mContext.startActivity(i);
                             }
                         }
@@ -122,10 +123,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
                         qty = subqty + 1;
                         price = subprice + subitemprice;
                         dh.updateItem(Integer.parseInt(txtid.getText().toString()), 2, txtname.getText().toString(), qty, price, subitemprice, imgtype);
+
+                        passVal();
+
                     }
-                    Intent intent = new Intent(mContext, CartActivity.class);
-                    mContext.startActivity(intent);
-                    ((CartActivity) mContext).finish();
+
+
+
+
                     break;
 
                 case R.id.txtminus:
@@ -145,16 +150,15 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
                             qty1 = subqty1 - 1;
                             price1 = subprice1 - subitemprice1;
                             dh.updateItem(Integer.parseInt(txtid.getText().toString()), 2, txtname.getText().toString(), qty1, price1, subitemprice1, imgtype1);
-
+                            passVal();
                         }
                     }
                     else
                     {
                         dh.deleteItem(Integer.parseInt(txtid.getText().toString()));
+                        passVal();
                     }
-                    Intent intent2 = new Intent(mContext, CartActivity.class);
-                    mContext.startActivity(intent2);
-                    ((CartActivity) mContext).finish();
+
                     break;
             }
             dh.close();
@@ -199,5 +203,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
     @Override
     public int getItemCount() {
         return moviesList.size();
+    }
+
+
+    public void passVal(){
+        ((CartActivity)mContext).updateCartDetails();
     }
 }

@@ -53,7 +53,6 @@ public class MenuFragment extends Fragment {
     SharedPreferences preferences;
     List<String> strMenuTitle, strJson;
     List<String> strMenuTitle1, strJson1;
-    List<String> Title, Json;
     private String mParam1;
     private String mParam2;
 
@@ -91,10 +90,8 @@ public class MenuFragment extends Fragment {
         dh = new ExampleDBHelper(getActivity());
         strMenuTitle = new ArrayList<>();
         strMenuTitle1 = new ArrayList<>();
-        Title = new ArrayList<>();
         strJson = new ArrayList<>();
         strJson1 = new ArrayList<>();
-        Json = new ArrayList<>();
 
      //   Toast.makeText(getActivity(),preferences.getString("id","").toString(), Toast.LENGTH_SHORT).show();
         new AsyncGetData().execute(preferences.getString("id","").toString());
@@ -127,31 +124,8 @@ public class MenuFragment extends Fragment {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager());
 
-
-        for(int j=0;j<strMenuTitle.size();j++)
-            for(int k=0;k<strMenuTitle.size();k++)
-                if(strMenuTitle.get(j).toString().equals(strMenuTitle1.get(k).toString()))
-                {
-                    Title.add(strMenuTitle.get(j).toString());
-                    Json.add(strJson.get(j));
-                    Json.add(strJson.get(k));
-                }
-                else
-                {
-                    Title.add(strMenuTitle.get(j).toString());
-                    Json.add(strJson.get(j));
-
-                }
-
-
-
-        for(int i=0; i<Title.size(); i++){
-
-
-            adapter.addFragment(new MainDishesFragment(Json.get(i)),Title.get(i));
-        }
-
-
+        for(int i=0; i<strMenuTitle.size(); i++)
+        adapter.addFragment(new MainDishesFragment(strJson.get(i)), strMenuTitle.get(i));
         viewPager.setAdapter(adapter);
     }
 
