@@ -123,19 +123,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
                         imgtype = rs.getString(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_IMAGE));
                         qty = subqty + 1;
                         price = subprice + subitemprice;
-<<<<<<< HEAD
-                        dh.updateItem(Integer.parseInt(txtid.getText().toString()), 2, txtname.getText().toString(), qty, price, subitemprice, imgtype);
-
-                        passVal();
-
-=======
                         dh.updateItem(Integer.parseInt(txtid.getText().toString()), Integer.parseInt(txtresid.getText().toString()), txtresname.getText().toString(), txtname.getText().toString(), qty, price, subitemprice, imgtype);
->>>>>>> d2d76c69b4f652ac0ae837baac0e3e50db56e0ca
+                        passVal();
                     }
-
-
-
-
                     break;
 
                 case R.id.txtminus:
@@ -156,12 +146,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
                             imgtype1 = rs1.getString(rs1.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_IMAGE));
                             qty1 = subqty1 - 1;
                             price1 = subprice1 - subitemprice1;
-<<<<<<< HEAD
-                            dh.updateItem(Integer.parseInt(txtid.getText().toString()), 2, txtname.getText().toString(), qty1, price1, subitemprice1, imgtype1);
-                            passVal();
-=======
                             dh.updateItem(Integer.parseInt(txtid.getText().toString()), Integer.parseInt(txtresid.getText().toString()), txtresname.getText().toString(), txtname.getText().toString(), qty1, price1, subitemprice1, imgtype1);
->>>>>>> d2d76c69b4f652ac0ae837baac0e3e50db56e0ca
+                            passVal();
                         }
                     }
                     else
@@ -218,8 +204,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
         return moviesList.size();
     }
 
-
-    public void passVal(){
+    public void passVal()
+    {
         ((CartActivity)mContext).updateCartDetails();
     }
 }

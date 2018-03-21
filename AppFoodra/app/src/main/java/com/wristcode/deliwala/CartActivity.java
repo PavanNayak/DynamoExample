@@ -32,6 +32,7 @@ public class CartActivity extends AppCompatActivity {
     Button placeorder;
     ExampleDBHelper dh;
     List<Cart> data = new ArrayList<>();
+    List<Cart> dataplus = new ArrayList<>();
 
     int grandTotal;
     SharedPreferences pref;
@@ -120,24 +121,28 @@ public class CartActivity extends AppCompatActivity {
         finish();
     }
 
-
-
-    public void updateCartDetails(){
-        List<Cart> dataplus = new ArrayList<>();
-
-        if (dh.gettotalprice() <= 0) {
+    public void updateCartDetails()
+    {
+        if (dh.gettotalprice() <= 0)
+        {
             setContentView(R.layout.activity_empty_cart);
-        } else {
-
+        }
+        else
+        {
             Cursor c = dh.getAllItems();
-            while (c.moveToNext()) {
+            while (c.moveToNext())
+            {
                 Cart fishData = new Cart();
+                fishData.resid = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_RESID));
+                rname = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_RESNAME));
+                fishData.resname = rname;
                 fishData.name = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_NAME));
                 fishData.qty = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_QUANTITY));
                 fishData.price = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_PRICE));
                 fishData.id = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_ID));
                 dataplus.add(fishData);
             }
+            txtresname.setText(rname.toString());
             valsubtotal.setText("₹ " + dh.gettotalprice());
             grandTotal = (dh.gettotalprice());
             valtotal.setText("₹ " + grandTotal);
