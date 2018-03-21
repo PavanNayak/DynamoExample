@@ -125,6 +125,18 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         {
             holder.txtstatus.setText("Processing");
         }
+        else if (movie.getoStatus().toString().equals("ready"))
+        {
+            holder.txtstatus.setText("Ready");
+        }
+        else if (movie.getoStatus().toString().equals("onway"))
+        {
+            holder.txtstatus.setText("On The Way");
+        }
+        else if (movie.getoStatus().toString().equals("dispatched"))
+        {
+            holder.txtstatus.setText("Dispatched");
+        }
 
         Glide.with(mContext).load("http://appfoodra.com/uploads/restaurant/icons/"+movie.getoResImage())
                 .placeholder(R.mipmap.ic_launcher)

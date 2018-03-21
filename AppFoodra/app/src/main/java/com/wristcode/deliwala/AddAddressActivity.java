@@ -179,25 +179,31 @@ public class AddAddressActivity extends AppCompatActivity
                     JSONArray jArray = jsonObject.getJSONArray("data");
                     if (jArray.length() == 0)
                     {
-                        addAddress.setVisibility(View.GONE);
+                        //addAddress.setVisibility(View.GONE);
                     }
                     else
                     {
-                        addAddress.setVisibility(View.VISIBLE);
                         for (int i = 0; i < jArray.length(); i++)
                         {
                             JSONObject json_data = jArray.getJSONObject(i);
                             JSONArray jArray1 = json_data.getJSONArray("billingAddress");
-                            for (int j = 0; j < jArray1.length(); j++)
+                            if(jArray1.length() == 0)
                             {
-                                JSONObject json_data1 = jArray1.getJSONObject(j);
-                                Address fishData = new Address();
-                                fishData.userid = json_data1.getString("id");
-                                fishData.username = json_data1.getString("fullName");
-                                fishData.useraddress = json_data1.getString("address");
-                                fishData.userlat = json_data1.getString("lattitude");
-                                fishData.userlong = json_data1.getString("logingitude");
-                                data.add(fishData);
+                                addAddress.setVisibility(View.GONE);
+                            }
+                            else
+                            {
+                                addAddress.setVisibility(View.VISIBLE);
+                                for (int j = 0; j < jArray1.length(); j++) {
+                                    JSONObject json_data1 = jArray1.getJSONObject(j);
+                                    Address fishData = new Address();
+                                    fishData.userid = json_data1.getString("id");
+                                    fishData.username = json_data1.getString("fullName");
+                                    fishData.useraddress = json_data1.getString("address");
+                                    fishData.userlat = json_data1.getString("lattitude");
+                                    fishData.userlong = json_data1.getString("logingitude");
+                                    data.add(fishData);
+                                }
                             }
                         }
                     }

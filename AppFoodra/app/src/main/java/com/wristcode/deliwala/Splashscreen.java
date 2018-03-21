@@ -34,6 +34,7 @@ public class Splashscreen extends AppCompatActivity {
                 String refreshedToken = FirebaseInstanceId.getInstance().getToken();
                 SharedPreferences.Editor editor1 = preferences.edit();
                 editor1.putString("tokenId",refreshedToken);
+                editor1.putString("fg","0");
                 editor1.apply();
                 Log.d("tokenId",refreshedToken);
 

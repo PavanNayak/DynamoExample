@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.wristcode.deliwala.extra.IConstants;
 
 import org.json.JSONException;
@@ -64,6 +65,11 @@ public class LoginActivity extends AppCompatActivity implements IConstants {
         txtphone.setTypeface(font1);
         valuephone.setTypeface(font1);
         verifyButton.setTypeface(font1);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+        SharedPreferences.Editor editor1 = preferences.edit();
+        editor1.putString("fg","0");
+        editor1.apply();
 
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECEIVE_SMS) == PackageManager.PERMISSION_GRANTED) {}
         else

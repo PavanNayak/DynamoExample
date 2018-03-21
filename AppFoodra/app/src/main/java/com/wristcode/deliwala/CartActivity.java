@@ -35,6 +35,7 @@ public class CartActivity extends AppCompatActivity {
 
     int grandTotal;
     SharedPreferences pref;
+    String rname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,22 +65,28 @@ public class CartActivity extends AppCompatActivity {
         txtinstruction.setTypeface(font1);
         placeorder.setTypeface(font1);
 
-        txtresname.setText(pref.getString("name", "").toString());
         dh = new ExampleDBHelper(getApplicationContext());
 
-        if (dh.gettotalprice() <= 0) {
+        if (dh.gettotalprice() <= 0)
+        {
             setContentView(R.layout.activity_empty_cart);
-        } else {
-
+        }
+        else
+        {
             Cursor c = dh.getAllItems();
-            while (c.moveToNext()) {
+            while (c.moveToNext())
+            {
                 Cart fishData = new Cart();
+                fishData.resid = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_RESID));
+                rname = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_RESNAME));
+                fishData.resname = rname;
                 fishData.name = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_NAME));
                 fishData.qty = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_QUANTITY));
                 fishData.price = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_PRICE));
                 fishData.id = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_ID));
                 data.add(fishData);
             }
+            txtresname.setText(rname.toString());
             valsubtotal.setText("₹ " + dh.gettotalprice());
             grandTotal = (dh.gettotalprice());
             valtotal.setText("₹ " + grandTotal);

@@ -64,7 +64,6 @@ public class AddressActivity extends AppCompatActivity
     LinearLayout linearhome, linearwork, linearothers;
     SharedPreferences pref1;
     ImageView imghome, imgwork, imgothers;
-    String lati, longi;
     private LocationManager mLocationManager;
     double latitude, longitude;
 
@@ -180,9 +179,6 @@ public class AddressActivity extends AppCompatActivity
                 editor1.apply();
 
                 new AsyncAddAddress().execute(pref1.getString("Id", "").toString(), pref1.getString("Name", "").toString(), pref1.getString("Address", "").toString(), pref1.getString("Longitiude", "").toString(), pref1.getString("Latitude", "").toString());
-                Intent i = new Intent(AddressActivity.this, AddAddressActivity.class);
-                startActivity(i);
-                finish();
             }
         });
     }
@@ -200,57 +196,36 @@ public class AddressActivity extends AppCompatActivity
             {
                 String message = data.getStringExtra("MESSAGE");
                 txtaddress.setText(message);
-                lati = data.getStringExtra("LAT");
-                longi = data.getStringExtra("LONGI");
+                latitude = Double.valueOf(data.getStringExtra("LAT"));
+                longitude = Double.valueOf(data.getStringExtra("LONGI"));
             }
         }
-
-
-//        switch (requestCode) {
-//            case REQUEST_CHECK_SETTINGS:
-//                switch (resultCode) {
-//                    case Activity.RESULT_OK:
-//                        // All required changes were successfully made
-//                        getLocation();
-//                        break;
-//                    case Activity.RESULT_CANCELED:
-//                        // The user was asked to change settings, but chose not to
-//                        break;
-//                    default:
-//                        break;
-//                }
-//                break;
-//        }
     }
 
-    private Location getLastKnownLocation() {
+    private Location getLastKnownLocation()
+    {
         List<String> providers = mLocationManager.getProviders(true);
         Location bestLocation = null;
         for (String provider : providers)
         {
             Location l = mLocationManager.getLastKnownLocation(provider);
-            //ALog.d("last known location, provider: %s, location: %s", provider,
-            //   l);
-
-            if (l == null) {
+            if (l == null)
+            {
                 continue;
             }
-            if (bestLocation == null
-                    || l.getAccuracy() < bestLocation.getAccuracy()) {
-                //  ALog.d("found best last known location: %s", l);
+            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy())
+            {
                 bestLocation = l;
             }
         }
-        if (bestLocation == null) {
+        if (bestLocation == null)
+        {
             return null;
         }
-
         latitude = bestLocation.getLatitude();
         longitude = bestLocation.getLongitude();
 
-
         getAddressFromLatLng(latitude,longitude);
-
 
         SharedPreferences preferences1 = PreferenceManager.getDefaultSharedPreferences(AddressActivity.this);
         SharedPreferences.Editor editor1 = preferences1.edit();
@@ -258,22 +233,14 @@ public class AddressActivity extends AppCompatActivity
         editor1.putString("Longitiude", String.valueOf(longitude));
         editor1.apply();
 
-
-        //  Toast.makeText(this,String.valueOf(latitude), Toast.LENGTH_SHORT).show();
-        // Toast.makeText(this,String.valueOf(longitude), Toast.LENGTH_SHORT).show();
-//        getAddress();
-
-
         return bestLocation;
     }
 
-
-
-
-
-    public void getAddressFromLatLng(double lat, double lng) {
+    public void getAddressFromLatLng(double lat, double lng)
+    {
         Geocoder geocoder = new Geocoder(AddressActivity.this, Locale.getDefault());
-        try {
+        try
+        {
             List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
             Address obj = addresses.get(0);
             String add = obj.getAddressLine(0);
@@ -285,16 +252,11 @@ public class AddressActivity extends AppCompatActivity
             add = add + "\n" + obj.getLocality();
             add = add + "\n" + obj.getSubThoroughfare();
 
-
-            Toast.makeText(this,obj.getLocality()+" "+obj.getAdminArea()+" "+obj.getCountryName(), Toast.LENGTH_SHORT).show();
             txtaddress.setText(obj.getLocality()+" "+obj.getAdminArea()+" "+obj.getCountryName());
             Log.v("IGA", "Address" + add);
-            // Toast.makeText(this, "Address=>" + add,
-            // Toast.LENGTH_SHORT).show();
-
-            // TennisAppActivity.showDialog(add);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
@@ -371,6 +333,7 @@ public class AddressActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(String result) {
             pdLoading.dismiss();
+            Toast.makeText(AddressActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
             try
             {
                 JSONObject jsonObject = new JSONObject(result);
@@ -380,6 +343,10 @@ public class AddressActivity extends AppCompatActivity
                     SharedPreferences.Editor editor1 = p1.edit();
                     editor1.putString("AddressId", jsonObject.getString("addressId").toString());
                     editor1.apply();
+
+                    Intent i = new Intent(AddressActivity.this, AddAddressActivity.class);
+                    startActivity(i);
+                    finish();
                 }
 
             } catch (JSONException e) {

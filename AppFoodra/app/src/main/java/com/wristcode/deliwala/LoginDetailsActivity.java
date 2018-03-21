@@ -114,7 +114,8 @@ public class LoginDetailsActivity extends AppCompatActivity implements IConstant
         }
     }
 
-    private void handleSignInResult(GoogleSignInResult result) {
+    private void handleSignInResult(GoogleSignInResult result)
+    {
         if (result.isSuccess()) {
             GoogleSignInAccount acct = result.getSignInAccount();
             imageLoader = CustomVolleyRequest.getInstance(this.getApplicationContext()).getImageLoader();

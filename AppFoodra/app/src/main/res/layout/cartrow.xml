@@ -33,6 +33,12 @@
         android:visibility="gone" />
 
     <TextView
+        android:id="@+id/txtresname"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:visibility="gone" />
+
+    <TextView
         android:id="@+id/txtname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
