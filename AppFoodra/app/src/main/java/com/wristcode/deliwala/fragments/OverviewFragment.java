@@ -88,7 +88,7 @@ public class OverviewFragment extends Fragment
 
         txthotelname.setText(getArguments().getString("name"));
         txtlocation.setText(getArguments().getString("address"));
-        fab.setText(getArguments().getString("pop"));
+        fab.setText(String.format("%.1f", Float.valueOf(getArguments().getString("pop"))));
         txtdesc.setText(getArguments().getString("descp"));
 
         if(getArguments().getString("isOpen").toString().equals("true"))

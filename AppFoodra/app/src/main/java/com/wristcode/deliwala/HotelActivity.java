@@ -63,63 +63,6 @@ public class HotelActivity extends AppCompatActivity
         editor1.putString("pop",pop);
         editor1.putString("address",address);
         editor1.apply();
-
-
-
-//        spaceNavigationView = (SpaceNavigationView) findViewById(R.id.space);
-//        spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
-//        spaceNavigationView.addSpaceItem(new SpaceItem("OVERVIEW",0));
-//        spaceNavigationView.addSpaceItem(new SpaceItem("REVIEWS",0));
-//        spaceNavigationView.shouldShowFullBadgeText(true);
-//        spaceNavigationView.setCentreButtonIconColorFilterEnabled(false);
-//
-//        spaceNavigationView.setSpaceOnClickListener(new SpaceOnClickListener() {
-//            @Override
-//            public void onCentreButtonClick() {
-//                Log.d("onCentreButtonClick ", "onCentreButtonClick");
-//                spaceNavigationView.shouldShowFullBadgeText(true);
-//                pushFragment(new MenuFragment());
-//
-//            }
-//
-//            @Override
-//            public void onItemClick(int itemIndex, String itemName) {
-//
-//                if(itemIndex==0){
-//                    pushFragment(new OverviewFragment());
-//                }
-//                else {
-//
-//                    pushFragment(new ReviewsFragment());
-//                }
-//                Log.d("onItemClick ", "" + itemIndex + " " + itemName);
-//            }
-//
-//            @Override
-//            public void onItemReselected(int itemIndex, String itemName) {
-//                Log.d("onItemReselected ", "" + itemIndex + " " + itemName);
-//                if(itemIndex==0){
-//                    pushFragment(new OverviewFragment());
-//                }
-//                else {
-//
-//                    pushFragment(new ReviewsFragment());
-//                }
-//            }
-//        });
-//
-//        spaceNavigationView.setSpaceOnLongClickListener(new SpaceOnLongClickListener() {
-//            @Override
-//            public void onCentreButtonLongClick() {
-//                Toast.makeText(HotelActivity.this, "onCentreButtonLongClick", Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onItemLongClick(int itemIndex, String itemName) {
-//                Toast.makeText(HotelActivity.this, itemIndex + " " + itemName, Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
     }
 
     private void setupNavigationView()

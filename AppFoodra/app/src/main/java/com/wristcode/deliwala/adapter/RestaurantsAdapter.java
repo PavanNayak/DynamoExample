@@ -32,7 +32,7 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.
     private Context mContext;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView txtname, txtdesc, txtkm, txttime;
+        public TextView txtname, txtdesc, txtratings, txttime;
         RelativeLayout relativehotel;
         ImageView image;
         ImageView thumbnail;
@@ -43,6 +43,7 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.
             txtname = view.findViewById(R.id.txtname);
             txtdesc = view.findViewById(R.id.txtdesc);
             txttime = view.findViewById(R.id.txttime);
+            txtratings = view .findViewById(R.id.txtratings);
             ratingBar = view.findViewById(R.id.ratingBar);
             image = view.findViewById(R.id.image);
             relativehotel = view.findViewById(R.id.relativehotel);
@@ -66,6 +67,7 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.
         holder.txtname.setText(movie.getResname());
         holder.txtdesc.setText("Chinese, Arabian, Italian");
         holder.txttime.setText("10AM - 10PM");
+        holder.txtratings.setText(String.format("%.1f", Float.valueOf(movie.getRespop())));
         holder.ratingBar.setRating(Float.valueOf(movie.getRespop()));
 
         Typeface font = Typeface.createFromAsset(mContext.getAssets(), "GT-Walsheim-Bold.ttf");
