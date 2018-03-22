@@ -68,6 +68,15 @@
         android:layout_alignParentEnd="true" />
 
     <TextView
+        android:id="@+id/txtrupees"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="₹"
+        android:textColor="@color/colorPrimary"
+        android:layout_alignLeft="@+id/txtdesc"
+        android:layout_below="@+id/txtdesc"/>
+
+    <TextView
         android:id="@+id/txtprice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -138,7 +147,7 @@
 
     <TextView
         android:id="@+id/txtadd"
-        android:layout_width="50dp"
+        android:layout_width="70dp"
         android:layout_height="30dp"
         android:layout_below="@+id/txtdesc"
         android:layout_alignParentRight="true"

@@ -32,7 +32,6 @@ public class CartActivity extends AppCompatActivity {
     Button placeorder;
     ExampleDBHelper dh;
     List<Cart> data = new ArrayList<>();
-    List<Cart> dataplus = new ArrayList<>();
 
     int grandTotal;
     SharedPreferences pref;
@@ -129,6 +128,7 @@ public class CartActivity extends AppCompatActivity {
         }
         else
         {
+            List<Cart> dataplus = new ArrayList<>();
             Cursor c = dh.getAllItems();
             while (c.moveToNext())
             {
