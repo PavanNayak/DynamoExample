@@ -45,12 +45,12 @@ public class HotelActivity extends AppCompatActivity
 
 
         id = getIntent().getStringExtra("id").toString();
-        name=getIntent().getStringExtra("name").toString();
-        descp=getIntent().getStringExtra("descp").toString();
-        img=getIntent().getStringExtra("img").toString();
-        isOpen=getIntent().getStringExtra("isOpen").toString();
-        pop=getIntent().getStringExtra("pop").toString();
-        address=getIntent().getStringExtra("address").toString();
+        name = getIntent().getStringExtra("name").toString();
+        descp = getIntent().getStringExtra("descp").toString();
+        img = getIntent().getStringExtra("img").toString();
+        isOpen = getIntent().getStringExtra("isOpen").toString();
+        pop = getIntent().getStringExtra("pop").toString();
+        address = getIntent().getStringExtra("address").toString();
 
         //Toast.makeText(this,String.valueOf(id), Toast.LENGTH_SHORT).show();
 
@@ -123,10 +123,6 @@ public class HotelActivity extends AppCompatActivity
 
                 ft.replace(R.id.content, fragment);
                 ft.commit();
-
-
-
-
             }
         }
     }

@@ -3,6 +3,7 @@ package com.wristcode.deliwala.fragments;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -60,7 +61,7 @@ public class MenuFragment extends Fragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private FloatingActionButton fab;
-    TextView cartbadge;
+    TextView cartbadge, txttitle;
     ExampleDBHelper dh;
     private FrameLayout layoutInner;
 
@@ -87,12 +88,16 @@ public class MenuFragment extends Fragment {
         layoutInner = (FrameLayout) v.findViewById(R.id.layoutInner);
         fab = (FloatingActionButton) v.findViewById(R.id.fab);
         cartbadge = (TextView) v.findViewById(R.id.cartbadge);
+        txttitle = (TextView) v.findViewById(R.id.txttitle);
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "GT-Walsheim-Medium.ttf");
         dh = new ExampleDBHelper(getActivity());
         strMenuTitle = new ArrayList<>();
         strMenuTitle1 = new ArrayList<>();
         strJson = new ArrayList<>();
         strJson1 = new ArrayList<>();
 
+        txttitle.setText(preferences.getString("name","").toString());
+        txttitle.setTypeface(font);
      //   Toast.makeText(getActivity(),preferences.getString("id","").toString(), Toast.LENGTH_SHORT).show();
         new AsyncGetData().execute(preferences.getString("id","").toString());
         viewPager = v.findViewById(R.id.simpleViewPager);

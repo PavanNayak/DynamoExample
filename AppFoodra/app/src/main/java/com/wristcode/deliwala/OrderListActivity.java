@@ -133,7 +133,7 @@ public class OrderListActivity extends AppCompatActivity implements IConstants
             AlertDialog.Builder alert = new AlertDialog.Builder(OrderListActivity.this);
             alert.setTitle("Add Review");
             alert.setView(alertLayout);
-            alert.setCancelable(false);
+            alert.setCancelable(true);
             final AlertDialog dialog = alert.create();
             dialog.show();
 
