@@ -43,9 +43,6 @@ public class OverviewFragment extends Fragment
         this.address=address;
     }
 
-
-
-
     public static OverviewFragment newInstance() {
         OverviewFragment fragment = new OverviewFragment();
         return fragment;
@@ -127,5 +124,16 @@ public class OverviewFragment extends Fragment
     public interface OnFragmentInteractionListener
     {
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
     }
 }

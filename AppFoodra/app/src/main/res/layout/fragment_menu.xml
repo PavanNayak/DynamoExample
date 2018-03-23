@@ -6,37 +6,37 @@
     android:background="#fff"
     tools:context="com.wristcode.deliwala.fragments.MenuFragment">
 
-    <android.support.v7.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/toolbar"
-        android:background="@color/colorPrimary">
+    <!--<android.support.v7.widget.Toolbar-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/toolbar"-->
+        <!--android:background="@color/colorPrimary">-->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal">-->
 
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:padding="5dp"
-                android:src="@drawable/logo" />
+            <!--<ImageView-->
+                <!--android:layout_width="40dp"-->
+                <!--android:layout_height="40dp"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:padding="5dp"-->
+                <!--android:src="@drawable/logo" />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="MENU"
-                android:id="@+id/txttitle"
-                android:layout_weight="1"
-                android:textColor="@android:color/white"
-                android:layout_marginLeft="10dp"
-                android:layout_gravity="center"
-                android:textSize="20sp"/>
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="MENU"-->
+                <!--android:id="@+id/txttitle"-->
+                <!--android:layout_weight="1"-->
+                <!--android:textColor="@android:color/white"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:textSize="20sp"/>-->
 
-        </LinearLayout>
-    </android.support.v7.widget.Toolbar>
+        <!--</LinearLayout>-->
+    <!--</android.support.v7.widget.Toolbar>-->
 
     <LinearLayout
         android:id="@+id/tablinear"
@@ -68,6 +68,7 @@
 
     <FrameLayout
         android:id="@+id/layoutInner"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

@@ -170,7 +170,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
 
                 case R.id.txtminus:
                     i = Integer.parseInt(prodqty.getText().toString());
-                    if (i > 1) {
+                    if (i > 1)
+                    {
                         i--;
                         prodqty.setText(String.valueOf(i));
                         int value3 = Integer.parseInt(txtid.getText().toString());
@@ -196,29 +197,36 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
                         } else {
 
                         }
-
-                        TOTAL = dbHelper.gettotalqty();
-                        RATE = dbHelper.gettotalprice();
-                        passprice(RATE);
-                        passval1(TOTAL);
-                    } else if (i <= 0 || i == 1) {
+                    }
+                    else if (i <= 0 || i == 1)
+                    {
+                        dbHelper.deleteItem(Integer.parseInt(txtid.getText().toString()));
                         txtminus.setVisibility(View.GONE);
                         txtplus.setVisibility(View.GONE);
                         prodqty.setVisibility(View.GONE);
                         txtadd.setVisibility(View.VISIBLE);
                     }
+
+                    TOTAL = dbHelper.gettotalqty();
+                    RATE = dbHelper.gettotalprice();
+                    passprice(RATE);
+                    passval1(TOTAL);
                     break;
             }
             dbHelper.close();
         }
     }
 
-    public void passval(int val) {
+    public void passval(int val)
+    {
+        ((HotelActivity) mContext).setCart(val);
         //Toast.makeText(mContext, "Val: "+String.valueOf(val), Toast.LENGTH_SHORT).show();
         //this.fragment.setCart(val);
     }
 
-    public void passval1(int val) {
+    public void passval1(int val)
+    {
+        ((HotelActivity) mContext).setCart(val);
         //this.fragment.setCart(val);
     }
 
@@ -268,48 +276,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
 
         //  Glide.with(mContext).load(movie.getImage()).into(holder.image);
 
-//        holder.txtadd.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                holder.txtadd.setVisibility(View.GONE);
-//                holder.txtminus.setVisibility(View.VISIBLE);
-//                holder.txtplus.setVisibility(View.VISIBLE);
-//                holder.prodqty.setVisibility(View.VISIBLE);
-//            }
-//        });
-//
-//        holder.txtminus.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (holder.prodqty.getText().toString().equals("1")) {
-//                    holder.txtminus.setVisibility(View.GONE);
-//                    holder.txtplus.setVisibility(View.GONE);
-//                    holder.prodqty.setVisibility(View.GONE);
-//                    holder.txtadd.setVisibility(View.VISIBLE);
-//                } else {
-//                    int i = Integer.parseInt(holder.prodqty.getText().toString());
-//                    i--;
-//                    holder.prodqty.setText(String.valueOf(i));
-//                }
-//            }
-//        });
-//
-//        holder.txtplus.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                int i = Integer.parseInt(holder.prodqty.getText().toString());
-//                i++;
-//                holder.prodqty.setText(String.valueOf(i));
-//            }
-//        });
-
-//        holder.relative.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent i = new Intent(mContext, ItemActivity.class);
-//                mContext.startActivity(i);
-//            }
-//        });
     }
 
     @Override

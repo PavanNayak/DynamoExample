@@ -8,20 +8,78 @@
     android:orientation="vertical"
     tools:context="com.wristcode.deliwala.HotelActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:padding="5dp"
+                android:src="@drawable/logo" />
+
+            <TextView
+                android:id="@+id/txttitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:text="MENU"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+
+            <FrameLayout
+                android:id="@+id/itemcart"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginRight="5dp"
+                    android:padding="5dp"
+                    android:src="@drawable/cart" />
+
+                <TextView
+                    android:id="@+id/cartbadge"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="end|top"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/badge_background"
+                    android:elevation="8dp"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="10sp" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+    </android.support.v7.widget.Toolbar>
+
     <FrameLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
-    </FrameLayout>
+        android:layout_weight="1"></FrameLayout>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
-        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_gravity="bottom"
         android:background="?android:attr/windowBackground"
+        android:visibility="visible"
         app:menu="@menu/navigation" />
 
 </LinearLayout>

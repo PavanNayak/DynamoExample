@@ -67,7 +67,8 @@ public class MenuFragment extends Fragment {
 
     public MenuFragment() {}
 
-    public static MenuFragment newInstance() {
+    public static MenuFragment newInstance()
+    {
         MenuFragment fragment = new MenuFragment();
         return fragment;
     }
@@ -88,7 +89,7 @@ public class MenuFragment extends Fragment {
         layoutInner = (FrameLayout) v.findViewById(R.id.layoutInner);
         fab = (FloatingActionButton) v.findViewById(R.id.fab);
         cartbadge = (TextView) v.findViewById(R.id.cartbadge);
-        txttitle = (TextView) v.findViewById(R.id.txttitle);
+        //txttitle = (TextView) v.findViewById(R.id.txttitle);
         Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "GT-Walsheim-Medium.ttf");
         dh = new ExampleDBHelper(getActivity());
         strMenuTitle = new ArrayList<>();
@@ -96,8 +97,8 @@ public class MenuFragment extends Fragment {
         strJson = new ArrayList<>();
         strJson1 = new ArrayList<>();
 
-        txttitle.setText(preferences.getString("name","").toString());
-        txttitle.setTypeface(font);
+        //txttitle.setText(preferences.getString("name","").toString());
+        //txttitle.setTypeface(font);
      //   Toast.makeText(getActivity(),preferences.getString("id","").toString(), Toast.LENGTH_SHORT).show();
         new AsyncGetData().execute(preferences.getString("id","").toString());
         viewPager = v.findViewById(R.id.simpleViewPager);
@@ -127,7 +128,7 @@ public class MenuFragment extends Fragment {
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager());
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
 
         for(int i=0; i<strMenuTitle.size(); i++)
         adapter.addFragment(new MainDishesFragment(strJson.get(i)), strMenuTitle.get(i));
@@ -257,57 +258,35 @@ public class MenuFragment extends Fragment {
         @Override
         protected void onPostExecute(String result) {
             pdLoading.dismiss();
-
-            //Toast.makeText(getActivity(), result, Toast.LENGTH_SHORT).show();
             JSONObject jsonObject = null;
-            try {
+            try
+            {
                 jsonObject = new JSONObject(result);
                 if (jsonObject.getString("status").equals("true"))
                 {
                     JSONArray jsonArray = jsonObject.getJSONArray("data");
-
-
-                    if(jsonArray.length()==0){
-
+                    if(jsonArray.length()==0)
+                    {
                         Toast.makeText(getActivity(), "No Items found!", Toast.LENGTH_SHORT).show();
                     }
 
-
-                    for(int i=0;i<jsonArray.length();i++){
-
-
-                      //  JSONObject json=new JSONObject(String.valueOf(jsonArray));
-                       // strJson.add(String.valueOf(json));
+                    for(int i=0;i<jsonArray.length();i++)
+                    {
                         JSONObject jobject=jsonArray.getJSONObject(i);
-
                         JSONObject jCategory=jobject.getJSONObject("category");
 
-                        if(!(strMenuTitle.contains(jCategory.getString("categoryName")))){
+                        if(!(strMenuTitle.contains(jCategory.getString("categoryName"))))
+                        {
                             strMenuTitle.add(jCategory.getString("categoryName"));
                             strJson.add(String.valueOf(jsonArray.get(i)));
-                      //      Toast.makeText(getActivity(),jCategory.getString("categoryName"), Toast.LENGTH_SHORT).show();
                         }
                         else
                         {
                             strMenuTitle1.add(jCategory.getString("categoryName"));
                             strJson1.add(String.valueOf(jsonArray.get(i)));
                         }
-//                        else {
-//                            strMenuTitle.add("");
-//                            strJson.add(String.valueOf(jsonArray.get(i)));
-//                        }
-                     //   for(int j=0;j<strMenuTitle.size();j++)
-                     //   if(!(strMenuTitle.get(i).equals(jCategory.getString("categoryName")))){
-
-                      //  }
-                      //  else
-                       //     Toast.makeText(getActivity(), "No", Toast.LENGTH_SHORT).show();
-
                         setupViewPager(viewPager);
-
-
                     }
-
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
