@@ -207,7 +207,8 @@ public class NavDrawer extends AppCompatActivity implements DuoMenuView.OnMenuCl
     @Override
     public void onBackPressed()
     {
-        if (doubleBackToExitPressedOnce) {
+        if (doubleBackToExitPressedOnce)
+        {
             super.onBackPressed();
         }
         this.doubleBackToExitPressedOnce = true;
