@@ -23,6 +23,12 @@
             android:layout_gravity="center"
             android:src="@drawable/home"/>
 
+        <TextView
+            android:id="@+id/txttype"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:visibility="gone" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

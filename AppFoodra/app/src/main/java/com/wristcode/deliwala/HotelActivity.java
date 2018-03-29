@@ -88,7 +88,8 @@ public class HotelActivity extends AppCompatActivity
         txttitle.setText(preferences.getString("name", "").toString());
         txttitle.setTypeface(font);
 
-        itemcart.setOnClickListener(new View.OnClickListener() {
+        itemcart.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v)
             {
@@ -165,14 +166,6 @@ public class HotelActivity extends AppCompatActivity
     {
         cartbadge.setText(String.valueOf(item));
     }
-
-    public void onClickCart(View v) {
-        Intent i = new Intent(HotelActivity.this, CartActivity.class);
-        startActivity(i);
-        finish();
-
-            }
-
 
     @Override
     public void onBackPressed() {

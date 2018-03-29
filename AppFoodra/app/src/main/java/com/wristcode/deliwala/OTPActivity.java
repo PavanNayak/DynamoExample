@@ -1,9 +1,12 @@
 package com.wristcode.deliwala;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -73,38 +76,55 @@ public class OTPActivity extends AppCompatActivity implements IConstants {
         valueotp.setTypeface(font2);
         btn_verify.setTypeface(font2);
 
-        btn_verify.setOnClickListener(new View.OnClickListener() {
+        btn_verify.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                if (inputotp.equals(valueotp.getText().toString()))
+            public void onClick(View v)
+            {
+                if(isNetworkAvailable())
                 {
-                    SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(OTPActivity.this);
-                    SharedPreferences.Editor editor1 = pref1.edit();
-                    editor1.putString("flag", "1");
-                    editor1.apply();
-
-                    if (pref.getString("UserType", "").toString().equals("new"))
+                    if (inputotp.equals(valueotp.getText().toString()))
                     {
-                        Intent i = new Intent(OTPActivity.this, LoginDetailsActivity.class);
-                        startActivity(i);
-                        finish();
+                        SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(OTPActivity.this);
+                        SharedPreferences.Editor editor1 = pref1.edit();
+                        editor1.putString("flag", "1");
+                        editor1.apply();
+
+                        if (pref.getString("UserType", "").toString().equals("new"))
+                        {
+                            Intent i = new Intent(OTPActivity.this, LoginDetailsActivity.class);
+                            startActivity(i);
+                            finish();
+                        }
+                        else
+                        {
+                            new AsyncGetDetails().execute(pref.getString("Id", "").toString());
+                        }
                     }
                     else
                     {
-                        new AsyncGetDetails().execute(pref.getString("Id", "").toString());
+                        Toast.makeText(OTPActivity.this, "Please enter a valid OTP!!!", Toast.LENGTH_SHORT).show();
                     }
                 }
                 else
                 {
-                    Toast.makeText(OTPActivity.this, "Please enter a valid OTP!!!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(OTPActivity.this, "Check your internet connection and try again!!!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
         tvresendotp.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                new AsyncResendOtp().execute(pref.getString("PhoneNo", "").toString());
+            public void onClick(View v)
+            {
+                if(isNetworkAvailable())
+                {
+                    new AsyncResendOtp().execute(pref.getString("PhoneNo", "").toString());
+                }
+                else
+                {
+                    Toast.makeText(OTPActivity.this, "Check your internet connection and try again!!!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -285,6 +305,12 @@ public class OTPActivity extends AppCompatActivity implements IConstants {
                 Toast.makeText(OTPActivity.this, e.toString(), Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     public void receivedSms(final String message) {

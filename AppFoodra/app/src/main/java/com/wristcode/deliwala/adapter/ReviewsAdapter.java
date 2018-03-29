@@ -7,9 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.wristcode.deliwala.Pojo.Reviews;
 import com.wristcode.deliwala.R;
 
@@ -25,12 +27,14 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.MyViewHo
         public TextView username, userdesc;
         RelativeLayout relativereview;
         ImageView image;
+        RatingBar ratingBar;
 
         public MyViewHolder(View view)
         {
             super(view);
             username = view.findViewById(R.id.username);
             userdesc = view.findViewById(R.id.userdesc);
+            ratingBar = (RatingBar) view.findViewById(R.id.ratingBar);
             image = view.findViewById(R.id.image);
             relativereview = view.findViewById(R.id.relativereview);
         }
@@ -52,7 +56,8 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.MyViewHo
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Reviews review = reviewList.get(position);
         holder.username.setText(review.getName());
-        holder.userdesc.setText(review.getDesc());
+        holder.userdesc.setText(review.getReviews());
+        holder.ratingBar.setRating(Float.valueOf(review.getRatings()));
 
         Typeface font = Typeface.createFromAsset(mContext.getAssets(), "GT-Walsheim-Bold.ttf");
         Typeface font1 = Typeface.createFromAsset(mContext.getAssets(), "GT-Walsheim-Medium.ttf");

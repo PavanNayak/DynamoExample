@@ -155,6 +155,20 @@ public class OrderListActivity extends AppCompatActivity implements IConstants
                 }
             });
         }
+
+//        if (valstatus.getText().toString().equals("On The Way"))
+//        {
+//            btnTrack.setVisibility(View.VISIBLE);
+//            btnTrack.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v)
+//                {
+//                    Intent i = new Intent(OrderListActivity.this, TrackActivity.class);
+//                    startActivity(i);
+//                    finish();
+//                }
+//            });
+//        }
     }
 
     private class AsyncReviews extends AsyncTask<String, String, String> {

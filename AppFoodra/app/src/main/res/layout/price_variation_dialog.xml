@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+
+        <ImageView
+            android:id="@+id/imgveg"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/veg"
+            android:layout_margin="10dp"/>
+
+        <TextView
+            android:id="@+id/txtitemname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Itemname"
+            android:layout_toRightOf="@+id/imgveg"
+            android:layout_margin="10dp"/>
+
+        <TextView
+            android:id="@+id/txtprice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Price"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_toRightOf="@+id/imgveg"
+            android:layout_below="@+id/txtitemname"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:alpha="0.6"
+        android:background="@android:color/darker_gray" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Quantity"
+        android:textStyle="bold"
+        android:layout_margin="10dp"/>
+
+    <RadioGroup
+        android:id="@+id/radioVariation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
+        <android.support.v7.widget.AppCompatRadioButton
+            android:id="@+id/radioHalf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:padding="10dp"
+            android:text="Half"
+            app:buttonTint="@color/colorPrimary" />
+
+        <android.support.v7.widget.AppCompatRadioButton
+            android:id="@+id/radioFull"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Full"
+            android:visibility="visible"
+            app:buttonTint="@color/colorPrimary" />
+
+    </RadioGroup>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:alpha="0.6"
+        android:background="@android:color/darker_gray" />
+
+    <LinearLayout
+        android:id="@+id/layoutadd"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:background="@color/colorPrimary"
+        android:layout_margin="10dp">
+
+        <TextView
+            android:id="@+id/txtselectprice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:textColor="@android:color/white"
+            android:text="Price"
+            android:textStyle="bold"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/txtadditem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|end"
+            android:textAlignment="textEnd"
+            android:layout_marginRight="10dp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:text="ADD ITEM"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+</LinearLayout>

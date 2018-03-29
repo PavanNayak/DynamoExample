@@ -1,10 +1,13 @@
 package com.wristcode.deliwala;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -137,20 +140,27 @@ public class LoginDetailsActivity extends AppCompatActivity implements IConstant
 
     public void verifyButton(View v)
     {
-        if (valueusername.getText().toString().matches("") || valueemail.getText().toString().matches(""))
+        if(isNetworkAvailable())
         {
-            Toast.makeText(LoginDetailsActivity.this, "Name and Email ID required!!!", Toast.LENGTH_SHORT).show();
+            if (valueusername.getText().toString().matches("") || valueemail.getText().toString().matches(""))
+            {
+                Toast.makeText(LoginDetailsActivity.this, "Name and Email ID required!!!", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(LoginDetailsActivity.this);
+                SharedPreferences.Editor editor = pref1.edit();
+                editor.putString("Name", valueusername.getText().toString());
+                editor.putString("Email", valueemail.getText().toString());
+                editor.putString("Profile", "");
+                editor.apply();
+
+                new AsyncRegister().execute(pref.getString("Name", "").toString(), pref.getString("Email", "").toString(), pref.getString("PhoneNo", "").toString(), pref.getString("Profile", "").toString(), pref.getString("tokenId","").toString());
+            }
         }
         else
         {
-            SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(LoginDetailsActivity.this);
-            SharedPreferences.Editor editor = pref1.edit();
-            editor.putString("Name", valueusername.getText().toString());
-            editor.putString("Email", valueemail.getText().toString());
-            editor.putString("Profile", "");
-            editor.apply();
-
-            new AsyncRegister().execute(pref.getString("Name", "").toString(), pref.getString("Email", "").toString(), pref.getString("PhoneNo", "").toString(), pref.getString("Profile", "").toString(), pref.getString("tokenId","").toString());
+            Toast.makeText(LoginDetailsActivity.this, "Check your internet connection and try again!!!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -245,5 +255,11 @@ public class LoginDetailsActivity extends AppCompatActivity implements IConstant
                 Toast.makeText(LoginDetailsActivity.this, e.toString(), Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

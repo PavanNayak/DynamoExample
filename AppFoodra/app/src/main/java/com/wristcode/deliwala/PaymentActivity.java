@@ -198,6 +198,7 @@ public class PaymentActivity extends AppCompatActivity implements IConstants
                 {
                     Intent i = new Intent(PaymentActivity.this, OrderConfirmActivity.class);
                     startActivity(i);
+                    finish();
                 }
 
             }

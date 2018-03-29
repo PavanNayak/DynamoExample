@@ -6,13 +6,14 @@ package com.wristcode.deliwala.Pojo;
 
 public class Address
 {
-    public String userid, username, useraddress, userlat, userlong;
+    public String userid, useraddtype, username, useraddress, userlat, userlong;
 
     public Address(){}
 
-    public Address(String userid, String username, String useraddress, String userlat, String userlong)
+    public Address(String userid, String useraddtype, String username, String useraddress, String userlat, String userlong)
     {
         this.userid = userid;
+        this.useraddtype = useraddtype;
         this.username = username;
         this.useraddress = useraddress;
         this.userlat = userlat;
@@ -25,6 +26,14 @@ public class Address
 
     public void setUserid(String userid) {
         this.userid = userid;
+    }
+
+    public String getUseraddtype() {
+        return useraddtype;
+    }
+
+    public void setUseraddtype(String useraddtype) {
+        this.useraddtype = useraddtype;
     }
 
     public String getUsername() {

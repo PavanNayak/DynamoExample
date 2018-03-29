@@ -111,6 +111,49 @@ public class AddressActivity extends AppCompatActivity
             {
                 txtaddress.setText(getIntent().getStringExtra("MESSAGE").toString());
             }
+
+            if(pref1.getString("AddressType","").toString().equals("Home"))
+            {
+                imghome.setColorFilter(Color.parseColor("#DC143C"));
+                txthome.setTextColor(Color.parseColor("#DC143C"));
+                imgwork.setColorFilter(Color.parseColor("#C0C0C0"));
+                txtwork.setTextColor(Color.parseColor("#C0C0C0"));
+                imgothers.setColorFilter(Color.parseColor("#C0C0C0"));
+                txtothers.setTextColor(Color.parseColor("#C0C0C0"));
+
+                SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(AddressActivity.this);
+                SharedPreferences.Editor editor1 = pref1.edit();
+                editor1.putString("AddressType", "Home");
+                editor1.apply();
+            }
+            else if(pref1.getString("AddressType","").toString().equals("Work"))
+            {
+                imghome.setColorFilter(Color.parseColor("#C0C0C0"));
+                txthome.setTextColor(Color.parseColor("#C0C0C0"));
+                imgwork.setColorFilter(Color.parseColor("#DC143C"));
+                txtwork.setTextColor(Color.parseColor("#DC143C"));
+                imgothers.setColorFilter(Color.parseColor("#C0C0C0"));
+                txtothers.setTextColor(Color.parseColor("#C0C0C0"));
+
+                SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(AddressActivity.this);
+                SharedPreferences.Editor editor1 = pref1.edit();
+                editor1.putString("AddressType", "Work");
+                editor1.apply();
+            }
+            else if(pref1.getString("AddressType","").toString().equals("Others"))
+            {
+                imghome.setColorFilter(Color.parseColor("#C0C0C0"));
+                txthome.setTextColor(Color.parseColor("#C0C0C0"));
+                imgwork.setColorFilter(Color.parseColor("#C0C0C0"));
+                txtwork.setTextColor(Color.parseColor("#C0C0C0"));
+                imgothers.setColorFilter(Color.parseColor("#DC143C"));
+                txtothers.setTextColor(Color.parseColor("#DC143C"));
+
+                SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(AddressActivity.this);
+                SharedPreferences.Editor editor1 = pref1.edit();
+                editor1.putString("AddressType", "Others");
+                editor1.apply();
+            }
         }
 
         linearhome.setOnClickListener(new View.OnClickListener() {
@@ -123,6 +166,11 @@ public class AddressActivity extends AppCompatActivity
                 txtwork.setTextColor(Color.parseColor("#C0C0C0"));
                 imgothers.setColorFilter(Color.parseColor("#C0C0C0"));
                 txtothers.setTextColor(Color.parseColor("#C0C0C0"));
+
+                SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(AddressActivity.this);
+                SharedPreferences.Editor editor1 = pref1.edit();
+                editor1.putString("AddressType", "Home");
+                editor1.apply();
             }
         });
 
@@ -136,6 +184,11 @@ public class AddressActivity extends AppCompatActivity
                 txtwork.setTextColor(Color.parseColor("#DC143C"));
                 imgothers.setColorFilter(Color.parseColor("#C0C0C0"));
                 txtothers.setTextColor(Color.parseColor("#C0C0C0"));
+
+                SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(AddressActivity.this);
+                SharedPreferences.Editor editor1 = pref1.edit();
+                editor1.putString("AddressType", "Work");
+                editor1.apply();
             }
         });
 
@@ -149,6 +202,11 @@ public class AddressActivity extends AppCompatActivity
                 txtwork.setTextColor(Color.parseColor("#C0C0C0"));
                 imgothers.setColorFilter(Color.parseColor("#DC143C"));
                 txtothers.setTextColor(Color.parseColor("#DC143C"));
+
+                SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(AddressActivity.this);
+                SharedPreferences.Editor editor1 = pref1.edit();
+                editor1.putString("AddressType", "Others");
+                editor1.apply();
             }
         });
 
@@ -178,7 +236,15 @@ public class AddressActivity extends AppCompatActivity
                 editor1.putString("Longitiude", String.valueOf(longitude));
                 editor1.apply();
 
-                new AsyncAddAddress().execute(pref1.getString("Id", "").toString(), pref1.getString("Name", "").toString(), pref1.getString("Address", "").toString(), pref1.getString("Longitiude", "").toString(), pref1.getString("Latitude", "").toString());
+                if (pref1.getString("AddressFlag", "").toString().equals("1"))
+                {
+                    new AsyncUpdateAddress().execute(pref1.getString("Id", "").toString(), pref1.getString("AddressId", "").toString(), pref1.getString("AddressType", "").toString(), pref1.getString("Name", "").toString(), pref1.getString("Address", "").toString(), pref1.getString("Longitiude", "").toString(), pref1.getString("Latitude", "").toString());
+                }
+                else
+                {
+                    new AsyncAddAddress().execute(pref1.getString("Id", "").toString(), pref1.getString("AddressType", "").toString(), pref1.getString("Name", "").toString(), pref1.getString("Address", "").toString(), pref1.getString("Longitiude", "").toString(), pref1.getString("Latitude", "").toString());
+                }
+
             }
         });
     }
@@ -293,10 +359,106 @@ public class AddressActivity extends AppCompatActivity
 
                 Uri.Builder builder = new Uri.Builder()
                         .appendQueryParameter("apiKey", params[0])
-                        .appendQueryParameter("fullName", params[1])
-                        .appendQueryParameter("address", params[2])
-                        .appendQueryParameter("longitude", params[3])
-                        .appendQueryParameter("lattitude", params[4]);
+                        .appendQueryParameter("addressType", params[1])
+                        .appendQueryParameter("fullName", params[2])
+                        .appendQueryParameter("address", params[3])
+                        .appendQueryParameter("longitude", params[4])
+                        .appendQueryParameter("lattitude", params[5]);
+                String query = builder.build().getEncodedQuery();
+
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(query);
+                writer.flush();
+                writer.close();
+                os.close();
+                conn.connect();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+                return "exception";
+            }
+
+            try {
+                InputStream input = conn.getInputStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                StringBuilder result = new StringBuilder();
+                String line;
+
+                while ((line = reader.readLine()) != null) {
+                    result.append(line);
+                }
+                return (result.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "exception";
+            } finally {
+                conn.disconnect();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            pdLoading.dismiss();
+            Toast.makeText(AddressActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
+            try
+            {
+                JSONObject jsonObject = new JSONObject(result);
+                if (jsonObject.getString("status").equals("true"))
+                {
+                    SharedPreferences p1 = PreferenceManager.getDefaultSharedPreferences(AddressActivity.this);
+                    SharedPreferences.Editor editor1 = p1.edit();
+                    editor1.putString("AddressId", jsonObject.getString("addressId").toString());
+                    editor1.apply();
+
+                    Intent i = new Intent(AddressActivity.this, AddAddressActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+
+            } catch (JSONException e) {
+                Toast.makeText(AddressActivity.this, "OOPS! Something went wrong. Retry", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private class AsyncUpdateAddress extends AsyncTask<String, String, String> {
+        ProgressDialog pdLoading = new ProgressDialog(AddressActivity.this);
+        HttpURLConnection conn;
+        URL url = null;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pdLoading.setMessage("\tLoading...");
+            pdLoading.setCancelable(false);
+            pdLoading.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/customer/address/update");
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+                return "exception";
+            }
+            try {
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(READ_TIMEOUT);
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                Uri.Builder builder = new Uri.Builder()
+                        .appendQueryParameter("apiKey", params[0])
+                        .appendQueryParameter("addressId", params[1])
+                        .appendQueryParameter("addressType", params[2])
+                        .appendQueryParameter("fullName", params[3])
+                        .appendQueryParameter("address", params[4])
+                        .appendQueryParameter("longitude", params[5])
+                        .appendQueryParameter("lattitude", params[6]);
                 String query = builder.build().getEncodedQuery();
 
                 OutputStream os = conn.getOutputStream();

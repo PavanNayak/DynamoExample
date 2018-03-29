@@ -84,31 +84,33 @@
 
         <TextView
             android:id="@+id/txtminus"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:background="@drawable/plus"
             android:elevation="3dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="-"
-            android:textAlignment="center"
+            android:gravity="center"
             android:textColor="#fff" />
 
         <TextView
             android:id="@+id/txtqty"
-            android:layout_width="30dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
+            android:gravity="center"
+            android:layout_gravity="center"
             android:text="1" />
 
         <TextView
             android:id="@+id/txtplus"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:background="@drawable/minus"
             android:elevation="3dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
+            android:gravity="center"
             android:text="+"
             android:textColor="#fff" />
     </LinearLayout>

@@ -2,10 +2,13 @@ package com.wristcode.deliwala;
 
 import android.*;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -93,17 +96,25 @@ public class LoginActivity extends AppCompatActivity implements IConstants {
 
     public void verifyButton(View v)
     {
-        if (valuephone.getText().toString().matches(""))
+        if(isNetworkAvailable())
         {
-            Toast.makeText(LoginActivity.this, "You must enter your mobile number!!!", Toast.LENGTH_SHORT).show();
+            if (valuephone.getText().toString().matches(""))
+            {
+                Toast.makeText(LoginActivity.this, "You must enter your mobile number!!!", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                new AsyncPreRegister().execute(valuephone.getText().toString().trim(), pref.getString("tokenId","").toString());
+            }
         }
         else
         {
-            new AsyncPreRegister().execute(valuephone.getText().toString().trim(), pref.getString("tokenId","").toString());
+            Toast.makeText(LoginActivity.this, "Check your internet connection and try again!!!", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private class AsyncPreRegister extends AsyncTask<String, String, String> {
+    private class AsyncPreRegister extends AsyncTask<String, String, String>
+    {
         ProgressDialog pdLoading = new ProgressDialog(LoginActivity.this);
         HttpURLConnection conn;
         URL url = null;
@@ -194,10 +205,17 @@ public class LoginActivity extends AppCompatActivity implements IConstants {
 
                     Intent i = new Intent(LoginActivity.this, OTPActivity.class);
                     startActivity(i);
+                    finish();
                 }
             } catch (JSONException e) {
                 Toast.makeText(LoginActivity.this, e.toString(), Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

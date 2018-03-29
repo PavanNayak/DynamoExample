@@ -46,12 +46,11 @@ import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment implements IConstants, View.OnFocusChangeListener {
+public class HomeFragment extends Fragment implements IConstants {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    EditText editSearch;
-    TextView text1, text2;
+    TextView text1, text2, userlocation, editSearch;
     RecyclerView menurecycler, offerrecycler;
     private List<Category> categoriesList;
     CategoryAdapter adapter;
@@ -87,12 +86,15 @@ public class HomeFragment extends Fragment implements IConstants, View.OnFocusCh
         View v = inflater.inflate(R.layout.fragment_home, container, false);
         text1 = v.findViewById(R.id.text1);
         text2 = v.findViewById(R.id.text2);
+        userlocation = v.findViewById(R.id.userlocation);
         Typeface font1 = Typeface.createFromAsset(getActivity().getAssets(), "GT-Walsheim-Medium.ttf");
         Typeface font2 = Typeface.createFromAsset(getActivity().getAssets(), "GT-Walsheim-Regular.ttf");
         text1.setTypeface(font1);
         text2.setTypeface(font2);
+        userlocation.setTypeface(font2);
         pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         text1.setText("Good Afternoon, "+pref.getString("Name","").toString());
+        userlocation.setText(pref.getString("Address","").toString());
         dh = new ExampleDBHelper(getActivity());
         //exportDB();
         menurecycler = v.findViewById(R.id.menurecycler);
@@ -100,20 +102,28 @@ public class HomeFragment extends Fragment implements IConstants, View.OnFocusCh
         prepareAlbums();
         offerrecycler = v.findViewById(R.id.offerrecycler);
         editSearch = v.findViewById(R.id.editSearch);
-        editSearch.setOnFocusChangeListener(this);
-        //new AsyncCategories().execute();
+        editSearch.setTypeface(font2);
+        //editSearch.setOnFocusChangeListener(this);
+        editSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                Intent i = new Intent(getActivity(), HotelListActivity.class);
+                startActivity(i);
+            }
+        });
         new AsyncRestaurants().execute();
         return v;
     }
 
-    @Override
-    public void onFocusChange(View view, boolean b) {
-        if (b == true)
-        {
-            Intent i = new Intent(getActivity(), HotelListActivity.class);
-            startActivity(i);
-        }
-    }
+//    @Override
+//    public void onFocusChange(View view, boolean b) {
+//        if (b == true)
+//        {
+//            Intent i = new Intent(getActivity(), HotelListActivity.class);
+//            startActivity(i);
+//        }
+//    }
 
     public void exportDB() {
         String SAMPLE_DB_NAME = dh.getDatabaseName();

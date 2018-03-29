@@ -1,10 +1,13 @@
 package com.wristcode.deliwala;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -57,7 +60,13 @@ public class OrderHistoryActivity extends AppCompatActivity
         setContentView(R.layout.activity_order_history);
         recyclerView = (RecyclerView) findViewById(R.id.orderRecycler);
         SharedPreferences preferences1 = PreferenceManager.getDefaultSharedPreferences(OrderHistoryActivity.this);
-        new AsyncOrderHistory().execute(preferences1.getString("Id", "").toString());
+        if(isNetworkAvailable()) {
+            new AsyncOrderHistory().execute(preferences1.getString("Id", "").toString());
+        }
+        else
+        {
+            Toast.makeText(OrderHistoryActivity.this, "Check your internet connection and try again!!!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private class AsyncOrderHistory extends AsyncTask<String, String, String> {
@@ -147,7 +156,7 @@ public class OrderHistoryActivity extends AppCompatActivity
                             OrderHistory fishData = new OrderHistory();
                             fishData.oId = json_data.getString("id");
                             fishData.oDate = json_data.getString("orderDate");
-                            fishData.oTotal = json_data.getString("actualAmount");
+                            fishData.oTotal = json_data.getString("orderAmount");
                             fishData.oPayType = json_data.getString("paymentType");
                             fishData.oStatus = json_data.getString("orderStatus");
                             fishData.oItems = json_data.getJSONArray("customerOrderItems").toString();
@@ -170,6 +179,12 @@ public class OrderHistoryActivity extends AppCompatActivity
                 Toast.makeText(OrderHistoryActivity.this, e.toString(), Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     public void backButton(View v) {

@@ -48,7 +48,7 @@ public class HotelListActivity extends AppCompatActivity implements IConstants {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hotel_list);
 
-        EditSearch=(EditText)findViewById(R.id.EditSearch);
+        EditSearch = (EditText)findViewById(R.id.EditSearch);
         EditSearch.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
 
         EditSearch.addTextChangedListener(new TextWatcher()

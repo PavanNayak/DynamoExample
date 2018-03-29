@@ -14,6 +14,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -198,6 +199,7 @@ public class AddAddressActivity extends AppCompatActivity
                                     JSONObject json_data1 = jArray1.getJSONObject(j);
                                     Address fishData = new Address();
                                     fishData.userid = json_data1.getString("id");
+                                    fishData.useraddtype = json_data1.getString("addressType");
                                     fishData.username = json_data1.getString("fullName");
                                     fishData.useraddress = json_data1.getString("address");
                                     fishData.userlat = json_data1.getString("lattitude");

@@ -54,4 +54,17 @@
         android:textColor="#C0C0C0"
         android:textSize="15sp" />
 
+    <Button
+        android:id="@+id/btnordernow"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/txtnotify"
+        android:background="@color/colorPrimary"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:elevation="8dp"
+        android:onClick="orderNow"
+        android:text="ORDER NOW"/>
 </RelativeLayout>

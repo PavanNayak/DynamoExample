@@ -29,7 +29,7 @@ public class CartActivity extends AppCompatActivity {
     private List<Items> categoriesList;
     TextView txtresname, txttitle, txtsubtotal, valsubtotal, txtdelivery, valdelivery, txttotal, valtotal;
     EditText txtinstruction;
-    Button placeorder;
+    Button placeorder, btnordernow;
     ExampleDBHelper dh;
     List<Cart> data = new ArrayList<>();
 
@@ -51,6 +51,7 @@ public class CartActivity extends AppCompatActivity {
         valtotal = (TextView) findViewById(R.id.valtotal);
         txtinstruction = (EditText) findViewById(R.id.txtinstruction);
         placeorder = (Button) findViewById(R.id.placeorder);
+        btnordernow = (Button) findViewById(R.id.btnordernow);
         pref = PreferenceManager.getDefaultSharedPreferences(CartActivity.this);
         Typeface font = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Medium.ttf");
         Typeface font1 = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Regular.ttf");
@@ -105,6 +106,13 @@ public class CartActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    public void orderNow(View v)
+    {
+        Intent i = new Intent(CartActivity.this, NavDrawer.class);
+        startActivity(i);
+        finish();
     }
 
     public void backButton(View v) {

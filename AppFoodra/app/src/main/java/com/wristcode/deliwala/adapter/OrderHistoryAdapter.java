@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RatingBar;
@@ -47,9 +48,17 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+
+import static android.R.attr.format;
 
 public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapter.MyViewHolder> {
 
@@ -65,6 +74,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     {
         public TextView txtorderid, txtorderdate, txtresid, txtresname, valpaytype, valgrandtotal, txtdetails, txtstatus;
         ImageView imgres, imgnext;
+        LinearLayout linearlayout;
 
         public MyViewHolder(View view)
         {
@@ -81,6 +91,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             txtdetails = (TextView) view.findViewById(R.id.txtdetails);
             imgres = (ImageView) view.findViewById(R.id.imgres);
             imgnext = (ImageView) view.findViewById(R.id.imgnext);
+            linearlayout = (LinearLayout) view.findViewById(R.id.linearlayout);
         }
     }
 
@@ -102,12 +113,24 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
     {
         final OrderHistory movie = moviesList.get(position);
         holder.txtorderid.setText("Order ID: #" +movie.getoId());
-        holder.txtorderdate.setText("Date: " + movie.getoDate());
         holder.txtresid.setText(movie.getoResId());
         holder.txtresname.setText(movie.getoResName());
         holder.valpaytype.setText(movie.getoPayType());
         holder.valgrandtotal.setText("₹ "+ movie.getoTotal());
         holder.txtstatus.setText(movie.getoStatus());
+
+        String strCurrentDate = movie.getoDate();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'mm:hh:ssXXX");
+        Date newDate = null;
+        try {
+            newDate = format.parse(strCurrentDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        String date = dateFormat.format(newDate);
+        holder.txtorderdate.setText("Date: "+date);
 
         if (movie.getoStatus().toString().equals("received"))
         {
@@ -115,7 +138,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         }
         else if (movie.getoStatus().toString().equals("dispatched"))
         {
-            holder.txtstatus.setText("Dispatched");
+            holder.txtstatus.setText("Processing");
         }
         else if (movie.getoStatus().toString().equals("delivered"))
         {
@@ -127,15 +150,11 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         }
         else if (movie.getoStatus().toString().equals("ready"))
         {
-            holder.txtstatus.setText("Ready");
+            holder.txtstatus.setText("Processing");
         }
         else if (movie.getoStatus().toString().equals("onway"))
         {
             holder.txtstatus.setText("On The Way");
-        }
-        else if (movie.getoStatus().toString().equals("dispatched"))
-        {
-            holder.txtstatus.setText("Dispatched");
         }
 
         Glide.with(mContext).load("http://appfoodra.com/uploads/restaurant/icons/"+movie.getoResImage())
@@ -155,7 +174,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         holder.txtstatus.setTypeface(font1);
         holder.txtdetails.setTypeface(font1);
 
-        holder.imgnext.setOnClickListener(new View.OnClickListener() {
+        holder.linearlayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {

@@ -17,6 +17,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.wristcode.deliwala.AddAddressActivity;
 import com.wristcode.deliwala.AddressActivity;
 import com.wristcode.deliwala.CartActivity;
@@ -57,12 +58,12 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
     public static final int READ_TIMEOUT = 15000;
     private List<Address> moviesList;
     private Context mContext;
-    private int lastSelectedPosition = -1;
+    private int lastSelectedPosition = 0;
     SharedPreferences pref;
 
     public class MyViewHolder extends RecyclerView.ViewHolder
     {
-        public TextView txtid, txtname, txtaddress, txtlat, txtlong, txtedit, txtdelete;
+        public TextView txtid, txtname, txttype, txtaddress, txtlat, txtlong, txtedit, txtdelete;
         RadioButton raddress;
         ImageView imgadd;
 
@@ -73,6 +74,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
             addList = new AddAddressActivity();
             txtid = (TextView) view.findViewById(R.id.txtid);
             txtname = (TextView) view.findViewById(R.id.txtname);
+            txttype = (TextView) view.findViewById(R.id.txttype);
             txtaddress = (TextView) view.findViewById(R.id.txtaddress);
             txtlat = (TextView) view.findViewById(R.id.txtlat);
             txtlong = (TextView) view.findViewById(R.id.txtlong);
@@ -81,6 +83,12 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
             raddress = (RadioButton) view.findViewById(R.id.raddress);
             imgadd = (ImageView) view.findViewById(R.id.imgadd);
             pref = PreferenceManager.getDefaultSharedPreferences(mContext);
+            SharedPreferences.Editor editor1 = pref.edit();
+            editor1.putString("AddressId", txtid.getText().toString());
+            editor1.putString("Address", txtaddress.getText().toString());
+            editor1.putString("Latitude", txtlat.getText().toString());
+            editor1.putString("Longitiude", txtlong.getText().toString());
+            editor1.apply();
 
             raddress.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -119,6 +127,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
         Address movie = moviesList.get(position);
         holder.txtid.setText(movie.getUserid());
         holder.txtname.setText(movie.getUsername());
+        holder.txttype.setText(movie.getUseraddtype());
         holder.txtaddress.setText(movie.getUseraddress());
         holder.txtlat.setText(movie.getUserlat());
         holder.txtlong.setText(movie.getUserlong());
@@ -131,11 +140,27 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
         holder.txtedit.setTypeface(font2);
         holder.txtdelete.setTypeface(font2);
 
+        if(holder.txttype.getText().toString().equals("Home"))
+        {
+            holder.imgadd.setImageResource(R.drawable.home);
+        }
+        else if(holder.txttype.getText().toString().equals("Work"))
+        {
+            holder.imgadd.setImageResource(R.drawable.work);
+        }
+        else
+        {
+            holder.imgadd.setImageResource(R.drawable.others);
+        }
+
         holder.raddress.setChecked(lastSelectedPosition == position);
 
         SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(mContext);
         SharedPreferences.Editor editor1 = pref1.edit();
         editor1.putString("Position", String.valueOf(lastSelectedPosition));
+        editor1.putString("AddressType", holder.txttype.getText().toString());
+        editor1.putString("Address", holder.txtaddress.getText().toString());
+        editor1.putString("AddressId", holder.txtid.getText().toString());
         editor1.apply();
 
         holder.txtedit.setOnClickListener(new View.OnClickListener() {
@@ -158,7 +183,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
             @Override
             public void onClick(View v)
             {
-                new AsyncRemoveAddress().execute(pref.getString("Id","").toString(), holder.txtid.getText().toString());
+                new AsyncRemoveAddress().execute(pref.getString("Id","").toString(), pref.getString("AddressId","").toString());
             }
         });
     }

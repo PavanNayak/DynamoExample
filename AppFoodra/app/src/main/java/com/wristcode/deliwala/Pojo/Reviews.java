@@ -2,19 +2,19 @@ package com.wristcode.deliwala.Pojo;
 
 public class Reviews
 {
-    private String id;
-    private String name;
-    private String desc;
+    public String id, name, ratings, reviews;
     int image;
 
-    public Reviews(String id, String name, String desc, int image) {
+    public Reviews(String id, String name, String ratings, String reviews, int image) {
 
         this.id = id;
         this.name = name;
-        this.desc = desc;
+        this.ratings = ratings;
+        this.reviews = reviews;
         this.image = image;
     }
 
+    public Reviews() {}
 
     public String getId() { return id; }
 
@@ -30,12 +30,20 @@ public class Reviews
         this.name = name;
     }
 
-    public  String getDesc(){
-        return desc;
+    public String getRatings() {
+        return ratings;
     }
 
-    public void setDesc(String desc){
-        this.desc = desc;
+    public void setRatings(String ratings) {
+        this.ratings = ratings;
+    }
+
+    public String getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(String reviews) {
+        this.reviews = reviews;
     }
 
     public int getImage(){

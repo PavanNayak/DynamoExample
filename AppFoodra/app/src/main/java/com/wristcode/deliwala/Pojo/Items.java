@@ -6,10 +6,10 @@ package com.wristcode.deliwala.Pojo;
 
 public class Items {
 
-    public String id, resid, resname, name, price, descp;
+    public String id, resid, resname, name, price, descp, vid, vname, vprice;
     int image;
 
-    public Items(String id, String resid, String resname, String name, String price, String descp, int image)
+    public Items(String id, String resid, String resname, String name, String price, String descp, String vid, String vname, String vprice, int image)
     {
         this.id = id;
         this.resid = resid;
@@ -17,6 +17,9 @@ public class Items {
         this.name = name;
         this.price = price;
         this.descp = descp;
+        this.vid = vid;
+        this.vname = vname;
+        this.vprice = vprice;
         this.image = image;
     }
 
@@ -63,9 +66,19 @@ public class Items {
         this.descp=descp;
     }
 
+    public String getVid() { return vid; }
+
+    public void setVid(String vid) { this.vid = vid; }
+
+    public String getVname() { return vname; }
+
+    public void setVname(String vname) { this.vname = vname; }
+
+    public String getVprice() { return vprice; }
+
+    public void setVprice(String vprice) { this.vprice = vprice; }
+
     public int getImage(){
         return  image;
     }
-
-
 }

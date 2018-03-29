@@ -100,8 +100,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
                     {
                         //Toast.makeText(mContext, "Different Restaurant", Toast.LENGTH_SHORT).show();
                         AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
-                        alertDialog.setTitle("You can order from one hotel only");
-                        alertDialog.setMessage("Are you sure you want to delete the items from cart?");
+                        alertDialog.setTitle("You can order only from one hotel");
+                        alertDialog.setMessage("Are you sure you want to clear your cart?");
                         alertDialog.setIcon(R.drawable.delete);
                         alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener()
                         {
@@ -205,6 +205,13 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
                         txtplus.setVisibility(View.GONE);
                         prodqty.setVisibility(View.GONE);
                         txtadd.setVisibility(View.VISIBLE);
+                    }
+
+                    if(dbHelper.gettotalqty() == 0)
+                    {
+                        SharedPreferences.Editor editor = pref.edit();
+                        editor.putString("fg", "0");
+                        editor.apply();
                     }
 
                     TOTAL = dbHelper.gettotalqty();
