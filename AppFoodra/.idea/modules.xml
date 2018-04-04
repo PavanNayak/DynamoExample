@@ -3,10 +3,15 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AppFoodra.iml" filepath="$PROJECT_DIR$/AppFoodra.iml" />
+      <module fileurl="file://E:\Wrist Code\GITproject\AppFoodra\AppFoodra\AppFoodra.iml" filepath="E:\Wrist Code\GITproject\AppFoodra\AppFoodra\AppFoodra.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://E:\Wrist Code\GITproject\AppFoodra\AppFoodra\app\app.iml" filepath="E:\Wrist Code\GITproject\AppFoodra\AppFoodra\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/duo-navigation-drawer/duo-navigation-drawer.iml" filepath="$PROJECT_DIR$/duo-navigation-drawer/duo-navigation-drawer.iml" />
+      <module fileurl="file://E:\Wrist Code\GITproject\AppFoodra\AppFoodra\duo-navigation-drawer\duo-navigation-drawer.iml" filepath="E:\Wrist Code\GITproject\AppFoodra\AppFoodra\duo-navigation-drawer\duo-navigation-drawer.iml" />
       <module fileurl="file://$PROJECT_DIR$/navigationtabbar/navigationtabbar.iml" filepath="$PROJECT_DIR$/navigationtabbar/navigationtabbar.iml" />
+      <module fileurl="file://E:\Wrist Code\GITproject\AppFoodra\AppFoodra\navigationtabbar\navigationtabbar.iml" filepath="E:\Wrist Code\GITproject\AppFoodra\AppFoodra\navigationtabbar\navigationtabbar.iml" />
       <module fileurl="file://$PROJECT_DIR$/spacelib/spacelib.iml" filepath="$PROJECT_DIR$/spacelib/spacelib.iml" />
+      <module fileurl="file://E:\Wrist Code\GITproject\AppFoodra\AppFoodra\spacelib\spacelib.iml" filepath="E:\Wrist Code\GITproject\AppFoodra\AppFoodra\spacelib\spacelib.iml" />
     </modules>
   </component>
 </project>
