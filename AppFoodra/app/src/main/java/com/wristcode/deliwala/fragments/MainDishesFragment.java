@@ -33,16 +33,16 @@ public class MainDishesFragment extends Fragment
     private List<Items> categoriesList;
     ItemsAdapter adapter;
     MenuFragment frag = new MenuFragment();
-    String jsonString;
     TextView cart_badge;
     ExampleDBHelper dh;
+    ArrayList<String> menuItem;
 
     public MainDishesFragment() {}
 
     @SuppressLint("ValidFragment")
-    public MainDishesFragment(String s) {
+    public MainDishesFragment(ArrayList<String> a) {
 
-        this.jsonString = s;
+        this.menuItem = a;
     }
 
     @Override
@@ -53,47 +53,56 @@ public class MainDishesFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_items, container, false);
-        categoriesList = new ArrayList<>();
         try
         {
-            JSONObject jobject = new JSONObject(jsonString);
-            Items data = new Items();
-            //Toast.makeText(getActivity(), String.valueOf(jobject.getString("id")), Toast.LENGTH_SHORT).show();
-            data.id = jobject.getString("id");
-            data.name=jobject.getString("itemName");
-            data.descp=jobject.getString("itemShortDescription");
-            data.price=jobject.getString("regularPrice");
-
-            JSONObject jobject1 = jobject.getJSONObject("restaurant");
-            data.resid = jobject1.getString("id");
-            data.resname = jobject1.getString("restaurantName");
-
-            JSONArray jsonArray = jobject.getJSONArray("priceVariation");
-            if(jsonArray.length() == 0)
+            categoriesList = new ArrayList<>();
+            for (int i = 0; i < menuItem.size(); i++)
             {
-                //Do nothing
+                JSONObject jobject = new JSONObject(menuItem.get(i));
+                Items data = new Items();
+                data.id = jobject.getString("id");
+                data.name = jobject.getString("itemName");
+                data.type = jobject.getString("vegType");
+                if (jobject.has("itemShortDescription"))
+                {
+                    data.descp = jobject.getString("itemShortDescription");
+                }
+                else
+                {
+                    data.descp = "No Description";
+                }
+                data.price = jobject.getString("regularPrice");
+
+                JSONObject jobject1 = jobject.getJSONObject("restaurant");
+                data.resid = jobject1.getString("id");
+                data.resname = jobject1.getString("restaurantName");
+
+                categoriesList.add(data);
             }
-            for(int i=0;i<jsonArray.length();i++)
-            {
-                JSONObject jobject2 = jsonArray.getJSONObject(i);
-                data.vid = jobject2.getString("id");
-                data.vname = jobject2.getString("variationName");
-                data.vprice = jobject2.getString("price");
-            }
-            categoriesList.add(data);
+            recyclerMenu = v.findViewById(R.id.recyclerMenu);
+            adapter = new ItemsAdapter(getActivity(), categoriesList, frag);
+            recyclerMenu.setLayoutManager(new LinearLayoutManager(getActivity()));
+            recyclerMenu.setNestedScrollingEnabled(false);
+            recyclerMenu.setFocusable(false);
+            recyclerMenu.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
         }
-        catch (JSONException e)
+        catch(JSONException e)
         {
             e.printStackTrace();
         }
-
-        recyclerMenu = v.findViewById(R.id.recyclerMenu);
-        adapter = new ItemsAdapter(getActivity(), categoriesList, frag);
-        recyclerMenu.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerMenu.setNestedScrollingEnabled(false);
-        recyclerMenu.setFocusable(false);
-        recyclerMenu.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+//            JSONArray jsonArray = jobject.getJSONArray("priceVariation");
+//            if(jsonArray.length() == 0)
+//            {
+//                //Do nothing
+//            }
+//            for(int i=0;i<jsonArray.length();i++)
+//            {
+//                JSONObject jobject2 = jsonArray.getJSONObject(i);
+//                data.vid = jobject2.getString("id");
+//                data.vname = jobject2.getString("variationName");
+//                data.vprice = jobject2.getString("price");
+//            }
         return v;
     }
 }

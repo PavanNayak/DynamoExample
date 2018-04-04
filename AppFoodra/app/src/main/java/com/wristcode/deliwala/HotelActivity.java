@@ -59,8 +59,11 @@ public class HotelActivity extends AppCompatActivity
             //layoutInner.setVisibility(View.VISIBLE);
             cartbadge.setText(String.valueOf(dh.gettotalqty()));
 
-        } else {
+        }
+        else
+        {
             //layoutInner.setVisibility(View.INVISIBLE);
+            cartbadge.setText("0");
         }
         setupNavigationView();
 
@@ -164,7 +167,16 @@ public class HotelActivity extends AppCompatActivity
 
     public void setCart(int item)
     {
-        cartbadge.setText(String.valueOf(item));
+        //Toast.makeText(this, "Hi", Toast.LENGTH_SHORT).show();
+        if (dh.gettotalqty() > 0 || dh.gettotalprice() > 0)
+        {
+            cartbadge.setText(String.valueOf(item));
+        }
+        else
+        {
+
+            cartbadge.setText("0");
+        }
     }
 
     @Override

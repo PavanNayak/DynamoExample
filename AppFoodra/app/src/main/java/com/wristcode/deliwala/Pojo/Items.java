@@ -6,14 +6,15 @@ package com.wristcode.deliwala.Pojo;
 
 public class Items {
 
-    public String id, resid, resname, name, price, descp, vid, vname, vprice;
+    public String id, resid, resname, type, name, price, descp, vid, vname, vprice;
     int image;
 
-    public Items(String id, String resid, String resname, String name, String price, String descp, String vid, String vname, String vprice, int image)
+    public Items(String id, String resid, String resname, String type, String name, String price, String descp, String vid, String vname, String vprice, int image)
     {
         this.id = id;
         this.resid = resid;
         this.resname = resname;
+        this.type = type;
         this.name = name;
         this.price = price;
         this.descp = descp;
@@ -44,6 +45,14 @@ public class Items {
 
     public void setResname(String resname) {
         this.resname = resname;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getName() {

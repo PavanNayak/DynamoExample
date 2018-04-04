@@ -263,9 +263,9 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
                     linearmanual.setVisibility(View.VISIBLE);
                     btnproceed.setVisibility(View.VISIBLE);
                     Toast.makeText(context, "Service not available in your location!", Toast.LENGTH_SHORT).show();
-                    Intent i = new Intent(SelectLocationActivity.this, NavDrawer.class);
-                    startActivity(i);
-                    finish();
+//                    Intent i = new Intent(SelectLocationActivity.this, NavDrawer.class);
+//                    startActivity(i);
+//                    finish();
                 }
                 else
                 {
@@ -299,7 +299,7 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
 
 
     public void Proceed(View v){
-        Intent i =new Intent(SelectLocationActivity.this,NavDrawer.class);
+        Intent i = new Intent(SelectLocationActivity.this, NavDrawer.class);
         startActivity(i);
         finish();
     }

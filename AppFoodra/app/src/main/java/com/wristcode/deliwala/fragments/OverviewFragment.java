@@ -88,20 +88,22 @@ public class OverviewFragment extends Fragment
         fab.setText(String.format("%.1f", Float.valueOf(getArguments().getString("pop"))));
         txtdesc.setText(getArguments().getString("descp"));
 
-        if(getArguments().getString("isOpen").toString().equals("true"))
+        if(getArguments().getString("isOpen").toString().equals("true")) {
             txttime.setText("Open Now");
-        else
+        }
+        else {
             txttime.setText("Closed");
+        }
         //txtdesc.setText(activity.descp);
         //txtdesc.setText(descp);
 
-        image=(CollapsingToolbarLayout)v.findViewById(R.id.toolbar_layout);
+        image = (CollapsingToolbarLayout) v.findViewById(R.id.toolbar_layout);
        // image.setBackgroundResource(Integer.parseInt(img));
 
 
-        Toolbar toolbar = v.findViewById(R.id.toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        ((AppCompatActivity)getActivity()).setTitle(null);
+//        Toolbar toolbar = v.findViewById(R.id.toolbar);
+//        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+//        ((AppCompatActivity)getActivity()).setTitle(null);
         return v;
     }
 
@@ -129,11 +131,11 @@ public class OverviewFragment extends Fragment
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+        //((AppCompatActivity)getActivity()).getSupportActionBar().hide();
     }
     @Override
     public void onStop() {
         super.onStop();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+        //((AppCompatActivity)getActivity()).getSupportActionBar().show();
     }
 }
