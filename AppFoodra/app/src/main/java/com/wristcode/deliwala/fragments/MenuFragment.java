@@ -52,7 +52,8 @@ public class MenuFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     SharedPreferences preferences;
-    List<String> strMenuTitle, strJson;
+    ArrayList<String> strMenuTitle;
+    ArrayList<ArrayList<String>> strJson;
     List<String> strMenuTitle1, strJson1;
     private String mParam1;
     private String mParam2;
@@ -94,7 +95,7 @@ public class MenuFragment extends Fragment {
         dh = new ExampleDBHelper(getActivity());
         strMenuTitle = new ArrayList<>();
         strMenuTitle1 = new ArrayList<>();
-        strJson = new ArrayList<>();
+        strJson = new ArrayList<ArrayList<String>>();
         strJson1 = new ArrayList<>();
 
         //txttitle.setText(preferences.getString("name","").toString());
@@ -111,7 +112,9 @@ public class MenuFragment extends Fragment {
             //layoutInner.setVisibility(View.VISIBLE);
             cartbadge.setText(String.valueOf(dh.gettotalqty()));
 
-        } else {
+        } else
+            {
+                cartbadge.setText(String.valueOf(dh.gettotalqty()));
             //layoutInner.setVisibility(View.INVISIBLE);
         }
 
@@ -131,7 +134,9 @@ public class MenuFragment extends Fragment {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
 
         for(int i=0; i<strMenuTitle.size(); i++)
-        adapter.addFragment(new MainDishesFragment(strJson.get(i)), strMenuTitle.get(i));
+        {
+            adapter.addFragment(new MainDishesFragment(strJson.get(i)),strMenuTitle.get(i));
+        }
         viewPager.setAdapter(adapter);
     }
 
@@ -209,7 +214,7 @@ public class MenuFragment extends Fragment {
         @Override
         protected String doInBackground(String... params) {
             try {
-                url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/restaurant/search-product");
+                url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/restaurant/search-product/category");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 return "exception";
@@ -256,7 +261,8 @@ public class MenuFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(String result)
+        {
             pdLoading.dismiss();
             JSONObject jsonObject = null;
             try
@@ -267,26 +273,34 @@ public class MenuFragment extends Fragment {
                     JSONArray jsonArray = jsonObject.getJSONArray("data");
                     if(jsonArray.length()==0)
                     {
-                        Toast.makeText(getActivity(), "No Items found!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "No Items found!!!", Toast.LENGTH_SHORT).show();
                     }
 
                     for(int i=0;i<jsonArray.length();i++)
                     {
                         JSONObject jobject=jsonArray.getJSONObject(i);
-                        JSONObject jCategory=jobject.getJSONObject("category");
+                        strMenuTitle.add(jobject.getString("categoryName"));
+                        JSONArray jsonArray1 = jobject.getJSONArray("menuItem");
+                        ArrayList<String> s = new ArrayList<>();
+                        for(int j=0; j<jsonArray1.length(); j++)
+                        {
+                            s.add(String.valueOf(jsonArray1.get(j)));
+                        }
+                        strJson.add(s);
 
-                        if(!(strMenuTitle.contains(jCategory.getString("categoryName"))))
-                        {
-                            strMenuTitle.add(jCategory.getString("categoryName"));
-                            strJson.add(String.valueOf(jsonArray.get(i)));
-                        }
-                        else
-                        {
-                            strMenuTitle1.add(jCategory.getString("categoryName"));
-                            strJson1.add(String.valueOf(jsonArray.get(i)));
-                        }
+//                        if(!(strMenuTitle.contains(jobject.getString("categoryName"))))
+//                        {
+//                            strMenuTitle.add(jobject.getString("categoryName"));
+//                            strJson.add(String.valueOf(jsonArray.get(i)));
+//                        }
+//                        else
+//                        {
+//                            strMenuTitle1.add(jobject.getString("categoryName"));
+//                            strJson.add(String.valueOf(jsonArray.get(i)));
+//                        }
                         setupViewPager(viewPager);
                     }
+                    //Toast.makeText(getActivity(), String.valueOf(strJson.size()), Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

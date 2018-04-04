@@ -42,15 +42,16 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
     int subresid, subqty = 0, subprice = 0, qty = 0, price = 0, TOTAL = 0, RATE = 0, itemprice;
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView txtid, txtresid, txtresname, txtname, txtdesc, txtprice, txtminus, txtplus, txtadd, prodqty, txtimg;
+        public TextView txtid, txtresid, txtresname, txttype, txtname, txtdesc, txtprice, txtminus, txtplus, txtadd, prodqty, txtimg;
         RelativeLayout relative;
-        ImageView image;
+        ImageView image, image1;
 
         public MyViewHolder(View view) {
             super(view);
             txtid = view.findViewById(R.id.txtid);
             txtresid = view.findViewById(R.id.txtresid);
             txtresname = view.findViewById(R.id.txtresname);
+            txttype = view.findViewById(R.id.txttype);
             txtname = view.findViewById(R.id.txtname);
             txtdesc = view.findViewById(R.id.txtdesc);
             txtprice = view.findViewById(R.id.txtprice);
@@ -64,6 +65,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
             txtimg = view.findViewById(R.id.txtimg);
             relative = view.findViewById(R.id.relative);
             image = view.findViewById(R.id.image);
+            image1 = view.findViewById(R.id.image1);
             fragment = new MenuFragment();
             dbHelper = new ExampleDBHelper(mContext);
             pref = PreferenceManager.getDefaultSharedPreferences(mContext);
@@ -90,11 +92,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
                         SharedPreferences.Editor editor = pref.edit();
                         editor.putString("fg", "1");
                         editor.apply();
-
-                        TOTAL = dbHelper.gettotalqty();
-                        RATE = dbHelper.gettotalprice();
-                        passprice(RATE);
-                        passval(TOTAL);
                     }
                     else
                     {
@@ -111,6 +108,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
                                 SharedPreferences.Editor editor = pref.edit();
                                 editor.putString("fg", "0");
                                 editor.apply();
+                                passval(0);
                             }
                         });
 
@@ -129,6 +127,11 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
                         Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
                         pbutton.setTextColor(Color.rgb(103, 52, 185));
                     }
+
+                    TOTAL = dbHelper.gettotalqty();
+                    RATE = dbHelper.gettotalprice();
+                    passprice(RATE);
+                    passval(TOTAL);
 
                     break;
 
@@ -259,6 +262,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
         holder.txtid.setText(movie.getId());
         holder.txtresid.setText(movie.getResid());
         holder.txtresname.setText(movie.getResname());
+        holder.txttype.setText(movie.getType());
         holder.txtname.setText(movie.getName());
         holder.txtdesc.setText(movie.getDescp());
         holder.txtprice.setText(movie.getPrice());
@@ -269,6 +273,21 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
             holder.txtminus.setVisibility(View.VISIBLE);
             holder.txtplus.setVisibility(View.VISIBLE);
             holder.prodqty.setVisibility(View.VISIBLE);
+        }
+
+        if(holder.txttype.getText().toString().equals("veg"))
+        {
+            Glide.with(mContext).load(R.drawable.veg)
+                    .placeholder(R.drawable.logo)
+                    .error(R.drawable.logo)
+                    .into(holder.image1);
+        }
+        else if(holder.txttype.getText().toString().equals("non"))
+        {
+            Glide.with(mContext).load(R.drawable.non)
+                    .placeholder(R.drawable.logo)
+                    .error(R.drawable.logo)
+                    .into(holder.image1);
         }
 
         Typeface font = Typeface.createFromAsset(mContext.getAssets(), "GT-Walsheim-Bold.ttf");

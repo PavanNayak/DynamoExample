@@ -120,7 +120,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         holder.txtstatus.setText(movie.getoStatus());
 
         String strCurrentDate = movie.getoDate();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'mm:hh:ssXXX");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssXXX");
         Date newDate = null;
         try {
             newDate = format.parse(strCurrentDate);

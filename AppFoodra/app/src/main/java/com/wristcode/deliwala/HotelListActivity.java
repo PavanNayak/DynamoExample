@@ -1,6 +1,8 @@
 package com.wristcode.deliwala;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -46,6 +48,7 @@ public class HotelListActivity extends AppCompatActivity implements IConstants {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_hotel_list);
 
         EditSearch = (EditText)findViewById(R.id.EditSearch);
@@ -213,16 +216,34 @@ public class HotelListActivity extends AppCompatActivity implements IConstants {
                         Restaurants resData = new Restaurants();
                         resData.resid = json_data.getString("id");
                         resData.resname = json_data.getString("restaurantName");
-                        resData.resadd = json_data.getString("restaurantAddress");
+                        if(json_data.has("description")) {
+                            resData.resdescp = json_data.getString("description");
+                        }
+                        else {
+                            resData.resdescp = "No Description";
+                        }
+                        if(json_data.has("restaurantAddress")) {
+                            resData.resadd = json_data.getString("restaurantAddress");
+                        }
+                        else
+                        {
+                            resData.resadd = "No Address";
+                        }
                         resData.reslat = json_data.getString("restaurantLat");
                         resData.reslong = json_data.getString("restaurantLong");
                         resData.resmob = json_data.getString("primaryMobile");
                         resData.resisopen = json_data.getString("isOpen");
                         resData.respop = json_data.getString("popularity");
-                        resData.resimg = json_data.getString("iconImage");
+                        if(json_data.has("iconImage")) {
+                            resData.resimg = json_data.getString("iconImage");
+                        }
+                        else
+                        {
+                            resData.resimg = " ";
+                        }
                         data.add(resData);
                     }
-                    adapter1 = new RestaurantsAdapter(HotelListActivity.this, data);
+                    adapter1 = new RestaurantsAdapter(HotelListActivity.this, data, recyclerView);
                     recyclerView.setLayoutManager(new LinearLayoutManager(HotelListActivity.this));
                     recyclerView.setNestedScrollingEnabled(false);
                     recyclerView.setFocusable(false);
@@ -237,4 +258,10 @@ public class HotelListActivity extends AppCompatActivity implements IConstants {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(HotelListActivity.this, NavDrawer.class);
+        startActivity(i);
+        finish();
+    }
 }

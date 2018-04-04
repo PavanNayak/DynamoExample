@@ -1,7 +1,9 @@
 package com.wristcode.deliwala.fragments;
 
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -19,9 +21,8 @@ import com.wristcode.deliwala.R;
 
 public class ProfileFragment extends Fragment {
 
-    EditText profilename,profilenumber;
-    TextView changeAddress,txtaddress;
-    Button btn_update;
+    TextView txtusername, contact, txtcontact, emailid, txtemail, address, txtaddress;
+    SharedPreferences pref;
 
     public static ProfileFragment newInstance(){
         ProfileFragment fragment = new ProfileFragment();
@@ -36,20 +37,30 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_profile, container, false);
-        profilename = v.findViewById(R.id.profilename);
-        profilenumber = v.findViewById(R.id.profilenumber);
-        changeAddress = v.findViewById(R.id.changeAddress);
+        txtusername = v.findViewById(R.id.txtusername);
+        contact = v.findViewById(R.id.contact);
+        txtcontact = v.findViewById(R.id.txtcontact);
+        emailid = v.findViewById(R.id.emailid);
+        txtemail = v.findViewById(R.id.txtemail);
+        address = v.findViewById(R.id.address);
         txtaddress = v.findViewById(R.id.txtaddress);
-        btn_update = v.findViewById(R.id.btn_update);
+        pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         Typeface font = Typeface.createFromAsset(getActivity().getAssets(),"GT-Walsheim-Medium.ttf");
         Typeface font1 = Typeface.createFromAsset(getActivity().getAssets(),"GT-Walsheim-Regular.ttf");
 
-        profilename.setTypeface(font1);
-        profilenumber.setTypeface(font1);
-        changeAddress.setTypeface(font);
+        txtusername.setTypeface(font);
+        contact.setTypeface(font);
+        txtcontact.setTypeface(font1);
+        emailid.setTypeface(font);
+        txtemail.setTypeface(font1);
+        address.setTypeface(font);
         txtaddress.setTypeface(font1);
-        btn_update.setTypeface(font1);
+
+        txtusername.setText(pref.getString("Name", "").toString());
+        txtcontact.setText(pref.getString("PhoneNo","").toString());
+        txtemail.setText(pref.getString("Email","").toString());
+        txtaddress.setText(pref.getString("Address","").toString());
         return v;
     }
 }

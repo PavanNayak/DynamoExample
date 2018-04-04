@@ -68,7 +68,14 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
 
-        <activity android:name="com.wristcode.deliwala.HotelListActivity" />
+        <activity
+            android:name="com.wristcode.deliwala.HotelListActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".TagRestaurantsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
             android:name="com.wristcode.deliwala.PaymentActivity"

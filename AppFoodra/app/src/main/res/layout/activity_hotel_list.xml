@@ -35,7 +35,7 @@
                     android:layout_weight="1"
                     android:id="@+id/EditSearch"
                     android:inputType="textCapWords"
-                    android:hint="Search Restaurant"
+                    android:hint="Select Restaurant"
 
                     android:layout_height="wrap_content" />
                 <TextView
