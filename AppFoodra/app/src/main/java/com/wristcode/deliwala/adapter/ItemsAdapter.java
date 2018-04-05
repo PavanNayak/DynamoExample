@@ -14,9 +14,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +34,7 @@ import com.wristcode.deliwala.fragments.MainDishesFragment;
 import com.wristcode.deliwala.fragments.MenuFragment;
 import com.wristcode.deliwala.sqlite.ExampleDBHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder> {
@@ -39,16 +43,23 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
     MenuFragment fragment;
     ExampleDBHelper dbHelper;
     SharedPreferences pref;
+    public  List<String> VnameList=new ArrayList<>();
+    public  List<String> VPriceList=new ArrayList<>();
+    public  List<String> VIdList=new ArrayList<>();
+
     String subname, subresname, imgpath;
     int subresid, subqty = 0, subprice = 0, qty = 0, price = 0, TOTAL = 0, RATE = 0, itemprice;
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView txtid, txtresid, txtresname, txttype, txtname, txtdesc, txtprice, txtminus, txtplus, txtadd, prodqty, txtimg;
+        public TextView txtid, txtresid, txtresname, txttype, txtname, txtdesc, txtprice, txtminus, txtplus, txtadd, prodqty, txtimg,spinnerId;
         RelativeLayout relative;
         ImageView image, image1;
 
+        Spinner spinnerPriceVariation;
+
         public MyViewHolder(View view) {
             super(view);
+            spinnerId = view.findViewById(R.id.spinnerId);
             txtid = view.findViewById(R.id.txtid);
             txtresid = view.findViewById(R.id.txtresid);
             txtresname = view.findViewById(R.id.txtresname);
@@ -70,6 +81,9 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
             fragment = new MenuFragment();
             dbHelper = new ExampleDBHelper(mContext);
             pref = PreferenceManager.getDefaultSharedPreferences(mContext);
+
+            spinnerPriceVariation=(Spinner)view.findViewById(R.id.spinnerPriceVariation);
+
         }
 
         @Override
@@ -260,21 +274,17 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         Items movie = moviesList.get(position);
-        holder.txtid.setText(movie.getId());
+
         holder.txtresid.setText(movie.getResid());
         holder.txtresname.setText(movie.getResname());
         holder.txttype.setText(movie.getType());
         holder.txtname.setText(movie.getName());
         holder.txtdesc.setText(movie.getDescp());
-        holder.txtprice.setText(movie.getPrice());
-        holder.prodqty.setText(String.valueOf(dbHelper.getQuantity(Integer.parseInt(movie.getId()))));
 
-        if (dbHelper.getQuantity(Integer.parseInt(movie.getId())) > 0) {
-            holder.txtadd.setVisibility(View.GONE);
-            holder.txtminus.setVisibility(View.VISIBLE);
-            holder.txtplus.setVisibility(View.VISIBLE);
-            holder.prodqty.setVisibility(View.VISIBLE);
-        }
+
+
+
+
 
         if(holder.txttype.getText().toString().equals("veg"))
         {
@@ -293,6 +303,108 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
                     .into(holder.image1);
         }
 
+
+        VnameList=movie.getVname();
+        VPriceList=movie.getVprice();
+        VIdList=movie.getVid();
+
+
+        if(movie.getVid().size()==0) {
+            holder.spinnerPriceVariation.setVisibility(View.GONE);
+            holder.txtprice.setText(movie.getPrice());
+            holder.txtid.setText(movie.getId());
+            holder.prodqty.setText(String.valueOf(dbHelper.getQuantity(Integer.parseInt(holder.txtid.getText().toString()))));
+
+
+            if (dbHelper.getQuantity(Integer.parseInt(holder.txtid.getText().toString())) > 0) {
+                holder.txtadd.setVisibility(View.GONE);
+                holder.txtminus.setVisibility(View.VISIBLE);
+                holder.txtplus.setVisibility(View.VISIBLE);
+                holder.prodqty.setVisibility(View.VISIBLE);
+            }
+            else
+            {
+                holder.txtadd.setVisibility(View.VISIBLE);
+                holder.txtminus.setVisibility(View.GONE);
+                holder.txtplus.setVisibility(View.GONE);
+                holder.prodqty.setVisibility(View.GONE);
+            }
+        }
+        else {
+
+            List<String> Vname =  new ArrayList<String>();
+            final List<String> VPrice =  new ArrayList<String>();
+            final List<String> Vid =  new ArrayList<String>();
+            holder.spinnerPriceVariation.setVisibility(View.VISIBLE);
+
+            for(int i=0;i<movie.getVname().size();i++){
+                Vname.add(VnameList.get(i));
+                VPrice.add(VPriceList.get(i));
+                Vid.add(VIdList.get(i));
+            }
+
+
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                    mContext, android.R.layout.simple_spinner_item, Vname);
+
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            holder.spinnerPriceVariation.setAdapter(adapter);
+
+
+          //  holder.prodqty.setText(String.valueOf(dbHelper.getQuantity(Integer.parseInt(holder.txtid.getText().toString()))));
+
+
+            holder.spinnerPriceVariation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                  //  Toast.makeText(mContext,String.valueOf(VPriceList.get(i)), Toast.LENGTH_SHORT).show();
+                    holder.txtprice.setText(VPrice.get(i));
+                    holder.txtid.setText(Vid.get(i));
+                    holder.prodqty.setText(String.valueOf(dbHelper.getQuantity(Integer.parseInt(holder.txtid.getText().toString()))));
+
+
+                    if (dbHelper.getQuantity(Integer.parseInt(holder.txtid.getText().toString())) > 0) {
+                        holder.txtadd.setVisibility(View.GONE);
+                        holder.txtminus.setVisibility(View.VISIBLE);
+                        holder.txtplus.setVisibility(View.VISIBLE);
+                        holder.prodqty.setVisibility(View.VISIBLE);
+                    }
+                    else
+                    {
+                        holder.txtadd.setVisibility(View.VISIBLE);
+                        holder.txtminus.setVisibility(View.GONE);
+                        holder.txtplus.setVisibility(View.GONE);
+                        holder.prodqty.setVisibility(View.GONE);
+                    }
+
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+                    holder.txtprice.setText(VPrice.get(0));
+                    holder.txtid.setText(Vid.get(0));
+                    holder.prodqty.setText(String.valueOf(dbHelper.getQuantity(Integer.parseInt(holder.txtid.getText().toString()))));
+
+
+                    if (dbHelper.getQuantity(Integer.parseInt(holder.txtid.getText().toString())) > 0) {
+                        holder.txtadd.setVisibility(View.GONE);
+                        holder.txtminus.setVisibility(View.VISIBLE);
+                        holder.txtplus.setVisibility(View.VISIBLE);
+                        holder.prodqty.setVisibility(View.VISIBLE);
+                    }
+                    else
+                    {
+                        holder.txtadd.setVisibility(View.VISIBLE);
+                        holder.txtminus.setVisibility(View.GONE);
+                        holder.txtplus.setVisibility(View.GONE);
+                        holder.prodqty.setVisibility(View.GONE);
+                    }
+                }
+            });
+
+        }
         Typeface font = Typeface.createFromAsset(mContext.getAssets(), "GT-Walsheim-Bold.ttf");
         Typeface font1 = Typeface.createFromAsset(mContext.getAssets(), "GT-Walsheim-Medium.ttf");
         Typeface font2 = Typeface.createFromAsset(mContext.getAssets(), "GT-Walsheim-Regular.ttf");
