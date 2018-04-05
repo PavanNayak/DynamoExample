@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.wristcode.deliwala.CartActivity;
 import com.wristcode.deliwala.HotelActivity;
 import com.wristcode.deliwala.ItemActivity;
@@ -279,6 +280,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
         {
             Glide.with(mContext).load(R.drawable.veg)
                     .placeholder(R.drawable.logo)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .error(R.drawable.logo)
                     .into(holder.image1);
         }
@@ -286,6 +288,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
         {
             Glide.with(mContext).load(R.drawable.non)
                     .placeholder(R.drawable.logo)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .error(R.drawable.logo)
                     .into(holder.image1);
         }

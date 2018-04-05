@@ -4,6 +4,27 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:id="@+id/layoutveg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
+
+        <Switch
+            android:id="@+id/simpleSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:gravity="start"
+            android:text="Show only veg dishes"
+            android:textSize="17sp"
+            android:textColor="#5FAF50"
+            android:theme="@style/SCBSwitch"/>
+
+    </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerMenu"
         android:layout_width="match_parent"
@@ -11,6 +32,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
+        android:layout_below="@+id/layoutveg"
         android:background="#fff">
 
     </android.support.v7.widget.RecyclerView>
