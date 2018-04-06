@@ -1,28 +1,19 @@
 package com.wristcode.deliwala.Pojo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by gururaj on 12/17/2016.
  */
 
 public class Items {
 
-    public String id, resid, resname, type, name, price, descp, vid, vname, vprice;
+    public String id, resid, resname, type, name, price, descp;
+    public List<String> vid=new ArrayList<>();
+    public List<String>vname=new ArrayList<>();
+    public List<String> vprice=new ArrayList<>();
     int image;
-
-    public Items(String id, String resid, String resname, String type, String name, String price, String descp, String vid, String vname, String vprice, int image)
-    {
-        this.id = id;
-        this.resid = resid;
-        this.resname = resname;
-        this.type = type;
-        this.name = name;
-        this.price = price;
-        this.descp = descp;
-        this.vid = vid;
-        this.vname = vname;
-        this.vprice = vprice;
-        this.image = image;
-    }
 
     public Items() {}
 
@@ -75,17 +66,19 @@ public class Items {
         this.descp=descp;
     }
 
-    public String getVid() { return vid; }
 
-    public void setVid(String vid) { this.vid = vid; }
+    public List<String> getVid(){
+        return vid;
+    }
 
-    public String getVname() { return vname; }
+    public List<String> getVname(){
+        return vname;
+    }
 
-    public void setVname(String vname) { this.vname = vname; }
+    public List<String> getVprice(){
+        return vprice;
+    }
 
-    public String getVprice() { return vprice; }
-
-    public void setVprice(String vprice) { this.vprice = vprice; }
 
     public int getImage(){
         return  image;

@@ -73,27 +73,49 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
-    <TextView
-        android:id="@+id/txtrupees"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="₹"
-        android:textColor="@color/colorPrimary"
-        android:layout_alignLeft="@+id/txtdesc"
-        android:layout_below="@+id/txtdesc"/>
 
-    <TextView
-        android:id="@+id/txtprice"
-        android:layout_width="wrap_content"
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textColor="@color/colorPrimary"
-        android:paddingLeft="10dp"
         android:layout_below="@+id/txtdesc"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
+        android:gravity="center"
         android:layout_alignLeft="@+id/txtdesc"
-        android:layout_alignStart="@+id/txtdesc" />
+        android:layout_alignStart="@+id/txtdesc"
+        android:orientation="horizontal"
+        android:layout_toLeftOf="@+id/txtadd"
+        android:layout_toStartOf="@+id/txtadd">
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/spinnerPriceVariation"
+            android:layout_height="wrap_content"></Spinner>
+        <TextView
+            android:id="@+id/txtrupees"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="₹"
+            android:textColor="@color/colorPrimary"
+            android:layout_alignLeft="@+id/txtdesc"
+            android:layout_below="@+id/txtdesc"/>
+
+        <TextView
+            android:id="@+id/txtprice"
+            android:layout_width="wrap_content"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textColor="@color/colorPrimary"
+            android:paddingLeft="10dp"
+            />
+
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:id="@+id/spinnerId"/>
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/txtdesc"

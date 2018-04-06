@@ -87,12 +87,35 @@ public class MainDishesFragment extends Fragment
                 data.resid = jobject1.getString("id");
                 data.resname = jobject1.getString("restaurantName");
 
+
+                JSONArray jsonArray = jobject.getJSONArray("priceVariation");
+                if(!(jsonArray.length() == 0))
+                {
+
+
+
+                for(int j=0;j<jsonArray.length();j++)
+                {
+                    JSONObject jobject2 = jsonArray.getJSONObject(j);
+                    data.vid.add(jobject2.getString("id"));
+                    data.vname.add(jobject2.getString("variationName"));
+                    data.vprice.add(jobject2.getString("price"));
+
+
+                    //Add Priority here after for loop sort the arrayList
+                }
+
+                }
+
+
                 categoriesList.add(data);
 
                 if (jobject.getString("vegType").toString().equals("veg"))
                 {
                     vegList.add(data);
                 }
+
+
             }
             recyclerMenu = v.findViewById(R.id.recyclerMenu);
             adapter = new ItemsAdapter(getActivity(), categoriesList, frag);
@@ -131,18 +154,7 @@ public class MainDishesFragment extends Fragment
         {
             e.printStackTrace();
         }
-//            JSONArray jsonArray = jobject.getJSONArray("priceVariation");
-//            if(jsonArray.length() == 0)
-//            {
-//                //Do nothing
-//            }
-//            for(int i=0;i<jsonArray.length();i++)
-//            {
-//                JSONObject jobject2 = jsonArray.getJSONObject(i);
-//                data.vid = jobject2.getString("id");
-//                data.vname = jobject2.getString("variationName");
-//                data.vprice = jobject2.getString("price");
-//            }
+
         return v;
     }
 }
