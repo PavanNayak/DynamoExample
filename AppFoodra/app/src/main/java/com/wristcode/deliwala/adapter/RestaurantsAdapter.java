@@ -2,7 +2,9 @@ package com.wristcode.deliwala.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.wristcode.deliwala.HotelActivity;
@@ -40,6 +43,8 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private int visibleThreshold = 2;
     private int lastVisibleItem, totalItemCount;
     private RecyclerView offerrecycler;
+    private LinearLayoutManager linearLayoutManager;
+    SharedPreferences pref;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView txtname, txtdesc, txtratings, txttime;
@@ -57,6 +62,7 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             ratingBar = view.findViewById(R.id.ratingBar);
             image = view.findViewById(R.id.image);
             relativehotel = view.findViewById(R.id.relativehotel);
+            pref = PreferenceManager.getDefaultSharedPreferences(mContext);
         }
     }
 
@@ -71,29 +77,39 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
-    public RestaurantsAdapter(Context mContext, List<Restaurants> moviesList, RecyclerView recyclerView) {
+    public RestaurantsAdapter(final Context mContext, List<Restaurants> moviesList, RecyclerView recyclerView) {
         this.mContext = mContext;
         this.moviesList = moviesList;
         this.offerrecycler = recyclerView;
-    }
-
-    public RestaurantsAdapter()
-    {
-        final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) offerrecycler.getLayoutManager();
+//    }
+//
+//    public RestaurantsAdapter()
+//    {
+        linearLayoutManager = (LinearLayoutManager) offerrecycler.getLayoutManager();
         offerrecycler.addOnScrollListener(new RecyclerView.OnScrollListener()
         {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy)
             {
                 super.onScrolled(recyclerView, dx, dy);
-                totalItemCount = linearLayoutManager.getItemCount();
-                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-                if (!isLoading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
-                    if (mOnLoadMoreListener != null) {
-                        mOnLoadMoreListener.onLoadMore();
-                    }
-                    isLoading = true;
-                }
+//                Toast.makeText(mContext, "Hi", Toast.LENGTH_SHORT).show();
+//                totalItemCount = linearLayoutManager.getItemCount();
+//                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+//                if (!isLoading && totalItemCount <= (lastVisibleItem + visibleThreshold))
+//                {
+//                    if (mOnLoadMoreListener != null)
+//                    {
+//                        mOnLoadMoreListener.onLoadMore();
+//                    }
+//                    isLoading = true;
+//                }
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState)
+            {
+                super.onScrollStateChanged(recyclerView, newState);
+                //.makeText(mContext, "Bye", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -114,7 +130,9 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.restaurant_row, parent, false);
             return new MyViewHolder(view);
-        } else if (viewType == VIEW_TYPE_LOADING) {
+        }
+        else if (viewType == VIEW_TYPE_LOADING)
+        {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_loading_item, parent, false);
             return new LoadingViewHolder(view);
         }
@@ -155,15 +173,26 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             myViewHolder.relativehotel.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onClick(View view)
+                {
+                    SharedPreferences.Editor editor1 = pref.edit();
+                    editor1.putString("id",movie.getResid());
+                    editor1.putString("name",movie.getResname());
+                    editor1.putString("img",movie.getResimg());
+                    editor1.putString("isOpen",movie.getResisopen());
+                    editor1.putString("pop",movie.getRespop());
+                    editor1.putString("address",movie.getResadd());
+                    editor1.putString("descp", movie.getResdescp());
+                    editor1.apply();
+
                     Intent i = new Intent(mContext, HotelActivity.class);
-                    i.putExtra("id", movie.getResid());
-                    i.putExtra("address", movie.getResadd());
-                    i.putExtra("isOpen", movie.getResisopen());
-                    i.putExtra("descp", movie.getResdescp());
-                    i.putExtra("img", movie.getResimg());
-                    i.putExtra("pop", movie.getRespop());
-                    i.putExtra("name", movie.getResname());
+//                    i.putExtra("id", movie.getResid());
+//                    i.putExtra("address", movie.getResadd());
+//                    i.putExtra("isOpen", movie.getResisopen());
+//                    i.putExtra("descp", movie.getResdescp());
+//                    i.putExtra("img", movie.getResimg());
+//                    i.putExtra("pop", movie.getRespop());
+//                    i.putExtra("name", movie.getResname());
                     mContext.startActivity(i);
                 }
             });

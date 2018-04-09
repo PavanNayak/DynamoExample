@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.wristcode.deliwala.CartActivity;
 import com.wristcode.deliwala.HotelActivity;
 import com.wristcode.deliwala.NavDrawer;
@@ -37,21 +39,25 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
     private Context mContext;
     ExampleDBHelper dh;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView txtid, txtresid, txtresname, txtname, txtqty, txtprice, txtplus, txtminus;
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+    {
+        public TextView txtid, txtvarid, txtvarname, txtresid, txtresname, txttype, txtname, txtqty, txtprice, txtplus, txtminus;
         RelativeLayout relative;
         ImageView image, delete;
-        String subname, subname1, subresname, subresname1, imgtype, imgtype1;
-        int subresid, subresid1, subqty, subqty1, subprice, subprice1, subitemprice, subitemprice1, qty, qty1, price, price1, TOTAL = 0, RATE = 0;
+        String subname, subname1, subvarname, subvarname1, subresname, subresname1, imgtype, imgtype1;
+        int subvarid, subvarid1, subresid, subresid1, subqty, subqty1, subprice, subprice1, subitemprice, subitemprice1, qty, qty1, price, price1, TOTAL = 0, RATE = 0;
 
         public MyViewHolder(View view) {
             super(view);
             txtid = (TextView) view.findViewById(R.id.txtid);
+            txtvarid = (TextView) view.findViewById(R.id.txtvarid);
+            txtvarname = (TextView) view.findViewById(R.id.txtvarname);
             txtresid = (TextView) view.findViewById(R.id.txtresid);
             txtresname = (TextView) view.findViewById(R.id.txtresname);
             txtname = (TextView) view.findViewById(R.id.txtname);
             txtprice = (TextView) view.findViewById(R.id.txtprice);
             txtqty = (TextView) view.findViewById(R.id.txtqty);
+            txttype = (TextView) view.findViewById(R.id.txttype);
             txtplus = view.findViewById(R.id.txtplus);
             txtplus.setOnClickListener(this);
             txtminus = view.findViewById(R.id.txtminus);
@@ -77,7 +83,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
                     {
                         public void onClick(DialogInterface dialog, int which)
                         {
-                            dh.deleteItem(Integer.parseInt(txtid.getText().toString()));
+                            dh.deleteItem(Integer.parseInt(txtid.getText().toString()), Integer.parseInt(txtvarid.getText().toString()));
                             if (dh.getProfilesCount() > 0)
                             {
                                 Intent i = new Intent(mContext, CartActivity.class);
@@ -111,9 +117,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
                     int i = Integer.parseInt(txtqty.getText().toString());
                     i++;
                     txtqty.setText(String.valueOf(i));
-                    Cursor rs = dh.getItem(Integer.parseInt(txtid.getText().toString()));
+                    Cursor rs = dh.getItem(Integer.parseInt(txtid.getText().toString()), Integer.parseInt(txtvarid.getText().toString()));
                     while (rs.moveToNext())
                     {
+                        subvarid = rs.getInt(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_VARID));
+                        subvarname = rs.getString(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_VARNAME));
                         subresid = rs.getInt(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_RESID));
                         subresname = rs.getString(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_RESNAME));
                         subname = rs.getString(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_NAME));
@@ -123,7 +131,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
                         imgtype = rs.getString(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_IMAGE));
                         qty = subqty + 1;
                         price = subprice + subitemprice;
-                        dh.updateItem(Integer.parseInt(txtid.getText().toString()), Integer.parseInt(txtresid.getText().toString()), txtresname.getText().toString(), txtname.getText().toString(), qty, price, subitemprice, imgtype);
+                        dh.updateItem(Integer.parseInt(txtid.getText().toString()), Integer.parseInt(txtvarid.getText().toString()), txtvarname.getText().toString(), Integer.parseInt(txtresid.getText().toString()), txtresname.getText().toString(), txtname.getText().toString(), qty, price, subitemprice, imgtype);
                         passVal();
                     }
                     break;
@@ -134,9 +142,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
                     {
                         i--;
                         txtqty.setText(String.valueOf(i));
-                        Cursor rs1 = dh.getItem(Integer.parseInt(txtid.getText().toString()));
+                        Cursor rs1 = dh.getItem(Integer.parseInt(txtid.getText().toString()), Integer.parseInt(txtvarid.getText().toString()));
                         while (rs1.moveToNext())
                         {
+                            subvarid1 = rs1.getInt(rs1.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_VARID));
+                            subvarname1 = rs1.getString(rs1.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_VARNAME));
                             subresid1 = rs1.getInt(rs1.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_RESID));
                             subresname1 = rs1.getString(rs1.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_RESNAME));
                             subname1 = rs1.getString(rs1.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_NAME));
@@ -146,13 +156,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
                             imgtype1 = rs1.getString(rs1.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_IMAGE));
                             qty1 = subqty1 - 1;
                             price1 = subprice1 - subitemprice1;
-                            dh.updateItem(Integer.parseInt(txtid.getText().toString()), Integer.parseInt(txtresid.getText().toString()), txtresname.getText().toString(), txtname.getText().toString(), qty1, price1, subitemprice1, imgtype1);
+                            dh.updateItem(Integer.parseInt(txtid.getText().toString()), Integer.parseInt(txtvarid.getText().toString()), txtvarname.getText().toString(), Integer.parseInt(txtresid.getText().toString()), txtresname.getText().toString(), txtname.getText().toString(), qty1, price1, subitemprice1, imgtype1);
                             passVal();
                         }
                     }
                     else
                     {
-                        dh.deleteItem(Integer.parseInt(txtid.getText().toString()));
+                        dh.deleteItem(Integer.parseInt(txtid.getText().toString()), Integer.parseInt(txtvarid.getText().toString()));
                         passVal();
                     }
 
@@ -174,11 +184,15 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(MyViewHolder holder, int position)
+    {
         Cart movie = moviesList.get(position);
         holder.txtid.setText(movie.getId());
+        holder.txtvarid.setText(movie.getVarid());
+        holder.txtvarname.setText(movie.getVarname());
         holder.txtresid.setText(movie.getResid());
         holder.txtresname.setText(movie.getResname());
+        holder.txttype.setText(movie.getType());
         holder.txtname.setText(movie.getName());
         holder.txtqty.setText(movie.getQty());
         holder.txtprice.setText(movie.getPrice());
@@ -188,8 +202,26 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
         Typeface font2 = Typeface.createFromAsset(mContext.getAssets(), "GT-Walsheim-Regular.ttf");
 
         holder.txtname.setTypeface(font);
+        holder.txtvarname.setTypeface(font1);
         holder.txtprice.setTypeface(font2);
         holder.txtqty.setTypeface(font2);
+
+        if(holder.txttype.getText().toString().equals("veg"))
+        {
+            Glide.with(mContext).load(R.drawable.veg)
+                    .placeholder(R.drawable.logo)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .error(R.drawable.logo)
+                    .into(holder.image);
+        }
+        else if(holder.txttype.getText().toString().equals("non"))
+        {
+            Glide.with(mContext).load(R.drawable.non)
+                    .placeholder(R.drawable.logo)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .error(R.drawable.logo)
+                    .into(holder.image);
+        }
 
 //        Glide.with(mContext).load(movie.getImage())
 //                .placeholder(R.mipmap.ic_launcher)

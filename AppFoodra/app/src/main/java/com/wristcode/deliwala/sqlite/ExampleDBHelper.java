@@ -16,6 +16,8 @@ public class ExampleDBHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     public static final String SUBCAT_TABLE_NAME = "item";
     public static final String SUBCAT_COLUMN_ID = "item_id";
+    public static final String SUBCAT_COLUMN_VARID = "var_id";
+    public static final String SUBCAT_COLUMN_VARNAME = "var_name";
     public static final String SUBCAT_COLUMN_RESID = "res_id";
     public static final String SUBCAT_COLUMN_RESNAME = "res_name";
     public static final String SUBCAT_COLUMN_NAME = "item_name";
@@ -31,7 +33,9 @@ public class ExampleDBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + SUBCAT_TABLE_NAME + "(" +
-                SUBCAT_COLUMN_ID + " INTEGER PRIMARY KEY, " +
+                SUBCAT_COLUMN_ID + " INTEGER, " +
+                SUBCAT_COLUMN_VARID + " INTEGER, " +
+                SUBCAT_COLUMN_VARNAME + " TEXT, " +
                 SUBCAT_COLUMN_RESID + " INTEGER, " +
                 SUBCAT_COLUMN_RESNAME + " TEXT, " +
                 SUBCAT_COLUMN_NAME + " TEXT, " +
@@ -48,13 +52,15 @@ public class ExampleDBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public String insertItem(int item_id, int res_id, String res_name, String item_name, int item_qty, int item_price, int item_actualprice, String item_image) {
+    public String insertItem(int item_id, int var_id, String var_name, int res_id, String res_name, String item_name, int item_qty, int item_price, int item_actualprice, String item_image) {
         SQLiteDatabase db = this.getWritableDatabase();
         String Str_Return_Value = null;
         long query_ret;
         try {
             ContentValues values = new ContentValues();
             values.put(SUBCAT_COLUMN_ID, item_id);
+            values.put(SUBCAT_COLUMN_VARID, var_id);
+            values.put(SUBCAT_COLUMN_VARNAME, var_name);
             values.put(SUBCAT_COLUMN_RESID, res_id);
             values.put(SUBCAT_COLUMN_RESNAME, res_name);
             values.put(SUBCAT_COLUMN_NAME, item_name);
@@ -74,10 +80,12 @@ public class ExampleDBHelper extends SQLiteOpenHelper {
         return Str_Return_Value;
     }
 
-    public boolean updateItem(int item_id, int res_id, String res_name, String item_name, int item_qty, int item_price, int item_actualprice, String item_image) {
+    public boolean updateItem(int item_id, int var_id, String var_name, int res_id, String res_name, String item_name, int item_qty, int item_price, int item_actualprice, String item_image) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(SUBCAT_COLUMN_ID, item_id);
+        contentValues.put(SUBCAT_COLUMN_VARID, var_id);
+        contentValues.put(SUBCAT_COLUMN_VARNAME, var_name);
         contentValues.put(SUBCAT_COLUMN_RESID, res_id);
         contentValues.put(SUBCAT_COLUMN_RESNAME, res_name);
         contentValues.put(SUBCAT_COLUMN_NAME, item_name);
@@ -85,13 +93,13 @@ public class ExampleDBHelper extends SQLiteOpenHelper {
         contentValues.put(SUBCAT_COLUMN_PRICE, item_price);
         contentValues.put(SUBCAT_COLUMN_ACTUALPRICE, item_actualprice);
         contentValues.put(SUBCAT_COLUMN_IMAGE, item_image);
-        db.update(SUBCAT_TABLE_NAME, contentValues, SUBCAT_COLUMN_ID + "=?", new String[]{Integer.toString(item_id)});
+        db.update(SUBCAT_TABLE_NAME, contentValues, SUBCAT_COLUMN_ID + "=? AND " + SUBCAT_COLUMN_VARID + "=?", new String[]{Integer.toString(item_id), Integer.toString(var_id)});
         return true;
     }
 
-    public Cursor getItem(int item_id) {
+    public Cursor getItem(int item_id, int var_id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String selectQuery = "SELECT * FROM " + SUBCAT_TABLE_NAME + " WHERE " + SUBCAT_COLUMN_ID + "=" + item_id;
+        String selectQuery = "SELECT * FROM " + SUBCAT_TABLE_NAME + " WHERE " + SUBCAT_COLUMN_ID + "=" + item_id + " AND " + SUBCAT_COLUMN_VARID + "=" + var_id;
         return db.rawQuery(selectQuery, null);
     }
 
@@ -101,11 +109,10 @@ public class ExampleDBHelper extends SQLiteOpenHelper {
         return db.rawQuery(selectQuery, null);
     }
 
-    public Integer deleteItem(int item_id) {
+    public Integer deleteItem(int item_id, int var_id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(SUBCAT_TABLE_NAME,
-                SUBCAT_COLUMN_ID + " = ? ",
-                new String[]{Integer.toString(item_id)});
+        return db.delete(SUBCAT_TABLE_NAME, SUBCAT_COLUMN_ID + " = ? AND "+ SUBCAT_COLUMN_VARID + " = ?",
+                new String[]{Integer.toString(item_id), Integer.toString(var_id)});
     }
 
     public int gettotalqty() {
@@ -140,21 +147,22 @@ public class ExampleDBHelper extends SQLiteOpenHelper {
         return priceValue;
     }
 
-    public int getQuantity(int item_id) {
+    public int getQuantity(int item_id, int var_id) {
         int qty = 0;
         SQLiteDatabase db = this.getReadableDatabase();
-        String strSql = "SELECT * FROM " + SUBCAT_TABLE_NAME + " WHERE " + SUBCAT_COLUMN_ID + " = " + item_id;
+        String strSql = "SELECT * FROM " + SUBCAT_TABLE_NAME + " WHERE " + SUBCAT_COLUMN_ID + " = " + item_id + " AND " + SUBCAT_COLUMN_VARID + " = " + var_id;
         Cursor cursor = db.rawQuery(strSql, null);
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
             qty = cursor.getInt(cursor.getColumnIndex(SUBCAT_COLUMN_QUANTITY));
         }
+        cursor.close();
         return qty;
     }
 
-    public boolean checksubid(int item_id) {
+    public boolean checksubid(int item_id, int var_id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        final Cursor cursor = db.rawQuery("SELECT * FROM " + SUBCAT_TABLE_NAME + " WHERE " + SUBCAT_COLUMN_ID + "=" + item_id, null);
+        final Cursor cursor = db.rawQuery("SELECT * FROM " + SUBCAT_TABLE_NAME + " WHERE " + SUBCAT_COLUMN_ID + "=" + item_id + " AND " + SUBCAT_COLUMN_VARID + "=" + var_id, null);
         if (cursor.getCount() <= 0) {
             cursor.close();
             return false;

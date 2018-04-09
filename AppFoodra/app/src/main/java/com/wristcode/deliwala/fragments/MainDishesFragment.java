@@ -37,8 +37,6 @@ public class MainDishesFragment extends Fragment
     List<Items> vegList;
     ItemsAdapter adapter;
     MenuFragment frag = new MenuFragment();
-    TextView cart_badge;
-    ExampleDBHelper dh;
     ArrayList<String> menuItem;
     LinearLayout layoutveg;
     Switch vegonly;
@@ -87,26 +85,19 @@ public class MainDishesFragment extends Fragment
                 data.resid = jobject1.getString("id");
                 data.resname = jobject1.getString("restaurantName");
 
-
                 JSONArray jsonArray = jobject.getJSONArray("priceVariation");
                 if(!(jsonArray.length() == 0))
                 {
-
-
-
-                for(int j=0;j<jsonArray.length();j++)
-                {
-                    JSONObject jobject2 = jsonArray.getJSONObject(j);
-                    data.vid.add(jobject2.getString("id"));
-                    data.vname.add(jobject2.getString("variationName"));
-                    data.vprice.add(jobject2.getString("price"));
-
+                    for(int j=0;j<jsonArray.length();j++)
+                    {
+                        JSONObject jobject2 = jsonArray.getJSONObject(j);
+                        data.vid.add(jobject2.getString("id"));
+                        data.vname.add(jobject2.getString("variationName"));
+                        data.vprice.add(jobject2.getString("price"));
 
                     //Add Priority here after for loop sort the arrayList
+                    }
                 }
-
-                }
-
 
                 categoriesList.add(data);
 
@@ -114,8 +105,6 @@ public class MainDishesFragment extends Fragment
                 {
                     vegList.add(data);
                 }
-
-
             }
             recyclerMenu = v.findViewById(R.id.recyclerMenu);
             adapter = new ItemsAdapter(getActivity(), categoriesList, frag);

@@ -1,9 +1,11 @@
 package com.wristcode.deliwala.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +30,7 @@ public class OverviewFragment extends Fragment
     CollapsingToolbarLayout image;
     TextView txthotelname,txtlocation,txtdesc,txttime,txtdistance,txtdelivery,fab;
     private OnFragmentInteractionListener mListener;
+    SharedPreferences pref;
 
     public OverviewFragment() {}
 
@@ -58,6 +61,7 @@ public class OverviewFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View v= inflater.inflate(R.layout.fragment_overview, container, false);
+        pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         txthotelname = v.findViewById(R.id.txthotelname);
         txtlocation = v.findViewById(R.id.txtlocation);
         txtdesc = v.findViewById(R.id.txtdesc);
@@ -83,12 +87,12 @@ public class OverviewFragment extends Fragment
 
       //  Toast.makeText(getActivity(),String.valueOf(activity.name), Toast.LENGTH_SHORT).show();
 
-        txthotelname.setText(getArguments().getString("name"));
-        txtlocation.setText(getArguments().getString("address"));
-        fab.setText(String.format("%.1f", Float.valueOf(getArguments().getString("pop"))));
-        txtdesc.setText(getArguments().getString("descp"));
+        txthotelname.setText(pref.getString("name", "").toString());
+        txtlocation.setText(pref.getString("address", "").toString());
+        fab.setText(String.format("%.1f", Float.valueOf(pref.getString("pop", "").toString())));
+        txtdesc.setText(pref.getString("descp", "").toString());
 
-        if(getArguments().getString("isOpen").toString().equals("true")) {
+        if(pref.getString("isOpen", "").toString().equals("true")) {
             txttime.setText("Open Now");
         }
         else {

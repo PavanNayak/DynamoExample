@@ -1,35 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#fff"
     android:id="@+id/relative"
-    android:padding="10dp"
-    android:elevation="4dp"
-    android:layout_marginTop="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginBottom="5dp"
-    android:layout_height="wrap_content">
+    android:layout_marginTop="5dp"
+    android:background="#fff"
+    android:elevation="4dp"
+    android:padding="10dp">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/image"
         android:layout_width="80dp"
-        android:visibility="gone"
-        android:layout_height="80dp" />
+        android:layout_height="80dp"
+        android:visibility="gone" />
 
     <ImageView
-        android:layout_width="20dp"
-        android:src="@drawable/veg"
         android:id="@+id/image1"
+        android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_above="@+id/txtdesc"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:src="@drawable/veg" />
 
     <TextView
         android:id="@+id/txtid"
-        android:layout_width="10dp"
-        android:layout_height="10dp"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/txtvarid"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/txtvarname"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
         android:visibility="gone" />
 
     <TextView
@@ -58,64 +69,49 @@
 
     <TextView
         android:id="@+id/txtname"
-        android:paddingLeft="10dp"
-        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:textColor="#666"
-        android:textSize="18sp"
         android:layout_marginLeft="22dp"
         android:layout_marginStart="22dp"
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@+id/image1"
+        android:paddingLeft="10dp"
         android:text="TextView"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:textColor="#666"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
+    <TextView
+        android:id="@+id/spinnerId"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:visibility="gone" />
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/txtrupees"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txtdesc"
-        android:gravity="center"
         android:layout_alignLeft="@+id/txtdesc"
+        android:layout_below="@+id/spinnerPriceVariation"
+        android:text="₹"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/txtprice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txtdesc"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_alignStart="@+id/txtdesc"
-        android:orientation="horizontal"
-        android:layout_toLeftOf="@+id/txtadd"
-        android:layout_toStartOf="@+id/txtadd">
-
-        <Spinner
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/spinnerPriceVariation"
-            android:layout_height="wrap_content"></Spinner>
-        <TextView
-            android:id="@+id/txtrupees"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="₹"
-            android:textColor="@color/colorPrimary"
-            android:layout_alignLeft="@+id/txtdesc"
-            android:layout_below="@+id/txtdesc"/>
-
-        <TextView
-            android:id="@+id/txtprice"
-            android:layout_width="wrap_content"
-            android:layout_weight="2"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textColor="@color/colorPrimary"
-            android:paddingLeft="10dp"
-            />
-
-        <TextView
-            android:layout_width="1dp"
-            android:layout_height="1dp"
-            android:id="@+id/spinnerId"/>
-    </LinearLayout>
-
+        android:layout_below="@+id/spinnerPriceVariation"
+        android:paddingLeft="20dp"
+        android:text="TextView"
+        android:textColor="@color/colorPrimary" />
 
     <TextView
         android:id="@+id/txtdesc"
@@ -131,58 +127,68 @@
         android:paddingLeft="10dp"
         android:text="TextView" />
 
+    <Spinner
+        android:id="@+id/spinnerPriceVariation"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txtname"
+        android:layout_alignStart="@+id/txtname"
+        android:layout_below="@+id/txtdesc"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp" />
+
     <TextView
         android:id="@+id/txtminus"
         android:layout_width="30dp"
         android:layout_height="30dp"
+        android:layout_below="@+id/spinnerPriceVariation"
+        android:layout_toLeftOf="@+id/prodqty"
         android:background="@drawable/plus"
+        android:elevation="3dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:visibility="gone"
-        android:elevation="3dp"
-        android:textColor="#fff"
-        android:layout_below="@+id/txtdesc"
-        android:layout_toLeftOf="@+id/prodqty"
+        android:text="-"
         android:textAlignment="center"
-        android:text="-" />
+        android:textColor="#fff"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/prodqty"
         android:layout_width="30dp"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
         android:layout_alignBaseline="@+id/txtplus"
         android:layout_alignBottom="@+id/txtplus"
         android:layout_toLeftOf="@+id/txtplus"
+        android:gravity="center_horizontal"
         android:text="1"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/txtplus"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_below="@+id/txtdesc"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:text="+"
-        android:visibility="gone"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/spinnerPriceVariation"
         android:layout_marginLeft="1dp"
         android:background="@drawable/minus"
+        android:elevation="3dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:elevation="3dp"
-        android:textColor="#fff"/>
+        android:text="+"
+        android:textColor="#fff"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/txtadd"
         android:layout_width="70dp"
         android:layout_height="30dp"
-        android:layout_below="@+id/txtdesc"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/spinnerPriceVariation"
+        android:background="@drawable/rect"
         android:elevation="5dp"
-        android:text="ADD"
         android:gravity="center"
-        android:textColor="@android:color/white"
-        android:background="@drawable/rect"/>
+        android:text="ADD"
+        android:textColor="@android:color/white" />
 </RelativeLayout>

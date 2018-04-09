@@ -111,6 +111,14 @@ public class OrderListActivity extends AppCompatActivity implements IConstants
                 fishData1.ohItemname = json_data1.getString("itemName");
                 fishData1.ohItemqty = json_data1.getString("quantity");
                 fishData1.ohItemprice = json_data1.getString("actualAmount");
+                if(json_data1.has("priceVariavtion"))
+                {
+                    fishData1.ohItemvariation = json_data1.getString("priceVariavtion");
+                }
+                else
+                {
+                    fishData1.ohItemvariation = "";
+                }
                 moviesList1.add(fishData1);
             }
         } catch (JSONException e) {

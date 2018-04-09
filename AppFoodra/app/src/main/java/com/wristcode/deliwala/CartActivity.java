@@ -84,6 +84,8 @@ public class CartActivity extends AppCompatActivity {
                 fishData.name = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_NAME));
                 fishData.qty = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_QUANTITY));
                 fishData.price = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_PRICE));
+                fishData.varid = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_VARID));
+                fishData.varname = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_VARNAME));
                 fishData.id = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_ID));
                 data.add(fishData);
             }
@@ -110,20 +112,23 @@ public class CartActivity extends AppCompatActivity {
 
     public void orderNow(View v)
     {
+        SharedPreferences.Editor editor1 = pref.edit();
+        editor1.putString("fg","0");
+        editor1.apply();
         Intent i = new Intent(CartActivity.this, NavDrawer.class);
         startActivity(i);
         finish();
     }
 
     public void backButton(View v) {
-        Intent i = new Intent(CartActivity.this, NavDrawer.class);
+        Intent i = new Intent(CartActivity.this, HotelActivity.class);
         startActivity(i);
         finish();
     }
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(CartActivity.this, NavDrawer.class);
+        Intent i = new Intent(CartActivity.this, HotelActivity.class);
         startActivity(i);
         finish();
     }
@@ -147,6 +152,8 @@ public class CartActivity extends AppCompatActivity {
                 fishData.name = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_NAME));
                 fishData.qty = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_QUANTITY));
                 fishData.price = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_PRICE));
+                fishData.varid = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_VARID));
+                fishData.varname = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_VARNAME));
                 fishData.id = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_ID));
                 dataplus.add(fishData);
             }

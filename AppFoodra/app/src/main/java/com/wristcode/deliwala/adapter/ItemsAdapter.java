@@ -47,11 +47,11 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
     public  List<String> VPriceList=new ArrayList<>();
     public  List<String> VIdList=new ArrayList<>();
 
-    String subname, subresname, imgpath;
-    int subresid, subqty = 0, subprice = 0, qty = 0, price = 0, TOTAL = 0, RATE = 0, itemprice;
+    String subname, subvarname, subresname, imgpath;
+    int subvarid, subresid, subqty = 0, subprice = 0, qty = 0, price = 0, TOTAL = 0, RATE = 0, itemprice;
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView txtid, txtresid, txtresname, txttype, txtname, txtdesc, txtprice, txtminus, txtplus, txtadd, prodqty, txtimg,spinnerId;
+        public TextView txtid, txtvarid, txtvarname, txtresid, txtresname, txttype, txtname, txtdesc, txtprice, txtminus, txtplus, txtadd, prodqty, txtimg, spinnerId;
         RelativeLayout relative;
         ImageView image, image1;
 
@@ -61,6 +61,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
             super(view);
             spinnerId = view.findViewById(R.id.spinnerId);
             txtid = view.findViewById(R.id.txtid);
+            txtvarid = view.findViewById(R.id.txtvarid);
+            txtvarname = view.findViewById(R.id.txtvarname);
             txtresid = view.findViewById(R.id.txtresid);
             txtresname = view.findViewById(R.id.txtresname);
             txttype = view.findViewById(R.id.txttype);
@@ -78,12 +80,10 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
             relative = view.findViewById(R.id.relative);
             image = view.findViewById(R.id.image);
             image1 = view.findViewById(R.id.image1);
+            spinnerPriceVariation = (Spinner) view.findViewById(R.id.spinnerPriceVariation);
             fragment = new MenuFragment();
             dbHelper = new ExampleDBHelper(mContext);
             pref = PreferenceManager.getDefaultSharedPreferences(mContext);
-
-            spinnerPriceVariation=(Spinner)view.findViewById(R.id.spinnerPriceVariation);
-
         }
 
         @Override
@@ -93,8 +93,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
             {
                 case R.id.txtadd:
                     int val1 = Integer.parseInt(txtresid.getText().toString());
+                    int s1 = Integer.parseInt(txtvarid.getText().toString());
                     Boolean val2 = dbHelper.checkresid(val1);
-                    //Toast.makeText(mContext, "ResId: "+txtresid.getText().toString()+ " ID: "+val2.toString()+ " Flag: "+pref.getString("fg","").toString(), Toast.LENGTH_SHORT).show();
                     if ((val2.equals(true) && pref.getString("fg","").toString().equals("1")) || (val2.equals(false) && pref.getString("fg","").toString().equals("0")))
                     {
                         txtadd.setVisibility(View.GONE);
@@ -102,7 +102,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
                         txtplus.setVisibility(View.VISIBLE);
                         prodqty.setVisibility(View.VISIBLE);
                         prodqty.setText("1");
-                        dbHelper.insertItem(Integer.parseInt(txtid.getText().toString()), Integer.parseInt(txtresid.getText().toString()), txtresname.getText().toString(), txtname.getText().toString(), Integer.parseInt(prodqty.getText().toString()), Integer.parseInt(txtprice.getText().toString()), Integer.parseInt(txtprice.getText().toString()), txtimg.getText().toString());
+                        dbHelper.insertItem(Integer.parseInt(txtid.getText().toString()), s1, txtvarname.getText().toString(), Integer.parseInt(txtresid.getText().toString()), txtresname.getText().toString(), txtname.getText().toString(), Integer.parseInt(prodqty.getText().toString()), Integer.parseInt(txtprice.getText().toString()), Integer.parseInt(txtprice.getText().toString()), txtimg.getText().toString());
 
                         SharedPreferences.Editor editor = pref.edit();
                         editor.putString("fg", "1");
@@ -110,7 +110,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
                     }
                     else
                     {
-                        //Toast.makeText(mContext, "Different Restaurant", Toast.LENGTH_SHORT).show();
                         AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
                         alertDialog.setTitle("You can order only from one hotel");
                         alertDialog.setMessage("Are you sure you want to clear your cart?");
@@ -156,10 +155,15 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
                     prodqty.setText(String.valueOf(i));
 
                     int value1 = Integer.parseInt(txtid.getText().toString());
-                    Boolean value2 = dbHelper.checksubid(value1);
-                    if (value2.equals(true)) {
-                        Cursor rs = dbHelper.getItem(Integer.parseInt(txtid.getText().toString()));
-                        while (rs.moveToNext()) {
+                    int v1 = Integer.parseInt(txtvarid.getText().toString());
+                    Boolean value2 = dbHelper.checksubid(value1, v1);
+                    if (value2.equals(true))
+                    {
+                        Cursor rs = dbHelper.getItem(Integer.parseInt(txtid.getText().toString()), Integer.parseInt(txtvarid.getText().toString()));
+                        while (rs.moveToNext())
+                        {
+                            subvarid = rs.getInt(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_VARID));
+                            subvarname = rs.getString(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_VARNAME));
                             subresid = rs.getInt(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_RESID));
                             subresname = rs.getString(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_RESNAME));
                             subname = rs.getString(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_NAME));
@@ -169,15 +173,13 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
                             imgpath = rs.getString(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_IMAGE));
                             qty = subqty + 1;
                             price = subprice + Integer.parseInt(txtprice.getText().toString());
-                            dbHelper.updateItem(value1, subresid, subresname, txtname.getText().toString(), qty, price, itemprice, imgpath);
+                            dbHelper.updateItem(value1, subvarid, subvarname, subresid, subresname, txtname.getText().toString(), qty, price, itemprice, imgpath);
                         }
-                    } else {
-                        dbHelper.insertItem(Integer.parseInt(txtid.getText().toString()), Integer.parseInt(txtresid.getText().toString()), txtresname.getText().toString(), txtname.getText().toString(), Integer.parseInt(prodqty.getText().toString()), Integer.parseInt(txtprice.getText().toString()), Integer.parseInt(txtprice.getText().toString()), txtimg.getText().toString());
                     }
-
-//                    SharedPreferences.Editor editor1 = pref.edit();
-//                    editor1.putString("fg", "1");
-//                    editor1.apply();
+                    else
+                    {
+                        dbHelper.insertItem(Integer.parseInt(txtid.getText().toString()), Integer.parseInt(txtvarid.getText().toString()), txtvarname.getText().toString(), Integer.parseInt(txtresid.getText().toString()), txtresname.getText().toString(), txtname.getText().toString(), Integer.parseInt(prodqty.getText().toString()), Integer.parseInt(txtprice.getText().toString()), Integer.parseInt(txtprice.getText().toString()), txtimg.getText().toString());
+                    }
 
                     TOTAL = dbHelper.gettotalqty();
                     RATE = dbHelper.gettotalprice();
@@ -193,10 +195,14 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
                         i--;
                         prodqty.setText(String.valueOf(i));
                         int value3 = Integer.parseInt(txtid.getText().toString());
-                        Boolean value4 = dbHelper.checksubid(value3);
+                        int v3 = Integer.parseInt(txtvarid.getText().toString());
+                        Boolean value4 = dbHelper.checksubid(value3, v3);
                         if (value4.equals(true)) {
-                            Cursor rs = dbHelper.getItem(Integer.parseInt(txtid.getText().toString()));
-                            while (rs.moveToNext()) {
+                            Cursor rs = dbHelper.getItem(Integer.parseInt(txtid.getText().toString()), Integer.parseInt(txtvarid.getText().toString()));
+                            while (rs.moveToNext())
+                            {
+                                subvarid = rs.getInt(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_VARID));
+                                subvarname = rs.getString(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_VARNAME));
                                 subresid = rs.getInt(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_RESID));
                                 subresname = rs.getString(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_RESNAME));
                                 subname = rs.getString(rs.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_NAME));
@@ -207,9 +213,9 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
                                 qty = subqty - 1;
                                 price = subprice - Integer.parseInt(txtprice.getText().toString());
                                 if (qty == 0) {
-                                    dbHelper.deleteItem(Integer.parseInt(txtid.getText().toString()));
+                                    dbHelper.deleteItem(Integer.parseInt(txtid.getText().toString()), subvarid);
                                 } else {
-                                    dbHelper.updateItem(value3, subresid, subresname, txtname.getText().toString(), qty, price, itemprice, imgpath);
+                                    dbHelper.updateItem(value3, subvarid, subvarname, subresid, subresname, txtname.getText().toString(), qty, price, itemprice, imgpath);
                                 }
                             }
                         } else {
@@ -218,7 +224,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
                     }
                     else if (i <= 0 || i == 1)
                     {
-                        dbHelper.deleteItem(Integer.parseInt(txtid.getText().toString()));
+                        dbHelper.deleteItem(Integer.parseInt(txtid.getText().toString()), Integer.parseInt(txtvarid.getText().toString()));
                         txtminus.setVisibility(View.GONE);
                         txtplus.setVisibility(View.GONE);
                         prodqty.setVisibility(View.GONE);
@@ -245,17 +251,15 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
     public void passval(int val)
     {
         ((HotelActivity) mContext).setCart(val);
-        //Toast.makeText(mContext, "Val: "+String.valueOf(val), Toast.LENGTH_SHORT).show();
-        //this.fragment.setCart(val);
     }
 
     public void passval1(int val)
     {
         ((HotelActivity) mContext).setCart(val);
-        //this.fragment.setCart(val);
     }
 
-    public void passprice(int val) {
+    public void passprice(int val)
+    {
         //((MenuFragment) fragment).setPrice(val);
     }
 
@@ -274,17 +278,12 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         Items movie = moviesList.get(position);
-
+        holder.txtid.setText(movie.getId());
         holder.txtresid.setText(movie.getResid());
         holder.txtresname.setText(movie.getResname());
         holder.txttype.setText(movie.getType());
         holder.txtname.setText(movie.getName());
         holder.txtdesc.setText(movie.getDescp());
-
-
-
-
-
 
         if(holder.txttype.getText().toString().equals("veg"))
         {
@@ -303,20 +302,21 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
                     .into(holder.image1);
         }
 
+        VnameList = movie.getVname();
+        VPriceList = movie.getVprice();
+        VIdList = movie.getVid();
 
-        VnameList=movie.getVname();
-        VPriceList=movie.getVprice();
-        VIdList=movie.getVid();
 
-
-        if(movie.getVid().size()==0) {
+        if(movie.getVid().size()==0)
+        {
             holder.spinnerPriceVariation.setVisibility(View.GONE);
             holder.txtprice.setText(movie.getPrice());
-            holder.txtid.setText(movie.getId());
-            holder.prodqty.setText(String.valueOf(dbHelper.getQuantity(Integer.parseInt(holder.txtid.getText().toString()))));
+            holder.txtvarname.setText("");
+            holder.txtvarid.setText("0");
+            holder.prodqty.setText(String.valueOf(dbHelper.getQuantity(Integer.parseInt(holder.txtid.getText().toString()),Integer.parseInt(holder.txtvarid.getText().toString()))));
 
 
-            if (dbHelper.getQuantity(Integer.parseInt(holder.txtid.getText().toString())) > 0) {
+            if (dbHelper.getQuantity(Integer.parseInt(holder.txtid.getText().toString()), Integer.parseInt(holder.txtvarid.getText().toString())) > 0) {
                 holder.txtadd.setVisibility(View.GONE);
                 holder.txtminus.setVisibility(View.VISIBLE);
                 holder.txtplus.setVisibility(View.VISIBLE);
@@ -332,12 +332,13 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
         }
         else {
 
-            List<String> Vname =  new ArrayList<String>();
+            final List<String> Vname =  new ArrayList<String>();
             final List<String> VPrice =  new ArrayList<String>();
             final List<String> Vid =  new ArrayList<String>();
             holder.spinnerPriceVariation.setVisibility(View.VISIBLE);
 
-            for(int i=0;i<movie.getVname().size();i++){
+            for(int i=0;i<movie.getVname().size();i++)
+            {
                 Vname.add(VnameList.get(i));
                 VPrice.add(VPriceList.get(i));
                 Vid.add(VIdList.get(i));
@@ -345,27 +346,20 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
 
 
 
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                    mContext, android.R.layout.simple_spinner_item, Vname);
-
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, Vname);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             holder.spinnerPriceVariation.setAdapter(adapter);
 
-
-          //  holder.prodqty.setText(String.valueOf(dbHelper.getQuantity(Integer.parseInt(holder.txtid.getText().toString()))));
-
-
             holder.spinnerPriceVariation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-                  //  Toast.makeText(mContext,String.valueOf(VPriceList.get(i)), Toast.LENGTH_SHORT).show();
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
+                {
                     holder.txtprice.setText(VPrice.get(i));
-                    holder.txtid.setText(Vid.get(i));
-                    holder.prodqty.setText(String.valueOf(dbHelper.getQuantity(Integer.parseInt(holder.txtid.getText().toString()))));
+                    holder.txtvarid.setText(Vid.get(i));
+                    holder.txtvarname.setText(Vname.get(i));
+                    holder.prodqty.setText(String.valueOf(dbHelper.getQuantity(Integer.parseInt(holder.txtid.getText().toString()), Integer.parseInt(holder.txtvarid.getText().toString()))));
 
-
-                    if (dbHelper.getQuantity(Integer.parseInt(holder.txtid.getText().toString())) > 0) {
+                    if (dbHelper.getQuantity(Integer.parseInt(holder.txtid.getText().toString()), Integer.parseInt(holder.txtvarid.getText().toString())) > 0) {
                         holder.txtadd.setVisibility(View.GONE);
                         holder.txtminus.setVisibility(View.VISIBLE);
                         holder.txtplus.setVisibility(View.VISIBLE);
@@ -382,13 +376,14 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
                 }
 
                 @Override
-                public void onNothingSelected(AdapterView<?> adapterView) {
+                public void onNothingSelected(AdapterView<?> adapterView)
+                {
                     holder.txtprice.setText(VPrice.get(0));
-                    holder.txtid.setText(Vid.get(0));
-                    holder.prodqty.setText(String.valueOf(dbHelper.getQuantity(Integer.parseInt(holder.txtid.getText().toString()))));
+                    holder.txtvarid.setText(Vid.get(0));
+                    holder.txtvarname.setText(Vname.get(0));
+                    holder.prodqty.setText(String.valueOf(dbHelper.getQuantity(Integer.parseInt(holder.txtid.getText().toString()), Integer.parseInt(holder.txtvarid.getText().toString()))));
 
-
-                    if (dbHelper.getQuantity(Integer.parseInt(holder.txtid.getText().toString())) > 0) {
+                    if (dbHelper.getQuantity(Integer.parseInt(holder.txtid.getText().toString()), Integer.parseInt(holder.txtvarid.getText().toString())) > 0) {
                         holder.txtadd.setVisibility(View.GONE);
                         holder.txtminus.setVisibility(View.VISIBLE);
                         holder.txtplus.setVisibility(View.VISIBLE);

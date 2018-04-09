@@ -3,6 +3,7 @@ package com.wristcode.deliwala.fragments;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -18,6 +19,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,7 +65,7 @@ public class HomeFragment extends Fragment implements IConstants {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    TextView text1, text2, userlocation, editSearch;
+    TextView text1, text2, txtoffer, userlocation, editSearch;
     RecyclerView menurecycler, offerrecycler;
     private List<Category> categoriesList;
     TagsAdapter adapter;
@@ -98,12 +102,14 @@ public class HomeFragment extends Fragment implements IConstants {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
         text1 = v.findViewById(R.id.text1);
         text2 = v.findViewById(R.id.text2);
+        txtoffer = v.findViewById(R.id.txtoffer);
         userlocation = v.findViewById(R.id.userlocation);
         Typeface font1 = Typeface.createFromAsset(getActivity().getAssets(), "GT-Walsheim-Medium.ttf");
         Typeface font2 = Typeface.createFromAsset(getActivity().getAssets(), "GT-Walsheim-Regular.ttf");
         text1.setTypeface(font1);
         text2.setTypeface(font2);
         userlocation.setTypeface(font2);
+        txtoffer.setTypeface(font2);
         pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         SimpleDateFormat time = new SimpleDateFormat("HH:mm");
@@ -144,7 +150,8 @@ public class HomeFragment extends Fragment implements IConstants {
         userlocation.setText(pref.getString("Address","").toString());
         dh = new ExampleDBHelper(getActivity());
         offerrecycler = v.findViewById(R.id.offerrecycler);
-        //exportDB();
+        //Toast.makeText(getActivity(), String.valueOf(offerrecycler.getTop()), Toast.LENGTH_SHORT).show();
+        exportDB();
         menurecycler = v.findViewById(R.id.menurecycler);
         //categoriesList = new ArrayList<>();
         //prepareAlbums();

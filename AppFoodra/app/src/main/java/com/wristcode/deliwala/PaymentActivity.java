@@ -59,7 +59,7 @@ public class PaymentActivity extends AppCompatActivity implements IConstants
     ExampleDBHelper dh;
     SharedPreferences pref1;
     List<String> arrayId;
-    List<String> arrayPrice;
+    List<String> arrayVarId;
     List<String> arrayQty;
 
     @Override
@@ -89,14 +89,14 @@ public class PaymentActivity extends AppCompatActivity implements IConstants
         pay.setTypeface(font2);
         dh = new ExampleDBHelper(getApplicationContext());
         arrayId = new ArrayList<>();
-        arrayPrice = new ArrayList<>();
+        arrayVarId = new ArrayList<>();
         arrayQty = new ArrayList<>();
 
         Cursor c = dh.getAllItems();
         while (c.moveToNext())
         {
             arrayQty.add(c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_QUANTITY)));
-            arrayPrice.add("");
+            arrayVarId.add(c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_VARID)));
             arrayId.add(c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_ID)));
         }
 
@@ -176,7 +176,7 @@ public class PaymentActivity extends AppCompatActivity implements IConstants
                         .appendQueryParameter("promocode", params[5]);
                 for(int i=0;i<arrayId.size();i++) {
                     builder = builder.appendQueryParameter("items[" + i + "][productId]", arrayId.get(i).toString())
-                      .appendQueryParameter("items[" + i + "][priceVariation]", arrayPrice.get(i).toString())
+                      .appendQueryParameter("items[" + i + "][priceVariation]", arrayVarId.get(i).toString())
                       .appendQueryParameter("items[" + i + "][quantity]", arrayQty.get(i).toString());
                 }
                 String query = builder.build().getEncodedQuery();
@@ -214,6 +214,7 @@ public class PaymentActivity extends AppCompatActivity implements IConstants
         @Override
         protected void onPostExecute(String result)
         {
+            Toast.makeText(PaymentActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
             pdLoading.dismiss();
             try
             {
@@ -276,7 +277,7 @@ public class PaymentActivity extends AppCompatActivity implements IConstants
                         .appendQueryParameter("promocode", params[5]);
                 for(int i=0;i<arrayId.size();i++) {
                     builder = builder.appendQueryParameter("items[" + i + "][productId]", arrayId.get(i).toString())
-                            .appendQueryParameter("items[" + i + "][priceVariation]", arrayPrice.get(i).toString())
+                            .appendQueryParameter("items[" + i + "][priceVariation]", arrayVarId.get(i).toString())
                             .appendQueryParameter("items[" + i + "][quantity]", arrayQty.get(i).toString());
                 }
                 String query = builder.build().getEncodedQuery();
@@ -329,9 +330,6 @@ public class PaymentActivity extends AppCompatActivity implements IConstants
                     editor1.apply();
 
                     pay.setText("PAY ₹ "+(dh.gettotalprice() - Integer.valueOf(pref1.getString("PromoAmount", "").toString())));
-//                    Intent i = new Intent(PaymentActivity.this, OrderConfirmActivity.class);
-//                    startActivity(i);
-//                    finish();
                 }
 
             }

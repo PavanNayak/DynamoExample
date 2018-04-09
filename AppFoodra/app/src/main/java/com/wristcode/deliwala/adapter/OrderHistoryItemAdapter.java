@@ -58,7 +58,7 @@ public class OrderHistoryItemAdapter extends RecyclerView.Adapter<OrderHistoryIt
     public void onBindViewHolder(MyViewHolder holder, int position)
     {
         OrderHistoryItems movie = moviesList.get(position);
-        holder.itemname.setText(movie.getOhItemname());
+        holder.itemname.setText(movie.getOhItemname()+ " "+ movie.getOhItemvariation());
         holder.itemprice.setText("₹ "+movie.getOhItemprice());
         holder.itemqty.setText("X"+movie.getOhItemqty());
 

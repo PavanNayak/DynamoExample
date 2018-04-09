@@ -54,7 +54,7 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.MyViewHo
             radiobutton = view.findViewById(R.id.radiobutton);
             pref = PreferenceManager.getDefaultSharedPreferences(mContext);
             SharedPreferences.Editor editor = pref.edit();
-            editor.putString("PaymentType", "COD");
+            editor.putString("PaymentType", "cod");
             editor.apply();
 
             radiobutton.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +71,7 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.MyViewHo
                     else
                     {
                         SharedPreferences.Editor editor = pref.edit();
-                        editor.putString("PaymentType", "COD");
+                        editor.putString("PaymentType", "cod");
                         editor.apply();
                     }
                     payimg.setColorFilter(Color.parseColor("#DC143C"));

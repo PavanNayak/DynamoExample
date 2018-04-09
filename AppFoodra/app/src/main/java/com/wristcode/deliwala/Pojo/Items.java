@@ -10,9 +10,9 @@ import java.util.List;
 public class Items {
 
     public String id, resid, resname, type, name, price, descp;
-    public List<String> vid=new ArrayList<>();
-    public List<String>vname=new ArrayList<>();
-    public List<String> vprice=new ArrayList<>();
+    public List<String> vid = new ArrayList<>();
+    public List<String>vname = new ArrayList<>();
+    public List<String> vprice = new ArrayList<>();
     int image;
 
     public Items() {}

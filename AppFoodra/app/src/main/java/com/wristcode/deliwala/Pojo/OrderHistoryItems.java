@@ -6,7 +6,7 @@ package com.wristcode.deliwala.Pojo;
 
 public class OrderHistoryItems
 {
-    public String ohItemname, ohItemqty, ohItemprice;
+    public String ohItemname, ohItemqty, ohItemprice, ohItemvariation;
 
     public String getOhItemname() {
         return ohItemname;
@@ -30,5 +30,13 @@ public class OrderHistoryItems
 
     public void setOhItemprice(String ohItemprice) {
         this.ohItemprice = ohItemprice;
+    }
+
+    public String getOhItemvariation() {
+        return ohItemvariation;
+    }
+
+    public void setOhItemvariation(String ohItemvariation) {
+        this.ohItemvariation = ohItemvariation;
     }
 }

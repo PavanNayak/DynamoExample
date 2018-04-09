@@ -37,7 +37,7 @@ public class HotelActivity extends AppCompatActivity
     int flag = 0;
     private FragmentManager fragmentManager;
     SharedPreferences preferences;
-    public  String id,name,descp,img,isOpen,pop,address;
+    public  String id, name, descp, img, isOpen, pop, address;
     TextView txttitle, cartbadge;
     FrameLayout itemcart;
     ExampleDBHelper dh;
@@ -48,6 +48,7 @@ public class HotelActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hotel);
+        preferences = PreferenceManager.getDefaultSharedPreferences(HotelActivity.this);
         txttitle = (TextView) findViewById(R.id.txttitle);
         cartbadge = (TextView) findViewById(R.id.cartbadge);
         itemcart = (FrameLayout) findViewById(R.id.itemcart);
@@ -58,7 +59,6 @@ public class HotelActivity extends AppCompatActivity
         {
             //layoutInner.setVisibility(View.VISIBLE);
             cartbadge.setText(String.valueOf(dh.gettotalqty()));
-
         }
         else
         {
@@ -68,25 +68,35 @@ public class HotelActivity extends AppCompatActivity
         setupNavigationView();
 
 
-        id = getIntent().getStringExtra("id").toString();
-        name = getIntent().getStringExtra("name").toString();
-        descp = getIntent().getStringExtra("descp").toString();
-        img = getIntent().getStringExtra("img").toString();
-        isOpen = getIntent().getStringExtra("isOpen").toString();
-        pop = getIntent().getStringExtra("pop").toString();
-        address = getIntent().getStringExtra("address").toString();
+//        id = getIntent().getStringExtra("id").toString();
+//        name = getIntent().getStringExtra("name").toString();
+//        descp = getIntent().getStringExtra("descp").toString();
+//        img = getIntent().getStringExtra("img").toString();
+//        isOpen = getIntent().getStringExtra("isOpen").toString();
+//        pop = getIntent().getStringExtra("pop").toString();
+//        address = getIntent().getStringExtra("address").toString();
+
+        id = preferences.getString("id", "").toString();
+        name = preferences.getString("name", "").toString();
+        descp = preferences.getString("descp", "").toString();
+        img = preferences.getString("img", "").toString();
+        isOpen = preferences.getString("isOpen", "").toString();
+        pop = preferences.getString("pop", "").toString();
+        address = preferences.getString("address", "").toString();
+
+
 
         //Toast.makeText(this,String.valueOf(id), Toast.LENGTH_SHORT).show();
 
-        preferences = PreferenceManager.getDefaultSharedPreferences(HotelActivity.this);
-        SharedPreferences.Editor editor1 = preferences.edit();
-        editor1.putString("id",id);
-        editor1.putString("name",name);
-        editor1.putString("img",img);
-        editor1.putString("isOpen",isOpen);
-        editor1.putString("pop",pop);
-        editor1.putString("address",address);
-        editor1.apply();
+
+//        SharedPreferences.Editor editor1 = preferences.edit();
+//        editor1.putString("id",id);
+//        editor1.putString("name",name);
+//        editor1.putString("img",img);
+//        editor1.putString("isOpen",isOpen);
+//        editor1.putString("pop",pop);
+//        editor1.putString("address",address);
+//        editor1.apply();
 
         txttitle.setText(preferences.getString("name", "").toString());
         txttitle.setTypeface(font);
