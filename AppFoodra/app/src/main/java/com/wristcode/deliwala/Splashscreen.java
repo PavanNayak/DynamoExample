@@ -1,5 +1,6 @@
 package com.wristcode.deliwala;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
@@ -30,7 +31,7 @@ public class Splashscreen extends AppCompatActivity {
             @Override
             public void run()
             {
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(Splashscreen.this);
+                SharedPreferences preferences = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                 String refreshedToken = FirebaseInstanceId.getInstance().getToken();
                 SharedPreferences.Editor editor1 = preferences.edit();
                 editor1.putString("tokenId",refreshedToken);

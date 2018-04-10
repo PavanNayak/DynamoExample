@@ -1,6 +1,7 @@
 package com.wristcode.deliwala.fragments;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
@@ -61,6 +62,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class HomeFragment extends Fragment implements IConstants {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -110,7 +113,7 @@ public class HomeFragment extends Fragment implements IConstants {
         text2.setTypeface(font2);
         userlocation.setTypeface(font2);
         txtoffer.setTypeface(font2);
-        pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        pref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
 
         SimpleDateFormat time = new SimpleDateFormat("HH:mm");
         Date slot1 = null;

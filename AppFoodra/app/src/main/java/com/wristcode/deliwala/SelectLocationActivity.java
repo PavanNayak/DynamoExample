@@ -110,7 +110,7 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
 
         housenumber = (EditText) findViewById(R.id.housenumber);
         landmark = (EditText) findViewById(R.id.landmark);
-        pref1 = PreferenceManager.getDefaultSharedPreferences(SelectLocationActivity.this);
+        pref1 = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         housenumber.setText(pref1.getString("HouseNumber", "").toString());
         landmark.setText(pref1.getString("Landmark", "").toString());
     }
@@ -273,7 +273,7 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
                     linear1.setVisibility(View.GONE);
 
                     String fulladdress = housenumber.getText().toString().trim() + ", " + landmark.getText().toString().trim() + ", " + mAddress.getText().toString().trim();
-                    SharedPreferences preferences1 = PreferenceManager.getDefaultSharedPreferences(SelectLocationActivity.this);
+                    SharedPreferences preferences1 = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor1 = preferences1.edit();
                     editor1.putString("HouseNumber", housenumber.getText().toString().trim());
                     editor1.putString("Landmark", landmark.getText().toString().trim());
@@ -328,7 +328,7 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
         else
         {
             String fulladdress = housenumber.getText().toString().trim() + ", " + landmark.getText().toString().trim() + ", " + mAddress.getText().toString().trim();
-            SharedPreferences preferences1 = PreferenceManager.getDefaultSharedPreferences(SelectLocationActivity.this);
+            SharedPreferences preferences1 = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor1 = preferences1.edit();
             editor1.putString("HouseNumber", housenumber.getText().toString().trim());
             editor1.putString("Landmark", landmark.getText().toString().trim());
@@ -345,7 +345,7 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
         if (houseno.getText().toString().matches("") || streetname.getText().toString().matches("")) {
             Toast.makeText(this, "House Number and Street Name are Mandatory!!!", Toast.LENGTH_SHORT).show();
         } else {
-            SharedPreferences preferences1 = PreferenceManager.getDefaultSharedPreferences(SelectLocationActivity.this);
+            SharedPreferences preferences1 = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor1 = preferences1.edit();
             editor1.putString("Address", houseno.getText().toString().trim() + ",_" + streetname.getText().toString().trim() + ",_" + spinner.getSelectedItem().toString().trim());
             editor1.apply();
@@ -434,7 +434,7 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
                 JSONObject jsonObject = new JSONObject(result);
                 if (jsonObject.getString("status").equals("true"))
                 {
-                    SharedPreferences p1 = PreferenceManager.getDefaultSharedPreferences(SelectLocationActivity.this);
+                    SharedPreferences p1 = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor1 = p1.edit();
                     editor1.putString("AddressId", jsonObject.getString("addressId").toString());
                     editor1.apply();

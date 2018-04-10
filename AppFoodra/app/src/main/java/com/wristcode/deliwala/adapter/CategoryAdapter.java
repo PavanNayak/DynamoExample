@@ -71,7 +71,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
             relative = view.findViewById(R.id.relative);
             catimg = view.findViewById(R.id.catimg);
             radiobutton = view.findViewById(R.id.radiobutton);
-            pref = PreferenceManager.getDefaultSharedPreferences(mContext);
+            pref = mContext.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
             lastSelectedPosition = Integer.valueOf(pref.getString("Tagpos","").toString());
 
             radiobutton.setOnClickListener(new View.OnClickListener() {

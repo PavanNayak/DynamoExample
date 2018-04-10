@@ -62,7 +62,7 @@ public class OTPActivity extends AppCompatActivity implements IConstants {
         tvresendotp = (TextView) findViewById(R.id.resendotp);
         valueotp = (EditText) findViewById(R.id.valueotp);
         btn_verify = (Button) findViewById(R.id.btn_verify);
-        pref = PreferenceManager.getDefaultSharedPreferences(OTPActivity.this);
+        pref = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         inputotp = pref.getString("Otp", "").toString();
         tvsubtitle.setText("Sit back and relax, we'll verify your mobile number "+ pref.getString("PhoneNo", "").toString());
 
@@ -85,7 +85,7 @@ public class OTPActivity extends AppCompatActivity implements IConstants {
                 {
                     if (inputotp.equals(valueotp.getText().toString()))
                     {
-                        SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(OTPActivity.this);
+                        SharedPreferences pref1 = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor1 = pref1.edit();
                         editor1.putString("flag", "1");
                         editor1.apply();
@@ -288,7 +288,7 @@ public class OTPActivity extends AppCompatActivity implements IConstants {
                     for (int i = 0; i < jArray.length(); i++)
                     {
                         JSONObject json_data = jArray.getJSONObject(i);
-                        SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(OTPActivity.this);
+                        SharedPreferences pref1 = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor1 = pref1.edit();
                         editor1.putString("Name", json_data.getString("username"));
                         editor1.putString("Email", json_data.getString("email"));

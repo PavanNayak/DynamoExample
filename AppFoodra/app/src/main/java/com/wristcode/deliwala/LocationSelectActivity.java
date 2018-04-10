@@ -363,7 +363,7 @@ public class LocationSelectActivity extends AppCompatActivity implements TextWat
 
 //                    if (getIntent().getStringExtra("flag").equals("activity")) {
                         //Toast.makeText(LocationSelectActivity.this,to1.toString(), Toast.LENGTH_SHORT).show();
-                        SharedPreferences preferences1 = PreferenceManager.getDefaultSharedPreferences(LocationSelectActivity.this);
+                        SharedPreferences preferences1 = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor1 = preferences1.edit();
                         editor1.putString("Latitude", String.valueOf(latitude));
                         editor1.putString("Longitiude", String.valueOf(longitude));

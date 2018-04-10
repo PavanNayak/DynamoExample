@@ -1,6 +1,7 @@
 package com.wristcode.deliwala.fragments;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -43,6 +44,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.Context.MODE_PRIVATE;
+
 /**
  * Created by Ajay Jagadish on 28-Feb-18.
  */
@@ -78,7 +81,7 @@ public class ReviewsFragment extends Fragment implements IConstants
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_reviews, container, false);
-        pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        pref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         recyclerReview = v.findViewById(R.id.recyclerReview);
         reviewsList = new ArrayList<>();
 //        prepareAlbums();

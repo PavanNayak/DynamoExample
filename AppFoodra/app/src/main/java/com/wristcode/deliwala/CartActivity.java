@@ -1,5 +1,6 @@
 package com.wristcode.deliwala;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -52,7 +53,7 @@ public class CartActivity extends AppCompatActivity {
         txtinstruction = (EditText) findViewById(R.id.txtinstruction);
         placeorder = (Button) findViewById(R.id.placeorder);
         btnordernow = (Button) findViewById(R.id.btnordernow);
-        pref = PreferenceManager.getDefaultSharedPreferences(CartActivity.this);
+        pref = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         Typeface font = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Medium.ttf");
         Typeface font1 = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Regular.ttf");
         txttitle.setTypeface(font);

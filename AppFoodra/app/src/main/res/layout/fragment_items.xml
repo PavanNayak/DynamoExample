@@ -37,5 +37,25 @@
 
     </android.support.v7.widget.RecyclerView>
 
+    <ImageView
+        android:id="@+id/imgveg"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/diet"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/txtveg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No Veg Items"
+        android:layout_below="@+id/imgveg"
+        android:gravity="center"
+        android:textColor="#C0C0C0"
+        android:layout_margin="10dp"
+        android:textSize="18sp"
+        android:visibility="gone"/>
+
 
 </RelativeLayout>

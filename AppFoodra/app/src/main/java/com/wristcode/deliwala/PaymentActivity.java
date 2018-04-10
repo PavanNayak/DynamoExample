@@ -1,6 +1,7 @@
 package com.wristcode.deliwala;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -76,7 +77,7 @@ public class PaymentActivity extends AppCompatActivity implements IConstants
         applypromo = findViewById(R.id.applypromo);
         txtapplypromo = findViewById(R.id.txtapplypromo);
         pay = findViewById(R.id.pay);
-        pref1 = PreferenceManager.getDefaultSharedPreferences(PaymentActivity.this);
+        pref1 = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         Typeface font1 = Typeface.createFromAsset(getAssets(),"GT-Walsheim-Medium.ttf");
         Typeface font2 = Typeface.createFromAsset(getAssets(),"GT-Walsheim-Regular.ttf");
         txttotal.setTypeface(font1);
@@ -214,7 +215,6 @@ public class PaymentActivity extends AppCompatActivity implements IConstants
         @Override
         protected void onPostExecute(String result)
         {
-            Toast.makeText(PaymentActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
             pdLoading.dismiss();
             try
             {
@@ -315,7 +315,6 @@ public class PaymentActivity extends AppCompatActivity implements IConstants
         @Override
         protected void onPostExecute(String result)
         {
-            Toast.makeText(PaymentActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
             pdLoading.dismiss();
             try
             {

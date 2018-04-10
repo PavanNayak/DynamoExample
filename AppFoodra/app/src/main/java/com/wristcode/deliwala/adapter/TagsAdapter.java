@@ -72,7 +72,7 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.MyViewHolder>
             relative = view.findViewById(R.id.relative);
             catimg = view.findViewById(R.id.catimg);
             radiobutton = view.findViewById(R.id.radiobutton);
-            pref = PreferenceManager.getDefaultSharedPreferences(mContext);
+            pref = mContext.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
 
             radiobutton.setOnClickListener(new View.OnClickListener()
             {

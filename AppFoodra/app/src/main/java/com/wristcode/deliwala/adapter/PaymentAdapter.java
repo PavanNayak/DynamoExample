@@ -52,7 +52,7 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.MyViewHo
             relative = view.findViewById(R.id.relative);
             payimg = view.findViewById(R.id.payimg);
             radiobutton = view.findViewById(R.id.radiobutton);
-            pref = PreferenceManager.getDefaultSharedPreferences(mContext);
+            pref = mContext.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = pref.edit();
             editor.putString("PaymentType", "cod");
             editor.apply();

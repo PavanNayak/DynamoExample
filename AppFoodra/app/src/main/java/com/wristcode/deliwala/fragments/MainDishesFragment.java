@@ -1,6 +1,7 @@
 package com.wristcode.deliwala.fragments;
 
 import android.annotation.SuppressLint;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -40,6 +42,8 @@ public class MainDishesFragment extends Fragment
     ArrayList<String> menuItem;
     LinearLayout layoutveg;
     Switch vegonly;
+    ImageView imgveg;
+    TextView txtveg;
 
     public MainDishesFragment() {}
 
@@ -58,7 +62,11 @@ public class MainDishesFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_items, container, false);
         layoutveg = v.findViewById(R.id.layoutveg);
+        imgveg = v.findViewById(R.id.imgveg);
+        txtveg = v.findViewById(R.id.txtveg);
         vegonly = v.findViewById(R.id.simpleSwitch);
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "GT-Walsheim-Medium.ttf");
+        txtveg.setTypeface(font);
         vegonly.setChecked(false);
         try
         {
@@ -120,15 +128,28 @@ public class MainDishesFragment extends Fragment
                 {
                     if (vegonly.isChecked())
                     {
-                        adapter = new ItemsAdapter(getActivity(), vegList, frag);
-                        recyclerMenu.setLayoutManager(new LinearLayoutManager(getActivity()));
-                        recyclerMenu.setNestedScrollingEnabled(false);
-                        recyclerMenu.setFocusable(false);
-                        recyclerMenu.setAdapter(adapter);
-                        adapter.notifyDataSetChanged();
+                        if(vegList.isEmpty())
+                        {
+                            recyclerMenu.setVisibility(View.GONE);
+                            imgveg.setVisibility(View.VISIBLE);
+                            txtveg.setVisibility(View.VISIBLE);
+                        }
+                        else
+                        {
+                            adapter = new ItemsAdapter(getActivity(), vegList, frag);
+                            recyclerMenu.setLayoutManager(new LinearLayoutManager(getActivity()));
+                            recyclerMenu.setNestedScrollingEnabled(false);
+                            recyclerMenu.setFocusable(false);
+                            recyclerMenu.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
+                        }
+
                     }
                     else
                     {
+                        imgveg.setVisibility(View.GONE);
+                        txtveg.setVisibility(View.GONE);
+                        recyclerMenu.setVisibility(View.VISIBLE);
                         adapter = new ItemsAdapter(getActivity(), categoriesList, frag);
                         recyclerMenu.setLayoutManager(new LinearLayoutManager(getActivity()));
                         recyclerMenu.setNestedScrollingEnabled(false);

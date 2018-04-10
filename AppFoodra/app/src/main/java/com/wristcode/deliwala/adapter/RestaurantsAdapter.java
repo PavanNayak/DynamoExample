@@ -62,7 +62,7 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             ratingBar = view.findViewById(R.id.ratingBar);
             image = view.findViewById(R.id.image);
             relativehotel = view.findViewById(R.id.relativehotel);
-            pref = PreferenceManager.getDefaultSharedPreferences(mContext);
+            pref = mContext.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         }
     }
 

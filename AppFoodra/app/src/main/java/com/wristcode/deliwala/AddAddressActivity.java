@@ -1,6 +1,7 @@
 package com.wristcode.deliwala;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -68,14 +69,14 @@ public class AddAddressActivity extends AppCompatActivity
         titletext.setTypeface(font);
         txttitleadd.setTypeface(font);
         addAddress.setTypeface(font1);
-        preferences1 = PreferenceManager.getDefaultSharedPreferences(AddAddressActivity.this);
+        preferences1 = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         new AsyncAddress().execute(preferences1.getString("Id", "").toString());
 
         txtaddaddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
-                SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(AddAddressActivity.this);
+                SharedPreferences pref1 = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor1 = pref1.edit();
                 editor1.putString("AddressFlag", "0");
                 editor1.apply();
@@ -94,7 +95,8 @@ public class AddAddressActivity extends AppCompatActivity
                 {
                     Toast.makeText(AddAddressActivity.this, "Please select an address..", Toast.LENGTH_SHORT).show();
                 }
-                else {
+                else
+                {
                     Intent i = new Intent(AddAddressActivity.this, PaymentActivity.class);
                     startActivity(i);
                     finish();

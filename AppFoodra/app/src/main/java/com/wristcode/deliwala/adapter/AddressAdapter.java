@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -58,8 +59,8 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
     public static final int READ_TIMEOUT = 15000;
     private List<Address> moviesList;
     private Context mContext;
-    private int lastSelectedPosition = 0;
-    SharedPreferences pref;
+    private int lastSelectedPosition = -1;
+    SharedPreferences preference;
 
     public class MyViewHolder extends RecyclerView.ViewHolder
     {
@@ -82,27 +83,49 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
             txtdelete = (TextView) view.findViewById(R.id.txtdelete);
             raddress = (RadioButton) view.findViewById(R.id.raddress);
             imgadd = (ImageView) view.findViewById(R.id.imgadd);
-            pref = PreferenceManager.getDefaultSharedPreferences(mContext);
-            SharedPreferences.Editor editor1 = pref.edit();
-            editor1.putString("AddressId", txtid.getText().toString());
-            editor1.putString("Address", txtaddress.getText().toString());
-            editor1.putString("Latitude", txtlat.getText().toString());
-            editor1.putString("Longitiude", txtlong.getText().toString());
-            editor1.apply();
+            preference = mContext.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
 
             raddress.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v)
                 {
                     lastSelectedPosition = getAdapterPosition();
-                    SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(mContext);
-                    SharedPreferences.Editor editor1 = pref1.edit();
-                    editor1.putString("AddressId", txtid.getText().toString());
-                    editor1.putString("Address", txtaddress.getText().toString());
-                    editor1.putString("Latitude", txtlat.getText().toString());
-                    editor1.putString("Longitiude", txtlong.getText().toString());
-                    editor1.apply();
                     notifyDataSetChanged();
+                    SharedPreferences pref1 = mContext.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor2 = pref1.edit();
+                    editor2.putString("AddressId", txtid.getText().toString());
+                    editor2.putString("Address", txtaddress.getText().toString());
+                    editor2.putString("Latitude", txtlat.getText().toString());
+                    editor2.putString("Longitiude", txtlong.getText().toString());
+                    editor2.apply();
+                }
+            });
+
+            txtedit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v)
+                {
+                    SharedPreferences pref2 = mContext.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor1 = pref2.edit();
+                    editor1.putString("AddressFlag", "1");
+                    editor1.putString("AddressType", txttype.getText().toString());
+                    editor1.putString("Address", txtaddress.getText().toString());
+                    editor1.putString("AddressId", txtid.getText().toString());
+                    editor1.apply();
+
+                    Intent i = new Intent(mContext, AddressActivity.class);
+                    i.putExtra("MESSAGE", "");
+                    i.putExtra("FLAG", "1");
+                    mContext.startActivity(i);
+                }
+            });
+
+            txtdelete.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    new AsyncRemoveAddress().execute(preference.getString("Id","").toString(), txtid.getText().toString());
                 }
             });
         }
@@ -122,9 +145,9 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position)
+    public void onBindViewHolder(MyViewHolder holder, int position)
     {
-        Address movie = moviesList.get(position);
+        final Address movie = moviesList.get(position);
         holder.txtid.setText(movie.getUserid());
         holder.txtname.setText(movie.getUsername());
         holder.txttype.setText(movie.getUseraddtype());
@@ -155,37 +178,10 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
 
         holder.raddress.setChecked(lastSelectedPosition == position);
 
-        SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(mContext);
-        SharedPreferences.Editor editor1 = pref1.edit();
+        SharedPreferences pref = mContext.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor1 = pref.edit();
         editor1.putString("Position", String.valueOf(lastSelectedPosition));
-        editor1.putString("AddressType", holder.txttype.getText().toString());
-        editor1.putString("Address", holder.txtaddress.getText().toString());
-        editor1.putString("AddressId", holder.txtid.getText().toString());
         editor1.apply();
-
-        holder.txtedit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(mContext);
-                SharedPreferences.Editor editor1 = pref1.edit();
-                editor1.putString("AddressFlag", "1");
-                editor1.apply();
-
-                Intent i = new Intent(mContext, AddressActivity.class);
-                i.putExtra("MESSAGE", "");
-                i.putExtra("FLAG", "1");
-                mContext.startActivity(i);
-            }
-        });
-
-        holder.txtdelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                new AsyncRemoveAddress().execute(pref.getString("Id","").toString(), pref.getString("AddressId","").toString());
-            }
-        });
     }
 
     @Override

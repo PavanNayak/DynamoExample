@@ -1,5 +1,6 @@
 package com.wristcode.deliwala.fragments;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -14,6 +15,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.wristcode.deliwala.R;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by Ajay Jagadish on 09-Mar-18.
@@ -44,7 +47,7 @@ public class ProfileFragment extends Fragment {
         txtemail = v.findViewById(R.id.txtemail);
         address = v.findViewById(R.id.address);
         txtaddress = v.findViewById(R.id.txtaddress);
-        pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        pref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
 
         Typeface font = Typeface.createFromAsset(getActivity().getAssets(),"GT-Walsheim-Medium.ttf");
         Typeface font1 = Typeface.createFromAsset(getActivity().getAssets(),"GT-Walsheim-Regular.ttf");

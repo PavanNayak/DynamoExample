@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity implements IConstants {
         txtphone = findViewById(R.id.txtphone);
         valuephone = findViewById(R.id.valuephone);
         verifyButton = findViewById(R.id.verifyButton);
-        pref = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+        pref = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         Typeface font = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Bold.ttf");
         Typeface font1 = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Regular.ttf");
         txtwelcome.setTypeface(font);
@@ -69,7 +69,7 @@ public class LoginActivity extends AppCompatActivity implements IConstants {
         valuephone.setTypeface(font1);
         verifyButton.setTypeface(font1);
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor1 = preferences.edit();
         editor1.putString("fg","0");
         editor1.apply();
@@ -187,7 +187,7 @@ public class LoginActivity extends AppCompatActivity implements IConstants {
                 if (jsonObject.getString("status").equals("true"))
                 {
                     JSONObject jsonObject1 = jsonObject.getJSONObject("data");
-                    SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+                    SharedPreferences pref1 = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor1 = pref1.edit();
                     editor1.putString("UserType", jsonObject.getString("type").toString());
                     editor1.putString("Otp", jsonObject1.getString("otp").toString());

@@ -71,7 +71,7 @@ public class LoginDetailsActivity extends AppCompatActivity implements IConstant
         txtwelcome = findViewById(R.id.txtwelcome);
         txtsignin = findViewById(R.id.txtsignin);
         verifyButton = findViewById(R.id.verifyButton);
-        pref = PreferenceManager.getDefaultSharedPreferences(LoginDetailsActivity.this);
+        pref = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         Typeface font = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Bold.ttf");
         Typeface font1 = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Regular.ttf");
         txtwelcome.setTypeface(font);
@@ -124,7 +124,7 @@ public class LoginDetailsActivity extends AppCompatActivity implements IConstant
             imageLoader = CustomVolleyRequest.getInstance(this.getApplicationContext()).getImageLoader();
             valueusername.setText(acct.getDisplayName().toString());
             valueemail.setText(acct.getEmail().toString());
-            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(LoginDetailsActivity.this);
+            SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = pref.edit();
             editor.putString("Name", acct.getDisplayName());
             editor.putString("Email", acct.getEmail());
@@ -148,7 +148,7 @@ public class LoginDetailsActivity extends AppCompatActivity implements IConstant
             }
             else
             {
-                SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(LoginDetailsActivity.this);
+                SharedPreferences pref1 = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = pref1.edit();
                 editor.putString("Name", valueusername.getText().toString());
                 editor.putString("Email", valueemail.getText().toString());
@@ -242,7 +242,7 @@ public class LoginDetailsActivity extends AppCompatActivity implements IConstant
                 {
                     JSONObject jsonObject1 = jsonObject.getJSONObject("data");
 
-                    SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(LoginDetailsActivity.this);
+                    SharedPreferences pref1 = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor1 = pref1.edit();
                     editor1.putString("Id", jsonObject1.getString("apiKey").toString());
                     editor1.apply();

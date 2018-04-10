@@ -83,7 +83,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
             spinnerPriceVariation = (Spinner) view.findViewById(R.id.spinnerPriceVariation);
             fragment = new MenuFragment();
             dbHelper = new ExampleDBHelper(mContext);
-            pref = PreferenceManager.getDefaultSharedPreferences(mContext);
+            pref = mContext.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         }
 
         @Override

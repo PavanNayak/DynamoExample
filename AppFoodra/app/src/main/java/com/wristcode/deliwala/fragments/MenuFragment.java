@@ -1,6 +1,7 @@
 package com.wristcode.deliwala.fragments;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -44,6 +45,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.Context.MODE_PRIVATE;
 import static com.wristcode.deliwala.SelectLocationActivity.READ_TIMEOUT;
 import static com.wristcode.deliwala.adapter.RestaurantsAdapter.CONNECTION_TIMEOUT;
 
@@ -85,7 +87,7 @@ public class MenuFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_menu, container, false);
 
 
-        preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        preferences = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
 
         layoutInner = (FrameLayout) v.findViewById(R.id.layoutInner);
         fab = (FloatingActionButton) v.findViewById(R.id.fab);

@@ -1,5 +1,6 @@
 package com.wristcode.deliwala;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -48,7 +49,7 @@ public class HotelActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hotel);
-        preferences = PreferenceManager.getDefaultSharedPreferences(HotelActivity.this);
+        preferences = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         txttitle = (TextView) findViewById(R.id.txttitle);
         cartbadge = (TextView) findViewById(R.id.cartbadge);
         itemcart = (FrameLayout) findViewById(R.id.itemcart);

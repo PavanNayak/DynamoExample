@@ -1,6 +1,7 @@
 package com.wristcode.deliwala.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -16,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.wristcode.deliwala.R;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class OverviewFragment extends Fragment
 {
@@ -61,7 +64,7 @@ public class OverviewFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View v= inflater.inflate(R.layout.fragment_overview, container, false);
-        pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        pref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         txthotelname = v.findViewById(R.id.txthotelname);
         txtlocation = v.findViewById(R.id.txtlocation);
         txtdesc = v.findViewById(R.id.txtdesc);

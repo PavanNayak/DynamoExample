@@ -1,5 +1,6 @@
 package com.wristcode.deliwala;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -31,7 +32,7 @@ public class OrderConfirmActivity extends AppCompatActivity
         txtorder = (TextView) findViewById(R.id.txtorder);
         txtorder1 = (TextView) findViewById(R.id.txtorder1);
         trackorder = (Button) findViewById(R.id.trackorder);
-        pref = PreferenceManager.getDefaultSharedPreferences(OrderConfirmActivity.this);
+        pref = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         dh = new ExampleDBHelper(OrderConfirmActivity.this);
         Typeface font1 = Typeface.createFromAsset(getAssets(),"GT-Walsheim-Medium.ttf");
         Typeface font2 = Typeface.createFromAsset(getAssets(),"GT-Walsheim-Regular.ttf");

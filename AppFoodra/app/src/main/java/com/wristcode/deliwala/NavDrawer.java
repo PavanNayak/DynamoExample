@@ -1,5 +1,6 @@
 package com.wristcode.deliwala;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -154,11 +155,14 @@ public class NavDrawer extends AppCompatActivity implements DuoMenuView.OnMenuCl
                 {
                     @Override
                     public void onResult(Status status) {
-                        SharedPreferences preferences1 = PreferenceManager.getDefaultSharedPreferences(NavDrawer.this);
+                        SharedPreferences preferences1 = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor1 = preferences1.edit();
                         editor1.putString("flag", "0");
                         editor1.apply();
                         dh.deleteAllData();
+
+                        SharedPreferences settings = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+                        settings.edit().clear().apply();
                         Toast.makeText(getApplicationContext(), "Logged Out", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(NavDrawer.this, LoginActivity.class);
                         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

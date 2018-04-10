@@ -73,7 +73,7 @@ public class AddressActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_address);
-        pref1 = PreferenceManager.getDefaultSharedPreferences(AddressActivity.this);
+        pref1 = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         txtdelivery = (TextView) findViewById(R.id.txtdelivery);
         txtfulladdress = (TextView) findViewById(R.id.txtfulladdress);
         txtaddress = (TextView) findViewById(R.id.txtaddress);
@@ -121,7 +121,7 @@ public class AddressActivity extends AppCompatActivity
                 imgothers.setColorFilter(Color.parseColor("#C0C0C0"));
                 txtothers.setTextColor(Color.parseColor("#C0C0C0"));
 
-                SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(AddressActivity.this);
+                SharedPreferences pref1 = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor1 = pref1.edit();
                 editor1.putString("AddressType", "Home");
                 editor1.apply();
@@ -135,7 +135,7 @@ public class AddressActivity extends AppCompatActivity
                 imgothers.setColorFilter(Color.parseColor("#C0C0C0"));
                 txtothers.setTextColor(Color.parseColor("#C0C0C0"));
 
-                SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(AddressActivity.this);
+                SharedPreferences pref1 = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor1 = pref1.edit();
                 editor1.putString("AddressType", "Work");
                 editor1.apply();
@@ -149,7 +149,7 @@ public class AddressActivity extends AppCompatActivity
                 imgothers.setColorFilter(Color.parseColor("#DC143C"));
                 txtothers.setTextColor(Color.parseColor("#DC143C"));
 
-                SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(AddressActivity.this);
+                SharedPreferences pref1 = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor1 = pref1.edit();
                 editor1.putString("AddressType", "Others");
                 editor1.apply();
@@ -167,7 +167,7 @@ public class AddressActivity extends AppCompatActivity
                 imgothers.setColorFilter(Color.parseColor("#C0C0C0"));
                 txtothers.setTextColor(Color.parseColor("#C0C0C0"));
 
-                SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(AddressActivity.this);
+                SharedPreferences pref1 = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor1 = pref1.edit();
                 editor1.putString("AddressType", "Home");
                 editor1.apply();
@@ -185,7 +185,7 @@ public class AddressActivity extends AppCompatActivity
                 imgothers.setColorFilter(Color.parseColor("#C0C0C0"));
                 txtothers.setTextColor(Color.parseColor("#C0C0C0"));
 
-                SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(AddressActivity.this);
+                SharedPreferences pref1 = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor1 = pref1.edit();
                 editor1.putString("AddressType", "Work");
                 editor1.apply();
@@ -203,7 +203,7 @@ public class AddressActivity extends AppCompatActivity
                 imgothers.setColorFilter(Color.parseColor("#DC143C"));
                 txtothers.setTextColor(Color.parseColor("#DC143C"));
 
-                SharedPreferences pref1 = PreferenceManager.getDefaultSharedPreferences(AddressActivity.this);
+                SharedPreferences pref1 = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor1 = pref1.edit();
                 editor1.putString("AddressType", "Others");
                 editor1.apply();
@@ -229,7 +229,7 @@ public class AddressActivity extends AppCompatActivity
             {
                 String fulladdress = txtflatno.getText().toString()+", "+txtlandmark.getText().toString()+", "+txtaddress.getText().toString();
 
-                SharedPreferences preferences1 = PreferenceManager.getDefaultSharedPreferences(AddressActivity.this);
+                SharedPreferences preferences1 = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor1 = preferences1.edit();
                 editor1.putString("Address", fulladdress.toString());
                 editor1.putString("Latitude", String.valueOf(latitude));
@@ -293,7 +293,7 @@ public class AddressActivity extends AppCompatActivity
 
         getAddressFromLatLng(latitude,longitude);
 
-        SharedPreferences preferences1 = PreferenceManager.getDefaultSharedPreferences(AddressActivity.this);
+        SharedPreferences preferences1 = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor1 = preferences1.edit();
         editor1.putString("Latitude", String.valueOf(latitude));
         editor1.putString("Longitiude", String.valueOf(longitude));
@@ -400,13 +400,12 @@ public class AddressActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(String result) {
             pdLoading.dismiss();
-            Toast.makeText(AddressActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
             try
             {
                 JSONObject jsonObject = new JSONObject(result);
                 if (jsonObject.getString("status").equals("true"))
                 {
-                    SharedPreferences p1 = PreferenceManager.getDefaultSharedPreferences(AddressActivity.this);
+                    SharedPreferences p1 = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor1 = p1.edit();
                     editor1.putString("AddressId", jsonObject.getString("addressId").toString());
                     editor1.apply();
@@ -495,13 +494,12 @@ public class AddressActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(String result) {
             pdLoading.dismiss();
-            Toast.makeText(AddressActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
             try
             {
                 JSONObject jsonObject = new JSONObject(result);
                 if (jsonObject.getString("status").equals("true"))
                 {
-                    SharedPreferences p1 = PreferenceManager.getDefaultSharedPreferences(AddressActivity.this);
+                    SharedPreferences p1 = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor1 = p1.edit();
                     editor1.putString("AddressId", jsonObject.getString("addressId").toString());
                     editor1.apply();

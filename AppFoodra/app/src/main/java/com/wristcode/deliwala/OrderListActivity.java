@@ -2,6 +2,7 @@ package com.wristcode.deliwala;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -75,7 +76,7 @@ public class OrderListActivity extends AppCompatActivity implements IConstants
         valstatus = (TextView) findViewById(R.id.valstatus);
         itemsRecycler = (RecyclerView) findViewById(R.id.itemsRecycler);
         btnTrack = (Button) findViewById(R.id.btnTrack);
-        preferences = PreferenceManager.getDefaultSharedPreferences(OrderListActivity.this);
+        preferences = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
 
         Typeface font = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Bold.ttf");
         Typeface font1 = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Medium.ttf");
