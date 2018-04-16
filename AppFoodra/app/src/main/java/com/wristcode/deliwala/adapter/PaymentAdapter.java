@@ -33,8 +33,8 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.MyViewHo
     public static final String qty = "qty";
     public int flag = 0;
 
-    public static final int CONNECTION_TIMEOUT = 10000;
-    public static final int READ_TIMEOUT = 15000;
+    public static final int CONNECTION_TIMEOUT = 20000;
+    public static final int READ_TIMEOUT = 20000;
     private List<Payment> moviesList;
     private Context mContext;
     private int lastSelectedPosition = 0;

@@ -29,8 +29,8 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.MyViewHolder
     public static final String product_id = "product_id";
     public static final String qty = "qty";
     public int flag = 0;
-    public static final int CONNECTION_TIMEOUT = 10000;
-    public static final int READ_TIMEOUT = 15000;
+    public static final int CONNECTION_TIMEOUT = 20000;
+    public static final int READ_TIMEOUT = 20000;
     private List<Hotels> moviesList;
     private Context mContext;
 

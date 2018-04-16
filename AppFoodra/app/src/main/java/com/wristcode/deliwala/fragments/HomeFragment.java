@@ -154,7 +154,7 @@ public class HomeFragment extends Fragment implements IConstants {
         dh = new ExampleDBHelper(getActivity());
         offerrecycler = v.findViewById(R.id.offerrecycler);
         //Toast.makeText(getActivity(), String.valueOf(offerrecycler.getTop()), Toast.LENGTH_SHORT).show();
-        exportDB();
+        //exportDB();
         menurecycler = v.findViewById(R.id.menurecycler);
         //categoriesList = new ArrayList<>();
         //prepareAlbums();

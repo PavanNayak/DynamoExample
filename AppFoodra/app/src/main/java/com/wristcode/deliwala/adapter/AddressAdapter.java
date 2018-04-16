@@ -55,8 +55,8 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
     ArrayList<HashMap<String, String>> contactList;
     AddAddressActivity addList;
 
-    public static final int CONNECTION_TIMEOUT = 10000;
-    public static final int READ_TIMEOUT = 15000;
+    public static final int CONNECTION_TIMEOUT = 20000;
+    public static final int READ_TIMEOUT = 20000;
     private List<Address> moviesList;
     private Context mContext;
     private int lastSelectedPosition = -1;

@@ -22,8 +22,8 @@ public class OrderHistoryItemAdapter extends RecyclerView.Adapter<OrderHistoryIt
     ArrayList<HashMap<String, String>> contactList;
     OrderHistoryActivity subCatList;
 
-    public static final int CONNECTION_TIMEOUT = 10000;
-    public static final int READ_TIMEOUT = 15000;
+    public static final int CONNECTION_TIMEOUT = 20000;
+    public static final int READ_TIMEOUT = 20000;
     private List<OrderHistoryItems> moviesList;
     private Context mContext;
 

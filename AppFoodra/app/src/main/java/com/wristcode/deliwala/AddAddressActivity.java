@@ -45,8 +45,8 @@ import java.util.List;
 
 public class AddAddressActivity extends AppCompatActivity
 {
-    public static final int CONNECTION_TIMEOUT = 10000;
-    public static final int READ_TIMEOUT = 15000;
+    public static final int CONNECTION_TIMEOUT = 20000;
+    public static final int READ_TIMEOUT = 20000;
 
     RecyclerView recyclerView;
     AddressAdapter mAdapter;

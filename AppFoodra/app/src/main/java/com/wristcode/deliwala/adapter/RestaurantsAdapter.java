@@ -32,8 +32,8 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public static final String product_id = "product_id";
     public static final String qty = "qty";
     public int flag = 0;
-    public static final int CONNECTION_TIMEOUT = 10000;
-    public static final int READ_TIMEOUT = 15000;
+    public static final int CONNECTION_TIMEOUT = 20000;
+    public static final int READ_TIMEOUT = 20000;
     private List<Restaurants> moviesList;
     private Context mContext;
     private final int VIEW_TYPE_ITEM = 0;

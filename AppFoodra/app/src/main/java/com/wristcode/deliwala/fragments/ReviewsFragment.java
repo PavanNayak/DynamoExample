@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.wristcode.deliwala.CartActivity;
@@ -64,6 +65,7 @@ public class ReviewsFragment extends Fragment implements IConstants
     private List<Reviews> reviewsList;
     ReviewsAdapter adapter;
     SharedPreferences pref;
+    LinearLayout linear;
 
     public ReviewsFragment() {}
 
@@ -82,6 +84,7 @@ public class ReviewsFragment extends Fragment implements IConstants
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_reviews, container, false);
         pref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        linear = v.findViewById(R.id.linear);
         recyclerReview = v.findViewById(R.id.recyclerReview);
         reviewsList = new ArrayList<>();
 //        prepareAlbums();
@@ -191,10 +194,13 @@ public class ReviewsFragment extends Fragment implements IConstants
                     JSONArray jArray = jsonObject.getJSONArray("data");
                     if (jArray.length() == 0)
                     {
-                        //setContentView(R.layout.activity_order_history_empty);
+                        linear.setVisibility(View.VISIBLE);
+                        recyclerReview.setVisibility(View.GONE);
                     }
                     else
                     {
+                        linear.setVisibility(View.GONE);
+                        recyclerReview.setVisibility(View.VISIBLE);
                         for (int i = 0; i < jArray.length(); i++)
                         {
                             JSONObject json_data = jArray.getJSONObject(i);

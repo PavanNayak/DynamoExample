@@ -20,6 +20,6 @@ public interface IConstants {
     public static String OTP_SENDER ="GRTREE";
     public static int OTP_ROUTE =4;
     public static final String USER_PREFS ="user_prefs";
-    public static final int CONNECTION_TIMEOUT = 10000;
-    public static final int READ_TIMEOUT = 15000;
+    public static final int CONNECTION_TIMEOUT = 20000;
+    public static final int READ_TIMEOUT = 20000;
 }

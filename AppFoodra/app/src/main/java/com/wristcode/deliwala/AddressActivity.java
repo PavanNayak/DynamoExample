@@ -55,8 +55,8 @@ import java.util.Locale;
 
 public class AddressActivity extends AppCompatActivity
 {
-    public static final int CONNECTION_TIMEOUT = 10000;
-    public static final int READ_TIMEOUT = 15000;
+    public static final int CONNECTION_TIMEOUT = 20000;
+    public static final int READ_TIMEOUT = 20000;
 
     TextView txtdelivery, txtfulladdress, txtaddress, txtchange, txttagaddress, txthome, txtwork, txtothers, txtname, txtmobileno;
     EditText txtflatno, txtlandmark;

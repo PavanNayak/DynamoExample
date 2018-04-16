@@ -73,8 +73,8 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
     private Marker locationMarker;
     private MapView mMapView;
     private TextView mAddress, txtmanually;
-    public static final int CONNECTION_TIMEOUT = 10000;
-    public static final int READ_TIMEOUT = 15000;
+    public static final int CONNECTION_TIMEOUT = 20000;
+    public static final int READ_TIMEOUT = 20000;
     EditText housenumber, landmark, houseno, streetname;
     Spinner spinner;
     private LayoutInflater inflater;
