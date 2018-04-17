@@ -46,8 +46,8 @@ import java.util.List;
 
 public class OrderHistoryActivity extends AppCompatActivity
 {
-    public static final int CONNECTION_TIMEOUT = 20000;
-    public static final int READ_TIMEOUT = 20000;
+    public static final int CONNECTION_TIMEOUT = 10000;
+    public static final int READ_TIMEOUT = 15000;
 
     List<OrderHistoryItems> data1;
     RecyclerView recyclerView;
