@@ -148,124 +148,15 @@ public class TagRestaurantsActivity extends AppCompatActivity implements IConsta
         }
     }
 
-    private class AsyncRestaurants extends AsyncTask<String, String, String> {
-        ProgressDialog pdLoading = new ProgressDialog(TagRestaurantsActivity.this);
+    private class AsyncMenu extends AsyncTask<String, String, String>
+    {
         HttpURLConnection conn;
         URL url = null;
 
         @Override
-        protected void onPreExecute() {
+        protected void onPreExecute()
+        {
             super.onPreExecute();
-
-            pdLoading.setMessage("\tLoading...");
-            pdLoading.setCancelable(false);
-            pdLoading.show();
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            try {
-                url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/restaurant/search-product");
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-                return "exception";
-            }
-            try {
-                conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(READ_TIMEOUT);
-                conn.setConnectTimeout(CONNECTION_TIMEOUT);
-                conn.setRequestMethod("POST");
-                conn.setDoOutput(true);
-            } catch (IOException e1) {
-                e1.printStackTrace();
-                return "exception";
-            }
-
-            try {
-                InputStream input = conn.getInputStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-                StringBuilder result = new StringBuilder();
-                String line;
-
-                while ((line = reader.readLine()) != null) {
-                    result.append(line);
-                }
-                return (result.toString());
-            } catch (IOException e) {
-                e.printStackTrace();
-                return "exception";
-            } finally {
-                conn.disconnect();
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            pdLoading.dismiss();
-            List<Restaurants> data = new ArrayList<>();
-            try {
-                JSONObject jsonObject = new JSONObject(result);
-                if (jsonObject.getString("status").equals("true")) {
-                    JSONArray jArray = jsonObject.getJSONArray("data");
-                    for (int i = 0; i < jArray.length(); i++)
-                    {
-                        JSONObject json_data = jArray.getJSONObject(i);
-                        Restaurants resData = new Restaurants();
-                        resData.resid = json_data.getString("id");
-                        resData.resname = json_data.getString("restaurantName");
-                        if(json_data.has("description")) {
-                            resData.resdescp = json_data.getString("description");
-                        }
-                        else {
-                            resData.resdescp = "No Description";
-                        }
-                        if(json_data.has("restaurantAddress")) {
-                            resData.resadd = json_data.getString("restaurantAddress");
-                        }
-                        else
-                        {
-                            resData.resadd = "No Address";
-                        }
-                        resData.reslat = json_data.getString("restaurantLat");
-                        resData.reslong = json_data.getString("restaurantLong");
-                        resData.resmob = json_data.getString("primaryMobile");
-                        resData.resisopen = json_data.getString("isOpen");
-                        resData.respop = json_data.getString("popularity");
-                        if(json_data.has("iconImage"))
-                        {
-                            resData.resimg = json_data.getString("iconImage");
-                        }
-                        else
-                        {
-                            resData.resimg = " ";
-                        }
-                        data.add(resData);
-                    }
-                    adapter1 = new RestaurantsAdapter(TagRestaurantsActivity.this, data, resrecycler);
-                    resrecycler.setLayoutManager(new LinearLayoutManager(TagRestaurantsActivity.this));
-                    resrecycler.setNestedScrollingEnabled(false);
-                    resrecycler.setFocusable(false);
-                    resrecycler.setAdapter(adapter1);
-                    adapter1.notifyDataSetChanged();
-                }
-            } catch (JSONException e) {
-                Toast.makeText(TagRestaurantsActivity.this, e.toString(), Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
-    private class AsyncMenu extends AsyncTask<String, String, String> {
-        //ProgressDialog pdLoading = new ProgressDialog(mContext);
-        HttpURLConnection conn;
-        URL url = null;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-//            pdLoading.setMessage("\tLoading...");
-//            pdLoading.setCancelable(false);
-//            pdLoading.show();
         }
 
         @Override
@@ -319,7 +210,8 @@ public class TagRestaurantsActivity extends AppCompatActivity implements IConsta
         }
 
         @Override
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(String result)
+        {
             //pdLoading.dismiss();
             List<Restaurants> data = new ArrayList<>();
             try {
@@ -354,6 +246,8 @@ public class TagRestaurantsActivity extends AppCompatActivity implements IConsta
                                 resData.reslat = json_data1.getString("restaurantLat");
                                 resData.reslong = json_data1.getString("restaurantLong");
                                 resData.resmob = json_data1.getString("primaryMobile");
+                                resData.resopentime = json_data1.getString("openTime");
+                                resData.resclosetime = json_data1.getString("closeTime");
                                 resData.resisopen = json_data1.getString("isOpen");
                                 resData.respop = json_data1.getString("popularity");
                                 if (json_data1.has("iconImage")) {
@@ -361,13 +255,22 @@ public class TagRestaurantsActivity extends AppCompatActivity implements IConsta
                                 } else {
                                     resData.resimg = " ";
                                 }
+                                JSONArray jsonArray1 = json_data1.getJSONArray("restaurantType");
+                                if(!(jsonArray1.length() == 0))
+                                {
+                                    for(int k=0; k<jsonArray1.length(); k++)
+                                    {
+                                        JSONObject jobject2 = jsonArray1.getJSONObject(k);
+                                        resData.restags.add(jobject2.getString("typeName"));
+                                    }
+                                }
                                 data.add(resData);
                             }
                         }
                     }
                     adapter1 = new RestaurantsAdapter(TagRestaurantsActivity.this, data, resrecycler);
                     resrecycler.setLayoutManager(new LinearLayoutManager(TagRestaurantsActivity.this));
-                    resrecycler.setNestedScrollingEnabled(false);
+                    resrecycler.setNestedScrollingEnabled(true);
                     resrecycler.setFocusable(false);
                     resrecycler.setAdapter(adapter1);
                     adapter1.notifyDataSetChanged();

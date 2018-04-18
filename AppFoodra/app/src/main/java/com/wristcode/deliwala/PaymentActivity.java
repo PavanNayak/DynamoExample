@@ -361,14 +361,14 @@ public class PaymentActivity extends AppCompatActivity implements IConstants
     }
 
     public void backButton(View v) {
-        Intent i = new Intent(PaymentActivity.this, CartActivity.class);
+        Intent i = new Intent(PaymentActivity.this, AddAddressActivity.class);
         startActivity(i);
         finish();
     }
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(PaymentActivity.this, CartActivity.class);
+        Intent i = new Intent(PaymentActivity.this, AddAddressActivity.class);
         startActivity(i);
         finish();
     }

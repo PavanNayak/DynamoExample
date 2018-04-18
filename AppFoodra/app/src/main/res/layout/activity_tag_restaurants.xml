@@ -5,68 +5,63 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/toolbarlayout"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:orientation="horizontal"
         android:background="@color/colorPrimary"
-        android:id="@+id/toolbarlayout">
+        android:orientation="horizontal">
 
         <ImageView
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_gravity="center_vertical"
             android:layout_margin="10dp"
-            android:src="@drawable/back"
-            android:onClick="backButton"/>
+            android:onClick="backButton"
+            android:src="@drawable/back" />
 
         <TextView
             android:id="@+id/titleText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Restaurants"
             android:layout_margin="10dp"
-            android:textSize="20sp"
-            android:textColor="@android:color/white"/>
+            android:text="Restaurants"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
 
     </LinearLayout>
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/tagrecycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginTop="10dp"
+            android:background="@android:color/white">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/tagrecycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@android:color/white">
+        </android.support.v7.widget.RecyclerView>
 
-            </android.support.v7.widget.RecyclerView>
+        <TextView
+            android:id="@+id/txtrestaurant"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="RESTAURANTS"
+            android:textSize="15sp" />
 
-            <TextView
-                android:id="@+id/txtrestaurant"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="RESTAURANTS"
-                android:textSize="15sp" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/resrecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/white">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/resrecycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@android:color/white">
+        </android.support.v7.widget.RecyclerView>
 
-            </android.support.v7.widget.RecyclerView>
-
-        </LinearLayout>
-    </ScrollView>
+    </LinearLayout>
 
 </LinearLayout>

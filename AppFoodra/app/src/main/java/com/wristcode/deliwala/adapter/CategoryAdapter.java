@@ -233,11 +233,22 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
                                 resData.reslong = json_data1.getString("restaurantLong");
                                 resData.resmob = json_data1.getString("primaryMobile");
                                 resData.resisopen = json_data1.getString("isOpen");
+                                resData.resopentime = json_data1.getString("openTime");
+                                resData.resclosetime = json_data1.getString("closeTime");
                                 resData.respop = json_data1.getString("popularity");
                                 if (json_data1.has("iconImage")) {
                                     resData.resimg = json_data1.getString("iconImage");
                                 } else {
                                     resData.resimg = " ";
+                                }
+                                JSONArray jsonArray1 = json_data1.getJSONArray("restaurantType");
+                                if(!(jsonArray1.length() == 0))
+                                {
+                                    for(int k=0; k<jsonArray1.length(); k++)
+                                    {
+                                        JSONObject jobject2 = jsonArray1.getJSONObject(k);
+                                        resData.restags.add(jobject2.getString("typeName"));
+                                    }
                                 }
                                 data.add(resData);
                             }

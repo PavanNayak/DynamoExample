@@ -4,12 +4,14 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -46,11 +48,12 @@ import java.util.List;
  */
 
 public class OTPActivity extends AppCompatActivity implements IConstants {
-    TextView tvtitle, tvsubtitle, tvotp, tvresendotp;
+    TextView tvtitle, tvsubtitle, tvotp, tvresendotp, timer;
     static EditText valueotp;
     Button btn_verify;
     SharedPreferences pref;
     String inputotp;
+    int time = 60;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +65,7 @@ public class OTPActivity extends AppCompatActivity implements IConstants {
         tvresendotp = (TextView) findViewById(R.id.resendotp);
         valueotp = (EditText) findViewById(R.id.valueotp);
         btn_verify = (Button) findViewById(R.id.btn_verify);
+        timer = (TextView) findViewById(R.id.timer);
         pref = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         inputotp = pref.getString("Otp", "").toString();
         tvsubtitle.setText("Sit back and relax, we'll verify your mobile number "+ pref.getString("PhoneNo", "").toString());
@@ -119,6 +123,23 @@ public class OTPActivity extends AppCompatActivity implements IConstants {
             {
                 if(isNetworkAvailable())
                 {
+                    tvresendotp.setEnabled(false);
+                    timer.setVisibility(View.VISIBLE);
+                    timer.setTextColor(Color.parseColor("#C0C0C0"));
+                    new CountDownTimer(60000, 1000)
+                    {
+                        public void onTick(long millisUntilFinished)
+                        {
+                            timer.setText("00:" + checkDigit(time));
+                            time--;
+                        }
+
+                        public void onFinish()
+                        {
+                            timer.setText("00:00");
+                        }
+
+                    }.start();
                     new AsyncResendOtp().execute(pref.getString("PhoneNo", "").toString());
                 }
                 else
@@ -127,6 +148,11 @@ public class OTPActivity extends AppCompatActivity implements IConstants {
                 }
             }
         });
+    }
+
+    public String checkDigit(int number)
+    {
+        return number <= 9 ? "0" + number : String.valueOf(number);
     }
 
     private class AsyncResendOtp extends AsyncTask<String, String, String> {

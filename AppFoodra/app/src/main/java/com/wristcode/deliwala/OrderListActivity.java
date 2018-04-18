@@ -51,7 +51,7 @@ import java.util.List;
 
 public class OrderListActivity extends AppCompatActivity implements IConstants
 {
-    TextView txtorderid, txtorderdate, txtresname, txtorderitems, txtpaytype, valpaytype, txtgrandtotal, valgrandtotal, txtstatus, valstatus;
+    TextView txtorderid, txtorderdate, txtresname, txtorderitems, txtpaytype, valpaytype, txtgrandtotal, valgrandtotal, txtstatus, valstatus, txtrateus;
     RecyclerView itemsRecycler;
     Button btnTrack;
     private List<OrderHistoryItems> moviesList1;
@@ -74,6 +74,7 @@ public class OrderListActivity extends AppCompatActivity implements IConstants
         valgrandtotal = (TextView) findViewById(R.id.valgrandtotal);
         txtstatus = (TextView) findViewById(R.id.txtstatus);
         valstatus = (TextView) findViewById(R.id.valstatus);
+        txtrateus = (TextView) findViewById(R.id.txtrateus);
         itemsRecycler = (RecyclerView) findViewById(R.id.itemsRecycler);
         btnTrack = (Button) findViewById(R.id.btnTrack);
         preferences = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
@@ -91,6 +92,7 @@ public class OrderListActivity extends AppCompatActivity implements IConstants
         valgrandtotal.setTypeface(font2);
         txtstatus.setTypeface(font1);
         valstatus.setTypeface(font2);
+        txtrateus.setTypeface(font1);
         btnTrack.setTypeface(font2);
 
         txtorderid.setText(getIntent().getStringExtra("orderid").toString());
@@ -133,37 +135,46 @@ public class OrderListActivity extends AppCompatActivity implements IConstants
 
         if(valstatus.getText().toString().equals("Delivered"))
         {
-            LayoutInflater inflater = LayoutInflater.from(OrderListActivity.this);
-            View alertLayout = inflater.inflate(R.layout.rating_dialog, null);
-            final RatingBar ratingBarItem = (RatingBar) alertLayout.findViewById(R.id.ratingBarItem);
-            final EditText txtreview = (EditText) alertLayout.findViewById(R.id.txtreview);
-            final Button btnSubmit = (Button) alertLayout.findViewById(R.id.btnSubmit);
-
-            AlertDialog.Builder alert = new AlertDialog.Builder(OrderListActivity.this);
-            alert.setTitle("Add Review");
-            alert.setView(alertLayout);
-            alert.setCancelable(true);
-            final AlertDialog dialog = alert.create();
-            dialog.show();
-
-            ratingBarItem.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener()
-            {
-                @Override
-                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser)
-                {
-                    rateItem = String.valueOf(rating);
-                }
-            });
-
-            btnSubmit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v)
-                {
-                    new AsyncReviews().execute(getIntent().getStringExtra("resid").toString(), preferences.getString("Id", "").toString(), rateItem, txtreview.getText().toString());
-                    dialog.dismiss();
-                }
-            });
+            txtrateus.setVisibility(View.VISIBLE);
         }
+
+        txtrateus.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                LayoutInflater inflater = LayoutInflater.from(OrderListActivity.this);
+                View alertLayout = inflater.inflate(R.layout.rating_dialog, null);
+                final RatingBar ratingBarItem = (RatingBar) alertLayout.findViewById(R.id.ratingBarItem);
+                final EditText txtreview = (EditText) alertLayout.findViewById(R.id.txtreview);
+                final Button btnSubmit = (Button) alertLayout.findViewById(R.id.btnSubmit);
+
+                AlertDialog.Builder alert = new AlertDialog.Builder(OrderListActivity.this);
+                alert.setTitle("Add Review");
+                alert.setView(alertLayout);
+                alert.setCancelable(true);
+                final AlertDialog dialog = alert.create();
+                dialog.show();
+
+                ratingBarItem.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener()
+                {
+                    @Override
+                    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser)
+                    {
+                        rateItem = String.valueOf(rating);
+                    }
+                });
+
+                btnSubmit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        new AsyncReviews().execute(getIntent().getStringExtra("resid").toString(), preferences.getString("Id", "").toString(), rateItem, txtreview.getText().toString());
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
 
 //        if (valstatus.getText().toString().equals("On The Way"))
 //        {

@@ -372,6 +372,8 @@ public class HomeFragment extends Fragment implements IConstants {
                         resData.reslat = json_data.getString("restaurantLat");
                         resData.reslong = json_data.getString("restaurantLong");
                         resData.resmob = json_data.getString("primaryMobile");
+                        resData.resopentime = json_data.getString("openTime");
+                        resData.resclosetime = json_data.getString("closeTime");
                         resData.resisopen = json_data.getString("isOpen");
                         resData.respop = json_data.getString("popularity");
                         if(json_data.has("iconImage"))
@@ -381,6 +383,15 @@ public class HomeFragment extends Fragment implements IConstants {
                         else
                         {
                             resData.resimg = " ";
+                        }
+                        JSONArray jsonArray = json_data.getJSONArray("restaurantType");
+                        if(!(jsonArray.length() == 0))
+                        {
+                            for(int j=0;j<jsonArray.length();j++)
+                            {
+                                JSONObject jobject2 = jsonArray.getJSONObject(j);
+                                resData.restags.add(jobject2.getString("typeName"));
+                            }
                         }
                         data.add(resData);
                     }

@@ -24,6 +24,10 @@ import com.wristcode.deliwala.Pojo.Restaurants;
 import com.wristcode.deliwala.R;
 import com.wristcode.deliwala.extra.OnLoadMoreListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class RestaurantsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -45,6 +49,8 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private RecyclerView offerrecycler;
     private LinearLayoutManager linearLayoutManager;
     SharedPreferences pref;
+    Date newDate, newDate1;
+    public List<String> resTagname = new ArrayList<>();
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView txtname, txtdesc, txtratings, txttime;
@@ -151,8 +157,8 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             final Restaurants movie = moviesList.get(position);
             MyViewHolder myViewHolder = (MyViewHolder) holder;
             myViewHolder.txtname.setText(movie.getResname());
-            myViewHolder.txtdesc.setText("Chinese, Arabian, Italian");
-            myViewHolder.txttime.setText("10AM - 10PM");
+            //myViewHolder.txtdesc.setText("Chinese, Arabian, Italian");
+            //myViewHolder.txttime.setText("10AM - 10PM");
             myViewHolder.txtratings.setText(String.format("%.1f", Float.valueOf(movie.getRespop())));
             myViewHolder.ratingBar.setRating(Float.valueOf(movie.getRespop()));
 
@@ -170,6 +176,32 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     .into(myViewHolder.image);
 
             //Glide.with(mContext).load("http://appfoodra.com/uploads/restaurant/icons/"+movie.getResimg()).into(holder.image);
+
+            String strCurrentDate = movie.getResopentime();
+            String strCurrentDate1 = movie.getResclosetime();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ");
+            try {
+                newDate = format.parse(strCurrentDate);
+                newDate1 = format.parse(strCurrentDate1);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
+            String date = dateFormat.format(newDate);
+            String date1 = dateFormat.format(newDate1);
+
+            myViewHolder.txttime.setText(date+" - "+date1);
+
+            resTagname.clear();
+            resTagname = movie.getRestags();
+
+            for (int i=0; i<resTagname.size();i++)
+            {
+                myViewHolder.txtdesc.append(resTagname.get(i));
+                myViewHolder.txtdesc.append(" ");
+            }
+
 
             myViewHolder.relativehotel.setOnClickListener(new View.OnClickListener() {
                 @Override

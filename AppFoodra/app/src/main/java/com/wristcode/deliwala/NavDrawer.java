@@ -47,22 +47,27 @@ public class NavDrawer extends AppCompatActivity implements DuoMenuView.OnMenuCl
     private ViewHolder mViewHolder;
     private ArrayList<String> mTitles = new ArrayList<>();
     Animation animSlideDown,animSlideUp,animSlideDown1,animSlideDown2;
-    TextView txttitle;
+    TextView txttitle, duo_view_header_text_sub_title;
     ExampleDBHelper dh;
+    SharedPreferences pref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navdrawer);
         dh = new ExampleDBHelper(NavDrawer.this);
+        pref = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         txttitle = findViewById(R.id.txttitle);
+        duo_view_header_text_sub_title = findViewById(R.id.duo_view_header_text_sub_title);
         mTitles = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.menuOptions)));
-
+        duo_view_header_text_sub_title.setText(pref.getString("Name","").toString());
         animSlideDown = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_down);
         animSlideUp = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up);
         animSlideDown1 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_downbg);
         animSlideDown2 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.leftanim);
         Typeface font = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Medium.ttf");
         txttitle.setTypeface(font);
+        duo_view_header_text_sub_title.setTypeface(font);
         mViewHolder = new ViewHolder();
 
         handleMenu();
@@ -103,12 +108,12 @@ public class NavDrawer extends AppCompatActivity implements DuoMenuView.OnMenuCl
 
     @Override
     public void onFooterClicked() {
-        Toast.makeText(this, "onFooterClicked", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "onFooterClicked", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onHeaderClicked() {
-        Toast.makeText(this, "onHeaderClicked", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "onHeaderClicked", Toast.LENGTH_SHORT).show();
     }
 
     private void goToFragment(Fragment fragment, boolean addToBackStack)

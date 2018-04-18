@@ -1,6 +1,8 @@
 package com.wristcode.deliwala.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -44,6 +46,7 @@ public class MainDishesFragment extends Fragment
     Switch vegonly;
     ImageView imgveg;
     TextView txtveg;
+    SharedPreferences pref;
 
     public MainDishesFragment() {}
 
@@ -61,6 +64,7 @@ public class MainDishesFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_items, container, false);
+        pref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         layoutveg = v.findViewById(R.id.layoutveg);
         imgveg = v.findViewById(R.id.imgveg);
         txtveg = v.findViewById(R.id.txtveg);
@@ -89,9 +93,8 @@ public class MainDishesFragment extends Fragment
                 }
                 data.price = jobject.getString("regularPrice");
 
-                JSONObject jobject1 = jobject.getJSONObject("restaurant");
-                data.resid = jobject1.getString("id");
-                data.resname = jobject1.getString("restaurantName");
+                data.resid = pref.getString("id","").toString();
+                data.resname = pref.getString("name","").toString();
 
                 JSONArray jsonArray = jobject.getJSONArray("priceVariation");
                 if(!(jsonArray.length() == 0))

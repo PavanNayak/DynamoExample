@@ -1,17 +1,20 @@
 package com.wristcode.deliwala.Pojo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by gururaj on 12/17/2016.
  */
 
 public class Restaurants {
 
-    public String resid, resname, resadd, reslat, reslong, resmob, resisopen, respop, resimg, resdescp;
+    public String resid, resname, resadd, reslat, reslong, resmob, resopentime, resclosetime, resisopen, respop, resimg, resdescp;
+    public List<String> restags = new ArrayList<>();
 
-    public Restaurants() {
-    }
+    public Restaurants() {}
 
-    public Restaurants(String resid, String resname, String resadd, String reslat, String reslong, String resmob, String resisopen, String respop, String resdescp, String resimg) {
+    public Restaurants(String resid, String resname, String resadd, String reslat, String reslong, String resmob, String resopentime, String resclosetime, String resisopen, String respop, String resdescp, String resimg) {
 
         this.resid = resid;
         this.resname = resname;
@@ -19,6 +22,8 @@ public class Restaurants {
         this.reslat = reslat;
         this.reslong = reslong;
         this.resmob = resmob;
+        this.resopentime = resopentime;
+        this.resclosetime = resclosetime;
         this.resisopen = resisopen;
         this.respop = respop;
         this.resdescp = resdescp;
@@ -74,6 +79,22 @@ public class Restaurants {
         this.resmob = resmob;
     }
 
+    public String getResopentime() {
+        return resopentime;
+    }
+
+    public void setResopentime(String resopentime) {
+        this.resopentime = resopentime;
+    }
+
+    public String getResclosetime() {
+        return resclosetime;
+    }
+
+    public void setResclosetime(String resclosetime) {
+        this.resclosetime = resclosetime;
+    }
+
     public String getResisopen() {
         return resisopen;
     }
@@ -104,6 +125,10 @@ public class Restaurants {
 
     public void setResimg(String resimg) {
         this.resimg = resimg;
+    }
+
+    public List<String> getRestags(){
+        return restags;
     }
 
 }
