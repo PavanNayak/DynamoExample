@@ -3,12 +3,9 @@
     android:id="@+id/relativehotel"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="5dp"
-    android:layout_marginLeft="20dp"
-    android:layout_marginRight="20dp"
-    android:layout_marginTop="7dp"
-    android:background="@drawable/shadow"
+    android:layout_margin="10dp"
     android:elevation="3dp"
+    android:background="@android:color/white"
     android:orientation="vertical">
 
     <ImageView
@@ -44,7 +41,7 @@
         android:layout_marginStart="129dp"
         android:background="@drawable/hotelrect"
         android:orientation="vertical"
-        android:paddingLeft="20dp">
+        android:paddingLeft="10dp">
 
         <TextView
             android:id="@+id/txtname"
@@ -77,7 +74,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/txttime"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
             android:numStars="5"
             android:progressTint="@color/colorPrimary"
             android:rating="3.5"

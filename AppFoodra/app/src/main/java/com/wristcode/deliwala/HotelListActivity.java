@@ -54,12 +54,13 @@ public class HotelListActivity extends AppCompatActivity implements IConstants {
         EditSearch = (EditText)findViewById(R.id.EditSearch);
         EditSearch.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
 
+
         EditSearch.addTextChangedListener(new TextWatcher()
         {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count)
             {
-                filter(s.toString());
+                //filter(s.toString());
             }
 
             @Override
@@ -71,7 +72,7 @@ public class HotelListActivity extends AppCompatActivity implements IConstants {
             @Override
             public void afterTextChanged(Editable s)
             {
-
+                filter(s.toString());
                 // filter your list from your input
 
                 //you can use runnable postDelayed like 500 ms to delay search text
@@ -105,33 +106,6 @@ public class HotelListActivity extends AppCompatActivity implements IConstants {
             }
         }
         adapter1.updateList(temp);
-    }
-
-
-    private void prepareAlbums() {
-        int[] covers = new int[]{
-                R.drawable.hotel,
-                R.drawable.hotel1,
-                R.drawable.hotel2,
-                R.drawable.hotel
-        };
-
-        Hotels a = new Hotels("Spice n Ice","Chinese, Italian, Arabian",covers[0],"4.1 km","10 AM - 12 AM");
-        categoriesList.add(a);
-        a =   new Hotels("Hot n Spicy","Chinese, Italian, Arabian",covers[1],"4.1 km","10 AM - 12 AM");
-        categoriesList.add(a);
-        a = new Hotels("Mexican Burrito","Chinese, Italian, Arabian",covers[2],"4.1 km","10 AM - 12 AM");
-        categoriesList.add(a);
-        a = new Hotels("Spice n Ice","Chinese, Italian, Arabian",covers[3],"4.1 km","10 AM - 12 AM");
-        categoriesList.add(a);
-        a = new Hotels("Spice n Ice","Chinese, Italian, Arabian",covers[0],"4.1 km","10 AM - 12 AM");
-        categoriesList.add(a);
-
-        adapter=new HotelAdapter(this,categoriesList);
-        recyclerView.setFocusable(false);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter.notifyDataSetChanged();
     }
 
     private class AsyncRestaurants extends AsyncTask<String, String, String>

@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.wristcode.deliwala.HotelActivity;
 
 import com.wristcode.deliwala.Pojo.Restaurants;
@@ -157,8 +158,6 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             final Restaurants movie = moviesList.get(position);
             MyViewHolder myViewHolder = (MyViewHolder) holder;
             myViewHolder.txtname.setText(movie.getResname());
-            //myViewHolder.txtdesc.setText("Chinese, Arabian, Italian");
-            //myViewHolder.txttime.setText("10AM - 10PM");
             myViewHolder.txtratings.setText(String.format("%.1f", Float.valueOf(movie.getRespop())));
             myViewHolder.ratingBar.setRating(Float.valueOf(movie.getRespop()));
 
@@ -172,10 +171,10 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             Glide.with(mContext).load("http://appfoodra.com/uploads/restaurant/icons/" + movie.getResimg())
                     .placeholder(R.drawable.logo)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .error(R.drawable.logo)
                     .into(myViewHolder.image);
 
-            //Glide.with(mContext).load("http://appfoodra.com/uploads/restaurant/icons/"+movie.getResimg()).into(holder.image);
 
             String strCurrentDate = movie.getResopentime();
             String strCurrentDate1 = movie.getResclosetime();
@@ -198,8 +197,9 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             for (int i=0; i<resTagname.size();i++)
             {
-                myViewHolder.txtdesc.append(resTagname.get(i));
-                myViewHolder.txtdesc.append(" ");
+//                myViewHolder.txtdesc.append(resTagname.get(i));
+//                myViewHolder.txtdesc.append(" ");
+                myViewHolder.txtdesc.setText(myViewHolder.txtdesc.getText() + resTagname.get(i) + " ");
             }
 
 
