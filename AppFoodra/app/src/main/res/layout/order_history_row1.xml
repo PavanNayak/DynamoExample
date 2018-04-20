@@ -105,6 +105,12 @@
             android:layout_height="1dp"
             android:visibility="gone" />
 
+        <TextView
+            android:id="@+id/txtcusadd"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:visibility="gone" />
+
     </LinearLayout>
 
     <View

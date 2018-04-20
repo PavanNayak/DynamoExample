@@ -2,13 +2,20 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
+
+    <SearchView
+        android:id="@+id/searchitem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"/>
 
     <LinearLayout
         android:id="@+id/layoutveg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
+        android:layout_below="@id/searchitem"
         android:layout_margin="10dp"
         android:orientation="horizontal">
 

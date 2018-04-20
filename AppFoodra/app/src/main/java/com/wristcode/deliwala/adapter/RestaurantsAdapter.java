@@ -52,6 +52,7 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     SharedPreferences pref;
     Date newDate, newDate1;
     public List<String> resTagname = new ArrayList<>();
+    String iTag;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView txtname, txtdesc, txtratings, txttime;
@@ -197,9 +198,8 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             for (int i=0; i<resTagname.size();i++)
             {
-//                myViewHolder.txtdesc.append(resTagname.get(i));
-//                myViewHolder.txtdesc.append(" ");
-                myViewHolder.txtdesc.setText(myViewHolder.txtdesc.getText() + resTagname.get(i) + " ");
+                iTag = resTagname.get(i);
+                myViewHolder.txtdesc.setText(myViewHolder.txtdesc.getText()+iTag+ " ");
             }
 
 
@@ -218,13 +218,6 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     editor1.apply();
 
                     Intent i = new Intent(mContext, HotelActivity.class);
-//                    i.putExtra("id", movie.getResid());
-//                    i.putExtra("address", movie.getResadd());
-//                    i.putExtra("isOpen", movie.getResisopen());
-//                    i.putExtra("descp", movie.getResdescp());
-//                    i.putExtra("img", movie.getResimg());
-//                    i.putExtra("pop", movie.getRespop());
-//                    i.putExtra("name", movie.getResname());
                     mContext.startActivity(i);
                 }
             });

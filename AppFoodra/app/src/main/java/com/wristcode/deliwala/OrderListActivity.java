@@ -51,7 +51,7 @@ import java.util.List;
 
 public class OrderListActivity extends AppCompatActivity implements IConstants
 {
-    TextView txtorderid, txtorderdate, txtresname, txtorderitems, txtpaytype, valpaytype, txtgrandtotal, valgrandtotal, txtstatus, valstatus, txtrateus;
+    TextView txtorderid, txtorderdate, txtcustadd, txtresname, txtorderitems, txtpaytype, valpaytype, txtgrandtotal, valgrandtotal, txtstatus, valstatus, txtrateus;
     RecyclerView itemsRecycler;
     Button btnTrack;
     private List<OrderHistoryItems> moviesList1;
@@ -66,6 +66,7 @@ public class OrderListActivity extends AppCompatActivity implements IConstants
         setContentView(R.layout.activity_order_list);
         txtorderid = (TextView) findViewById(R.id.txtorderid);
         txtorderdate = (TextView) findViewById(R.id.txtorderdate);
+        txtcustadd = (TextView) findViewById(R.id.txtcustadd);
         txtresname = (TextView) findViewById(R.id.txtresname);
         txtorderitems = (TextView) findViewById(R.id.txtorderitems);
         txtpaytype = (TextView) findViewById(R.id.txtpaytype);
@@ -94,6 +95,7 @@ public class OrderListActivity extends AppCompatActivity implements IConstants
         valstatus.setTypeface(font2);
         txtrateus.setTypeface(font1);
         btnTrack.setTypeface(font2);
+        txtcustadd.setTypeface(font2);
 
         txtorderid.setText(getIntent().getStringExtra("orderid").toString());
         txtorderdate.setText(getIntent().getStringExtra("date").toString());
@@ -101,6 +103,7 @@ public class OrderListActivity extends AppCompatActivity implements IConstants
         valpaytype.setText(getIntent().getStringExtra("paymenttype").toString());
         valgrandtotal.setText(getIntent().getStringExtra("grandtotal").toString());
         valstatus.setText(getIntent().getStringExtra("status").toString());
+        txtcustadd.setText("Address: "+getIntent().getStringExtra("cusaddress").toString());
 
         JSONArray jArray1 = null;
         moviesList1 = new ArrayList<>();

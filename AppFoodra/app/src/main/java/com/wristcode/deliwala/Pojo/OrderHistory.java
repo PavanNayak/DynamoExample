@@ -6,7 +6,7 @@ package com.wristcode.deliwala.Pojo;
 
 public class OrderHistory
 {
-    public String oId, oDate, oResId, oResName, oResImage, oItems, oPayType, oTotal, oStatus;
+    public String oId, oDate, oCusAdd, oResId, oResName, oResImage, oItems, oPayType, oTotal, oStatus;
 
     public OrderHistory() {}
 
@@ -17,6 +17,10 @@ public class OrderHistory
     public String getoDate() {return oDate;}
 
     public void setoDate(String oDate) {this.oDate = oDate;}
+
+    public String getoCusAdd() {return oCusAdd;}
+
+    public void setoCusAdd(String oCusAdd) {this.oCusAdd = oCusAdd;}
 
     public String getoResId() {return oResId;}
 

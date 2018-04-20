@@ -1,6 +1,7 @@
 package com.wristcode.deliwala.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SearchView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,6 +49,7 @@ public class MainDishesFragment extends Fragment
     ImageView imgveg;
     TextView txtveg;
     SharedPreferences pref;
+    SearchView searchitem;
 
     public MainDishesFragment() {}
 
@@ -65,6 +68,13 @@ public class MainDishesFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_items, container, false);
         pref = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        searchitem = (SearchView) v.findViewById(R.id.searchitem);
+        searchitem.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        searchitem.setMaxWidth(Integer.MAX_VALUE);
+        searchitem.setQueryHint("Search Items");
+        searchitem.setIconified(false);
+        searchitem.clearFocus();
         layoutveg = v.findViewById(R.id.layoutveg);
         imgveg = v.findViewById(R.id.imgveg);
         txtveg = v.findViewById(R.id.txtveg);
@@ -72,6 +82,24 @@ public class MainDishesFragment extends Fragment
         Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "GT-Walsheim-Medium.ttf");
         txtveg.setTypeface(font);
         vegonly.setChecked(false);
+
+        searchitem.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query)
+            {
+                // filter recycler view when query submitted
+                adapter.getFilter().filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String query) {
+                // filter recycler view when text is changed
+                adapter.getFilter().filter(query);
+                return false;
+            }
+        });
+
         try
         {
             categoriesList = new ArrayList<>();

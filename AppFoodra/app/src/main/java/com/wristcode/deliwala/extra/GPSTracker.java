@@ -162,7 +162,8 @@ public class GPSTracker implements GoogleApiClient.ConnectionCallbacks, GoogleAp
      * Callback that fires when the location changes.
      */
     @Override
-    public void onLocationChanged(Location location) {
+    public void onLocationChanged(Location location)
+    {
         mCurrentLocation = location;
         //Update location
         updateGPSCoordinates();

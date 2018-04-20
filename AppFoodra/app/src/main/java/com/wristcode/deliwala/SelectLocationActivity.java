@@ -120,11 +120,13 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
         mGoogleMap = googleMap;
         mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
-        if (gpsTracker.checkLocationState()) {
+        if (gpsTracker.checkLocationState())
+        {
             gpsTracker.startLocationUpdates();
             setMap(googleMap);
             LatLng latLang = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
-            if (gpsTracker.getLatitude() == 0) {
+            if (gpsTracker.getLatitude() == 0)
+            {
                 latLang = new LatLng(13.3409, 74.7421);
                 gpsTracker.setDefaultAddress("Udupi, Karnataka");
             }
@@ -158,7 +160,8 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
     }
 
     @Override
-    public void onLocationChanged(Location location) {
+    public void onLocationChanged(Location location)
+    {
         if (location != null) {
             LatLng latLng;
             latLng = new LatLng(location.getLatitude(), location.getLongitude());

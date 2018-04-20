@@ -5,25 +5,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.wristcode.deliwala.Pojo.OrderHistory;
 import com.wristcode.deliwala.Pojo.OrderHistoryItems;
 import com.wristcode.deliwala.adapter.OrderHistoryAdapter;
-import com.wristcode.deliwala.Pojo.OrderHistory;
-import com.wristcode.deliwala.adapter.OrderHistoryItemAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,10 +39,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Ajay Jagadish on 09-Sep-17.
+ * Created by Ajay Jagadish on 19-Apr-18.
  */
 
-public class OrderHistoryActivity extends AppCompatActivity
+public class OrderHistoryActivity1 extends AppCompatActivity
 {
     public static final int CONNECTION_TIMEOUT = 10000;
     public static final int READ_TIMEOUT = 15000;
@@ -54,43 +50,26 @@ public class OrderHistoryActivity extends AppCompatActivity
     List<OrderHistoryItems> data1;
     RecyclerView recyclerView;
     OrderHistoryAdapter mAdapter;
-    LinearLayout linearorder;
-    TextView txtorderhistory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        setContentView(R.layout.activity_order_history);
+        setContentView(R.layout.activity_order_history1);
         recyclerView = (RecyclerView) findViewById(R.id.orderRecycler);
-        linearorder = (LinearLayout) findViewById(R.id.linearorder);
-        txtorderhistory = (TextView) findViewById(R.id.txtorderhistory);
-        Typeface font1 = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Medium.ttf");
         SharedPreferences preferences1 = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        txtorderhistory.setTypeface(font1);
         if(isNetworkAvailable())
         {
             new AsyncOrderHistory().execute(preferences1.getString("Id", "").toString());
         }
         else
         {
-            Toast.makeText(OrderHistoryActivity.this, "Check your internet connection and try again!!!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(OrderHistoryActivity1.this, "Check your internet connection and try again!!!", Toast.LENGTH_SHORT).show();
         }
-
-        linearorder.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                Intent i = new Intent(OrderHistoryActivity.this, OrderHistoryActivity1.class);
-                startActivity(i);
-                finish();
-            }
-        });
     }
 
     private class AsyncOrderHistory extends AsyncTask<String, String, String> {
-        ProgressDialog pdLoading = new ProgressDialog(OrderHistoryActivity.this);
+        ProgressDialog pdLoading = new ProgressDialog(OrderHistoryActivity1.this);
         HttpURLConnection conn;
         URL url = null;
 
@@ -174,7 +153,7 @@ public class OrderHistoryActivity extends AppCompatActivity
                         {
                             JSONObject json_data = jArray.getJSONObject(i);
                             OrderHistory fishData = new OrderHistory();
-                            if(!(json_data.getString("orderStatus").equals("delivered") || json_data.getString("orderStatus").equals("cancelled")))
+                            if(json_data.getString("orderStatus").equals("delivered") || json_data.getString("orderStatus").equals("cancelled"))
                             {
                                 fishData.oId = json_data.getString("id");
                                 fishData.oDate = json_data.getString("orderDate");
@@ -194,13 +173,13 @@ public class OrderHistoryActivity extends AppCompatActivity
                     }
                 }
 
-                mAdapter = new OrderHistoryAdapter(OrderHistoryActivity.this, data);
-                recyclerView.setLayoutManager(new LinearLayoutManager(OrderHistoryActivity.this));
+                mAdapter = new OrderHistoryAdapter(OrderHistoryActivity1.this, data);
+                recyclerView.setLayoutManager(new LinearLayoutManager(OrderHistoryActivity1.this));
                 recyclerView.setAdapter(mAdapter);
                 mAdapter.notifyDataSetChanged();
 
             } catch (JSONException e) {
-                Toast.makeText(OrderHistoryActivity.this, e.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(OrderHistoryActivity1.this, e.toString(), Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -212,14 +191,14 @@ public class OrderHistoryActivity extends AppCompatActivity
     }
 
     public void backButton(View v) {
-        Intent i = new Intent(OrderHistoryActivity.this, NavDrawer.class);
+        Intent i = new Intent(OrderHistoryActivity1.this, OrderHistoryActivity.class);
         startActivity(i);
         finish();
     }
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(OrderHistoryActivity.this, NavDrawer.class);
+        Intent i = new Intent(OrderHistoryActivity1.this, OrderHistoryActivity.class);
         startActivity(i);
         finish();
     }

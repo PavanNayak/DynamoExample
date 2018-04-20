@@ -150,12 +150,9 @@ public class NavDrawer extends AppCompatActivity implements DuoMenuView.OnMenuCl
                 finish();
                 break;
             case 3:
-                goToFragment(new NotificationFragment(),false);
-                break;
-            case 4:
                 goToFragment(new ProfileFragment(),false);
                 break;
-            case 5:
+            case 4:
                 Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>()
                 {
                     @Override

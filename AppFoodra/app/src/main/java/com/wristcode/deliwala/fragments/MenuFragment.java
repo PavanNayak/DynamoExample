@@ -1,6 +1,7 @@
 package com.wristcode.deliwala.fragments;
 
 import android.app.ProgressDialog;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,6 +16,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,10 +87,7 @@ public class MenuFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_menu, container, false);
-
-
         preferences = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-
         layoutInner = (FrameLayout) v.findViewById(R.id.layoutInner);
         fab = (FloatingActionButton) v.findViewById(R.id.fab);
         cartbadge = (TextView) v.findViewById(R.id.cartbadge);

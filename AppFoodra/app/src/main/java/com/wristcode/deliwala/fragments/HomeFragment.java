@@ -4,14 +4,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,10 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +26,6 @@ import com.wristcode.deliwala.Pojo.Category;
 import com.wristcode.deliwala.Pojo.Restaurants;
 import com.wristcode.deliwala.Pojo.Tags;
 import com.wristcode.deliwala.R;
-import com.wristcode.deliwala.adapter.CategoryAdapter;
 import com.wristcode.deliwala.adapter.RestaurantsAdapter;
 import com.wristcode.deliwala.adapter.TagsAdapter;
 import com.wristcode.deliwala.extra.IConstants;
@@ -53,16 +47,11 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.channels.FileChannel;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
-
-import static android.content.Context.MODE_PRIVATE;
 
 public class HomeFragment extends Fragment implements IConstants {
     private static final String ARG_PARAM1 = "param1";
@@ -78,6 +67,7 @@ public class HomeFragment extends Fragment implements IConstants {
     ExampleDBHelper dh;
     private String mParam1;
     private String mParam2;
+    ImageView img;
 
     private OnFragmentInteractionListener mListener;
 
@@ -107,6 +97,7 @@ public class HomeFragment extends Fragment implements IConstants {
         text2 = v.findViewById(R.id.text2);
         txtoffer = v.findViewById(R.id.txtoffer);
         userlocation = v.findViewById(R.id.userlocation);
+        img = v.findViewById(R.id.img);
         Typeface font1 = Typeface.createFromAsset(getActivity().getAssets(), "GT-Walsheim-Medium.ttf");
         Typeface font2 = Typeface.createFromAsset(getActivity().getAssets(), "GT-Walsheim-Regular.ttf");
         text1.setTypeface(font1);
@@ -120,29 +111,40 @@ public class HomeFragment extends Fragment implements IConstants {
         Date slot2 = null;
         Date slot3 = null;
         Date slot4 = null;
+        Date slot5 = null;
 
         try
         {
-            slot1 = time.parse("04:00");
+            slot1 = time.parse("05:00");
             slot2 = time.parse("12:00");
             slot3 = time.parse("16:00");
-            slot4 = time.parse("23:00");
+            slot4 = time.parse("19:00");
+            slot5 = time.parse("24:00");
 
             Date CurrentTime = time.parse(time.format(new Date()));
             if ((CurrentTime.after(slot1) && CurrentTime.before(slot2)))
             {
                 text1.setText("Good Morning, "+pref.getString("Name","").toString());
                 text2.setText("It's time for breakfast");
+                img.setImageResource(R.drawable.pic);
             }
             else if ((CurrentTime.after(slot2) && CurrentTime.before(slot3)))
             {
                 text1.setText("Good Afternoon, "+pref.getString("Name","").toString());
                 text2.setText("It's time for lunch");
+                img.setImageResource(R.drawable.lunch);
             }
             else if ((CurrentTime.after(slot3) && CurrentTime.before(slot4)))
             {
                 text1.setText("Good Evening, "+pref.getString("Name","").toString());
+                text2.setText("It's time for snacks");
+                img.setImageResource(R.drawable.supper);
+            }
+            else if ((CurrentTime.after(slot4) && CurrentTime.before(slot5)))
+            {
+                text1.setText("Good Night, "+pref.getString("Name","").toString());
                 text2.setText("It's time for dinner");
+                img.setImageResource(R.drawable.dinner);
             }
         }
         catch (ParseException e)
@@ -153,11 +155,7 @@ public class HomeFragment extends Fragment implements IConstants {
         userlocation.setText(pref.getString("Address","").toString());
         dh = new ExampleDBHelper(getActivity());
         offerrecycler = v.findViewById(R.id.offerrecycler);
-        //Toast.makeText(getActivity(), String.valueOf(offerrecycler.getTop()), Toast.LENGTH_SHORT).show();
-        //exportDB();
         menurecycler = v.findViewById(R.id.menurecycler);
-        //categoriesList = new ArrayList<>();
-        //prepareAlbums();
         editSearch = v.findViewById(R.id.editSearch);
         editSearch.setTypeface(font2);
         editSearch.setOnClickListener(new View.OnClickListener()
@@ -174,16 +172,8 @@ public class HomeFragment extends Fragment implements IConstants {
         return v;
     }
 
-//    @Override
-//    public void onFocusChange(View view, boolean b) {
-//        if (b == true)
-//        {
-//            Intent i = new Intent(getActivity(), HotelListActivity.class);
-//            startActivity(i);
-//        }
-//    }
-
-    public void exportDB() {
+    public void exportDB()
+    {
         String SAMPLE_DB_NAME = dh.getDatabaseName();
         File sd = Environment.getExternalStorageDirectory();
         File data = Environment.getDataDirectory();
@@ -454,16 +444,6 @@ public class HomeFragment extends Fragment implements IConstants {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -88,11 +89,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
                             {
                                 Intent i = new Intent(mContext, CartActivity.class);
                                 mContext.startActivity(i);
+                                ((CartActivity)mContext).finish();
                             }
                             else
                             {
-                                Intent i = new Intent(mContext, NavDrawer.class);
+                                Intent i = new Intent(mContext, CartActivity.class);
                                 mContext.startActivity(i);
+                                ((CartActivity)mContext).finish();
                             }
                         }
                     });

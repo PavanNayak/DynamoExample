@@ -88,6 +88,7 @@ public class CartActivity extends AppCompatActivity {
                 fishData.varid = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_VARID));
                 fishData.varname = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_VARNAME));
                 fishData.id = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_ID));
+                fishData.type = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_IMAGE));
                 data.add(fishData);
             }
             txtresname.setText(rname.toString());
@@ -156,6 +157,7 @@ public class CartActivity extends AppCompatActivity {
                 fishData.varid = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_VARID));
                 fishData.varname = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_VARNAME));
                 fishData.id = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_ID));
+                fishData.type = c.getString(c.getColumnIndex(ExampleDBHelper.SUBCAT_COLUMN_IMAGE));
                 dataplus.add(fishData);
             }
             txtresname.setText(rname.toString());

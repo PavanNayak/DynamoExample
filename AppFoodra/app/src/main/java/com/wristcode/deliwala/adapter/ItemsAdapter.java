@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -37,8 +39,9 @@ import com.wristcode.deliwala.sqlite.ExampleDBHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder> {
+public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder> implements Filterable{
     private List<Items> moviesList;
+    private List<Items> movieListFiltered;
     private Context mContext;
     MenuFragment fragment;
     ExampleDBHelper dbHelper;
@@ -102,7 +105,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
                         txtplus.setVisibility(View.VISIBLE);
                         prodqty.setVisibility(View.VISIBLE);
                         prodqty.setText("1");
-                        dbHelper.insertItem(Integer.parseInt(txtid.getText().toString()), s1, txtvarname.getText().toString(), Integer.parseInt(txtresid.getText().toString()), txtresname.getText().toString(), txtname.getText().toString(), Integer.parseInt(prodqty.getText().toString()), Integer.parseInt(txtprice.getText().toString()), Integer.parseInt(txtprice.getText().toString()), txtimg.getText().toString());
+                        dbHelper.insertItem(Integer.parseInt(txtid.getText().toString()), s1, txtvarname.getText().toString(), Integer.parseInt(txtresid.getText().toString()), txtresname.getText().toString(), txtname.getText().toString(), Integer.parseInt(prodqty.getText().toString()), Integer.parseInt(txtprice.getText().toString()), Integer.parseInt(txtprice.getText().toString()), txttype.getText().toString());
 
                         SharedPreferences.Editor editor = pref.edit();
                         editor.putString("fg", "1");
@@ -178,7 +181,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
                     }
                     else
                     {
-                        dbHelper.insertItem(Integer.parseInt(txtid.getText().toString()), Integer.parseInt(txtvarid.getText().toString()), txtvarname.getText().toString(), Integer.parseInt(txtresid.getText().toString()), txtresname.getText().toString(), txtname.getText().toString(), Integer.parseInt(prodqty.getText().toString()), Integer.parseInt(txtprice.getText().toString()), Integer.parseInt(txtprice.getText().toString()), txtimg.getText().toString());
+                        dbHelper.insertItem(Integer.parseInt(txtid.getText().toString()), Integer.parseInt(txtvarid.getText().toString()), txtvarname.getText().toString(), Integer.parseInt(txtresid.getText().toString()), txtresname.getText().toString(), txtname.getText().toString(), Integer.parseInt(prodqty.getText().toString()), Integer.parseInt(txtprice.getText().toString()), Integer.parseInt(txtprice.getText().toString()), txttype.getText().toString());
                     }
 
                     TOTAL = dbHelper.gettotalqty();
@@ -266,6 +269,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
     public ItemsAdapter(Context mContext, List<Items> moviesList, MenuFragment fragment) {
         this.mContext = mContext;
         this.moviesList = moviesList;
+        this.movieListFiltered = moviesList;
         this.fragment = fragment;
     }
 
@@ -277,7 +281,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        Items movie = moviesList.get(position);
+        Items movie = movieListFiltered.get(position);
         holder.txtid.setText(movie.getId());
         holder.txtresid.setText(movie.getResid());
         holder.txtresname.setText(movie.getResname());
@@ -415,7 +419,50 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
     }
 
     @Override
+    public Filter getFilter()
+    {
+        return new Filter()
+        {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence)
+            {
+                String charString = charSequence.toString();
+                if (charString.isEmpty())
+                {
+                    movieListFiltered = moviesList;
+                }
+                else
+                {
+                    List<Items> filteredList = new ArrayList<>();
+                    for (Items row : moviesList) {
+
+                        // name match condition. this might differ depending on your requirement
+                        // here we are looking for name or phone number match
+                        if (row.getName().toLowerCase().contains(charString.toLowerCase()))
+                        {
+                            filteredList.add(row);
+                        }
+                    }
+                    movieListFiltered = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = movieListFiltered;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults)
+            {
+                //movieListFiltered = (ArrayList<Items>) filterResults.values;
+                movieListFiltered = (ArrayList<Items>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+
+    @Override
     public int getItemCount() {
-        return moviesList.size();
+        return movieListFiltered.size();
     }
 }
