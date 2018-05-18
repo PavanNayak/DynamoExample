@@ -1,18 +1,11 @@
 package com.wristcode.deliwala.adapter;
 
-/**
- * Created by nayak on 02-08-2017.
- */
-
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -28,7 +21,7 @@ import com.bumptech.glide.Glide;
 import com.wristcode.deliwala.Pojo.Category;
 import com.wristcode.deliwala.Pojo.Restaurants;
 import com.wristcode.deliwala.R;
-import com.wristcode.deliwala.TagRestaurantsActivity;
+import com.wristcode.deliwala.extra.IConstants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,10 +40,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyViewHolder>
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyViewHolder> implements IConstants
 {
-    public static final int CONNECTION_TIMEOUT = 20000;
-    public static final int READ_TIMEOUT = 20000;
     private List<Category> moviesList;
     private Context mContext;
     private int lastSelectedPosition = -1;
@@ -83,7 +74,15 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
                     catname.setTextColor(Color.parseColor("#DC143C"));
                     notifyDataSetChanged();
 
-                    new AsyncMenu().execute(catid.getText().toString());
+                    if(catid.getText().toString().equals("ALL"))
+                    {
+                        new AsyncRestaurants().execute(pref.getString("Latitude","").toString(), pref.getString("Longitiude", "").toString(), radiusKm);
+                    }
+                    else
+                    {
+                        new AsyncMenu().execute(catid.getText().toString());
+                    }
+
                 }
             });
         }
@@ -115,8 +114,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
         holder.catname.setTypeface(font2);
 
         Glide.with(mContext).load("http://appfoodra.com/uploads/restauranttype/icons/"+movie.getImg())
-                .placeholder(R.mipmap.ic_launcher)
-                .error(R.mipmap.ic_launcher)
+                .placeholder(R.drawable.all)
+                .error(R.drawable.all)
                 .into(holder.catimg);
 
         holder.radiobutton.setChecked(lastSelectedPosition == position);
@@ -132,24 +131,20 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
         return moviesList.size();
     }
 
-    private class AsyncMenu extends AsyncTask<String, String, String> {
-        //ProgressDialog pdLoading = new ProgressDialog(mContext);
+    private class AsyncMenu extends AsyncTask<String, String, String>
+    {
         HttpURLConnection conn;
         URL url = null;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
-//            pdLoading.setMessage("\tLoading...");
-//            pdLoading.setCancelable(false);
-//            pdLoading.show();
         }
 
         @Override
         protected String doInBackground(String... params) {
             try {
-                url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/restaurant-with-tags");
+                url = new URL(API_PATH+"restaurant-with-tags");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 return "exception";
@@ -198,7 +193,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
 
         @Override
         protected void onPostExecute(String result) {
-            //pdLoading.dismiss();
             List<Restaurants> data = new ArrayList<>();
             try {
                 JSONObject jsonObject = new JSONObject(result);
@@ -253,6 +247,135 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
                                 data.add(resData);
                             }
                         }
+                    }
+                    adapter1 = new RestaurantsAdapter(mContext, data, offerrecycler);
+                    offerrecycler.setLayoutManager(new LinearLayoutManager(mContext));
+                    offerrecycler.setNestedScrollingEnabled(false);
+                    offerrecycler.setFocusable(false);
+                    offerrecycler.setAdapter(adapter1);
+                    adapter1.notifyDataSetChanged();
+                }
+            } catch (JSONException e) {
+                Toast.makeText(mContext, e.toString(), Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private class AsyncRestaurants extends AsyncTask<String, String, String>
+    {
+        HttpURLConnection conn;
+        URL url = null;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                url = new URL(API_PATH+"all-restaurant");
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+                return "exception";
+            }
+            try {
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(READ_TIMEOUT);
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                Uri.Builder builder = new Uri.Builder()
+                        .appendQueryParameter("latitude", params[0])
+                        .appendQueryParameter("longitude", params[1])
+                        .appendQueryParameter("radiusKm", params[2]);
+                String query = builder.build().getEncodedQuery();
+
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(query);
+                writer.flush();
+                writer.close();
+                os.close();
+                conn.connect();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+                return "exception";
+            }
+
+            try {
+                InputStream input = conn.getInputStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                StringBuilder result = new StringBuilder();
+                String line;
+
+                while ((line = reader.readLine()) != null) {
+                    result.append(line);
+                }
+                return (result.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "exception";
+            } finally {
+                conn.disconnect();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            final List<Restaurants> data = new ArrayList<>();
+            try {
+                JSONObject jsonObject = new JSONObject(result);
+                if (jsonObject.getString("status").equals("true")) {
+                    JSONArray jArray = jsonObject.getJSONArray("data");
+                    for (int i = 0; i < jArray.length(); i++)
+                    {
+                        JSONObject jData = jArray.getJSONObject(i);
+                        JSONObject json_data = jData.getJSONObject("0");
+                        Restaurants resData = new Restaurants();
+                        resData.resid = json_data.getString("id");
+                        resData.resname = json_data.getString("restaurantName");
+                        if(json_data.has("description")) {
+                            resData.resdescp = json_data.getString("description");
+                        }
+                        else {
+                            resData.resdescp = "No Description";
+                        }
+                        if(json_data.has("restaurantAddress")) {
+                            resData.resadd = json_data.getString("restaurantAddress");
+                        }
+                        else
+                        {
+                            resData.resadd = "No Address";
+                        }
+                        resData.reslat = json_data.getString("restaurantLat");
+                        resData.reslong = json_data.getString("restaurantLong");
+                        resData.resmob = json_data.getString("primaryMobile");
+                        resData.resopentime = json_data.getString("openTime");
+                        resData.resclosetime = json_data.getString("closeTime");
+                        resData.resisopen = json_data.getString("isOpen");
+                        resData.respop = json_data.getString("popularity");
+                        if(json_data.has("iconImage"))
+                        {
+                            resData.resimg = json_data.getString("iconImage");
+                        }
+                        else
+                        {
+                            resData.resimg = " ";
+                        }
+                        JSONArray jsonArray = json_data.getJSONArray("restaurantType");
+                        if(!(jsonArray.length() == 0))
+                        {
+                            for(int j=0;j<jsonArray.length();j++)
+                            {
+                                JSONObject jobject2 = jsonArray.getJSONObject(j);
+                                resData.restags.add(jobject2.getString("typeName"));
+                            }
+                        }
+                        data.add(resData);
                     }
                     adapter1 = new RestaurantsAdapter(mContext, data, offerrecycler);
                     offerrecycler.setLayoutManager(new LinearLayoutManager(mContext));

@@ -3,7 +3,6 @@ package com.wristcode.deliwala;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -15,8 +14,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,12 +38,10 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.wristcode.deliwala.NavDrawer;
 import com.wristcode.deliwala.extra.AndroidPermissions;
 import com.wristcode.deliwala.extra.GPSTracker;
-import com.wristcode.deliwala.R;
+import com.wristcode.deliwala.extra.IConstants;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -64,7 +59,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class SelectLocationActivity extends AppCompatActivity implements GPSTracker.UpdateLocationListener, OnMapReadyCallback, View.OnClickListener, AdapterView.OnItemSelectedListener {
+public class SelectLocationActivity extends AppCompatActivity implements IConstants, GPSTracker.UpdateLocationListener, OnMapReadyCallback, View.OnClickListener, AdapterView.OnItemSelectedListener
+{
     private Bundle mBundle;
     LinearLayout linearmanual, linear1;
     Button btnproceed;
@@ -73,14 +69,10 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
     private Marker locationMarker;
     private MapView mMapView;
     private TextView mAddress, txtmanually;
-    public static final int CONNECTION_TIMEOUT = 20000;
-    public static final int READ_TIMEOUT = 20000;
     EditText housenumber, landmark, houseno, streetname;
     Spinner spinner;
     private LayoutInflater inflater;
     String latitude, longitude;
-    public static final String mypreference = "mypref";
-    private AlertDialog progressDialog;
     SharedPreferences pref1;
 
     @Override
@@ -88,29 +80,32 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_selectlocation);
+        pref1 = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         init();
 
-        linearmanual=(LinearLayout)findViewById(R.id.linearmanual);
-        linear1 = (LinearLayout) findViewById(R.id.linear1);
-        btnproceed = (Button) findViewById(R.id.btnproceed);
+        linearmanual = findViewById(R.id.linearmanual);
+        linear1 = findViewById(R.id.linear1);
+        btnproceed = findViewById(R.id.btnproceed);
         inflater = LayoutInflater.from(SelectLocationActivity.this);
-        txtmanually = (TextView) findViewById(R.id.txtmanually);
+        txtmanually = findViewById(R.id.txtmanually);
         txtmanually.setOnClickListener(this);
         gpsTracker = new GPSTracker(SelectLocationActivity.this);
         gpsTracker.setLocationListener(this);
 
-        try {
+        try
+        {
             MapsInitializer.initialize(SelectLocationActivity.this);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
 
         mMapView.onCreate(mBundle);
         mMapView.getMapAsync(this);
 
-        housenumber = (EditText) findViewById(R.id.housenumber);
-        landmark = (EditText) findViewById(R.id.landmark);
-        pref1 = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        housenumber = findViewById(R.id.housenumber);
+        landmark = findViewById(R.id.landmark);
         housenumber.setText(pref1.getString("HouseNumber", "").toString());
         landmark.setText(pref1.getString("Landmark", "").toString());
     }
@@ -142,7 +137,8 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
         }
     }
 
-    private void init() {
+    private void init()
+    {
         mMapView = (MapView) findViewById(R.id.map);
         mAddress = (TextView) findViewById(R.id.address);
     }
@@ -272,6 +268,10 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
                 }
                 else
                 {
+                    ProgressDialog pdLoading = new ProgressDialog(SelectLocationActivity.this);
+                    pdLoading.setMessage("\tLoading...");
+                    pdLoading.setCancelable(false);
+                    pdLoading.show();
                     mMapView.setVisibility(View.GONE);
                     linear1.setVisibility(View.GONE);
 
@@ -286,6 +286,7 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
                     editor1.apply();
 
                     Intent i = new Intent(SelectLocationActivity.this, NavDrawer.class);
+                    pdLoading.dismiss();
                     startActivity(i);
                     finish();
                 }
@@ -375,7 +376,7 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
         protected String doInBackground(String... params) {
             try
             {
-                url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/customer/address/add-new");
+                url = new URL(API_PATH+"customer/address/add-new");
             }
             catch (MalformedURLException e)
             {
@@ -431,7 +432,6 @@ public class SelectLocationActivity extends AppCompatActivity implements GPSTrac
         @Override
         protected void onPostExecute(String result) {
             pdLoading.dismiss();
-       //     Toast.makeText(SelectLocationActivity.this, result, Toast.LENGTH_SHORT).show();
             try
             {
                 JSONObject jsonObject = new JSONObject(result);

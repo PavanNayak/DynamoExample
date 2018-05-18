@@ -1,11 +1,11 @@
 package com.wristcode.deliwala;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Geocoder;
 import android.location.Location;
@@ -13,10 +13,8 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -26,12 +24,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
 
-import com.wristcode.deliwala.adapter.AddressAdapter;
+import com.wristcode.deliwala.extra.IConstants;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -45,7 +40,6 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -53,11 +47,8 @@ import java.util.Locale;
  * Created by Ajay Jagadish on 10-Mar-18.
  */
 
-public class AddressActivity extends AppCompatActivity
+public class AddressActivity extends AppCompatActivity implements IConstants
 {
-    public static final int CONNECTION_TIMEOUT = 20000;
-    public static final int READ_TIMEOUT = 20000;
-
     TextView txtdelivery, txtfulladdress, txtaddress, txtchange, txttagaddress, txthome, txtwork, txtothers, txtname, txtmobileno;
     EditText txtflatno, txtlandmark;
     Button saveAddress;
@@ -74,26 +65,25 @@ public class AddressActivity extends AppCompatActivity
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_address);
         pref1 = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        txtdelivery = (TextView) findViewById(R.id.txtdelivery);
-        txtfulladdress = (TextView) findViewById(R.id.txtfulladdress);
-        txtaddress = (TextView) findViewById(R.id.txtaddress);
-        txtchange = (TextView) findViewById(R.id.txtchange);
-        txtflatno = (EditText) findViewById(R.id.txtflatno);
-        txtlandmark = (EditText) findViewById(R.id.txtlandmark);
-        txttagaddress = (TextView) findViewById(R.id.txttagaddress);
-        txthome = (TextView) findViewById(R.id.txthome);
-        txtwork = (TextView) findViewById(R.id.txtwork);
-        txtothers = (TextView) findViewById(R.id.txtothers);
-        imghome = (ImageView) findViewById(R.id.imghome);
-        imgwork = (ImageView) findViewById(R.id.imgwork);
-        imgothers = (ImageView) findViewById(R.id.imgothers);
-        txtname = (TextView) findViewById(R.id.txtname);
-        txtmobileno = (TextView) findViewById(R.id.txtmobileno);
-        saveAddress = (Button) findViewById(R.id.saveAddress);
-        linearhome = (LinearLayout) findViewById(R.id.linearhome);
-        linearwork = (LinearLayout) findViewById(R.id.linearwork);
-        linearothers = (LinearLayout) findViewById(R.id.linearothers);
-
+        txtdelivery = findViewById(R.id.txtdelivery);
+        txtfulladdress = findViewById(R.id.txtfulladdress);
+        txtaddress = findViewById(R.id.txtaddress);
+        txtchange = findViewById(R.id.txtchange);
+        txtflatno = findViewById(R.id.txtflatno);
+        txtlandmark = findViewById(R.id.txtlandmark);
+        txttagaddress = findViewById(R.id.txttagaddress);
+        txthome = findViewById(R.id.txthome);
+        txtwork = findViewById(R.id.txtwork);
+        txtothers = findViewById(R.id.txtothers);
+        imghome = findViewById(R.id.imghome);
+        imgwork = findViewById(R.id.imgwork);
+        imgothers = findViewById(R.id.imgothers);
+        txtname = findViewById(R.id.txtname);
+        txtmobileno = findViewById(R.id.txtmobileno);
+        saveAddress = findViewById(R.id.saveAddress);
+        linearhome = findViewById(R.id.linearhome);
+        linearwork = findViewById(R.id.linearwork);
+        linearothers = findViewById(R.id.linearothers);
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         if (pref1.getString("AddressFlag", "").toString().equals("1"))
@@ -220,7 +210,6 @@ public class AddressActivity extends AppCompatActivity
                 startActivityForResult(i, 2);
             }
         });
-        //new AsyncAddress().execute(preferences1.getString("Id", "").toString());
 
         saveAddress.setOnClickListener(new View.OnClickListener()
         {
@@ -277,7 +266,9 @@ public class AddressActivity extends AppCompatActivity
             Location l = mLocationManager.getLastKnownLocation(provider);
             if (l == null)
             {
-                continue;
+                if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                        ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                }
             }
             if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy())
             {
@@ -344,7 +335,7 @@ public class AddressActivity extends AppCompatActivity
         @Override
         protected String doInBackground(String... params) {
             try {
-                url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/customer/address/add-new");
+                url = new URL(API_PATH+"customer/address/add-new");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 return "exception";
@@ -437,7 +428,7 @@ public class AddressActivity extends AppCompatActivity
         @Override
         protected String doInBackground(String... params) {
             try {
-                url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/customer/address/update");
+                url = new URL(API_PATH+"customer/address/update");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 return "exception";

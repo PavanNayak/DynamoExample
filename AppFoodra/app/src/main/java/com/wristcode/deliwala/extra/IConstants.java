@@ -1,17 +1,10 @@
 package com.wristcode.deliwala.extra;
 
-
 import android.net.Uri;
 
-/**
- * Created by Gururaj on 02-03-2017.
- */
-
-public interface IConstants {
-
-    //public static String API_PATH ="https://otrasi.000webhostapp.com/api/v1/";
-    public static String API_PATH ="http://192.168.1.39/otrasi_new/api/v1/";
-    //public static String API_MEDIA ="https://otrasi.000webhostapp.com/";
+public interface IConstants
+{
+    public static String API_PATH ="http://www.appfoodra.com/api/app-manager/get-functionality/";
     public static String API_MEDIA ="http://192.168.1.39/otrasi_new/";
     public static Uri PHONE_URI_COMMON = Uri.parse("tel:9611247955");
     public static Uri PHONE_URI_FOOD = Uri.parse("tel:9449073509");
@@ -22,4 +15,5 @@ public interface IConstants {
     public static final String USER_PREFS ="user_prefs";
     public static final int CONNECTION_TIMEOUT = 20000;
     public static final int READ_TIMEOUT = 20000;
+    public static final String radiusKm = "3";
 }

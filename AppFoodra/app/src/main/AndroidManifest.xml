@@ -24,7 +24,7 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name="com.wristcode.deliwala.Splashscreen">
+        <activity android:name="com.wristcode.deliwala.SplashscreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -108,6 +108,12 @@
 
         <activity
             android:name="com.wristcode.deliwala.OrderHistoryActivity"
+            android:screenOrientation="portrait"
+            android:noHistory="true"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name="com.wristcode.deliwala.ProfileActivity"
             android:screenOrientation="portrait"
             android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar" />

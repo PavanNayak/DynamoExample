@@ -1,8 +1,11 @@
 package com.wristcode.deliwala;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,22 +30,27 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HotelListActivity extends AppCompatActivity implements IConstants {
+public class HotelListActivity extends AppCompatActivity implements IConstants
+{
     RecyclerView recyclerView;
     List<Restaurants> data;
     EditText EditSearch;
     HotelAdapter adapter;
     private List<Hotels> categoriesList;
     RestaurantsAdapter adapter1;
+    SharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -50,10 +58,9 @@ public class HotelListActivity extends AppCompatActivity implements IConstants {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_hotel_list);
-
-        EditSearch = (EditText)findViewById(R.id.EditSearch);
+        pref = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        EditSearch = findViewById(R.id.EditSearch);
         EditSearch.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
-
 
         EditSearch.addTextChangedListener(new TextWatcher()
         {
@@ -80,20 +87,18 @@ public class HotelListActivity extends AppCompatActivity implements IConstants {
         });
 
 
-        recyclerView = (RecyclerView)findViewById(R.id.recyclerHotel);
+        recyclerView = findViewById(R.id.recyclerHotel);
         categoriesList = new ArrayList<>();
-        new AsyncRestaurants().execute();
+        new AsyncRestaurants().execute(pref.getString("Latitude","").toString(), pref.getString("Longitiude", "").toString(), radiusKm);
         List<String> spinnerArray =  new ArrayList<>();
         spinnerArray.add("Manipal");
         spinnerArray.add("Udupi");
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, spinnerArray);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        Spinner sItems = (Spinner) findViewById(R.id.spinner1);
+        Spinner sItems = findViewById(R.id.spinner1);
         sItems.setAdapter(adapter);
     }
-
-
 
     void filter(String text)
     {
@@ -128,7 +133,7 @@ public class HotelListActivity extends AppCompatActivity implements IConstants {
         {
             try
             {
-                url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/all-restaurant");
+                url = new URL(API_PATH+"all-restaurant");
             }
             catch (MalformedURLException e)
             {
@@ -141,7 +146,23 @@ public class HotelListActivity extends AppCompatActivity implements IConstants {
                 conn.setReadTimeout(READ_TIMEOUT);
                 conn.setConnectTimeout(CONNECTION_TIMEOUT);
                 conn.setRequestMethod("POST");
+                conn.setDoInput(true);
                 conn.setDoOutput(true);
+
+                Uri.Builder builder = new Uri.Builder()
+                        .appendQueryParameter("latitude", params[0])
+                        .appendQueryParameter("longitude", params[1])
+                        .appendQueryParameter("radiusKm", params[2]);
+                String query = builder.build().getEncodedQuery();
+
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(query);
+                writer.flush();
+                writer.close();
+                os.close();
+                conn.connect();
             }
             catch (IOException e1)
             {
@@ -186,7 +207,8 @@ public class HotelListActivity extends AppCompatActivity implements IConstants {
                     JSONArray jArray = jsonObject.getJSONArray("data");
                     for (int i = 0; i < jArray.length(); i++)
                     {
-                        JSONObject json_data = jArray.getJSONObject(i);
+                        JSONObject jData = jArray.getJSONObject(i);
+                        JSONObject json_data = jData.getJSONObject("0");
                         Restaurants resData = new Restaurants();
                         resData.resid = json_data.getString("id");
                         resData.resname = json_data.getString("restaurantName");

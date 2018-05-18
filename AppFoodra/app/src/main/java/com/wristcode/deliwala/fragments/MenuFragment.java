@@ -1,7 +1,6 @@
 package com.wristcode.deliwala.fragments;
 
 import android.app.ProgressDialog;
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,14 +8,12 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,9 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wristcode.deliwala.CartActivity;
-import com.wristcode.deliwala.HotelActivity;
 import com.wristcode.deliwala.R;
-import com.wristcode.deliwala.adapter.ItemsAdapter;
+import com.wristcode.deliwala.extra.IConstants;
 import com.wristcode.deliwala.sqlite.ExampleDBHelper;
 
 import org.json.JSONArray;
@@ -47,11 +43,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.content.Context.MODE_PRIVATE;
-import static com.wristcode.deliwala.SelectLocationActivity.READ_TIMEOUT;
-import static com.wristcode.deliwala.adapter.RestaurantsAdapter.CONNECTION_TIMEOUT;
-
-public class MenuFragment extends Fragment {
+public class MenuFragment extends Fragment implements IConstants
+{
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -186,18 +179,6 @@ public class MenuFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    public void setCart(int item)
-    {
-        //Toast.makeText(getActivity(), "Item: "+String.valueOf(item), Toast.LENGTH_SHORT).show();
-//        cartbadge.setText(String.valueOf(item));
-    }
-
-    public void setPrice(int total)
-    {
-        //txtitemtotal.setText("₹" + String.valueOf(total));
-    }
-
-
     private class AsyncGetData extends AsyncTask<String, String, String> {
         ProgressDialog pdLoading = new ProgressDialog(getActivity());
         HttpURLConnection conn;
@@ -215,7 +196,7 @@ public class MenuFragment extends Fragment {
         @Override
         protected String doInBackground(String... params) {
             try {
-                url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/restaurant/search-product/category");
+                url = new URL(API_PATH+"restaurant/search-product/category");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 return "exception";
@@ -288,20 +269,8 @@ public class MenuFragment extends Fragment {
                             s.add(String.valueOf(jsonArray1.get(j)));
                         }
                         strJson.add(s);
-
-//                        if(!(strMenuTitle.contains(jobject.getString("categoryName"))))
-//                        {
-//                            strMenuTitle.add(jobject.getString("categoryName"));
-//                            strJson.add(String.valueOf(jsonArray.get(i)));
-//                        }
-//                        else
-//                        {
-//                            strMenuTitle1.add(jobject.getString("categoryName"));
-//                            strJson.add(String.valueOf(jsonArray.get(i)));
-//                        }
                         setupViewPager(viewPager);
                     }
-                    //Toast.makeText(getActivity(), String.valueOf(strJson.size()), Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

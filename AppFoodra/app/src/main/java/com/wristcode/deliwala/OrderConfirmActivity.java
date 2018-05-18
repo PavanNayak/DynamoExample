@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -29,13 +28,15 @@ public class OrderConfirmActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orderconfirm);
-        txtorder = (TextView) findViewById(R.id.txtorder);
-        txtorder1 = (TextView) findViewById(R.id.txtorder1);
-        trackorder = (Button) findViewById(R.id.trackorder);
         pref = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         dh = new ExampleDBHelper(OrderConfirmActivity.this);
+        txtorder = findViewById(R.id.txtorder);
+        txtorder1 = findViewById(R.id.txtorder1);
+        trackorder = findViewById(R.id.trackorder);
+
         Typeface font1 = Typeface.createFromAsset(getAssets(),"GT-Walsheim-Medium.ttf");
         Typeface font2 = Typeface.createFromAsset(getAssets(),"GT-Walsheim-Regular.ttf");
+
         txtorder.setTypeface(font1);
         txtorder1.setTypeface(font2);
         trackorder.setTypeface(font2);

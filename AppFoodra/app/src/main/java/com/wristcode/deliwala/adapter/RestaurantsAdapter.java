@@ -3,8 +3,8 @@ package com.wristcode.deliwala.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Typeface;
-import android.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,7 +15,6 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -31,14 +30,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class RestaurantsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    public static final String mypreference = "mypref";
-    public String cart_id = "-1";
-    public static final String product_id = "product_id";
-    public static final String qty = "qty";
+public class RestaurantsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+{
     public int flag = 0;
-    public static final int CONNECTION_TIMEOUT = 20000;
-    public static final int READ_TIMEOUT = 20000;
     private List<Restaurants> moviesList;
     private Context mContext;
     private final int VIEW_TYPE_ITEM = 0;
@@ -157,7 +151,7 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         if (holder instanceof MyViewHolder)
         {
             final Restaurants movie = moviesList.get(position);
-            MyViewHolder myViewHolder = (MyViewHolder) holder;
+            final MyViewHolder myViewHolder = (MyViewHolder) holder;
             myViewHolder.txtname.setText(movie.getResname());
             myViewHolder.txtratings.setText(String.format("%.1f", Float.valueOf(movie.getRespop())));
             myViewHolder.ratingBar.setRating(Float.valueOf(movie.getRespop()));
@@ -191,7 +185,30 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             String date = dateFormat.format(newDate);
             String date1 = dateFormat.format(newDate1);
 
-            myViewHolder.txttime.setText(date+" - "+date1);
+            SimpleDateFormat time = new SimpleDateFormat("hh:mm a");
+            Date slot1 = null;
+            Date slot2 = null;
+
+            try
+            {
+                slot1 = time.parse(date);
+                slot2 = time.parse(date1);
+
+                Date CurrentTime = time.parse(time.format(new Date()));
+                if ((CurrentTime.before(slot1) || CurrentTime.after(slot2)))
+                {
+                    myViewHolder.txttime.setText("CLOSED");
+                    myViewHolder.txttime.setTextColor(Color.parseColor("#DC143C"));
+                }
+                else
+                {
+                    myViewHolder.txttime.setText(date+" - "+date1);
+                }
+            }
+            catch (ParseException e)
+            {
+                e.printStackTrace();
+            }
 
             resTagname.clear();
             resTagname = movie.getRestags();
@@ -203,22 +220,33 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             }
 
 
-            myViewHolder.relativehotel.setOnClickListener(new View.OnClickListener() {
+            myViewHolder.relativehotel.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
                 public void onClick(View view)
                 {
-                    SharedPreferences.Editor editor1 = pref.edit();
-                    editor1.putString("id",movie.getResid());
-                    editor1.putString("name",movie.getResname());
-                    editor1.putString("img",movie.getResimg());
-                    editor1.putString("isOpen",movie.getResisopen());
-                    editor1.putString("pop",movie.getRespop());
-                    editor1.putString("address",movie.getResadd());
-                    editor1.putString("descp", movie.getResdescp());
-                    editor1.apply();
+                    if(myViewHolder.txttime.getText().toString().equals("CLOSED"))
+                    {
+                        myViewHolder.relativehotel.setEnabled(false);
+                    }
+                    else
+                    {
+                        myViewHolder.relativehotel.setEnabled(true);
+                        SharedPreferences.Editor editor1 = pref.edit();
+                        editor1.putString("id",movie.getResid());
+                        editor1.putString("name",movie.getResname());
+                        editor1.putString("img",movie.getResimg());
+                        editor1.putString("isOpen",movie.getResisopen());
+                        editor1.putString("pop",movie.getRespop());
+                        editor1.putString("address",movie.getResadd());
+                        editor1.putString("descp", movie.getResdescp());
+                        editor1.putString("distance", movie.getResdist());
+                        editor1.apply();
 
-                    Intent i = new Intent(mContext, HotelActivity.class);
-                    mContext.startActivity(i);
+                        Intent i = new Intent(mContext, HotelActivity.class);
+                        mContext.startActivity(i);
+                    }
+
                 }
             });
         }

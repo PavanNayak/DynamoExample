@@ -2,13 +2,10 @@ package com.wristcode.deliwala.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,23 +20,20 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.wristcode.deliwala.CartActivity;
 import com.wristcode.deliwala.HotelActivity;
-import com.wristcode.deliwala.ItemActivity;
 import com.wristcode.deliwala.Pojo.Items;
 import com.wristcode.deliwala.R;
-import com.wristcode.deliwala.fragments.MainDishesFragment;
 import com.wristcode.deliwala.fragments.MenuFragment;
 import com.wristcode.deliwala.sqlite.ExampleDBHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder> implements Filterable{
+public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder> implements Filterable
+{
     private List<Items> moviesList;
     private List<Items> movieListFiltered;
     private Context mContext;
@@ -83,7 +77,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
             relative = view.findViewById(R.id.relative);
             image = view.findViewById(R.id.image);
             image1 = view.findViewById(R.id.image1);
-            spinnerPriceVariation = (Spinner) view.findViewById(R.id.spinnerPriceVariation);
+            spinnerPriceVariation = view.findViewById(R.id.spinnerPriceVariation);
             fragment = new MenuFragment();
             dbHelper = new ExampleDBHelper(mContext);
             pref = mContext.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
@@ -454,7 +448,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults)
             {
-                //movieListFiltered = (ArrayList<Items>) filterResults.values;
                 movieListFiltered = (ArrayList<Items>) filterResults.values;
                 notifyDataSetChanged();
             }

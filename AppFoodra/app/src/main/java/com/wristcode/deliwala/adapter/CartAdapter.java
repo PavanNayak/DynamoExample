@@ -15,27 +15,19 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.wristcode.deliwala.CartActivity;
-import com.wristcode.deliwala.HotelActivity;
-import com.wristcode.deliwala.NavDrawer;
 import com.wristcode.deliwala.Pojo.Cart;
 import com.wristcode.deliwala.R;
 import com.wristcode.deliwala.sqlite.ExampleDBHelper;
 
 import java.util.List;
 
-public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> {
-    public static final String mypreference = "mypref";
-    public String cart_id = "-1";
-    public static final String product_id = "product_id";
-    public static final String qty = "qty";
+public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder>
+{
     public int flag = 0;
-    public static final int CONNECTION_TIMEOUT = 20000;
-    public static final int READ_TIMEOUT = 20000;
     private List<Cart> moviesList;
     private Context mContext;
     ExampleDBHelper dh;
@@ -50,22 +42,22 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyViewHolder> 
 
         public MyViewHolder(View view) {
             super(view);
-            txtid = (TextView) view.findViewById(R.id.txtid);
-            txtvarid = (TextView) view.findViewById(R.id.txtvarid);
-            txtvarname = (TextView) view.findViewById(R.id.txtvarname);
-            txtresid = (TextView) view.findViewById(R.id.txtresid);
-            txtresname = (TextView) view.findViewById(R.id.txtresname);
-            txtname = (TextView) view.findViewById(R.id.txtname);
-            txtprice = (TextView) view.findViewById(R.id.txtprice);
-            txtqty = (TextView) view.findViewById(R.id.txtqty);
-            txttype = (TextView) view.findViewById(R.id.txttype);
+            txtid = view.findViewById(R.id.txtid);
+            txtvarid = view.findViewById(R.id.txtvarid);
+            txtvarname = view.findViewById(R.id.txtvarname);
+            txtresid = view.findViewById(R.id.txtresid);
+            txtresname = view.findViewById(R.id.txtresname);
+            txtname = view.findViewById(R.id.txtname);
+            txtprice = view.findViewById(R.id.txtprice);
+            txtqty = view.findViewById(R.id.txtqty);
+            txttype = view.findViewById(R.id.txttype);
             txtplus = view.findViewById(R.id.txtplus);
             txtplus.setOnClickListener(this);
             txtminus = view.findViewById(R.id.txtminus);
             txtminus.setOnClickListener(this);
-            relative = (RelativeLayout) view.findViewById(R.id.relative);
-            image = (ImageView) view.findViewById(R.id.image);
-            delete = (ImageView) view.findViewById(R.id.delete);
+            relative = view.findViewById(R.id.relative);
+            image = view.findViewById(R.id.image);
+            delete = view.findViewById(R.id.delete);
             delete.setOnClickListener(this);
             dh = new ExampleDBHelper(mContext);
         }

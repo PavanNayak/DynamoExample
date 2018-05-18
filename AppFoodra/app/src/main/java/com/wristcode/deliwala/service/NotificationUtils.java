@@ -24,6 +24,7 @@ import android.text.TextUtils;
 import android.util.Patterns;
 
 
+import com.wristcode.deliwala.OrderHistoryActivity;
 import com.wristcode.deliwala.Pojo.OrderHistory;
 import com.wristcode.deliwala.R;
 
@@ -59,7 +60,7 @@ public class NotificationUtils {
         // notification icon
         final int icon = R.mipmap.ic_launcher;
 
-        intent = new Intent(mContext, OrderHistory.class);
+        intent = new Intent(mContext, OrderHistoryActivity.class);
 
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         final PendingIntent resultPendingIntent = PendingIntent.getActivity(mContext, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);

@@ -17,19 +17,18 @@ public class ItemActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
-        txthotelname=(TextView)findViewById(R.id.txthotelname);
-        txtprice=(TextView)findViewById(R.id.txtprice);
-        txtdesc=(TextView)findViewById(R.id.txtdesc);
-        txtitemqty = (TextView) findViewById(R.id.txtitemqty);
-        proceedcart = (Button) findViewById(R.id.proceedcart);
-        btnminus = (Button) findViewById(R.id.btnminus);
-        btnplus = (Button) findViewById(R.id.btnplus);
-        btnadd = (Button) findViewById(R.id.btnadd);
+        txthotelname = findViewById(R.id.txthotelname);
+        txtprice = findViewById(R.id.txtprice);
+        txtdesc = findViewById(R.id.txtdesc);
+        txtitemqty = findViewById(R.id.txtitemqty);
+        proceedcart = findViewById(R.id.proceedcart);
+        btnminus = findViewById(R.id.btnminus);
+        btnplus = findViewById(R.id.btnplus);
+        btnadd = findViewById(R.id.btnadd);
 
         Typeface font = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Bold.ttf");
         Typeface font1 = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Medium.ttf");
         Typeface font2 = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Regular.ttf");
-
 
         txthotelname.setTypeface(font2);
         txtprice.setTypeface(font2);
@@ -88,7 +87,5 @@ public class ItemActivity extends AppCompatActivity
                 startActivity(i);
             }
         });
-
-
     }
 }

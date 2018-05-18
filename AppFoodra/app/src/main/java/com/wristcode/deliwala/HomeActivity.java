@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,19 +14,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.wristcode.deliwala.Pojo.Category;
 import com.wristcode.deliwala.Pojo.Restaurants;
 import com.wristcode.deliwala.Pojo.Tags;
-import com.wristcode.deliwala.adapter.CategoryAdapter;
 import com.wristcode.deliwala.adapter.RestaurantsAdapter;
 import com.wristcode.deliwala.adapter.TagsAdapter;
 import com.wristcode.deliwala.extra.IConstants;
 import com.wristcode.deliwala.extra.OnLoadMoreListener;
-import com.wristcode.deliwala.fragments.HomeFragment;
 import com.wristcode.deliwala.sqlite.ExampleDBHelper;
 
 import org.json.JSONArray;
@@ -33,9 +30,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -133,7 +133,7 @@ public class HomeActivity extends AppCompatActivity implements IConstants
                 startActivity(i);
             }
         });
-        new AsyncRestaurants().execute();
+        new AsyncRestaurants().execute(pref.getString("Latitude","").toString(), pref.getString("Longitiude", "").toString(), radiusKm);
         new AsyncTags().execute();
     }
 
@@ -155,7 +155,7 @@ public class HomeActivity extends AppCompatActivity implements IConstants
         @Override
         protected String doInBackground(String... params) {
             try {
-                url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/restaurant-tags");
+                url = new URL(API_PATH+"restaurant-tags");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 return "exception";
@@ -243,7 +243,7 @@ public class HomeActivity extends AppCompatActivity implements IConstants
         @Override
         protected String doInBackground(String... params) {
             try {
-                url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/all-restaurant");
+                url = new URL(API_PATH+"all-restaurant");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 return "exception";
@@ -253,7 +253,23 @@ public class HomeActivity extends AppCompatActivity implements IConstants
                 conn.setReadTimeout(READ_TIMEOUT);
                 conn.setConnectTimeout(CONNECTION_TIMEOUT);
                 conn.setRequestMethod("POST");
+                conn.setDoInput(true);
                 conn.setDoOutput(true);
+
+                Uri.Builder builder = new Uri.Builder()
+                        .appendQueryParameter("latitude", params[0])
+                        .appendQueryParameter("longitude", params[1])
+                        .appendQueryParameter("radiusKm", params[2]);
+                String query = builder.build().getEncodedQuery();
+
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(query);
+                writer.flush();
+                writer.close();
+                os.close();
+                conn.connect();
             } catch (IOException e1) {
                 e1.printStackTrace();
                 return "exception";
@@ -287,7 +303,8 @@ public class HomeActivity extends AppCompatActivity implements IConstants
                     JSONArray jArray = jsonObject.getJSONArray("data");
                     for (int i = 0; i < jArray.length(); i++)
                     {
-                        JSONObject json_data = jArray.getJSONObject(i);
+                        JSONObject jData = jArray.getJSONObject(i);
+                        JSONObject json_data = jData.getJSONObject("0");
                         Restaurants resData = new Restaurants();
                         resData.resid = json_data.getString("id");
                         resData.resname = json_data.getString("restaurantName");

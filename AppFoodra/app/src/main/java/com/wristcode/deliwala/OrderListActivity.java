@@ -10,7 +10,6 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,9 +21,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.wristcode.deliwala.Pojo.OrderHistory;
 import com.wristcode.deliwala.Pojo.OrderHistoryItems;
-import com.wristcode.deliwala.adapter.OrderHistoryAdapter;
 import com.wristcode.deliwala.adapter.OrderHistoryItemAdapter;
 import com.wristcode.deliwala.extra.IConstants;
 
@@ -60,25 +57,26 @@ public class OrderListActivity extends AppCompatActivity implements IConstants
     SharedPreferences preferences;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_order_list);
-        txtorderid = (TextView) findViewById(R.id.txtorderid);
-        txtorderdate = (TextView) findViewById(R.id.txtorderdate);
-        txtcustadd = (TextView) findViewById(R.id.txtcustadd);
-        txtresname = (TextView) findViewById(R.id.txtresname);
-        txtorderitems = (TextView) findViewById(R.id.txtorderitems);
-        txtpaytype = (TextView) findViewById(R.id.txtpaytype);
-        valpaytype = (TextView) findViewById(R.id.valpaytype);
-        txtgrandtotal = (TextView) findViewById(R.id.txtgrandtotal);
-        valgrandtotal = (TextView) findViewById(R.id.valgrandtotal);
-        txtstatus = (TextView) findViewById(R.id.txtstatus);
-        valstatus = (TextView) findViewById(R.id.valstatus);
-        txtrateus = (TextView) findViewById(R.id.txtrateus);
-        itemsRecycler = (RecyclerView) findViewById(R.id.itemsRecycler);
-        btnTrack = (Button) findViewById(R.id.btnTrack);
         preferences = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        txtorderid = findViewById(R.id.txtorderid);
+        txtorderdate = findViewById(R.id.txtorderdate);
+        txtcustadd = findViewById(R.id.txtcustadd);
+        txtresname = findViewById(R.id.txtresname);
+        txtorderitems = findViewById(R.id.txtorderitems);
+        txtpaytype = findViewById(R.id.txtpaytype);
+        valpaytype = findViewById(R.id.valpaytype);
+        txtgrandtotal = findViewById(R.id.txtgrandtotal);
+        valgrandtotal = findViewById(R.id.valgrandtotal);
+        txtstatus = findViewById(R.id.txtstatus);
+        valstatus = findViewById(R.id.valstatus);
+        txtrateus = findViewById(R.id.txtrateus);
+        itemsRecycler = findViewById(R.id.itemsRecycler);
+        btnTrack = findViewById(R.id.btnTrack);
 
         Typeface font = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Bold.ttf");
         Typeface font1 = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Medium.ttf");
@@ -148,9 +146,9 @@ public class OrderListActivity extends AppCompatActivity implements IConstants
             {
                 LayoutInflater inflater = LayoutInflater.from(OrderListActivity.this);
                 View alertLayout = inflater.inflate(R.layout.rating_dialog, null);
-                final RatingBar ratingBarItem = (RatingBar) alertLayout.findViewById(R.id.ratingBarItem);
-                final EditText txtreview = (EditText) alertLayout.findViewById(R.id.txtreview);
-                final Button btnSubmit = (Button) alertLayout.findViewById(R.id.btnSubmit);
+                final RatingBar ratingBarItem = alertLayout.findViewById(R.id.ratingBarItem);
+                final EditText txtreview = alertLayout.findViewById(R.id.txtreview);
+                final Button btnSubmit = alertLayout.findViewById(R.id.btnSubmit);
 
                 AlertDialog.Builder alert = new AlertDialog.Builder(OrderListActivity.this);
                 alert.setTitle("Add Review");
@@ -210,7 +208,7 @@ public class OrderListActivity extends AppCompatActivity implements IConstants
         @Override
         protected String doInBackground(String... params) {
             try {
-                url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/restaurant/ratings");
+                url = new URL(API_PATH+"restaurant/ratings");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 return "exception";

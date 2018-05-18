@@ -53,6 +53,7 @@
                 android:elevation="8dp">
 
                 <LinearLayout
+                    android:id="@+id/linearsearch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -64,7 +65,7 @@
                         android:layout_height="50dp"
                         android:background="@color/colorPrimary"
                         android:padding="10dp"
-                        android:src="@drawable/location" />
+                        android:src="@drawable/ring" />
 
                     <TextView
                         android:id="@+id/editSearch"

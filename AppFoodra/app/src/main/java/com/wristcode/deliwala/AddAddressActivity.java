@@ -9,18 +9,17 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wristcode.deliwala.Pojo.Address;
 import com.wristcode.deliwala.adapter.AddressAdapter;
+import com.wristcode.deliwala.extra.IConstants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,11 +42,8 @@ import java.util.List;
  * Created by Ajay Jagadish on 10-Mar-18.
  */
 
-public class AddAddressActivity extends AppCompatActivity
+public class AddAddressActivity extends AppCompatActivity implements IConstants
 {
-    public static final int CONNECTION_TIMEOUT = 20000;
-    public static final int READ_TIMEOUT = 20000;
-
     RecyclerView recyclerView;
     AddressAdapter mAdapter;
     TextView titletext, txttitleadd, txtaddaddress;
@@ -59,11 +55,11 @@ public class AddAddressActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_add_address);
-        titletext = (TextView) findViewById(R.id.titletext);
-        txttitleadd = (TextView) findViewById(R.id.txttitleadd);
-        txtaddaddress = (TextView) findViewById(R.id.txtaddaddress);
-        addAddress = (Button) findViewById(R.id.addAddress);
-        recyclerView = (RecyclerView) findViewById(R.id.addressRecycler);
+        titletext = findViewById(R.id.titletext);
+        txttitleadd = findViewById(R.id.txttitleadd);
+        txtaddaddress = findViewById(R.id.txtaddaddress);
+        addAddress = findViewById(R.id.addAddress);
+        recyclerView = findViewById(R.id.addressRecycler);
         Typeface font = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Medium.ttf");
         Typeface font1 = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Regular.ttf");
         titletext.setTypeface(font);
@@ -121,7 +117,7 @@ public class AddAddressActivity extends AppCompatActivity
         @Override
         protected String doInBackground(String... params) {
             try {
-                url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/customer/get-profile");
+                url = new URL(API_PATH+"customer/get-profile");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 return "exception";

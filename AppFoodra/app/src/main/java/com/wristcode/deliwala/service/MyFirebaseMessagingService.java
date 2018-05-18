@@ -14,7 +14,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import com.wristcode.deliwala.Splashscreen;
+import com.wristcode.deliwala.SplashscreenActivity;
 
 
 import org.json.JSONException;
@@ -29,7 +29,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Log.e(TAG, "From: " + remoteMessage.getFrom());
-        FirebaseMessaging.getInstance().subscribeToTopic("kiran");
+        FirebaseMessaging.getInstance().subscribeToTopic("");
         if (remoteMessage == null)
             return;
 
@@ -100,7 +100,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 notificationUtils.playNotificationSound();
             } else {
                 // app is in background, show the notification in notification tray
-                Intent resultIntent = new Intent(getApplicationContext(), Splashscreen.class);
+                Intent resultIntent = new Intent(getApplicationContext(), SplashscreenActivity.class);
                 resultIntent.putExtra("message", message);
 
                 // check for image attachment

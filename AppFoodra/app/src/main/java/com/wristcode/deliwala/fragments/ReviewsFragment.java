@@ -2,12 +2,10 @@ package com.wristcode.deliwala.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,14 +15,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.wristcode.deliwala.CartActivity;
-import com.wristcode.deliwala.HotelActivity;
-import com.wristcode.deliwala.NavDrawer;
-import com.wristcode.deliwala.OrderHistoryActivity;
-import com.wristcode.deliwala.Pojo.OrderHistory;
 import com.wristcode.deliwala.Pojo.Reviews;
 import com.wristcode.deliwala.R;
-import com.wristcode.deliwala.adapter.OrderHistoryAdapter;
 import com.wristcode.deliwala.adapter.ReviewsAdapter;
 import com.wristcode.deliwala.extra.IConstants;
 
@@ -44,8 +36,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by Ajay Jagadish on 28-Feb-18.
@@ -87,35 +77,9 @@ public class ReviewsFragment extends Fragment implements IConstants
         linear = v.findViewById(R.id.linear);
         recyclerReview = v.findViewById(R.id.recyclerReview);
         reviewsList = new ArrayList<>();
-//        prepareAlbums();
         new AsyncListRatings().execute(pref.getString("id","").toString());
         return v;
     }
-
-//    private void prepareAlbums() {
-//        int[] covers = new int[]{
-//                R.drawable.userimg,
-//                R.drawable.userimg,
-//                R.drawable.userimg,
-//                R.drawable.userimg
-//        };
-//
-//        Reviews a = new Reviews("", "Pavan Nayak", "Loved the restaurant!!!", covers[0]);
-//        reviewsList.add(a);
-//        a = new Reviews("", "Srikanth", "Tasty Food, Would love to visit again!!", covers[1]);
-//        reviewsList.add(a);
-//        a = new Reviews("", "Shailesh", "Good..", covers[2]);
-//        reviewsList.add(a);
-//        a = new Reviews("", "Prashanth", "Wonderful...", covers[3]);
-//        reviewsList.add(a);
-//
-//        adapter = new ReviewsAdapter(getActivity(), reviewsList);
-//        recyclerReview.setLayoutManager(new LinearLayoutManager(getActivity()));
-//        recyclerReview.setNestedScrollingEnabled(false);
-//        recyclerReview.setFocusable(false);
-//        recyclerReview.setAdapter(adapter);
-//        adapter.notifyDataSetChanged();
-//    }
 
     private class AsyncListRatings extends AsyncTask<String, String, String> {
         ProgressDialog pdLoading = new ProgressDialog(getActivity());
@@ -133,7 +97,7 @@ public class ReviewsFragment extends Fragment implements IConstants
         @Override
         protected String doInBackground(String... params) {
             try {
-                url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/restaurant/ratings-list");
+                url = new URL(API_PATH+"restaurant/ratings-list");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 return "exception";

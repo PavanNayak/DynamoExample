@@ -1,14 +1,9 @@
 package com.wristcode.deliwala.adapter;
 
-/**
- * Created by nayak on 02-08-2017.
- */
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,24 +12,16 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.wristcode.deliwala.PaymentActivity;
 import com.wristcode.deliwala.Pojo.Payment;
 import com.wristcode.deliwala.R;
 
 import java.util.List;
 
-public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.MyViewHolder> {
-    public static final String mypreference = "mypref";
-    public String cart_id = "-1";
-    public static final String product_id = "product_id";
-    public static final String qty = "qty";
+public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.MyViewHolder>
+{
     public int flag = 0;
-
-    public static final int CONNECTION_TIMEOUT = 20000;
-    public static final int READ_TIMEOUT = 20000;
     private List<Payment> moviesList;
     private Context mContext;
     private int lastSelectedPosition = 0;

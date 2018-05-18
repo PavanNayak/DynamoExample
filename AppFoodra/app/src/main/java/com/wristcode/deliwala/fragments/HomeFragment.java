@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,12 +38,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -53,11 +57,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class HomeFragment extends Fragment implements IConstants {
+public class HomeFragment extends Fragment implements IConstants
+{
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    TextView text1, text2, txtoffer, userlocation, editSearch;
+    TextView text1, text2, txtoffer, userlocation;
     RecyclerView menurecycler, offerrecycler;
     private List<Category> categoriesList;
     TagsAdapter adapter;
@@ -68,6 +73,7 @@ public class HomeFragment extends Fragment implements IConstants {
     private String mParam1;
     private String mParam2;
     ImageView img;
+    LinearLayout linearsearch;
 
     private OnFragmentInteractionListener mListener;
 
@@ -97,6 +103,7 @@ public class HomeFragment extends Fragment implements IConstants {
         text2 = v.findViewById(R.id.text2);
         txtoffer = v.findViewById(R.id.txtoffer);
         userlocation = v.findViewById(R.id.userlocation);
+        linearsearch = v.findViewById(R.id.linearsearch);
         img = v.findViewById(R.id.img);
         Typeface font1 = Typeface.createFromAsset(getActivity().getAssets(), "GT-Walsheim-Medium.ttf");
         Typeface font2 = Typeface.createFromAsset(getActivity().getAssets(), "GT-Walsheim-Regular.ttf");
@@ -156,10 +163,7 @@ public class HomeFragment extends Fragment implements IConstants {
         dh = new ExampleDBHelper(getActivity());
         offerrecycler = v.findViewById(R.id.offerrecycler);
         menurecycler = v.findViewById(R.id.menurecycler);
-        editSearch = v.findViewById(R.id.editSearch);
-        editSearch.setTypeface(font2);
-        editSearch.setOnClickListener(new View.OnClickListener()
-        {
+        linearsearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
@@ -167,7 +171,7 @@ public class HomeFragment extends Fragment implements IConstants {
                 startActivity(i);
             }
         });
-        new AsyncRestaurants().execute();
+        new AsyncRestaurants().execute(pref.getString("Latitude","").toString(), pref.getString("Longitiude", "").toString(), radiusKm);
         new AsyncTags().execute();
         return v;
     }
@@ -211,7 +215,7 @@ public class HomeFragment extends Fragment implements IConstants {
         @Override
         protected String doInBackground(String... params) {
             try {
-                url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/restaurant-tags");
+                url = new URL(API_PATH+"restaurant-tags");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 return "exception";
@@ -249,7 +253,11 @@ public class HomeFragment extends Fragment implements IConstants {
         protected void onPostExecute(String result) {
             pdLoading.dismiss();
             List<Tags> data = new ArrayList<>();
-            try {
+            try
+            {
+                Tags a = new Tags("ALL", "All", "");
+                data.add(a);
+
                 JSONObject jsonObject = new JSONObject(result);
                 if (jsonObject.getString("status").equals("true")) {
                     JSONArray jArray = jsonObject.getJSONArray("data");
@@ -258,7 +266,8 @@ public class HomeFragment extends Fragment implements IConstants {
                         Tags catData = new Tags();
                         catData.id = json_data.getString("id");
                         catData.name = json_data.getString("typeName");
-                        if(json_data.has("iconImage")) {
+                        if(json_data.has("iconImage"))
+                        {
                             catData.img = json_data.getString("iconImage");
                         }
                         else
@@ -287,7 +296,8 @@ public class HomeFragment extends Fragment implements IConstants {
         URL url = null;
 
         @Override
-        protected void onPreExecute() {
+        protected void onPreExecute()
+        {
             super.onPreExecute();
 
             pdLoading.setMessage("\tLoading...");
@@ -298,7 +308,7 @@ public class HomeFragment extends Fragment implements IConstants {
         @Override
         protected String doInBackground(String... params) {
             try {
-                url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/all-restaurant");
+                url = new URL(API_PATH+"all-restaurant");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 return "exception";
@@ -308,7 +318,23 @@ public class HomeFragment extends Fragment implements IConstants {
                 conn.setReadTimeout(READ_TIMEOUT);
                 conn.setConnectTimeout(CONNECTION_TIMEOUT);
                 conn.setRequestMethod("POST");
+                conn.setDoInput(true);
                 conn.setDoOutput(true);
+
+                Uri.Builder builder = new Uri.Builder()
+                        .appendQueryParameter("latitude", params[0])
+                        .appendQueryParameter("longitude", params[1])
+                        .appendQueryParameter("radiusKm", params[2]);
+                String query = builder.build().getEncodedQuery();
+
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(query);
+                writer.flush();
+                writer.close();
+                os.close();
+                conn.connect();
             } catch (IOException e1) {
                 e1.printStackTrace();
                 return "exception";
@@ -342,7 +368,8 @@ public class HomeFragment extends Fragment implements IConstants {
                     JSONArray jArray = jsonObject.getJSONArray("data");
                     for (int i = 0; i < jArray.length(); i++)
                     {
-                        JSONObject json_data = jArray.getJSONObject(i);
+                        JSONObject jData = jArray.getJSONObject(i);
+                        JSONObject json_data = jData.getJSONObject("0");
                         Restaurants resData = new Restaurants();
                         resData.resid = json_data.getString("id");
                         resData.resname = json_data.getString("restaurantName");
@@ -383,6 +410,7 @@ public class HomeFragment extends Fragment implements IConstants {
                                 resData.restags.add(jobject2.getString("typeName"));
                             }
                         }
+                        resData.resdist = jData.getString("distance");
                         data.add(resData);
                     }
                     adapter1 = new RestaurantsAdapter(getActivity(), data, offerrecycler);
@@ -393,14 +421,14 @@ public class HomeFragment extends Fragment implements IConstants {
 
                     adapter1.setOnLoadMoreListener(new OnLoadMoreListener() {
                         @Override public void onLoadMore() {
-                            Log.e("haint", "Load More");
+                            Log.e("hint", "Load More");
                             data.add(null);
                             adapter1.notifyItemInserted(data.size() - 1);
                             //Load more data for reyclerview
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Log.e("haint", "Load More 2");
+                                    Log.e("hint", "Load More 2");
                                     //Remove loading item
                                     data.remove(data.size() - 1);
                                     adapter1.notifyItemRemoved(data.size());

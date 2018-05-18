@@ -6,8 +6,6 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -25,8 +23,6 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.wristcode.deliwala.adapter.MenuAdapters;
 import com.wristcode.deliwala.fragments.HomeFragment;
-import com.wristcode.deliwala.fragments.NotificationFragment;
-import com.wristcode.deliwala.fragments.ProfileFragment;
 import com.wristcode.deliwala.sqlite.ExampleDBHelper;
 
 import java.util.ArrayList;
@@ -150,7 +146,9 @@ public class NavDrawer extends AppCompatActivity implements DuoMenuView.OnMenuCl
                 finish();
                 break;
             case 3:
-                goToFragment(new ProfileFragment(),false);
+                Intent k = new Intent(NavDrawer.this, ProfileActivity.class);
+                startActivity(k);
+                finish();
                 break;
             case 4:
                 Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>()

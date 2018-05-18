@@ -1,6 +1,5 @@
 package com.wristcode.deliwala;
 
-import android.*;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +11,6 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -23,7 +21,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.wristcode.deliwala.extra.IConstants;
 
 import org.json.JSONException;
@@ -44,7 +41,8 @@ import java.net.URL;
  * Created by Ajay Jagadish on 20-Feb-18.
  */
 
-public class LoginActivity extends AppCompatActivity implements IConstants {
+public class LoginActivity extends AppCompatActivity implements IConstants
+{
     TextView txtwelcome, txtsignin, txtphone;
     EditText valuephone;
     Button verifyButton;
@@ -52,7 +50,8 @@ public class LoginActivity extends AppCompatActivity implements IConstants {
     private int REQUEST_CODE = 1;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         txtwelcome = findViewById(R.id.txtwelcome);
@@ -131,7 +130,7 @@ public class LoginActivity extends AppCompatActivity implements IConstants {
         @Override
         protected String doInBackground(String... params) {
             try {
-                url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/customer/pre-register");
+                url = new URL(API_PATH+"customer/pre-register");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 return "exception";

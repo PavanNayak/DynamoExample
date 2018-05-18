@@ -1,32 +1,24 @@
 package com.wristcode.deliwala;
 
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.luseen.spacenavigation.SpaceItem;
 import com.luseen.spacenavigation.SpaceNavigationView;
-import com.luseen.spacenavigation.SpaceOnClickListener;
-import com.luseen.spacenavigation.SpaceOnLongClickListener;
 import com.wristcode.deliwala.fragments.MenuFragment;
 import com.wristcode.deliwala.fragments.OverviewFragment;
 import com.wristcode.deliwala.fragments.ReviewsFragment;
@@ -34,50 +26,36 @@ import com.wristcode.deliwala.sqlite.ExampleDBHelper;
 
 public class HotelActivity extends AppCompatActivity
 {
-    private OverviewFragment fragment1;
-    private MenuFragment fragment2;
-    private ReviewsFragment fragment3;
-    int flag = 0;
-    private FragmentManager fragmentManager;
     SharedPreferences preferences;
-    public  String id, name, descp, img, isOpen, pop, address;
+    public  String id, name, descp, img, isOpen, pop, address, distance;
     TextView txttitle, cartbadge;
     FrameLayout itemcart;
     ExampleDBHelper dh;
+    ImageView imglogo;
 
-    private SpaceNavigationView spaceNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hotel);
-        preferences = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        txttitle = (TextView) findViewById(R.id.txttitle);
-        cartbadge = (TextView) findViewById(R.id.cartbadge);
-        itemcart = (FrameLayout) findViewById(R.id.itemcart);
         dh = new ExampleDBHelper(HotelActivity.this);
+        preferences = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        txttitle = findViewById(R.id.txttitle);
+        cartbadge = findViewById(R.id.cartbadge);
+        itemcart = findViewById(R.id.itemcart);
+        imglogo = findViewById(R.id.imglogo);
+
         Typeface font = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Medium.ttf");
 
         if (dh.gettotalqty() > 0 || dh.gettotalprice() > 0)
         {
-            //layoutInner.setVisibility(View.VISIBLE);
             cartbadge.setText(String.valueOf(dh.gettotalqty()));
         }
         else
         {
-            //layoutInner.setVisibility(View.INVISIBLE);
             cartbadge.setText("0");
         }
         setupNavigationView();
-
-
-//        id = getIntent().getStringExtra("id").toString();
-//        name = getIntent().getStringExtra("name").toString();
-//        descp = getIntent().getStringExtra("descp").toString();
-//        img = getIntent().getStringExtra("img").toString();
-//        isOpen = getIntent().getStringExtra("isOpen").toString();
-//        pop = getIntent().getStringExtra("pop").toString();
-//        address = getIntent().getStringExtra("address").toString();
 
         id = preferences.getString("id", "").toString();
         name = preferences.getString("name", "").toString();
@@ -86,20 +64,7 @@ public class HotelActivity extends AppCompatActivity
         isOpen = preferences.getString("isOpen", "").toString();
         pop = preferences.getString("pop", "").toString();
         address = preferences.getString("address", "").toString();
-
-
-
-        //Toast.makeText(this,String.valueOf(id), Toast.LENGTH_SHORT).show();
-
-
-//        SharedPreferences.Editor editor1 = preferences.edit();
-//        editor1.putString("id",id);
-//        editor1.putString("name",name);
-//        editor1.putString("img",img);
-//        editor1.putString("isOpen",isOpen);
-//        editor1.putString("pop",pop);
-//        editor1.putString("address",address);
-//        editor1.apply();
+        distance = preferences.getString("distance", "").toString();
 
         txttitle.setText(preferences.getString("name", "").toString());
         txttitle.setTypeface(font);
@@ -114,11 +79,22 @@ public class HotelActivity extends AppCompatActivity
                 finish();
             }
         });
+
+        imglogo.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent i = new Intent(HotelActivity.this, NavDrawer.class);
+                startActivity(i);
+                finish();
+            }
+        });
     }
 
     private void setupNavigationView()
     {
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.navigation);
         if (bottomNavigationView != null)
         {
             Menu menu = bottomNavigationView.getMenu();
@@ -159,8 +135,8 @@ public class HotelActivity extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         if (fragmentManager != null) {
             FragmentTransaction ft = fragmentManager.beginTransaction();
-            if (ft != null) {
-
+            if (ft != null)
+            {
                 Bundle bundle = new Bundle();
                 bundle.putString("id", id);
                 bundle.putString("name", name);
@@ -171,7 +147,6 @@ public class HotelActivity extends AppCompatActivity
                 bundle.putString("address", address);
                 fragment.setArguments(bundle);
 
-
                 ft.replace(R.id.content, fragment);
                 ft.commit();
             }
@@ -180,20 +155,19 @@ public class HotelActivity extends AppCompatActivity
 
     public void setCart(int item)
     {
-        //Toast.makeText(this, "Hi", Toast.LENGTH_SHORT).show();
         if (dh.gettotalqty() > 0 || dh.gettotalprice() > 0)
         {
             cartbadge.setText(String.valueOf(item));
         }
         else
         {
-
             cartbadge.setText("0");
         }
     }
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed()
+    {
         Intent i = new Intent(HotelActivity.this, NavDrawer.class);
         startActivity(i);
         finish();

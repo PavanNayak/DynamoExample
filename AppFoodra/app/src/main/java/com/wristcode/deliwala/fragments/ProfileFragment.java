@@ -1,28 +1,19 @@
 package com.wristcode.deliwala.fragments;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.wristcode.deliwala.AddAddressActivity;
-import com.wristcode.deliwala.Pojo.Address;
 import com.wristcode.deliwala.R;
-import com.wristcode.deliwala.adapter.AddressAdapter;
 import com.wristcode.deliwala.extra.IConstants;
 
 import org.json.JSONArray;
@@ -39,10 +30,6 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-
-import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by Ajay Jagadish on 09-Mar-18.
@@ -50,7 +37,6 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class ProfileFragment extends Fragment implements IConstants
 {
-
     TextView txtusername, contact, txtcontact, emailid, txtemail, address, txtaddress;
     SharedPreferences pref;
     String add;
@@ -109,7 +95,7 @@ public class ProfileFragment extends Fragment implements IConstants
         @Override
         protected String doInBackground(String... params) {
             try {
-                url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/customer/get-profile");
+                url = new URL(API_PATH+"customer/get-profile");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 return "exception";

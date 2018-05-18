@@ -6,11 +6,8 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +15,11 @@ import android.widget.TextView;
 
 import com.wristcode.deliwala.R;
 
-import static android.content.Context.MODE_PRIVATE;
-
 public class OverviewFragment extends Fragment
 {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-   // HotelActivity activity;
     String id,name,descp,img,isOpen,pop,address;
     private String mParam1;
     private String mParam2;
@@ -73,10 +67,6 @@ public class OverviewFragment extends Fragment
         txtdelivery = v.findViewById(R.id.txtdelivery);
         fab = v.findViewById(R.id.fab);
 
-
-       // activity=new HotelActivity();
-
-
         Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "GT-Walsheim-Bold.ttf");
         Typeface font1 = Typeface.createFromAsset(getActivity().getAssets(), "GT-Walsheim-Medium.ttf");
         Typeface font2 = Typeface.createFromAsset(getActivity().getAssets(), "GT-Walsheim-Regular.ttf");
@@ -88,14 +78,14 @@ public class OverviewFragment extends Fragment
         txtdistance.setTypeface(font2);
         txtdelivery.setTypeface(font2);
 
-      //  Toast.makeText(getActivity(),String.valueOf(activity.name), Toast.LENGTH_SHORT).show();
-
         txthotelname.setText(pref.getString("name", "").toString());
         txtlocation.setText(pref.getString("address", "").toString());
         fab.setText(String.format("%.1f", Float.valueOf(pref.getString("pop", "").toString())));
         txtdesc.setText(pref.getString("descp", "").toString());
+        txtdistance.setText(String.format("%.2f", Float.valueOf(pref.getString("distance", "").toString()))+" km");
 
-        if(pref.getString("isOpen", "").toString().equals("true")) {
+        if(pref.getString("isOpen", "").toString().equals("true"))
+        {
             txttime.setText("Open Now");
         }
         else {

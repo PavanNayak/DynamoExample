@@ -12,9 +12,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,8 +20,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.wristcode.deliwala.Pojo.Address;
-import com.wristcode.deliwala.adapter.AddressAdapter;
 import com.wristcode.deliwala.extra.IConstants;
 
 import org.json.JSONArray;
@@ -40,14 +36,13 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Ajay Jagadish on 26-Feb-18.
  */
 
-public class OTPActivity extends AppCompatActivity implements IConstants {
+public class OTPActivity extends AppCompatActivity implements IConstants
+{
     TextView tvtitle, tvsubtitle, tvotp, tvresendotp, timer;
     static EditText valueotp;
     Button btn_verify;
@@ -56,19 +51,21 @@ public class OTPActivity extends AppCompatActivity implements IConstants {
     int time = 60;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_otp);
-        tvtitle = (TextView) findViewById(R.id.tvtitle);
-        tvsubtitle = (TextView) findViewById(R.id.tvsubtitle);
-        tvotp = (TextView) findViewById(R.id.txtotp);
-        tvresendotp = (TextView) findViewById(R.id.resendotp);
-        valueotp = (EditText) findViewById(R.id.valueotp);
-        btn_verify = (Button) findViewById(R.id.btn_verify);
-        timer = (TextView) findViewById(R.id.timer);
         pref = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        tvtitle = findViewById(R.id.tvtitle);
+        tvsubtitle = findViewById(R.id.tvsubtitle);
+        tvotp = findViewById(R.id.txtotp);
+        tvresendotp = findViewById(R.id.resendotp);
+        valueotp = findViewById(R.id.valueotp);
+        btn_verify = findViewById(R.id.btn_verify);
+        timer = findViewById(R.id.timer);
         inputotp = pref.getString("Otp", "").toString();
         tvsubtitle.setText("Sit back and relax, we'll verify your mobile number "+ pref.getString("PhoneNo", "").toString());
+        Toast.makeText(OTPActivity.this, inputotp, Toast.LENGTH_SHORT).show();
 
         Typeface font = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Bold.ttf");
         Typeface font1 = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Medium.ttf");
@@ -172,7 +169,7 @@ public class OTPActivity extends AppCompatActivity implements IConstants {
         @Override
         protected String doInBackground(String... params) {
             try {
-                url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/customer/resend-otp");
+                url = new URL(API_PATH+"customer/resend-otp");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 return "exception";
@@ -253,7 +250,7 @@ public class OTPActivity extends AppCompatActivity implements IConstants {
         @Override
         protected String doInBackground(String... params) {
             try {
-                url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/customer/get-profile");
+                url = new URL(API_PATH+"customer/get-profile");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 return "exception";

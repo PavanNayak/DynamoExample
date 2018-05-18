@@ -4,17 +4,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -61,7 +56,8 @@ public class LoginDetailsActivity extends AppCompatActivity implements IConstant
     SharedPreferences pref;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_details);
         txtusername = findViewById(R.id.txtusername);
@@ -164,7 +160,8 @@ public class LoginDetailsActivity extends AppCompatActivity implements IConstant
         }
     }
 
-    private class AsyncRegister extends AsyncTask<String, String, String> {
+    private class AsyncRegister extends AsyncTask<String, String, String>
+    {
         ProgressDialog pdLoading = new ProgressDialog(LoginDetailsActivity.this);
         HttpURLConnection conn;
         URL url = null;
@@ -181,7 +178,7 @@ public class LoginDetailsActivity extends AppCompatActivity implements IConstant
         @Override
         protected String doInBackground(String... params) {
             try {
-                url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/customer/register");
+                url = new URL(API_PATH+"customer/register");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 return "exception";

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Typeface;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,39 +22,42 @@ import com.wristcode.deliwala.sqlite.ExampleDBHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CartActivity extends AppCompatActivity {
+public class CartActivity extends AppCompatActivity
+{
     RecyclerView recyclerView;
     LinearLayoutManager HorizontalLayout;
     CartAdapter adapter;
-    private List<Items> categoriesList;
     TextView txtresname, txttitle, txtsubtotal, valsubtotal, txtdelivery, valdelivery, txttotal, valtotal;
     EditText txtinstruction;
     Button placeorder, btnordernow;
     ExampleDBHelper dh;
     List<Cart> data = new ArrayList<>();
-
     int grandTotal;
     SharedPreferences pref;
     String rname;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
-        txttitle = (TextView) findViewById(R.id.txttitle);
-        txtresname  = (TextView) findViewById(R.id.txtresname);
-        txtsubtotal = (TextView) findViewById(R.id.txtsubtotal);
-        valsubtotal = (TextView) findViewById(R.id.valsubtotal);
-        txtdelivery = (TextView) findViewById(R.id.txtdelivery);
-        valdelivery = (TextView) findViewById(R.id.valdelivery);
-        txttotal = (TextView) findViewById(R.id.txttotal);
-        valtotal = (TextView) findViewById(R.id.valtotal);
-        txtinstruction = (EditText) findViewById(R.id.txtinstruction);
-        placeorder = (Button) findViewById(R.id.placeorder);
-        btnordernow = (Button) findViewById(R.id.btnordernow);
+        dh = new ExampleDBHelper(CartActivity.this);
         pref = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        txttitle = findViewById(R.id.txttitle);
+        txtresname  = findViewById(R.id.txtresname);
+        txtsubtotal = findViewById(R.id.txtsubtotal);
+        valsubtotal = findViewById(R.id.valsubtotal);
+        txtdelivery = findViewById(R.id.txtdelivery);
+        valdelivery = findViewById(R.id.valdelivery);
+        txttotal = findViewById(R.id.txttotal);
+        valtotal = findViewById(R.id.valtotal);
+        txtinstruction = findViewById(R.id.txtinstruction);
+        placeorder = findViewById(R.id.placeorder);
+        btnordernow = findViewById(R.id.btnordernow);
+
         Typeface font = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Medium.ttf");
         Typeface font1 = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Regular.ttf");
+
         txttitle.setTypeface(font);
         txtresname.setTypeface(font);
         txtsubtotal.setTypeface(font);
@@ -66,8 +68,6 @@ public class CartActivity extends AppCompatActivity {
         valtotal.setTypeface(font1);
         txtinstruction.setTypeface(font1);
         placeorder.setTypeface(font1);
-
-        dh = new ExampleDBHelper(getApplicationContext());
 
         if (dh.gettotalprice() <= 0)
         {

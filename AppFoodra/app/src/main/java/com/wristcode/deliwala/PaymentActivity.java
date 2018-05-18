@@ -9,14 +9,11 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatRadioButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -68,6 +65,7 @@ public class PaymentActivity extends AppCompatActivity implements IConstants
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
+        pref1 = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         txttotal = findViewById(R.id.txttotal);
         valuetotal = findViewById(R.id.valuetotal);
         txtpaytype = findViewById(R.id.txtpaytype);
@@ -77,9 +75,10 @@ public class PaymentActivity extends AppCompatActivity implements IConstants
         applypromo = findViewById(R.id.applypromo);
         txtapplypromo = findViewById(R.id.txtapplypromo);
         pay = findViewById(R.id.pay);
-        pref1 = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+
         Typeface font1 = Typeface.createFromAsset(getAssets(),"GT-Walsheim-Medium.ttf");
         Typeface font2 = Typeface.createFromAsset(getAssets(),"GT-Walsheim-Regular.ttf");
+
         txttotal.setTypeface(font1);
         valuetotal.setTypeface(font2);
         txtpaytype.setTypeface(font1);
@@ -153,7 +152,7 @@ public class PaymentActivity extends AppCompatActivity implements IConstants
         protected String doInBackground(String... params) {
             try
             {
-                url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/order/new-order");
+                url = new URL(API_PATH+"order/new-order");
             }
             catch (MalformedURLException e)
             {
@@ -253,7 +252,7 @@ public class PaymentActivity extends AppCompatActivity implements IConstants
         protected String doInBackground(String... params) {
             try
             {
-                url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/order/new-order/promo-test");
+                url = new URL(API_PATH+"order/new-order/promo-test");
             }
             catch (MalformedURLException e)
             {

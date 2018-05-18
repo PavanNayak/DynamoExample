@@ -24,13 +24,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapter.MyViewHolder> {
-
+public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapter.MyViewHolder>
+{
     ArrayList<HashMap<String, String>> contactList;
     OrderHistoryActivity subCatList;
-
-    public static final int CONNECTION_TIMEOUT = 20000;
-    public static final int READ_TIMEOUT = 20000;
     private List<OrderHistory> moviesList;
     private Context mContext;
 
@@ -104,6 +101,8 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
             holder.txtstatus.setText("Processing");
         } else if (movie.getoStatus().toString().equals("onway")) {
             holder.txtstatus.setText("On The Way");
+        } else if (movie.getoStatus().toString().equals("cancelled")) {
+            holder.txtstatus.setText("Cancelled");
         }
 
         Glide.with(mContext).load("http://appfoodra.com/uploads/restaurant/icons/" + movie.getoResImage())

@@ -75,4 +75,24 @@
 
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/imgnotify"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/empty_history"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/txtnotify"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imgnotify"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:text="You have not placed any orders yet!!!"
+        android:textColor="#C0C0C0"
+        android:textSize="15sp"
+        android:visibility="gone"/>
+
 </RelativeLayout>

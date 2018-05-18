@@ -11,19 +11,18 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.wristcode.deliwala.Pojo.OrderHistoryItems;
 import com.wristcode.deliwala.adapter.OrderHistoryAdapter;
 import com.wristcode.deliwala.Pojo.OrderHistory;
-import com.wristcode.deliwala.adapter.OrderHistoryItemAdapter;
+import com.wristcode.deliwala.extra.IConstants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,28 +45,31 @@ import java.util.List;
  * Created by Ajay Jagadish on 09-Sep-17.
  */
 
-public class OrderHistoryActivity extends AppCompatActivity
+public class OrderHistoryActivity extends AppCompatActivity implements IConstants
 {
-    public static final int CONNECTION_TIMEOUT = 10000;
-    public static final int READ_TIMEOUT = 15000;
-
-    List<OrderHistoryItems> data1;
     RecyclerView recyclerView;
     OrderHistoryAdapter mAdapter;
     LinearLayout linearorder;
-    TextView txtorderhistory;
+    TextView txtorderhistory, txtnotify;
+    ImageView imgnotify;
+    SharedPreferences preferences1;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_order_history);
-        recyclerView = (RecyclerView) findViewById(R.id.orderRecycler);
-        linearorder = (LinearLayout) findViewById(R.id.linearorder);
-        txtorderhistory = (TextView) findViewById(R.id.txtorderhistory);
+        preferences1 = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        recyclerView = findViewById(R.id.orderRecycler);
+        imgnotify = findViewById(R.id.imgnotify);
+        txtnotify = findViewById(R.id.txtnotify);
+        linearorder = findViewById(R.id.linearorder);
+        txtorderhistory = findViewById(R.id.txtorderhistory);
+
         Typeface font1 = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Medium.ttf");
-        SharedPreferences preferences1 = getApplicationContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         txtorderhistory.setTypeface(font1);
+
         if(isNetworkAvailable())
         {
             new AsyncOrderHistory().execute(preferences1.getString("Id", "").toString());
@@ -105,7 +107,7 @@ public class OrderHistoryActivity extends AppCompatActivity
         @Override
         protected String doInBackground(String... params) {
             try {
-                url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/customer/order/list");
+                url = new URL(API_PATH+"customer/order/list");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 return "exception";
@@ -166,16 +168,20 @@ public class OrderHistoryActivity extends AppCompatActivity
                     JSONArray jArray = jsonObject.getJSONArray("data");
                     if (jArray.length() == 0)
                     {
-                        setContentView(R.layout.activity_order_history_empty);
+                        recyclerView.setVisibility(View.GONE);
+                        imgnotify.setVisibility(View.VISIBLE);
+                        txtnotify.setVisibility(View.VISIBLE);
                     }
                     else
                     {
+                        boolean orderFlag = false;
                         for (int i = 0; i < jArray.length(); i++)
                         {
                             JSONObject json_data = jArray.getJSONObject(i);
                             OrderHistory fishData = new OrderHistory();
                             if(!(json_data.getString("orderStatus").equals("delivered") || json_data.getString("orderStatus").equals("cancelled")))
                             {
+                                orderFlag = true;
                                 fishData.oId = json_data.getString("id");
                                 fishData.oDate = json_data.getString("orderDate");
                                 fishData.oTotal = json_data.getString("orderAmount");
@@ -190,6 +196,12 @@ public class OrderHistoryActivity extends AppCompatActivity
                                 fishData.oResImage = jObject.getString("iconImage");
                                 data.add(fishData);
                             }
+                        }
+                        if(orderFlag == false)
+                        {
+                            recyclerView.setVisibility(View.GONE);
+                            imgnotify.setVisibility(View.VISIBLE);
+                            txtnotify.setVisibility(View.VISIBLE);
                         }
                     }
                 }

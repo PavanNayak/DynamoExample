@@ -11,7 +11,6 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.wristcode.deliwala.Pojo.Reviews;
 import com.wristcode.deliwala.R;
 
@@ -34,7 +33,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.MyViewHo
             super(view);
             username = view.findViewById(R.id.username);
             userdesc = view.findViewById(R.id.userdesc);
-            ratingBar = (RatingBar) view.findViewById(R.id.ratingBar);
+            ratingBar = view.findViewById(R.id.ratingBar);
             image = view.findViewById(R.id.image);
             relativereview = view.findViewById(R.id.relativereview);
         }

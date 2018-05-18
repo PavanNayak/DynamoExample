@@ -7,19 +7,14 @@ import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
@@ -52,7 +47,8 @@ public class LocationSelectActivity extends AppCompatActivity implements TextWat
     AutoCompleteTextView editLocation;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_select);
         recyclerlocation = findViewById(R.id.recyclerlocation);
@@ -98,16 +94,13 @@ public class LocationSelectActivity extends AppCompatActivity implements TextWat
     }
 
     @Override
-    public void afterTextChanged(Editable editable) {
-
-    }
+    public void afterTextChanged(Editable editable) {}
 
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-
-        if (view.equals(R.id.recyclerlocation)) {
-
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
+    {
+        if (view.equals(R.id.recyclerlocation))
+        {
             ListView lv = (ListView) adapterView;
             SimpleAdapter adapter = (SimpleAdapter) adapterView.getAdapter();
 

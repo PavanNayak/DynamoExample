@@ -18,12 +18,10 @@ import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.wristcode.deliwala.Pojo.Items;
 import com.wristcode.deliwala.R;
 import com.wristcode.deliwala.adapter.ItemsAdapter;
-import com.wristcode.deliwala.sqlite.ExampleDBHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,8 +52,8 @@ public class MainDishesFragment extends Fragment
     public MainDishesFragment() {}
 
     @SuppressLint("ValidFragment")
-    public MainDishesFragment(ArrayList<String> a) {
-
+    public MainDishesFragment(ArrayList<String> a)
+    {
         this.menuItem = a;
     }
 
@@ -153,7 +151,8 @@ public class MainDishesFragment extends Fragment
             recyclerMenu.setAdapter(adapter);
             adapter.notifyDataSetChanged();
 
-            vegonly.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            vegonly.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+            {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
                 {

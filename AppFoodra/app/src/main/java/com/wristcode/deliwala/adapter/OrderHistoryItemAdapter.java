@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.wristcode.deliwala.OrderHistoryActivity;
 import com.wristcode.deliwala.Pojo.OrderHistoryItems;
@@ -17,13 +16,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class OrderHistoryItemAdapter extends RecyclerView.Adapter<OrderHistoryItemAdapter.MyViewHolder> {
-
+public class OrderHistoryItemAdapter extends RecyclerView.Adapter<OrderHistoryItemAdapter.MyViewHolder>
+{
     ArrayList<HashMap<String, String>> contactList;
     OrderHistoryActivity subCatList;
-
-    public static final int CONNECTION_TIMEOUT = 20000;
-    public static final int READ_TIMEOUT = 20000;
     private List<OrderHistoryItems> moviesList;
     private Context mContext;
 

@@ -7,27 +7,20 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.wristcode.deliwala.AddAddressActivity;
 import com.wristcode.deliwala.AddressActivity;
-import com.wristcode.deliwala.CartActivity;
-import com.wristcode.deliwala.LoginActivity;
-import com.wristcode.deliwala.NavDrawer;
-import com.wristcode.deliwala.PaymentActivity;
 import com.wristcode.deliwala.Pojo.Address;
 import com.wristcode.deliwala.R;
-import com.wristcode.deliwala.SelectLocationActivity;
+import com.wristcode.deliwala.extra.IConstants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,13 +43,10 @@ import java.util.List;
  * Created by Ajay Jagadish on 10-Mar-18.
  */
 
-public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHolder>
+public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHolder> implements IConstants
 {
     ArrayList<HashMap<String, String>> contactList;
     AddAddressActivity addList;
-
-    public static final int CONNECTION_TIMEOUT = 20000;
-    public static final int READ_TIMEOUT = 20000;
     private List<Address> moviesList;
     private Context mContext;
     private int lastSelectedPosition = -1;
@@ -207,7 +197,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
         protected String doInBackground(String... params) {
             try
             {
-                url = new URL("http://www.appfoodra.com/api/app-manager/get-functionality/customer/address/remove");
+                url = new URL(API_PATH+"customer/address/remove");
             }
             catch (MalformedURLException e)
             {

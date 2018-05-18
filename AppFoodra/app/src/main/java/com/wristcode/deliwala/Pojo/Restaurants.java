@@ -3,18 +3,14 @@ package com.wristcode.deliwala.Pojo;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by gururaj on 12/17/2016.
- */
-
 public class Restaurants {
 
-    public String resid, resname, resadd, reslat, reslong, resmob, resopentime, resclosetime, resisopen, respop, resimg, resdescp;
+    public String resid, resname, resadd, reslat, reslong, resmob, resopentime, resclosetime, resisopen, respop, resimg, resdescp, resdist;
     public List<String> restags = new ArrayList<>();
 
     public Restaurants() {}
 
-    public Restaurants(String resid, String resname, String resadd, String reslat, String reslong, String resmob, String resopentime, String resclosetime, String resisopen, String respop, String resdescp, String resimg) {
+    public Restaurants(String resid, String resname, String resadd, String reslat, String reslong, String resmob, String resopentime, String resclosetime, String resisopen, String respop, String resdescp, String resimg, String resdist) {
 
         this.resid = resid;
         this.resname = resname;
@@ -28,6 +24,7 @@ public class Restaurants {
         this.respop = respop;
         this.resdescp = resdescp;
         this.resimg = resimg;
+        this.resdist = resdist;
     }
 
 
@@ -131,4 +128,11 @@ public class Restaurants {
         return restags;
     }
 
+    public void setResdist(String resdist) {
+        this.resdist = resdist;
+    }
+
+    public String getResdist() {
+        return resdist;
+    }
 }
