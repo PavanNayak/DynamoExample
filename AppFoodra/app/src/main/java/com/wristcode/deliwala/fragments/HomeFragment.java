@@ -133,7 +133,7 @@ public class HomeFragment extends Fragment implements IConstants
             {
                 text1.setText("Good Morning, "+pref.getString("Name","").toString());
                 text2.setText("It's time for breakfast");
-                img.setImageResource(R.drawable.pic);
+                img.setImageResource(R.drawable.breakfast);
             }
             else if ((CurrentTime.after(slot2) && CurrentTime.before(slot3)))
             {
@@ -149,7 +149,7 @@ public class HomeFragment extends Fragment implements IConstants
             }
             else if ((CurrentTime.after(slot4) && CurrentTime.before(slot5)))
             {
-                text1.setText("Good Night, "+pref.getString("Name","").toString());
+                text1.setText("Good Evening, "+pref.getString("Name","").toString());
                 text2.setText("It's time for dinner");
                 img.setImageResource(R.drawable.dinner);
             }

@@ -80,7 +80,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
                     }
                     else
                     {
-                        new AsyncMenu().execute(catid.getText().toString());
+                        new AsyncMenu().execute(pref.getString("Latitude","").toString(), pref.getString("Longitiude", "").toString(), radiusKm, catid.getText().toString());
                     }
 
                 }
@@ -158,7 +158,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
                 conn.setDoOutput(true);
 
                 Uri.Builder builder = new Uri.Builder()
-                        .appendQueryParameter("tagId", params[0]);
+                        .appendQueryParameter("latitude", params[0])
+                        .appendQueryParameter("longitude", params[1])
+                        .appendQueryParameter("radiusKm", params[2])
+                        .appendQueryParameter("tagId", params[3]);
                 String query = builder.build().getEncodedQuery();
 
                 OutputStream os = conn.getOutputStream();
@@ -201,7 +204,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
                     JSONArray jArray = jsonObject.getJSONArray("data");
                     for (int i = 0; i < jArray.length(); i++)
                     {
-                        JSONObject json_data = jArray.getJSONObject(i);
+                        JSONObject jData = jArray.getJSONObject(i);
+                        JSONObject json_data = jData.getJSONObject("0");
                         JSONArray jsonArray = json_data.getJSONArray("restaurant");
                         if(jsonArray.toString().equals("[]"))
                         {
@@ -244,6 +248,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
                                         resData.restags.add(jobject2.getString("typeName"));
                                     }
                                 }
+                                resData.resdist = jData.getString("distance");
                                 data.add(resData);
                             }
                         }
@@ -375,6 +380,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
                                 resData.restags.add(jobject2.getString("typeName"));
                             }
                         }
+                        resData.resdist = jData.getString("distance");
                         data.add(resData);
                     }
                     adapter1 = new RestaurantsAdapter(mContext, data, offerrecycler);

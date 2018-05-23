@@ -248,6 +248,7 @@ public class HotelListActivity extends AppCompatActivity implements IConstants
                                 resData.restags.add(jobject2.getString("typeName"));
                             }
                         }
+                        resData.resdist = jData.getString("distance");
                         data.add(resData);
                     }
                     adapter1 = new RestaurantsAdapter(HotelListActivity.this, data, recyclerView);

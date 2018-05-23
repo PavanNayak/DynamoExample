@@ -38,7 +38,7 @@
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:layout_marginTop="20dp"
-        android:text="Good news, friend! Your order #34567892 has been placed and is on its way to being made."
+        android:text="Good news, friend! Your order has been placed and is on its way to being made."
         android:textSize="15dp"
         android:textAlignment="center"/>
 

@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wristcode.deliwala.extra.IConstants;
+import com.wristcode.deliwala.extra.TransparentProgressDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -114,16 +115,13 @@ public class LoginActivity extends AppCompatActivity implements IConstants
 
     private class AsyncPreRegister extends AsyncTask<String, String, String>
     {
-        ProgressDialog pdLoading = new ProgressDialog(LoginActivity.this);
+        TransparentProgressDialog pdLoading = new TransparentProgressDialog(LoginActivity.this);
         HttpURLConnection conn;
         URL url = null;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
-            pdLoading.setMessage("\tLoading...");
-            pdLoading.setCancelable(false);
             pdLoading.show();
         }
 

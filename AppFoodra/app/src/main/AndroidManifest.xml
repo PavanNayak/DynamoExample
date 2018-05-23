@@ -50,6 +50,7 @@
         <activity
             android:name="com.wristcode.deliwala.WelcomeActivity"
             android:screenOrientation="portrait"
+            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.wristcode.deliwala.OTPActivity"
@@ -58,22 +59,33 @@
         <activity
             android:name="com.wristcode.deliwala.NavDrawer"
             android:screenOrientation="portrait"
+            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name="com.wristcode.deliwala.HomeActivity" />
-        <activity android:name="com.wristcode.deliwala.ItemActivity" />
+        <activity
+            android:name="com.wristcode.deliwala.HomeActivity"
+            android:screenOrientation="portrait"
+            android:noHistory="true"/>
+
+        <activity
+            android:name="com.wristcode.deliwala.ItemActivity"
+            android:screenOrientation="portrait"
+            android:noHistory="true"/>
 
         <activity
             android:name="com.wristcode.deliwala.CartActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
+            android:noHistory="true"
             android:windowSoftInputMode="adjustPan" />
 
         <activity
             android:name="com.wristcode.deliwala.HotelListActivity"
+            android:noHistory="true"
             android:screenOrientation="portrait"/>
 
         <activity
             android:name=".TagRestaurantsActivity"
+            android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
 

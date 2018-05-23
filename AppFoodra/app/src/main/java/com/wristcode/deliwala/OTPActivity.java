@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wristcode.deliwala.extra.IConstants;
+import com.wristcode.deliwala.extra.TransparentProgressDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -65,7 +66,6 @@ public class OTPActivity extends AppCompatActivity implements IConstants
         timer = findViewById(R.id.timer);
         inputotp = pref.getString("Otp", "").toString();
         tvsubtitle.setText("Sit back and relax, we'll verify your mobile number "+ pref.getString("PhoneNo", "").toString());
-        Toast.makeText(OTPActivity.this, inputotp, Toast.LENGTH_SHORT).show();
 
         Typeface font = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Bold.ttf");
         Typeface font1 = Typeface.createFromAsset(getAssets(), "GT-Walsheim-Medium.ttf");
@@ -153,16 +153,13 @@ public class OTPActivity extends AppCompatActivity implements IConstants
     }
 
     private class AsyncResendOtp extends AsyncTask<String, String, String> {
-        ProgressDialog pdLoading = new ProgressDialog(OTPActivity.this);
+        TransparentProgressDialog pdLoading = new TransparentProgressDialog(OTPActivity.this);
         HttpURLConnection conn;
         URL url = null;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
-            pdLoading.setMessage("\tLoading...");
-            pdLoading.setCancelable(false);
             pdLoading.show();
         }
 
@@ -235,15 +232,13 @@ public class OTPActivity extends AppCompatActivity implements IConstants
     }
 
     private class AsyncGetDetails extends AsyncTask<String, String, String> {
-        ProgressDialog pdLoading = new ProgressDialog(OTPActivity.this);
+        TransparentProgressDialog pdLoading = new TransparentProgressDialog(OTPActivity.this);
         HttpURLConnection conn;
         URL url = null;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pdLoading.setMessage("\tLoading...");
-            pdLoading.setCancelable(false);
             pdLoading.show();
         }
 

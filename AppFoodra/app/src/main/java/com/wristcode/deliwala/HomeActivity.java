@@ -345,6 +345,7 @@ public class HomeActivity extends AppCompatActivity implements IConstants
                                 resData.restags.add(jobject2.getString("typeName"));
                             }
                         }
+                        resData.resdist = jData.getString("distance");
                         data.add(resData);
                     }
                     adapter1 = new RestaurantsAdapter(HomeActivity.this, data, offerrecycler);

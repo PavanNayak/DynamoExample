@@ -19,6 +19,7 @@ import com.wristcode.deliwala.Pojo.Reviews;
 import com.wristcode.deliwala.R;
 import com.wristcode.deliwala.adapter.ReviewsAdapter;
 import com.wristcode.deliwala.extra.IConstants;
+import com.wristcode.deliwala.extra.TransparentProgressDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -82,15 +83,13 @@ public class ReviewsFragment extends Fragment implements IConstants
     }
 
     private class AsyncListRatings extends AsyncTask<String, String, String> {
-        ProgressDialog pdLoading = new ProgressDialog(getActivity());
+        TransparentProgressDialog pdLoading = new TransparentProgressDialog(getActivity());
         HttpURLConnection conn;
         URL url = null;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pdLoading.setMessage("\tLoading...");
-            pdLoading.setCancelable(false);
             pdLoading.show();
         }
 

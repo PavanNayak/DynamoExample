@@ -29,7 +29,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:text="Good Afternoon, Ajay"
-                android:textColor="@android:color/white"
+                android:textColor="@android:color/black"
                 android:textSize="20sp" />
 
             <TextView
@@ -41,7 +41,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:text="It's time for lunch"
-                android:textColor="@android:color/white"
+                android:textColor="@android:color/black"
                 android:textSize="15sp" />
 
             <RelativeLayout

@@ -36,7 +36,6 @@ public class SplashscreenActivity extends AppCompatActivity
                 SharedPreferences.Editor editor1 = preferences.edit();
                 editor1.putString("tokenId",refreshedToken);
                 editor1.apply();
-                Log.d("tokenId",refreshedToken);
 
                 if(preferences.getString("flag", "").equals("1"))
                 {

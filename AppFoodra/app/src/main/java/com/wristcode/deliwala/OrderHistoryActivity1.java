@@ -19,7 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wristcode.deliwala.Pojo.OrderHistory;
-import com.wristcode.deliwala.Pojo.OrderHistoryItems;
 import com.wristcode.deliwala.adapter.OrderHistoryAdapter;
 import com.wristcode.deliwala.extra.IConstants;
 

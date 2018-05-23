@@ -26,6 +26,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.wristcode.deliwala.extra.CustomVolleyRequest;
 import com.wristcode.deliwala.extra.IConstants;
+import com.wristcode.deliwala.extra.TransparentProgressDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -162,16 +163,13 @@ public class LoginDetailsActivity extends AppCompatActivity implements IConstant
 
     private class AsyncRegister extends AsyncTask<String, String, String>
     {
-        ProgressDialog pdLoading = new ProgressDialog(LoginDetailsActivity.this);
+        TransparentProgressDialog pdLoading = new TransparentProgressDialog(LoginDetailsActivity.this);
         HttpURLConnection conn;
         URL url = null;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
-            pdLoading.setMessage("\tLoading...");
-            pdLoading.setCancelable(false);
             pdLoading.show();
         }
 

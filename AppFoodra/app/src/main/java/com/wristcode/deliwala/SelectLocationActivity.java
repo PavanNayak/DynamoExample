@@ -41,6 +41,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.wristcode.deliwala.extra.AndroidPermissions;
 import com.wristcode.deliwala.extra.GPSTracker;
 import com.wristcode.deliwala.extra.IConstants;
+import com.wristcode.deliwala.extra.TransparentProgressDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -268,9 +269,7 @@ public class SelectLocationActivity extends AppCompatActivity implements IConsta
                 }
                 else
                 {
-                    ProgressDialog pdLoading = new ProgressDialog(SelectLocationActivity.this);
-                    pdLoading.setMessage("\tLoading...");
-                    pdLoading.setCancelable(false);
+                    TransparentProgressDialog pdLoading = new TransparentProgressDialog(SelectLocationActivity.this);
                     pdLoading.show();
                     mMapView.setVisibility(View.GONE);
                     linear1.setVisibility(View.GONE);
