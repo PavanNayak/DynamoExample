@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.wristcode.deliwala.CartActivity;
 import com.wristcode.deliwala.R;
 import com.wristcode.deliwala.extra.IConstants;
+import com.wristcode.deliwala.extra.TransparentProgressDialog;
 import com.wristcode.deliwala.sqlite.ExampleDBHelper;
 
 import org.json.JSONArray;
@@ -180,16 +181,13 @@ public class MenuFragment extends Fragment implements IConstants
     }
 
     private class AsyncGetData extends AsyncTask<String, String, String> {
-        ProgressDialog pdLoading = new ProgressDialog(getActivity());
+        TransparentProgressDialog pdLoading = new TransparentProgressDialog(getActivity());
         HttpURLConnection conn;
         URL url = null;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
-            pdLoading.setMessage("\tLoading...");
-            pdLoading.setCancelable(false);
             pdLoading.show();
         }
 

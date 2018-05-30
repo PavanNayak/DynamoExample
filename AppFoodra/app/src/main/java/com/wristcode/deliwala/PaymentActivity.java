@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.wristcode.deliwala.Pojo.Payment;
 import com.wristcode.deliwala.adapter.PaymentAdapter;
 import com.wristcode.deliwala.extra.IConstants;
+import com.wristcode.deliwala.extra.TransparentProgressDialog;
 import com.wristcode.deliwala.sqlite.ExampleDBHelper;
 
 import org.json.JSONException;
@@ -135,16 +136,13 @@ public class PaymentActivity extends AppCompatActivity implements IConstants
 
     private class AsyncOrderDetails extends AsyncTask<String, String, String>
     {
-        ProgressDialog pdLoading = new ProgressDialog(PaymentActivity.this);
+        TransparentProgressDialog pdLoading = new TransparentProgressDialog(PaymentActivity.this);
         HttpURLConnection conn;
         URL url = null;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
-            pdLoading.setMessage("\tPlease Wait...");
-            pdLoading.setCancelable(false);
             pdLoading.show();
         }
 
@@ -235,16 +233,13 @@ public class PaymentActivity extends AppCompatActivity implements IConstants
 
     private class AsyncPromocode extends AsyncTask<String, String, String>
     {
-        ProgressDialog pdLoading = new ProgressDialog(PaymentActivity.this);
+        TransparentProgressDialog pdLoading = new TransparentProgressDialog(PaymentActivity.this);
         HttpURLConnection conn;
         URL url = null;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
-            pdLoading.setMessage("\tPlease Wait...");
-            pdLoading.setCancelable(false);
             pdLoading.show();
         }
 

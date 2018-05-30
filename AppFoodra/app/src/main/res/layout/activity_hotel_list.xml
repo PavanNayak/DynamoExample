@@ -3,9 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-
     android:layout_height="match_parent"
-    tools:context="com.wristcode.deliwala.HotelListActivity">
+    tools:context=".HotelListActivity">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,9 +22,11 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/back" />
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="10dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/search" />
 
                     <EditText
                         android:id="@+id/EditSearch"
@@ -33,7 +34,6 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:hint="Select Restaurant"
-
                         android:inputType="textCapWords" />
 
                     <TextView
@@ -47,7 +47,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:visibility="gone"></Spinner>
+                        android:visibility="gone"/>
 
                     <ImageView
                         android:layout_width="20dp"

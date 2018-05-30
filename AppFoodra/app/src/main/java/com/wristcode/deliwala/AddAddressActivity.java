@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.wristcode.deliwala.Pojo.Address;
 import com.wristcode.deliwala.adapter.AddressAdapter;
 import com.wristcode.deliwala.extra.IConstants;
+import com.wristcode.deliwala.extra.TransparentProgressDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -102,15 +103,13 @@ public class AddAddressActivity extends AppCompatActivity implements IConstants
     }
 
     private class AsyncAddress extends AsyncTask<String, String, String> {
-        ProgressDialog pdLoading = new ProgressDialog(AddAddressActivity.this);
+        TransparentProgressDialog pdLoading = new TransparentProgressDialog(AddAddressActivity.this);
         HttpURLConnection conn;
         URL url = null;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pdLoading.setMessage("\tLoading...");
-            pdLoading.setCancelable(false);
             pdLoading.show();
         }
 

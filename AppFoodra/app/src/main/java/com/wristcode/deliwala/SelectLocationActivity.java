@@ -358,16 +358,13 @@ public class SelectLocationActivity extends AppCompatActivity implements IConsta
     }
 
     private class AsyncAddAddress extends AsyncTask<String, String, String> {
-        ProgressDialog pdLoading = new ProgressDialog(SelectLocationActivity.this);
+        TransparentProgressDialog pdLoading = new TransparentProgressDialog(SelectLocationActivity.this);
         HttpURLConnection conn;
         URL url = null;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
-            pdLoading.setMessage("\tPlease Wait...");
-            pdLoading.setCancelable(false);
             pdLoading.show();
         }
 

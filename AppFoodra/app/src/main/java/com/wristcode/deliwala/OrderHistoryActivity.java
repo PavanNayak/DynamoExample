@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.wristcode.deliwala.adapter.OrderHistoryAdapter;
 import com.wristcode.deliwala.Pojo.OrderHistory;
 import com.wristcode.deliwala.extra.IConstants;
+import com.wristcode.deliwala.extra.TransparentProgressDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -92,15 +93,13 @@ public class OrderHistoryActivity extends AppCompatActivity implements IConstant
     }
 
     private class AsyncOrderHistory extends AsyncTask<String, String, String> {
-        ProgressDialog pdLoading = new ProgressDialog(OrderHistoryActivity.this);
+        TransparentProgressDialog pdLoading = new TransparentProgressDialog(OrderHistoryActivity.this);
         HttpURLConnection conn;
         URL url = null;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pdLoading.setMessage("\tLoading...");
-            pdLoading.setCancelable(false);
             pdLoading.show();
         }
 

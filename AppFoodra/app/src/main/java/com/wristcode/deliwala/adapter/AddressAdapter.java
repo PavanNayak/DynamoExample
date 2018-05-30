@@ -21,6 +21,7 @@ import com.wristcode.deliwala.AddressActivity;
 import com.wristcode.deliwala.Pojo.Address;
 import com.wristcode.deliwala.R;
 import com.wristcode.deliwala.extra.IConstants;
+import com.wristcode.deliwala.extra.TransparentProgressDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -180,16 +181,13 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.MyViewHo
     }
 
     private class AsyncRemoveAddress extends AsyncTask<String, String, String> {
-        ProgressDialog pdLoading = new ProgressDialog(mContext);
+        TransparentProgressDialog pdLoading = new TransparentProgressDialog(mContext);
         HttpURLConnection conn;
         URL url = null;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
-            pdLoading.setMessage("\tPlease Wait...");
-            pdLoading.setCancelable(false);
             pdLoading.show();
         }
 

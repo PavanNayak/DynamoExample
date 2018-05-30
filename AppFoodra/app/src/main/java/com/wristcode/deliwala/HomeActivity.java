@@ -23,6 +23,7 @@ import com.wristcode.deliwala.adapter.RestaurantsAdapter;
 import com.wristcode.deliwala.adapter.TagsAdapter;
 import com.wristcode.deliwala.extra.IConstants;
 import com.wristcode.deliwala.extra.OnLoadMoreListener;
+import com.wristcode.deliwala.extra.TransparentProgressDialog;
 import com.wristcode.deliwala.sqlite.ExampleDBHelper;
 
 import org.json.JSONArray;
@@ -139,16 +140,13 @@ public class HomeActivity extends AppCompatActivity implements IConstants
 
     private class AsyncTags extends AsyncTask<String, String, String>
     {
-        ProgressDialog pdLoading = new ProgressDialog(HomeActivity.this);
+        TransparentProgressDialog pdLoading = new TransparentProgressDialog(HomeActivity.this);
         HttpURLConnection conn;
         URL url = null;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
-            pdLoading.setMessage("\tLoading...");
-            pdLoading.setCancelable(false);
             pdLoading.show();
         }
 
@@ -227,16 +225,13 @@ public class HomeActivity extends AppCompatActivity implements IConstants
 
     private class AsyncRestaurants extends AsyncTask<String, String, String>
     {
-        ProgressDialog pdLoading = new ProgressDialog(HomeActivity.this);
+        TransparentProgressDialog pdLoading = new TransparentProgressDialog(HomeActivity.this);
         HttpURLConnection conn;
         URL url = null;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
-            pdLoading.setMessage("\tLoading...");
-            pdLoading.setCancelable(false);
             pdLoading.show();
         }
 

@@ -44,6 +44,19 @@
         android:visibility="gone" />
 
     <TextView
+        android:id="@+id/txtpid"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:text="0"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/txtpname"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:visibility="gone" />
+
+    <TextView
         android:id="@+id/txtresid"
         android:layout_width="1dp"
         android:layout_height="1dp"

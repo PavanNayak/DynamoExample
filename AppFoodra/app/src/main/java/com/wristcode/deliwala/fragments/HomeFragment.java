@@ -31,6 +31,7 @@ import com.wristcode.deliwala.adapter.RestaurantsAdapter;
 import com.wristcode.deliwala.adapter.TagsAdapter;
 import com.wristcode.deliwala.extra.IConstants;
 import com.wristcode.deliwala.extra.OnLoadMoreListener;
+import com.wristcode.deliwala.extra.TransparentProgressDialog;
 import com.wristcode.deliwala.sqlite.ExampleDBHelper;
 
 import org.json.JSONArray;
@@ -199,16 +200,13 @@ public class HomeFragment extends Fragment implements IConstants
     }
 
     private class AsyncTags extends AsyncTask<String, String, String> {
-        ProgressDialog pdLoading = new ProgressDialog(getActivity());
+        TransparentProgressDialog pdLoading = new TransparentProgressDialog(getActivity());
         HttpURLConnection conn;
         URL url = null;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
-            pdLoading.setMessage("\tLoading...");
-            pdLoading.setCancelable(false);
             pdLoading.show();
         }
 
@@ -291,7 +289,7 @@ public class HomeFragment extends Fragment implements IConstants
     }
 
     private class AsyncRestaurants extends AsyncTask<String, String, String> {
-        ProgressDialog pdLoading = new ProgressDialog(getActivity());
+        TransparentProgressDialog pdLoading = new TransparentProgressDialog(getActivity());
         HttpURLConnection conn;
         URL url = null;
 
@@ -299,9 +297,6 @@ public class HomeFragment extends Fragment implements IConstants
         protected void onPreExecute()
         {
             super.onPreExecute();
-
-            pdLoading.setMessage("\tLoading...");
-            pdLoading.setCancelable(false);
             pdLoading.show();
         }
 
@@ -419,8 +414,11 @@ public class HomeFragment extends Fragment implements IConstants
                     offerrecycler.setFocusable(false);
                     offerrecycler.setAdapter(adapter1);
 
-                    adapter1.setOnLoadMoreListener(new OnLoadMoreListener() {
-                        @Override public void onLoadMore() {
+                    adapter1.setOnLoadMoreListener(new OnLoadMoreListener()
+                    {
+                        @Override
+                        public void onLoadMore()
+                        {
                             Log.e("hint", "Load More");
                             data.add(null);
                             adapter1.notifyItemInserted(data.size() - 1);
@@ -434,7 +432,7 @@ public class HomeFragment extends Fragment implements IConstants
                                     adapter1.notifyItemRemoved(data.size());
                                     //Load data
                                     int index = data.size();
-                                    int end = index + 20;
+                                    int end = index + 5;
                                     for (int i = index; i < end; i++)
                                     {
                                         Restaurants resData = new Restaurants();

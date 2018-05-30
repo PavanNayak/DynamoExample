@@ -20,6 +20,7 @@ import com.wristcode.deliwala.Pojo.Restaurants;
 import com.wristcode.deliwala.adapter.CategoryAdapter;
 import com.wristcode.deliwala.adapter.RestaurantsAdapter;
 import com.wristcode.deliwala.extra.IConstants;
+import com.wristcode.deliwala.extra.TransparentProgressDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -76,16 +77,13 @@ public class TagRestaurantsActivity extends AppCompatActivity implements IConsta
     }
 
     private class AsyncTags extends AsyncTask<String, String, String> {
-        ProgressDialog pdLoading = new ProgressDialog(TagRestaurantsActivity.this);
+        TransparentProgressDialog pdLoading = new TransparentProgressDialog(TagRestaurantsActivity.this);
         HttpURLConnection conn;
         URL url = null;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
-            pdLoading.setMessage("\tLoading...");
-            pdLoading.setCancelable(false);
             pdLoading.show();
         }
 
@@ -248,8 +246,10 @@ public class TagRestaurantsActivity extends AppCompatActivity implements IConsta
                         {
                             Toast.makeText(TagRestaurantsActivity.this, "No Restaurants Found!!!", Toast.LENGTH_SHORT).show();
                         }
-                        else {
-                            for (int j = 0; j < jsonArray.length(); j++) {
+                        else
+                        {
+                            for (int j = 0; j < jsonArray.length(); j++)
+                            {
                                 JSONObject json_data1 = jsonArray.getJSONObject(j);
                                 Restaurants resData = new Restaurants();
                                 resData.resid = json_data1.getString("id");

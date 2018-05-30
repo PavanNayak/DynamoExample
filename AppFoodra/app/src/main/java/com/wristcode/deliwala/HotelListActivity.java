@@ -24,6 +24,7 @@ import com.wristcode.deliwala.Pojo.Restaurants;
 import com.wristcode.deliwala.adapter.HotelAdapter;
 import com.wristcode.deliwala.adapter.RestaurantsAdapter;
 import com.wristcode.deliwala.extra.IConstants;
+import com.wristcode.deliwala.extra.TransparentProgressDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -115,7 +116,7 @@ public class HotelListActivity extends AppCompatActivity implements IConstants
 
     private class AsyncRestaurants extends AsyncTask<String, String, String>
     {
-        ProgressDialog pdLoading = new ProgressDialog(HotelListActivity.this);
+        TransparentProgressDialog pdLoading = new TransparentProgressDialog(HotelListActivity.this);
         HttpURLConnection conn;
         URL url = null;
 
@@ -123,8 +124,6 @@ public class HotelListActivity extends AppCompatActivity implements IConstants
         protected void onPreExecute()
         {
             super.onPreExecute();
-            pdLoading.setMessage("\tLoading...");
-            pdLoading.setCancelable(false);
             pdLoading.show();
         }
 

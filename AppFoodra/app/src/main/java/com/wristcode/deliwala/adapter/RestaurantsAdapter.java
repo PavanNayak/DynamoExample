@@ -37,8 +37,8 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private Context mContext;
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
-    private OnLoadMoreListener mOnLoadMoreListener;
-    private boolean isLoading;
+    private OnLoadMoreListener onLoadMoreListener;
+    private boolean loading;
     private int visibleThreshold = 2;
     private int lastVisibleItem, totalItemCount;
     private RecyclerView offerrecycler;
@@ -49,7 +49,7 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     String iTag;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView txtname, txtdesc, txtratings, txttime;
+        public TextView txtname, txtdesc, txtratings, txttime, txtdistance;
         RelativeLayout relativehotel;
         ImageView image;
         ImageView thumbnail;
@@ -60,7 +60,8 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             txtname = view.findViewById(R.id.txtname);
             txtdesc = view.findViewById(R.id.txtdesc);
             txttime = view.findViewById(R.id.txttime);
-            txtratings = view .findViewById(R.id.txtratings);
+            txtratings = view.findViewById(R.id.txtratings);
+            txtdistance = view.findViewById(R.id.txtdistance);
             ratingBar = view.findViewById(R.id.ratingBar);
             image = view.findViewById(R.id.image);
             relativehotel = view.findViewById(R.id.relativehotel);
@@ -87,33 +88,23 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 //
 //    public RestaurantsAdapter()
 //    {
-        linearLayoutManager = (LinearLayoutManager) offerrecycler.getLayoutManager();
-        offerrecycler.addOnScrollListener(new RecyclerView.OnScrollListener()
-        {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy)
-            {
-                super.onScrolled(recyclerView, dx, dy);
-//                Toast.makeText(mContext, "Hi", Toast.LENGTH_SHORT).show();
-//                totalItemCount = linearLayoutManager.getItemCount();
-//                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-//                if (!isLoading && totalItemCount <= (lastVisibleItem + visibleThreshold))
-//                {
-//                    if (mOnLoadMoreListener != null)
-//                    {
-//                        mOnLoadMoreListener.onLoadMore();
-//                    }
-//                    isLoading = true;
-//                }
-            }
-
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState)
-            {
-                super.onScrollStateChanged(recyclerView, newState);
-                //.makeText(mContext, "Bye", Toast.LENGTH_SHORT).show();
-            }
-        });
+        if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
+            final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+                    totalItemCount = linearLayoutManager.getItemCount();
+                    lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+                    if (!loading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
+                        if (onLoadMoreListener != null) {
+                            onLoadMoreListener.onLoadMore();
+                        }
+                        loading = true;
+                    }
+                }
+            });
+        }
     }
 
     @Override
@@ -142,7 +133,7 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     public void setOnLoadMoreListener(OnLoadMoreListener mOnLoadMoreListener) {
-        this.mOnLoadMoreListener = mOnLoadMoreListener;
+        this.onLoadMoreListener = mOnLoadMoreListener;
     }
 
     @Override
@@ -155,6 +146,7 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             myViewHolder.txtname.setText(movie.getResname());
             myViewHolder.txtratings.setText(String.format("%.1f", Float.valueOf(movie.getRespop())));
             myViewHolder.ratingBar.setRating(Float.valueOf(movie.getRespop()));
+            myViewHolder.txtdistance.setText(String.format("%.2f", Float.valueOf(movie.getResdist()))+" km");
 
             Typeface font = Typeface.createFromAsset(mContext.getAssets(), "GT-Walsheim-Bold.ttf");
             Typeface font1 = Typeface.createFromAsset(mContext.getAssets(), "GT-Walsheim-Medium.ttf");
@@ -163,6 +155,7 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             myViewHolder.txtname.setTypeface(font);
             myViewHolder.txtdesc.setTypeface(font2);
             myViewHolder.txttime.setTypeface(font2);
+            myViewHolder.txtdistance.setTypeface(font2);
 
             Glide.with(mContext).load("http://appfoodra.com/uploads/restaurant/icons/" + movie.getResimg())
                     .placeholder(R.drawable.logo)
@@ -268,6 +261,6 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     public void setLoaded() {
-        isLoading = false;
+        loading = false;
     }
 }

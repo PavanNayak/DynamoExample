@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,22 +15,30 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ExpandableListView;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.wristcode.deliwala.HotelActivity;
+import com.wristcode.deliwala.OrderListActivity;
 import com.wristcode.deliwala.Pojo.Items;
+import com.wristcode.deliwala.Pojo.SectionDataModel;
+import com.wristcode.deliwala.Pojo.SingleItemModel;
 import com.wristcode.deliwala.R;
 import com.wristcode.deliwala.fragments.MenuFragment;
 import com.wristcode.deliwala.sqlite.ExampleDBHelper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder> implements Filterable
@@ -37,18 +46,25 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
     private List<Items> moviesList;
     private List<Items> movieListFiltered;
     private Context mContext;
-    MenuFragment fragment;
     ExampleDBHelper dbHelper;
     SharedPreferences pref;
-    public  List<String> VnameList=new ArrayList<>();
-    public  List<String> VPriceList=new ArrayList<>();
-    public  List<String> VIdList=new ArrayList<>();
+    public List<String> VnameList=new ArrayList<>();
+    public List<String> VPriceList=new ArrayList<>();
+    public List<String> VIdList=new ArrayList<>();
 
     String subname, subvarname, subresname, imgpath;
     int subvarid, subresid, subqty = 0, subprice = 0, qty = 0, price = 0, TOTAL = 0, RATE = 0, itemprice;
 
+    PackageListAdapter listAdapter;
+    List<String> listDataHeader = new ArrayList<>();
+    List<String> listTypeHeader = new ArrayList<>();
+    HashMap<String, List<String>> listDataChild = new HashMap<>();
+    public List<String> toppings = new ArrayList<>();
+    public List<String> topprice = new ArrayList<>();
+    ArrayList<SectionDataModel> allSampleData;
+
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView txtid, txtvarid, txtvarname, txtresid, txtresname, txttype, txtname, txtdesc, txtprice, txtminus, txtplus, txtadd, prodqty, txtimg, spinnerId;
+        public TextView txtid, txtvarid, txtvarname, txtpid, txtpname, txtresid, txtresname, txttype, txtname, txtdesc, txtprice, txtminus, txtplus, txtadd, prodqty, txtimg, spinnerId;
         RelativeLayout relative;
         ImageView image, image1;
 
@@ -60,6 +76,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
             txtid = view.findViewById(R.id.txtid);
             txtvarid = view.findViewById(R.id.txtvarid);
             txtvarname = view.findViewById(R.id.txtvarname);
+            txtpid = view.findViewById(R.id.txtpid);
+            txtpname = view.findViewById(R.id.txtpname);
             txtresid = view.findViewById(R.id.txtresid);
             txtresname = view.findViewById(R.id.txtresname);
             txttype = view.findViewById(R.id.txttype);
@@ -78,7 +96,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
             image = view.findViewById(R.id.image);
             image1 = view.findViewById(R.id.image1);
             spinnerPriceVariation = view.findViewById(R.id.spinnerPriceVariation);
-            fragment = new MenuFragment();
             dbHelper = new ExampleDBHelper(mContext);
             pref = mContext.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         }
@@ -89,6 +106,9 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
             switch (v.getId())
             {
                 case R.id.txtadd:
+                    if(!(txtpid.getText().toString().equals("0"))) {
+                        getItems();
+                    }
                     int val1 = Integer.parseInt(txtresid.getText().toString());
                     int s1 = Integer.parseInt(txtvarid.getText().toString());
                     Boolean val2 = dbHelper.checkresid(val1);
@@ -147,6 +167,9 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
                     break;
 
                 case R.id.txtplus:
+                    if(!(txtpid.getText().toString().equals("0"))) {
+                        getItems();
+                    }
                     int i = Integer.parseInt(prodqty.getText().toString());
                     i++;
                     prodqty.setText(String.valueOf(i));
@@ -245,6 +268,124 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
         }
     }
 
+    public void getPackage()
+    {
+        LayoutInflater inflater = LayoutInflater.from(mContext);
+        View alertLayout = inflater.inflate(R.layout.package_dialog, null);
+        final ExpandableListView explvTop = alertLayout.findViewById(R.id.explvTop);
+        final Button btncancel = alertLayout.findViewById(R.id.btncancel);
+        final Button btnapply = alertLayout.findViewById(R.id.btnapply);
+        //prepareListData();
+        listAdapter = new PackageListAdapter(mContext, listDataHeader, listDataChild);
+        explvTop.setAdapter(listAdapter);
+
+        explvTop.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
+            @Override
+            public void onGroupCollapse(int groupPosition)
+            {
+                explvTop.expandGroup(groupPosition);
+            }
+        });
+
+        AlertDialog.Builder dalert = new AlertDialog.Builder(mContext);
+        dalert.setTitle("Add Ons");
+        dalert.setView(alertLayout);
+        dalert.setCancelable(true);
+        final AlertDialog dialog = dalert.create();
+        dialog.show();
+
+        btncancel.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                dialog.dismiss();
+            }
+        });
+
+        btnapply.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    public void getItems()
+    {
+        LayoutInflater inflater = LayoutInflater.from(mContext);
+        View alertLayout = inflater.inflate(R.layout.recycler1_dialog, null);
+        allSampleData = new ArrayList<SectionDataModel>();
+        createDummyData();
+
+        final RecyclerView my_recycler_view = (RecyclerView) alertLayout.findViewById(R.id.rvHeading);
+        my_recycler_view.setHasFixedSize(true);
+        RecyclerViewDataAdapter adapter = new RecyclerViewDataAdapter(mContext, allSampleData);
+        my_recycler_view.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+        my_recycler_view.setAdapter(adapter);
+
+        AlertDialog.Builder dalert = new AlertDialog.Builder(mContext);
+        dalert.setTitle("Add Ons");
+        dalert.setView(alertLayout);
+        dalert.setCancelable(true);
+        dalert.setPositiveButton("APPLY", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                dialog.dismiss();
+            }
+        });
+        dalert.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                dialog.dismiss();
+            }
+        });
+        final AlertDialog dialog = dalert.create();
+        dialog.show();
+    }
+
+    public void createDummyData()
+    {
+        for (int i = 0; i < listDataHeader.size(); i++)
+        {
+            SectionDataModel dm = new SectionDataModel();
+            dm.setHeaderTitle(listDataHeader.get(i));
+            dm.setHeaderType(listTypeHeader.get(i));
+
+            ArrayList<SingleItemModel> singleItem = new ArrayList<SingleItemModel>();
+            for (int j = 0; j < toppings.size(); j++)
+            {
+                singleItem.add(new SingleItemModel(toppings.get(j), topprice.get(j)));
+            }
+            dm.setAllItemsInSection(singleItem);
+            allSampleData.add(dm);
+        }
+    }
+
+    private void prepareListData()
+    {
+        listDataHeader = new ArrayList<>();
+        listDataChild = new HashMap<>();
+
+        listDataHeader.add("Toppings");
+        listDataHeader.add("Fillings");
+
+        List<String> toppings = new ArrayList<String>();
+        toppings.add("Extra Spicy");
+        toppings.add("Extra Aloo");
+
+        List<String> fillings = new ArrayList<String>();
+        fillings.add("Cheese");
+        fillings.add("Sauce");
+
+        listDataChild.put(listDataHeader.get(0), toppings);
+        listDataChild.put(listDataHeader.get(1), fillings);
+    }
+
     public void passval(int val)
     {
         ((HotelActivity) mContext).setCart(val);
@@ -260,11 +401,10 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
         //((MenuFragment) fragment).setPrice(val);
     }
 
-    public ItemsAdapter(Context mContext, List<Items> moviesList, MenuFragment fragment) {
+    public ItemsAdapter(Context mContext, List<Items> moviesList) {
         this.mContext = mContext;
         this.moviesList = moviesList;
         this.movieListFiltered = moviesList;
-        this.fragment = fragment;
     }
 
     @Override
@@ -275,7 +415,9 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        Items movie = movieListFiltered.get(position);
+        Items movie = moviesList.get(position);
+        Items.extraPackage extra = movie.getEpackage().get(position);
+        Items.packageExtra pack = extra.getpExtra().get(position);
         holder.txtid.setText(movie.getId());
         holder.txtresid.setText(movie.getResid());
         holder.txtresname.setText(movie.getResname());
@@ -300,10 +442,21 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
                     .into(holder.image1);
         }
 
+        if(extra.getPname().size() != 0)
+        {
+            listDataHeader = extra.getPname();
+            listTypeHeader = extra.getPtype();
+            toppings = pack.getEptypename();
+            topprice = pack.getEpprice();
+
+
+            //listDataChild.put(listDataHeader.get(0), toppings);
+            //listDataChild.put(listDataHeader.get(1), fillings);
+        }
+
         VnameList = movie.getVname();
         VPriceList = movie.getVprice();
         VIdList = movie.getVid();
-
 
         if(movie.getVid().size()==0)
         {
@@ -335,16 +488,14 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
             final List<String> Vid =  new ArrayList<String>();
             holder.spinnerPriceVariation.setVisibility(View.VISIBLE);
 
-            for(int i=0;i<movie.getVname().size();i++)
+            for(int i=0; i<movie.getVname().size(); i++)
             {
                 Vname.add(VnameList.get(i));
                 VPrice.add(VPriceList.get(i));
                 Vid.add(VIdList.get(i));
             }
 
-
-
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, Vname);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_item, Vname);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             holder.spinnerPriceVariation.setAdapter(adapter);
 
@@ -407,9 +558,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
         holder.txtprice.setTypeface(font2);
         holder.txtadd.setTypeface(font2);
         holder.prodqty.setTypeface(font2);
-
-        //  Glide.with(mContext).load(movie.getImage()).into(holder.image);
-
     }
 
     @Override
@@ -456,6 +604,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
 
     @Override
     public int getItemCount() {
-        return movieListFiltered.size();
+        return moviesList.size();
     }
 }

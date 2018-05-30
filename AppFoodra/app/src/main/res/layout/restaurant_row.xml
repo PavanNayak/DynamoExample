@@ -78,6 +78,16 @@
             android:rating="3.5"
             android:secondaryProgressTint="#666" />
 
+        <TextView
+            android:id="@+id/txtdistance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_below="@id/txttime"
+            android:layout_alignParentRight="true"
+            android:text="2.97 kms" />
+
     </RelativeLayout>
 
 </RelativeLayout>

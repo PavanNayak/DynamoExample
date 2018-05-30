@@ -125,14 +125,38 @@ public class MainDishesFragment extends Fragment
                 JSONArray jsonArray = jobject.getJSONArray("priceVariation");
                 if(!(jsonArray.length() == 0))
                 {
-                    for(int j=0;j<jsonArray.length();j++)
+                    for(int j=0; j<jsonArray.length(); j++)
                     {
                         JSONObject jobject2 = jsonArray.getJSONObject(j);
                         data.vid.add(jobject2.getString("id"));
                         data.vname.add(jobject2.getString("variationName"));
                         data.vprice.add(jobject2.getString("price"));
+                    }
+                }
 
-                    //Add Priority here after for loop sort the arrayList
+                JSONArray packagejsonArray = jobject.getJSONArray("extraPackage");
+                if(!(packagejsonArray.length() == 0))
+                {
+                    for(int k=0; k<packagejsonArray.length(); k++)
+                    {
+                        JSONObject jsonObject = packagejsonArray.getJSONObject(k);
+                        Items.extraPackage extraData = new Items.extraPackage();
+                        extraData.pid.add(jsonObject.getString("id"));
+                        extraData.pname.add(jsonObject.getString("packageName"));
+                        extraData.ptype.add(jsonObject.getString("pricingType"));
+
+                        JSONArray extrajsonArray = jsonObject.getJSONArray("packageExtras");
+                        if(!(extrajsonArray.length() == 0))
+                        {
+                            for(int l=0; l<extrajsonArray.length(); l++)
+                            {
+                                JSONObject jsonObject1 = extrajsonArray.getJSONObject(l);
+                                Items.packageExtra packageData = new Items.packageExtra();
+                                packageData.epid.add(jsonObject1.getString("id"));
+                                packageData.eptypename.add(jsonObject1.getString("typeName"));
+                                packageData.epprice.add(jsonObject1.getString("price"));
+                            }
+                        }
                     }
                 }
 
@@ -144,7 +168,7 @@ public class MainDishesFragment extends Fragment
                 }
             }
             recyclerMenu = v.findViewById(R.id.recyclerMenu);
-            adapter = new ItemsAdapter(getActivity(), categoriesList, frag);
+            adapter = new ItemsAdapter(getActivity(), categoriesList);
             recyclerMenu.setLayoutManager(new LinearLayoutManager(getActivity()));
             recyclerMenu.setNestedScrollingEnabled(false);
             recyclerMenu.setFocusable(false);
@@ -166,7 +190,7 @@ public class MainDishesFragment extends Fragment
                         }
                         else
                         {
-                            adapter = new ItemsAdapter(getActivity(), vegList, frag);
+                            adapter = new ItemsAdapter(getActivity(), vegList);
                             recyclerMenu.setLayoutManager(new LinearLayoutManager(getActivity()));
                             recyclerMenu.setNestedScrollingEnabled(false);
                             recyclerMenu.setFocusable(false);
@@ -180,7 +204,7 @@ public class MainDishesFragment extends Fragment
                         imgveg.setVisibility(View.GONE);
                         txtveg.setVisibility(View.GONE);
                         recyclerMenu.setVisibility(View.VISIBLE);
-                        adapter = new ItemsAdapter(getActivity(), categoriesList, frag);
+                        adapter = new ItemsAdapter(getActivity(), categoriesList);
                         recyclerMenu.setLayoutManager(new LinearLayoutManager(getActivity()));
                         recyclerMenu.setNestedScrollingEnabled(false);
                         recyclerMenu.setFocusable(false);

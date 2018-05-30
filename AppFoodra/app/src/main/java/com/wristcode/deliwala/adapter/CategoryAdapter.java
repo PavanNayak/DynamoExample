@@ -82,7 +82,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
                     {
                         new AsyncMenu().execute(pref.getString("Latitude","").toString(), pref.getString("Longitiude", "").toString(), radiusKm, catid.getText().toString());
                     }
-
                 }
             });
         }
@@ -211,8 +210,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
                         {
                             Toast.makeText(mContext, "No Restaurants Found!!!", Toast.LENGTH_SHORT).show();
                         }
-                        else {
-                            for (int j = 0; j < jsonArray.length(); j++) {
+                        else
+                            {
+                            for (int j = 0; j < jsonArray.length(); j++)
+                            {
                                 JSONObject json_data1 = jsonArray.getJSONObject(j);
                                 Restaurants resData = new Restaurants();
                                 resData.resid = json_data1.getString("id");
